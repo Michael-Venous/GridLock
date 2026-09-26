@@ -15,7 +15,7 @@
       <button type="button" class="tab" data-view="quality">Data quality <span id="issue-count" class="tab-count"></span></button>
       <button type="button" class="tab" data-view="method">Method &amp; sources</button>
     </nav>
-    <div class="top-actions"><span class="dataset-tag">DESC 2026–2030 + GA ITS 2026–2035 <span class="dataset-divider">/</span> PUBLIC FILINGS</span><button id="export" class="ghost-button" type="button">Export CSV</button></div>
+    <div class="top-actions"><span class="dataset-tag">DESC 2026–2030 + GA ITS 2026–2035 <span class="dataset-divider">/</span> PUBLIC FILINGS</span><button id="shortlist-export" class="ghost-button" type="button" disabled>Shortlist briefs <span id="shortlist-count">0</span></button><button id="export" class="ghost-button" type="button">Export CSV</button></div>
   </header>
 
   <main class="shell">
@@ -26,18 +26,26 @@
 
     <section class="workspace view" id="view-explore" aria-label="Coordination explorer">
       <aside class="side-panel">
-        <div class="panel-header"><div><p class="eyebrow">MATCH REVIEW</p><h2 id="queue-title">Ranked opportunities</h2></div><button id="reset" class="text-button" type="button">Clear</button></div>
+        <div class="panel-header"><div><p class="eyebrow">MATCH REVIEW</p><h2 id="queue-title">Ranked opportunities</h2></div><div class="header-buttons"><button id="reset-filters" class="text-button" type="button">Reset filters</button><button id="clear-selection" class="text-button" type="button" disabled>Clear selection</button></div></div>
         <label class="search-wrap"><span class="sr-only">Search projects</span><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Search project, station or ID"></label>
         <div class="filters">
-          <label>In service through <strong id="year-value">2035</strong><input id="year" type="range" min="2025" max="2035" value="2035"><span class="filter-hint">Both projects must have a target year on or before this year.</span></label>
-          <label>Maximum distance <strong id="distance-value">25 mi</strong><input id="distance" type="range" min="1" max="25" value="25"></label>
-          <label>Timing<select id="gap"><option value="all">Any timing</option><option value="ahead">Build windows overlap from today on</option><option value="overlap">Build windows overlap (any time)</option><option value="365">In-service within 1 year</option><option value="730">In-service within 2 years</option></select></label>
+          <div class="filter-pair">
+            <label>In service by <strong id="year-value">2035</strong><input id="year" type="range" min="2025" max="2035" value="2035" title="Both projects must have a target year on or before this year."></label>
+            <label>Max distance <strong id="distance-value">25 mi</strong><input id="distance" type="range" min="1" max="25" value="25"></label>
+          </div>
+          <div class="filter-pair">
+            <label>Sort by<select id="sort"></select></label>
+            <label>Timing<select id="gap"><option value="all">Any timing</option><option value="ahead">Overlap from today on</option><option value="overlap">Overlap (any time)</option><option value="365">In-service within 1 year</option><option value="730">In-service within 2 years</option></select></label>
+          </div>
+          <span class="filter-hint" id="sort-hint"></span>
           <div class="checks">
             <label class="check"><input id="hide-past" type="checkbox" checked> Hide pairs where both projects are past their in-service date</label>
             <label class="check"><input id="possible" type="checkbox"> Also show pairs that could qualify within location uncertainty</label>
+            <label class="check"><input id="shortlist-only" type="checkbox"> Shortlisted pairs only</label>
           </div>
         </div>
-        <div class="list-topline"><span id="result-count">Loading…</span><span>Highest score first</span></div>
+        <div id="chips" class="chips" aria-label="Active filters"></div>
+        <div class="list-topline"><span id="result-count">Loading…</span><span id="sort-label"></span></div>
         <div id="match-list" class="match-list" aria-live="polite"></div>
       </aside>
 

@@ -75,15 +75,18 @@ export function closestApproachMiles(a, b) {
   return best;
 }
 
-// Ranking score, 0-100. Every part is shown to the user; none of it changes which pairs qualify.
+// Ranking score, 0-100. The challenge makes geography the primary signal and timing a strong secondary one,
+// so the geographic parts (proximity 40 + shared station 20 + line proximity 10) outweigh timing (30).
+// Every part is shown to the user; none of it changes which pairs qualify.
+export const WEIGHTS = { proximity: 40, timing: 30, shared: 20, corridor: 10 };
 export function scorePair(pair) {
-  const proximity = 35 * Math.max(0, 1 - pair.miles / MAX_MILES);
+  const proximity = WEIGHTS.proximity * Math.max(0, 1 - pair.miles / MAX_MILES);
   let timing = 0;
   const ahead = pair.remainingDays ?? pair.overlapDays;
-  if (ahead > 0) timing = 35 * Math.min(1, 0.5 + ahead / 730);
-  else if (pair.gapDays !== null) timing = 17.5 * Math.max(0, 1 - pair.gapDays / 1095);
-  const shared = pair.shared.length ? 20 : 0;
-  const corridor = pair.approachMiles === null ? 0 : 10 * Math.max(0, 1 - pair.approachMiles / 5);
+  if (ahead > 0) timing = WEIGHTS.timing * Math.min(1, 0.5 + ahead / 730);
+  else if (pair.gapDays !== null) timing = WEIGHTS.timing / 2 * Math.max(0, 1 - pair.gapDays / 1095);
+  const shared = pair.shared.length ? WEIGHTS.shared : 0;
+  const corridor = pair.approachMiles === null ? 0 : WEIGHTS.corridor * Math.max(0, 1 - pair.approachMiles / 5);
   const confidence = pair.certainty === "robust" ? 1 : 0.85;
   const total = Math.round((proximity + timing + shared + corridor) * confidence);
   return { total, parts: { proximity: Math.round(proximity), timing: Math.round(timing), shared, corridor: Math.round(corridor), confidence } };
@@ -109,7 +112,37 @@ export function matchProjects(projects, cutoff = MAX_MILES, { includePossible = 
     pair.score = scorePair(pair);
     pairs.push(pair);
   }
-  return pairs.sort((x, y) => y.qualifies - x.qualifies || y.score.total - x.score.total || x.miles - y.miles);
+  return sortPairs(pairs, "score");
+}
+
+// Sort orders offered in the UI. Qualifying pairs always come before possible ones.
+export const SORTS = {
+  score: { label: "Score (geography first)", cmp: (x, y) => y.score.total - x.score.total || x.miles - y.miles },
+  distance: { label: "Distance", cmp: (x, y) => x.miles - y.miles },
+  time: { label: "Closest in time", cmp: (x, y) => (x.gapDays ?? Infinity) - (y.gapDays ?? Infinity) || x.miles - y.miles },
+  overlap: { label: "Most overlap ahead", cmp: (x, y) => (y.remainingDays ?? -1) - (x.remainingDays ?? -1) || x.miles - y.miles },
+};
+export function sortPairs(pairs, key = "score") {
+  const cmp = (SORTS[key] ?? SORTS.score).cmp;
+  return pairs.sort((x, y) => y.qualifies - x.qualifies || cmp(x, y));
+}
+
+// Rough project type from the filing's own title and description, for side-by-side comparison.
+const TYPES = [
+  ["Reactive device", /\b(reactors?|capacitors?|capacitor banks?|statcom|svc|synchronous condensers?)\b/i],
+  ["Protection & control", /\b(relays?|protection|scada|rtu|sw(itch)? house)\b/i],
+  ["Line rebuild / reconductor", /\b(rebuild|reconductor|uprate|re-?rate)\b/i],
+  ["Line relocation / structures", /\b(move line|relocat\w*|river crossing|structures|angles|dead ends)\b/i],
+  ["New line or tap", /\b(new|construct\w*|build|add)\b.*\b(line|tie|tap|spdc)\b|\b(line|tie|tap)\b.*\bconstruct/i],
+  ["Terminal equipment / limiting element", /\b(jumpers?|switch(es)?|line traps?|trap|terminal equipment|limiting elements?|equipment upgrade|buses)\b/i],
+  ["Substation / switching station", /\b(substation|switching station|switchyard|transformers?|bus|breakers?|sub)\b/i],
+];
+export function projectType(project) {
+  const text = `${project.name ?? ""} ${project.description ?? ""}`;
+  const title = project.name ?? "";
+  for (const [label, re] of TYPES) if (re.test(title)) return label;
+  for (const [label, re] of TYPES) if (re.test(text)) return label;
+  return "Other / unspecified";
 }
 
 export function gapLabel(days) {
@@ -134,6 +167,30 @@ export function savingsEstimate(pair, { benchmarkPerMile, shareRate = 0.04 }) {
   const site = pair.shared.length ? 1.5 : 1;
   return { costA: ca, costB: cb, aEstimated: pair.a.cost?.total == null, bEstimated: pair.b.cost?.total == null, timing, site, shareRate,
     low: Math.min(ca, cb) * shareRate * 0.5 * timing * site, high: Math.min(ca, cb) * shareRate * 1.5 * timing * site };
+}
+
+// Cited unit costs for the staging-yard scenario. Everything else in the scenario is a user-editable assumption.
+export const YARD_BASIS = {
+  landPerAcre: { GA: 5100, SC: 4500, source: "USDA NASS, Land Values 2026 Summary (July 2026), p. 15: pasture average value per acre", url: "https://www.nass.usda.gov/Publications/Todays_Reports/reports/land0726.pdf#page=15" },
+  matsPerAcre: { value: 69975, source: "MISO Transmission Cost Estimation Guide for MTEP24 (May 2024), Table 2.2-9, p. 19: wetland matting and construction difficulties, per acre", url: "https://cdn.misoenergy.org/20240501%20PSC%20Item%2004%20MISO%20Transmission%20Cost%20Estimation%20Guide%20for%20MTEP24632680.pdf#page=19" },
+  roadPerMile: { value: 593636, source: "MISO Transmission Cost Estimation Guide for MTEP24 (May 2024), p. 23: access road, per mile", url: "https://cdn.misoenergy.org/20240501%20PSC%20Item%2004%20MISO%20Transmission%20Cost%20Estimation%20Guide%20for%20MTEP24632680.pdf#page=23" },
+};
+
+// One shared staging yard instead of two. A combined yard is assumed to be 1.0-1.5x the size of one project's
+// yard, so the avoided cost is 0.5-1.0 of one yard. No overlap ahead means no shared yard and no saving.
+export function yardScenario(pair, { acres = 5, months = null, leaseRate = 0.10, surfacePerAcre = YARD_BASIS.matsPerAcre.value, roadMiles = 0.25 } = {}) {
+  const landPerAcre = (YARD_BASIS.landPerAcre.GA + YARD_BASIS.landPerAcre.SC) / 2;
+  const ahead = pair.remainingDays ?? 0;
+  const m = months ?? Math.max(1, Math.round(ahead / 30.44));
+  const parts = {
+    surface: acres * surfacePerAcre,
+    lease: acres * landPerAcre * leaseRate * m / 12,
+    road: roadMiles * YARD_BASIS.roadPerMile.value,
+  };
+  const oneYard = parts.surface + parts.lease + parts.road;
+  const active = ahead > 0;
+  return { acres, months: m, leaseRate, surfacePerAcre, roadMiles, landPerAcre, parts, oneYard, active,
+    low: active ? oneYard * 0.5 : 0, high: active ? oneYard : 0 };
 }
 
 export function opportunityText(pair) {

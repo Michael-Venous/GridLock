@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { matchProjects, milesBetween, dateGapDays, windowOverlapDays, remainingOverlapDays, certainty, sharedStations, savingsEstimate } from "../src/match.js";
+import { matchProjects, milesBetween, dateGapDays, windowOverlapDays, remainingOverlapDays, certainty, sharedStations, savingsEstimate, scorePair, sortPairs, projectType, yardScenario, WEIGHTS, YARD_BASIS } from "../src/match.js";
 
 const starter = JSON.parse(readFileSync(new URL("../data/starter_projects.json", import.meta.url))).projects;
 
@@ -87,4 +87,38 @@ test("real data: every project cites a source page and every located project has
     assert.ok(p.source?.url && p.source?.page, `${p.id} lacks a source page`);
     if (p.center) assert.ok(p.radiusMi > 0, `${p.id} lacks radius`);
   }
+});
+
+test("geography outweighs timing in the score, as the challenge asks", () => {
+  assert.ok(WEIGHTS.proximity + WEIGHTS.shared + WEIGHTS.corridor > WEIGHTS.timing);
+  assert.ok(WEIGHTS.proximity > WEIGHTS.timing);
+  const base = { shared: [], approachMiles: null, certainty: "robust" };
+  const nearNoOverlap = scorePair({ ...base, miles: 2, remainingDays: 0, overlapDays: 0, gapDays: 1000 });
+  const farFullOverlap = scorePair({ ...base, miles: 22, remainingDays: 730, overlapDays: 730, gapDays: 0 });
+  assert.ok(nearNoOverlap.total > farFullOverlap.total);
+});
+
+test("sorts: closest in time orders by in-service gap and keeps qualifying pairs first", () => {
+  const mk = (id, miles, gapDays, qualifies = true) => ({ id, miles, gapDays, qualifies, remainingDays: 0, score: { total: 100 - miles } });
+  const pairs = [mk("a", 3, 900), mk("b", 20, 10), mk("c", 26, 0, false), mk("d", 10, null)];
+  assert.deepEqual(sortPairs([...pairs], "time").map(p => p.id), ["b", "a", "d", "c"]);
+  assert.deepEqual(sortPairs([...pairs], "distance").map(p => p.id), ["a", "d", "b", "c"]);
+});
+
+test("project type comes from the filing's own title", () => {
+  assert.equal(projectType({ name: "Okatie – McIntosh 115kV Tie: Add Series Reactor" }), "Reactive device");
+  assert.equal(projectType({ name: "SAV: MCINTOSH 230 kV BREAKER CONTROL RELAY UPGRADES" }), "Protection & control");
+  assert.equal(projectType({ name: "Modoc – McCormick 115/46 kV Rebuild" }), "Line rebuild / reconductor");
+  assert.equal(projectType({ name: "Jasper – Okatie 230 kV #2: Construct", description: "Construct a 230 kV line with B1272 ACSR from Jasper to Okatie." }), "New line or tap");
+});
+
+test("staging-yard scenario: cited unit costs, half to one avoided yard, nothing without overlap ahead", () => {
+  const pair = { remainingDays: 365 };
+  const sc = yardScenario(pair, { acres: 4, months: 12, leaseRate: 0.1, surfacePerAcre: 10000, roadMiles: 0.5 });
+  const land = (YARD_BASIS.landPerAcre.GA + YARD_BASIS.landPerAcre.SC) / 2;
+  assert.equal(sc.oneYard, 4 * 10000 + 4 * land * 0.1 + 0.5 * YARD_BASIS.roadPerMile.value);
+  assert.equal(sc.low, sc.oneYard / 2);
+  assert.equal(sc.high, sc.oneYard);
+  assert.equal(yardScenario({ remainingDays: 0 }).high, 0);
+  assert.equal(yardScenario(pair).months, 12);
 });
