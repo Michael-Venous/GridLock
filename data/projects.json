@@ -5703,22 +5703,16 @@
    "endpoints": [
     {
      "name": "GRADY",
-     "point": {
-      "lat": 30.867067,
-      "lon": -84.232294
-     },
+     "point": null,
      "method": "town",
-     "confidence": "low",
-     "radiusMi": 6.0,
+     "confidence": "none",
+     "radiusMi": null,
      "evidence": "Nominatim: boundary/administrative: Grady County, Georgia, United States"
     }
    ],
-   "center": {
-    "lat": 30.867067,
-    "lon": -84.232294
-   },
-   "radiusMi": 6.0,
-   "locationConfidence": "low",
+   "center": null,
+   "radiusMi": null,
+   "locationConfidence": "none",
    "inServiceDate": "2026-06-01",
    "inServiceRaw": "06/01/2026",
    "window": {
@@ -5745,12 +5739,16 @@
    },
    "issues": [
     {
+     "level": "warn",
+     "msg": "placed at 30.8671, -84.2323, 190 mi from the median of zone 206's 14 located projects; the station names likely matched a different site, so it is left unplaced"
+    },
+    {
      "level": "info",
      "msg": "in-service date 2026-06-01 has passed; status in source is 'Planned'"
     },
     {
-     "level": "info",
-     "msg": "endpoint 'GRADY' located with low confidence (town)"
+     "level": "warn",
+     "msg": "endpoint 'GRADY' could not be located"
     }
    ],
    "locationNote": null
@@ -6408,22 +6406,16 @@
    "endpoints": [
     {
      "name": "GRADY",
-     "point": {
-      "lat": 30.867067,
-      "lon": -84.232294
-     },
+     "point": null,
      "method": "town",
-     "confidence": "low",
-     "radiusMi": 6.0,
+     "confidence": "none",
+     "radiusMi": null,
      "evidence": "Nominatim: boundary/administrative: Grady County, Georgia, United States"
     }
    ],
-   "center": {
-    "lat": 30.867067,
-    "lon": -84.232294
-   },
-   "radiusMi": 6.0,
-   "locationConfidence": "low",
+   "center": null,
+   "radiusMi": null,
+   "locationConfidence": "none",
    "inServiceDate": "2027-12-31",
    "inServiceRaw": "12/31/2027",
    "window": {
@@ -6450,8 +6442,12 @@
    },
    "issues": [
     {
-     "level": "info",
-     "msg": "endpoint 'GRADY' located with low confidence (town)"
+     "level": "warn",
+     "msg": "placed at 30.8671, -84.2323, 190 mi from the median of zone 206's 14 located projects; the station names likely matched a different site, so it is left unplaced"
+    },
+    {
+     "level": "warn",
+     "msg": "endpoint 'GRADY' could not be located"
     }
    ],
    "locationNote": null
@@ -13996,22 +13992,16 @@
    "endpoints": [
     {
      "name": "RAINBOW DRIVE",
-     "point": {
-      "lat": 32.036824,
-      "lon": -81.143945
-     },
+     "point": null,
      "method": "town",
-     "confidence": "ambiguous",
-     "radiusMi": 6.0,
+     "confidence": "none",
+     "radiusMi": null,
      "evidence": "Nominatim: highway/residential: Rainbow Drive, Lamarville, Chatham County, Georgia, 31405, United States; 3 places share this name (next one 246 mi away)"
     }
    ],
-   "center": {
-    "lat": 32.036824,
-    "lon": -81.143945
-   },
-   "radiusMi": 6.0,
-   "locationConfidence": "ambiguous",
+   "center": null,
+   "radiusMi": null,
+   "locationConfidence": "none",
    "inServiceDate": "2028-06-01",
    "inServiceRaw": "06/01/2028",
    "window": {
@@ -14038,8 +14028,12 @@
    },
    "issues": [
     {
-     "level": "info",
-     "msg": "endpoint 'RAINBOW DRIVE' located with ambiguous confidence (town)"
+     "level": "warn",
+     "msg": "placed at 32.0368, -81.1439, 203 mi from the median of zone 206's 14 located projects; the station names likely matched a different site, so it is left unplaced"
+    },
+    {
+     "level": "warn",
+     "msg": "endpoint 'RAINBOW DRIVE' could not be located"
     }
    ],
    "locationNote": null
@@ -14807,33 +14801,24 @@
    "endpoints": [
     {
      "name": "BOULEVARD",
-     "point": {
-      "lat": 32.041231,
-      "lon": -81.144464
-     },
+     "point": null,
      "method": "osm-exact",
-     "confidence": "high",
-     "radiusMi": 0.5,
+     "confidence": "none",
+     "radiusMi": null,
      "evidence": "OSM way/381797798 'Boulevard Substation'"
     },
     {
      "name": "VIRGINIA AVENUE",
-     "point": {
-      "lat": 32.054671,
-      "lon": -81.064933
-     },
+     "point": null,
      "method": "town",
-     "confidence": "low",
-     "radiusMi": 6.0,
+     "confidence": "none",
+     "radiusMi": null,
      "evidence": "Nominatim: highway/tertiary: Virginia Avenue, Gordonston, Savannah, Chatham County, Georgia, 31404, United States; 3 places share this name (next one 188 mi away); picked the one nearest the other endpoint(s)"
     }
    ],
-   "center": {
-    "lat": 32.047951,
-    "lon": -81.104698
-   },
-   "radiusMi": 6.0,
-   "locationConfidence": "low",
+   "center": null,
+   "radiusMi": null,
+   "locationConfidence": "none",
    "inServiceDate": "2029-06-01",
    "inServiceRaw": "06/01/2029",
    "window": {
@@ -14847,112 +14832,7 @@
     "basis": "redacted in public filing"
    },
    "miles": 0.94,
-   "route": {
-    "miles": 10.95,
-    "coords": [
-     [
-      32.04123,
-      -81.14446
-     ],
-     [
-      32.03507,
-      -81.11913
-     ],
-     [
-      32.0348,
-      -81.11341
-     ],
-     [
-      32.03959,
-      -81.11113
-     ],
-     [
-      32.03633,
-      -81.09855
-     ],
-     [
-      32.03131,
-      -81.10041
-     ],
-     [
-      32.02763,
-      -81.08841
-     ],
-     [
-      32.02325,
-      -81.08652
-     ],
-     [
-      32.03538,
-      -81.08017
-     ],
-     [
-      32.03297,
-      -81.06844
-     ],
-     [
-      32.03416,
-      -81.06779
-     ],
-     [
-      32.03271,
-      -81.06401
-     ],
-     [
-      32.03553,
-      -81.06254
-     ],
-     [
-      32.03465,
-      -81.06069
-     ],
-     [
-      32.03783,
-      -81.05659
-     ],
-     [
-      32.05337,
-      -81.05159
-     ],
-     [
-      32.05506,
-      -81.05461
-     ],
-     [
-      32.06319,
-      -81.0523
-     ],
-     [
-      32.06321,
-      -81.05108
-     ],
-     [
-      32.06575,
-      -81.04982
-     ],
-     [
-      32.06602,
-      -81.05392
-     ],
-     [
-      32.06379,
-      -81.05453
-     ],
-     [
-      32.0646,
-      -81.05923
-     ],
-     [
-      32.05897,
-      -81.06131
-     ],
-     [
-      32.05467,
-      -81.06493
-     ]
-    ],
-    "source": "shortest path along OpenStreetMap power=line ways between the endpoints"
-   },
+   "route": null,
    "change": "New project",
    "slipYears": null,
    "history": null,
@@ -14965,12 +14845,16 @@
    },
    "issues": [
     {
-     "level": "info",
-     "msg": "mapped route is 10.95 mi but the source states 0.94 mi"
+     "level": "warn",
+     "msg": "placed at 32.0480, -81.1047, 205 mi from the median of zone 206's 14 located projects; the station names likely matched a different site, so it is left unplaced"
     },
     {
-     "level": "info",
-     "msg": "endpoint 'VIRGINIA AVENUE' located with low confidence (town)"
+     "level": "warn",
+     "msg": "endpoint 'BOULEVARD' could not be located"
+    },
+    {
+     "level": "warn",
+     "msg": "endpoint 'VIRGINIA AVENUE' could not be located"
     }
    ],
    "locationNote": null

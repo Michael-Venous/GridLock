@@ -6,7 +6,7 @@ Goal: a working GridLock entry for the Sperry Tech challenge (ShellHacks 2026), 
 
 ## What the app does now
 
-- Parses every project in the current public filings: DESC 2026–2030 (54 projects) and the 2025 GA ITS Ten-Year Plan 2026–2035 (255 projects). 272 are located; 18 lines are traced along OSM power lines.
+- Parses every project in the current public filings: DESC 2026–2030 (54 projects) and the 2025 GA ITS Ten-Year Plan 2026–2035 (255 projects). 268 are located; 17 lines are traced along OSM power lines.
 - Keeps the challenge's rule unchanged: project centers (midpoint of located endpoints) under 25 miles apart by haversine, time gap = absolute difference of in-service dates. The tests still reproduce the sponsor's six example rows exactly.
 - Adds, for ranking only: build-window overlap (DESC first budget year with spend → in-service date; Georgia Start Date → Need Date; only overlap from today on counts), location certainty (robust / sensitive / possible), shared stations and closest approach of traced lines. Score = proximity 40 + shared station 20 + line proximity 10 + timing 30, × 0.85 when location-sensitive.
 - MapLibre GL JS map, ranked pair list with filters and sorts, pair comparison, staging-yard cost scenario with cited unit costs (MISO, USDA), printable briefs, shortlist, CSV export, Data quality and Method tabs.
@@ -20,7 +20,7 @@ Goal: a working GridLock entry for the Sperry Tech challenge (ShellHacks 2026), 
 
 ## Data limits
 
-- Locations are estimates with stated method, confidence and radius; 37 projects could not be placed and 166 endpoints rest on town-level guesses (issue #3).
+- Locations are estimates with stated method, confidence and radius; 41 projects could not be placed (4 of them unplaced because their names matched sites far outside their planning zone) and 162 endpoints rest on town-level guesses (issue #3).
 - Many published target dates have passed while the filings still list the projects as planned; the app marks their status as unconfirmed.
 - The cost scenario is a reason to make a call, not a budget.
 

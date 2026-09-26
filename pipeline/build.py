@@ -119,6 +119,32 @@ def zone_anchors(ga):
             for z, ps in by.items() if len(ps) >= 3}
 
 
+ZONE_OUTLIER_MI = 150   # farther than this from the rest of its zone, a placement is a name collision, not a site
+
+
+def unplace_zone_outliers(ga):
+    """A Georgia project placed far from every other project in its planning zone matched a same-named site elsewhere
+    (zone 206 is metro Atlanta; its "Boulevard" and "Virginia Avenue" matched Savannah names). Leave it unplaced."""
+    by = {}
+    for r in ga:
+        if r.get("zone") and r.get("center"):
+            by.setdefault(r["zone"], []).append(r)
+    for z, rs in by.items():
+        if len(rs) < 5:
+            continue
+        mid = (statistics.median(r["center"]["lat"] for r in rs), statistics.median(r["center"]["lon"] for r in rs))
+        for r in rs:
+            d = haversine_mi(*mid, r["center"]["lat"], r["center"]["lon"])
+            if d <= ZONE_OUTLIER_MI:
+                continue
+            r["issues"].append({"level": "warn", "msg": f"placed at {r['center']['lat']:.4f}, {r['center']['lon']:.4f}, {d:.0f} mi from the median of "
+                                f"zone {z}'s {len(rs)} located projects; the station names likely matched a different site, so it is left unplaced"})
+            for e in r["endpoints"]:
+                e["point"], e["confidence"], e["radiusMi"] = None, "none", None
+            r["center"], r["radiusMi"], r["locationConfidence"], r["route"] = None, None, "none", None
+            r["issues"] = [i for i in r["issues"] if not i["msg"].startswith("mapped route is")]
+
+
 def cost_benchmark(desc):
     """$/mile from DESC's own list: line projects that state a length and whose cost row checks out."""
     rows = []
@@ -193,6 +219,7 @@ def main():
     locate(ga, osm, spts, grid, offline=offline)
     anchors = zone_anchors(ga)
     locate(ga, osm, spts, grid, anchors=anchors, offline=offline)   # second pass: zone-aware disambiguation
+    unplace_zone_outliers(ga)
 
     for r in desc + ga:
         if r["isd"] and dt.date.fromisoformat(r["isd"]) < TODAY:
