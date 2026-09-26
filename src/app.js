@@ -638,7 +638,7 @@ function briefText(pair) {
   const sc = yardScenario(pair, yardInputs());
   const bullets = xs => xs.map(x => `  - ${x}`);
   return [
-    `GridLock coordination brief · ${state.asOf}`, "",
+    `Gridlock coordination brief · ${state.asOf}`, "",
     `${pair.a.name} (${sideName(pair.a)} ${pair.a.projectId}, ${projectType(pair.a)})`, `  × ${pair.b.name} (${sideName(pair.b)} ${pair.b.projectId}, ${projectType(pair.b)})`, "",
     `Distance: ${pair.miles.toFixed(2)} mi center to center (${pair.certainty}) · In-service gap: ${pair.gapDays ?? "unknown"} days (${pair.a.inServiceDate} vs ${pair.b.inServiceDate})`,
     "", "Why it qualifies:", ...bullets(whyQualifies(pair)),
@@ -661,7 +661,7 @@ function briefHtml(pair) {
   const src = p => `<a href="${esc(pdfLink(p.source))}">${esc(sourceLabel(p.source))}</a>`;
   const eps = p => p.endpoints.map(e => `${esc(e.name)}: ${e.point ? `${e.point.lat.toFixed(4)}, ${e.point.lon.toFixed(4)} · ${esc(e.method)}, ${esc(e.confidence)} ±${e.radiusMi} mi` : "not located"}${sitePlaced(e) ? ` · <a href="${esc(satelliteUrl(e.point))}">Satellite</a> · <a href="${esc(mapPinUrl(e.point))}">Google Maps</a>` : ""}`).join("<br>");
   return `<section class="page">
-  <header><div><p class="eyebrow">GridLock coordination brief · ${esc(state.asOf)}</p><h1>${esc(a.name)} <span>×</span> ${esc(b.name)}</h1></div>
+  <header><div><p class="eyebrow">Gridlock coordination brief · ${esc(state.asOf)}</p><h1>${esc(a.name)} <span>×</span> ${esc(b.name)}</h1></div>
   <div class="figs"><div><b>${pair.miles.toFixed(2)} mi</b>center to center</div><div><b>${pair.gapDays ?? "?"} days</b>in-service gap</div><div><b>${esc(pair.certainty)}</b>location</div></div></header>
   <table class="cmp"><tr><th></th><th>${esc(sideName(a))}</th><th>${esc(sideName(b))}</th></tr>
   ${row("Project", p => `${esc(p.projectId)} · ${esc(p.name)}`)}${row("Type", p => esc(projectType(p)))}${row("Target in service", p => esc(targetDate(p)))}
@@ -678,7 +678,7 @@ function briefHtml(pair) {
 function openBriefs(pairs) {
   const w = window.open("", "_blank");
   if (!w) return;
-  w.document.write(`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>GridLock brief${pairs.length > 1 ? "s" : ""}</title><style>
+  w.document.write(`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Gridlock brief${pairs.length > 1 ? "s" : ""}</title><style>
   body { margin: 0; background: #e9eef0; color: #22343c; font: 11px/1.45 "IBM Plex Sans", Arial, sans-serif; }
   .bar { position: sticky; top: 0; display: flex; gap: 10px; align-items: center; padding: 10px 16px; background: #183541; color: #fff; }
   .bar button { font: inherit; font-weight: 700; padding: 6px 12px; border: 0; border-radius: 4px; background: #fff; color: #183541; cursor: pointer; }
@@ -747,7 +747,7 @@ function renderMethod() {
   const v = $("view-method"); v.replaceChildren();
   const d = state.data, bm = d.costBenchmark;
   const wrap = h("div", "doc");
-  wrap.append(h("h1", "", "How GridLock decides"));
+  wrap.append(h("h1", "", "How Gridlock decides"));
   const sec = (title, ...paras) => { wrap.append(h("h2", "", title)); paras.forEach(p => wrap.append(typeof p === "string" ? h("p", "", p) : p)); };
   const srcList = h("ul", "src-list"); d.sources.forEach(s => { const li = h("li"); li.append(link(s.url, s.title), document.createTextNode(s.projects ? ` — ${s.projects} projects` : "")); srcList.append(li); });
   sec("Sources", srcList, "The challenge zip's DESC list (2024–2028) and Georgia plan (2025 IRP) are superseded; both newer editions are public and are used here. The older DESC lists are kept only to measure schedule slip.");

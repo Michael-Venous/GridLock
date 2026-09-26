@@ -1,4 +1,4 @@
-# GridLock
+# Gridlock
 
 Finds planned transmission projects on either side of the Savannah River that should be coordinated: Dominion Energy South Carolina (DESC) and the Georgia Integrated Transmission System (Georgia Power, GTC, MEAG, Dalton). It covers every project in the latest public filings, not just a sample. Each pair comes with a side-by-side comparison, the build windows, shared stations, what still needs confirming, a ranking you can inspect, a staging-yard cost scenario with cited unit costs, and a printable one-page brief. Planners can shortlist pairs and export all their briefs at once. Every number links back to the page it came from.
 

@@ -1,4 +1,4 @@
-/* GridLock
+/* Gridlock
    Type: Barlow, drawn from US highway signage, for text; Barlow Semi Condensed for figures and headings.
    Color: ink on white. Teal and orange mean DESC and Georgia ITS only, and match the map layers in src/app.js.
    Interactive state (selection, focus, active tab) is ink, so the data colors never double as UI chrome. */
@@ -56,6 +56,10 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round
 .button:hover:not(:disabled) { border-color: #c3ced1; background: var(--hover); }
 .button:disabled { color: var(--ink-3); }
 .button.on { border-color: #e2cf8a; background: var(--star-soft); color: var(--star); }
+.button.primary { border-color: var(--ink); background: var(--ink); color: var(--paper); font-weight: 600; }
+.button.primary:hover:not(:disabled) { border-color: var(--ink); background: #0a1a20; }
+.button.ghost { border-color: transparent; background: none; padding: 0 4px; }
+.button.ghost:hover:not(:disabled) { border-color: transparent; background: none; color: var(--ink); }
 .count { min-width: 18px; padding: 0 5px; border-radius: 9px; background: var(--ink); color: var(--paper); font-size: 11px; font-weight: 600; line-height: 18px; text-align: center; }
 .button:disabled .count { background: var(--rule); color: var(--ink-2); }
 .link-button { padding: 0; border: 0; background: none; color: var(--ink-2); font-size: 13px; text-decoration: underline; text-decoration-color: var(--rule); text-underline-offset: 3px; }
@@ -66,25 +70,25 @@ select:hover { border-color: #c3ced1; }
 input[type="range"], input[type="checkbox"] { accent-color: var(--ink); }
 
 /* ---------- top bar ---------- */
-.topbar { position: relative; z-index: 4; display: flex; align-items: center; gap: 28px; height: 52px; padding: 0 16px 0 18px; border-bottom: 1px solid var(--rule); background: var(--paper); }
-.brand { display: flex; flex: none; align-items: center; gap: 10px; }
-.brand strong { font-family: var(--cond); font-size: 18px; font-weight: 600; letter-spacing: .01em; }
+.topbar { position: relative; z-index: 4; display: flex; align-items: center; gap: 32px; height: 58px; padding: 0 20px; border-bottom: 1px solid var(--rule); background: var(--paper); }
+.brand { display: flex; flex: none; align-items: center; gap: 11px; }
+.brand strong { font-family: var(--cond); font-size: 20px; font-weight: 600; letter-spacing: -.01em; }
 /* Two projects and the span between them: the thing the tool looks for. */
-.brand-icon { position: relative; width: 24px; height: 10px; background: linear-gradient(var(--ink), var(--ink)) center / 100% 1.5px no-repeat; }
-.brand-icon::before, .brand-icon::after { content: ""; position: absolute; top: 0; width: 10px; height: 10px; border: 2px solid var(--paper); border-radius: 50%; }
-.brand-icon::before { left: -2px; top: 0; background: var(--desc); }
-.brand-icon::after { right: -2px; background: var(--gpc); }
-.brand-scope { padding-left: 12px; border-left: 1px solid var(--rule); color: var(--ink-2); font-size: 13px; white-space: nowrap; }
-.tabs { display: flex; align-self: stretch; gap: 22px; margin-right: auto; }
+.brand-icon { position: relative; flex: none; width: 26px; height: 9px; background: linear-gradient(var(--ink), var(--ink)) center / 100% 2px no-repeat; }
+.brand-icon::before, .brand-icon::after { content: ""; position: absolute; top: 0; width: 9px; height: 9px; border: 1.5px solid var(--paper); border-radius: 50%; }
+.brand-icon::before { left: 0; background: var(--desc); }
+.brand-icon::after { right: 0; background: var(--gpc); }
+.brand-scope { padding-left: 15px; border-left: 1px solid var(--rule); color: var(--ink-2); font-size: 13px; white-space: nowrap; }
+.tabs { display: flex; align-self: stretch; gap: 26px; margin-right: auto; }
 .tab { position: relative; display: flex; align-items: center; gap: 6px; padding: 0; border: 0; background: none; color: var(--ink-2); font-size: 14px; font-weight: 500; }
 .tab:hover { color: var(--ink); }
 .tab.active { color: var(--ink); }
 .tab.active::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--ink); }
 .tab-count { padding: 0 6px; border-radius: 9px; background: var(--warn-soft); color: var(--warn); font-size: 11px; font-weight: 600; line-height: 18px; }
-.top-actions { display: flex; flex: none; gap: 8px; }
+.top-actions { display: flex; flex: none; align-items: center; gap: 14px; }
 
 /* ---------- workspace ---------- */
-.shell { display: flex; flex-direction: column; height: calc(100dvh - 52px); min-height: 0; }
+.shell { display: flex; flex-direction: column; height: calc(100dvh - 58px); min-height: 0; }
 .workspace { display: grid; flex: 1; grid-template-columns: 340px minmax(400px, 1fr) 420px; min-height: 0; overflow: hidden; }
 
 /* list column */

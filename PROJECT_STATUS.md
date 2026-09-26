@@ -2,7 +2,7 @@
 
 Last updated: 2026-09-26
 
-Goal: a working GridLock entry for the Sperry Tech challenge (ShellHacks 2026), submitted before Sun 2026-09-27 11:00 EDT. `nick-main` is the primary branch; `origin/main` holds an older build of the 10-project prototype and is not being merged.
+Goal: a working Gridlock entry for the Sperry Tech challenge (ShellHacks 2026), submitted before Sun 2026-09-27 11:00 EDT. `main` now carries this build (it was reset to `nick-main` on 2026-09-26); the older 10-project prototype is kept on `main-backup-1c0badf`.
 
 ## What the app does now
 
