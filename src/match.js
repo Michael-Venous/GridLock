@@ -117,7 +117,7 @@ export function matchProjects(projects, cutoff = MAX_MILES, { includePossible = 
 
 // Sort orders offered in the UI. Qualifying pairs always come before possible ones.
 export const SORTS = {
-  score: { label: "Score (geography first)", cmp: (x, y) => y.score.total - x.score.total || x.miles - y.miles },
+  score: { label: "Score", cmp: (x, y) => y.score.total - x.score.total || x.miles - y.miles },
   distance: { label: "Distance", cmp: (x, y) => x.miles - y.miles },
   time: { label: "Closest in time", cmp: (x, y) => (x.gapDays ?? Infinity) - (y.gapDays ?? Infinity) || x.miles - y.miles },
   overlap: { label: "Most overlap ahead", cmp: (x, y) => (y.remainingDays ?? -1) - (x.remainingDays ?? -1) || x.miles - y.miles },

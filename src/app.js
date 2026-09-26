@@ -3,7 +3,7 @@ import { matchProjects, gapLabel, overlapLabel, opportunityText, savingsEstimate
 const $ = id => document.getElementById(id);
 const state = {
   data: null, projects: [], allPairs: [], pairs: [], selectedProject: null, selectedPair: null, search: "", distance: 25, year: 2035,
-  gap: "all", hidePast: true, includePossible: false, shortlistOnly: false, sort: "score", asOf: null,
+  gap: "all", hidePast: true, includePossible: false, shortlistOnly: false, sort: "score", asOf: null, detailTab: "summary",
   shortlist: new Set(), yard: { acres: 5, months: null, leaseRate: 0.10, surface: "mats", surfacePerAcre: YARD_BASIS.matsPerAcre.value, roadMiles: 0.25 },
 };
 const FILTER_DEFAULTS = { search: "", distance: 25, year: 2035, gap: "all", hidePast: true, includePossible: false, shortlistOnly: false };
@@ -107,13 +107,14 @@ function applyFilters() {
   $("year-value").textContent = String(state.year);
   const q = state.pairs.filter(p => p.qualifies).length;
   $("result-count").textContent = `${q} qualifying ${q === 1 ? "pair" : "pairs"}${state.pairs.length > q ? ` + ${state.pairs.length - q} possible` : ""}`;
-  $("sort-label").textContent = { score: "By score", distance: "Nearest first", time: "Closest in time", overlap: "Most overlap ahead" }[state.sort];
-  $("queue-title").textContent = state.selectedProject ? `Pairs for ${state.projects.find(p => p.id === state.selectedProject)?.projectId}` : "Ranked opportunities";
+  $("queue-title").textContent = state.selectedProject ? `Pairs for ${state.projects.find(p => p.id === state.selectedProject)?.projectId}` : "Ranked pairs";
   $("clear-selection").disabled = !state.selectedPair && !state.selectedProject;
-  $("reset-filters").disabled = !activeFilters().some(f => f.key !== "selectedProject");
+  const filterCount = activeFilters().filter(f => !["search", "selectedProject"].includes(f.key)).length;
+  $("reset-filters").disabled = !filterCount;
+  $("filter-count").hidden = !filterCount; $("filter-count").textContent = String(filterCount);
   $("shortlist-count").textContent = String(state.shortlist.size);
   $("shortlist-export").disabled = !state.shortlist.size;
-  renderChips(); renderStats(); renderList(); renderMap(); renderDetail();
+  renderChips(); renderList(); renderMap(); renderDetail();
 }
 
 function renderChips() {
@@ -126,13 +127,15 @@ function renderChips() {
   }
 }
 
-function renderStats() {
+function overviewStats() {
   const located = state.projects.filter(p => p.center);
   const qualifying = state.allPairs.filter(p => p.qualifies);
   const paired = new Set(qualifying.flatMap(p => [p.a.id, p.b.id]));
   const cards = [[String(state.projects.length), "projects parsed"], [`${located.length}`, "located on the map"], [String(qualifying.length), "qualifying pairs"],
-    [String(qualifying.filter(p => p.remainingDays > 0).length), "still building together"], [String(located.filter(p => !paired.has(p.id)).length), "no partner within 25 mi"]];
-  $("stats").replaceChildren(...cards.map(([value, label]) => { const card = h("div", "stat"); card.append(h("strong", "", value), h("span", "", label)); return card; }));
+    [String(qualifying.filter(p => p.remainingDays > 0).length), "building at the same time"], [String(located.filter(p => !paired.has(p.id)).length), "with no partner in range"]];
+  const row = h("div", "stat-row");
+  row.append(...cards.map(([value, label]) => { const card = h("div", "stat"); card.append(h("strong", "", value), h("span", "", label)); return card; }));
+  return row;
 }
 
 function badge(text, kind = "") { return h("span", `badge ${kind}`, text); }
@@ -153,7 +156,7 @@ function emptyState() {
   if (!hints.length) { box.append(h("p", "", "No single filter explains it; try Reset filters.")); return box; }
   const ul = h("ul", "empty-hints");
   hints.sort((x, y) => y.n - x.n).forEach(({ f, n }) => {
-    const li = h("li"); const btn = h("button", "text-button", `Remove “${f.label}”`); btn.type = "button"; btn.addEventListener("click", () => clearFilter(f.key));
+    const li = h("li"); const btn = h("button", "link-button", `Remove “${f.label}”`); btn.type = "button"; btn.addEventListener("click", () => clearFilter(f.key));
     li.append(btn, document.createTextNode(` → ${n} ${n === 1 ? "pair" : "pairs"}`)); ul.append(li);
   });
   box.append(ul);
@@ -163,25 +166,34 @@ function emptyState() {
 function renderList() {
   const list = $("match-list"); list.replaceChildren();
   if (!state.pairs.length) { list.append(emptyState()); return; }
-  state.pairs.forEach((pair, index) => {
-    const button = h("button", `match-card${pair.id === state.selectedPair ? " active" : ""}${pair.qualifies ? "" : " possible"}`);
-    button.type = "button"; button.setAttribute("aria-label", `View match ${index + 1}: ${pair.a.name} and ${pair.b.name}`);
-    const top = h("div", "card-top"); top.append(h("span", "rank", pair.qualifies ? `#${String(index + 1).padStart(2, "0")} · SCORE ${pair.score.total}` : "POSSIBLE · NOT QUALIFYING"), h("strong", "distance-pill", `${pair.miles.toFixed(1)} mi`));
-    button.append(top, h("strong", "pair-title", `${pair.a.name} × ${pair.b.name}`));
-    const tags = h("div", "badges");
-    if (state.shortlist.has(pair.id)) tags.append(badge("★ Shortlisted", "star"));
-    if (pair.shared.length) tags.append(badge(`Shared station: ${pair.shared[0].a}`, "good"));
-    if (pair.remainingDays > 0) tags.append(badge("Building at the same time", "good"));
-    else if (pair.overlapDays > 0) tags.append(badge("Overlap already past", "muted"));
-    if (pair.certainty === "sensitive") tags.append(badge("Location-sensitive", "warn"));
-    if (pair.bothPast) tags.append(badge("Both past in-service date", "muted"));
-    else if (datePassed(pair.a.inServiceDate) || datePassed(pair.b.inServiceDate)) tags.append(badge("A target date has passed", "warn"));
-    if (tags.childElementCount) button.append(tags);
-    const meta = h("div", "card-meta"); meta.append(h("span", "", `${sideName(pair.a)} ↔ ${sideName(pair.b)}`), h("span", "", gapLabel(pair.gapDays))); button.append(meta);
+  let rank = 0;
+  state.pairs.forEach(pair => {
+    const button = h("button", `pair-row${pair.id === state.selectedPair ? " active" : ""}${pair.qualifies ? "" : " possible"}`);
+    button.type = "button"; button.setAttribute("aria-pressed", String(pair.id === state.selectedPair));
+    button.setAttribute("aria-label", `${pair.qualifies ? `Rank ${rank + 1}, score ${pair.score.total}` : "Possible pair, not qualifying"}: ${pair.a.name} and ${pair.b.name}, ${pair.miles.toFixed(1)} miles`);
+    button.append(h("span", "pr-rank", pair.qualifies ? String(++rank) : "?"));
+    const body = h("span", "pr-body");
+    for (const p of [pair.a, pair.b]) { const n = h("span", `pr-name ${side(p)}`, p.name); n.title = projectLabel(p); body.append(n); }
+    const tags = h("span", "pr-tags");
+    const tag = (text, kind = "") => tags.append(h("span", `tag ${kind}`, text));
+    if (state.shortlist.has(pair.id)) tag("Shortlisted", "star");
+    if (!pair.qualifies) tag("Could qualify", "muted");
+    if (pair.shared.length) tag(`Shares ${pair.shared[0].a}`, "good");
+    if (pair.remainingDays > 0) tag("Building together", "good");
+    else if (pair.overlapDays > 0) tag("Overlap past", "muted");
+    if (pair.certainty === "sensitive") tag("Location-sensitive", "warn");
+    if (pair.bothPast) tag("Both dates passed", "muted");
+    else if (datePassed(pair.a.inServiceDate) || datePassed(pair.b.inServiceDate)) tag("A date has passed", "warn");
+    if (tags.childElementCount) body.append(tags);
+    const fig = h("span", "pr-fig"); const mi = h("strong", "", pair.miles.toFixed(1)); mi.append(h("small", "", " mi"));
+    fig.append(mi, h("span", "", pair.gapDays === null ? "date unknown" : `${gapShort(pair.gapDays)} apart`));
+    button.append(body, fig);
     button.addEventListener("click", () => selectPair(pair));
     list.append(button);
   });
 }
+
+function gapShort(days) { return days < 60 ? `${days} d` : days < 730 ? `${Math.round(days / 30.44)} mo` : `${(days / 365.25).toFixed(1)} yr`; }
 
 function selectPair(pair) { state.selectedPair = pair.id; applyFilters(); focusPair(pair); }
 
@@ -249,13 +261,13 @@ function addLayers() {
   map.addLayer({ id: "uncertainty-line", type: "line", source: "geometry", filter: kind("uncertainty"), paint: { "line-color": bySide, "line-width": 1.2, "line-dasharray": [4, 3] } });
   map.addLayer({ id: "routes", type: "line", source: "geometry", filter: kind("route"), layout: { "line-join": "round", "line-cap": "round" }, paint: { "line-color": bySide, "line-width": 3.5 } });
   const linkPaint = {
-    "line-color": ["case", ["any", hover, ["==", linkState, "selected"]], "#132f3b", "#37535f"],
-    "line-width": ["case", ["any", hover, ["==", linkState, "selected"]], 5, 2.7],
+    "line-color": ["case", ["any", hover, ["==", linkState, "selected"]], "#10262e", "#4d6670"],
+    "line-width": ["case", ["==", linkState, "selected"], 4.5, hover, 3.5, 1.6],
   };
   map.addLayer({ id: "links", type: "line", source: "links", filter: ["!", ["get", "possible"]], layout: { "line-sort-key": ["match", linkState, "selected", 2, "normal", 1, 0], "line-cap": "round" },
-    paint: { ...linkPaint, "line-opacity": ["case", hover, 1, ["==", linkState, "selected"], 1, ["==", linkState, "dim"], 0.15, 0.72] } });
+    paint: { ...linkPaint, "line-opacity": ["case", hover, 1, ["==", linkState, "selected"], 1, ["==", linkState, "dim"], 0.07, 0.6] } });
   map.addLayer({ id: "links-possible", type: "line", source: "links", filter: ["get", "possible"],
-    paint: { ...linkPaint, "line-dasharray": [2, 2], "line-opacity": ["case", hover, 1, ["==", linkState, "selected"], 1, ["==", linkState, "dim"], 0.15, 0.45] } });
+    paint: { ...linkPaint, "line-dasharray": [2, 2], "line-opacity": ["case", hover, 1, ["==", linkState, "selected"], 1, ["==", linkState, "dim"], 0.1, 0.4] } });
   map.addLayer({ id: "links-hit", type: "line", source: "links", paint: { "line-color": "#000", "line-width": 14, "line-opacity": 0 } });
   map.addLayer({ id: "endpoints", type: "circle", source: "geometry", filter: kind("endpoint"), paint: { "circle-radius": 3.5, "circle-color": "#fff", "circle-stroke-color": bySide, "circle-stroke-width": 1.5 } });
   const focus = ["get", "focus"];
@@ -353,9 +365,9 @@ function statusText(p) {
   return passed ? `Filing says “${p.status}”, but the target date has passed. Current status not confirmed.` : `“${p.status}” in the filing. Not independently confirmed.`;
 }
 
-function projectBlock(p, full = false) {
-  const block = h("div", "project-block");
-  block.append(h("span", `utility-label ${side(p)}`, `${sideName(p)} · ${p.state}${p.zoneName ? ` · ${p.zoneName}` : ""}`), h("h3", "", p.name));
+function projectBlock(p, full = false, heading = true) {
+  const block = h("section", "project-block");
+  if (heading) block.append(h("span", `utility-label ${side(p)}`, `${sideName(p)}, ${p.state}${p.zoneName ? `, ${p.zoneName}` : ""}`), h("h3", "", p.name));
   block.append(infoRow("Project ID", p.projectId), infoRow("Type", projectType(p)));
   block.append(infoRow("Target in service (published)", targetDate(p)));
   const st = infoRow("Current status", statusText(p)); if (datePassed(p.inServiceDate)) st.classList.add("warn-row"); block.append(st);
@@ -369,14 +381,14 @@ function projectBlock(p, full = false) {
   block.append(src);
   if (full) {
     if (p.description) block.append(h("p", "desc-text", p.description));
-    const endpoints = h("div", "endpoint-box"); endpoints.append(h("strong", "", "Endpoints and how each was located"));
+    const endpoints = h("div", "endpoint-box"); endpoints.append(h("h4", "", "Endpoints and how each was located"));
     for (const e of p.endpoints) {
       const row = h("p", "", `${e.name}: ${e.point ? `${e.point.lat.toFixed(4)}, ${e.point.lon.toFixed(4)} · ${e.method} · ${e.confidence} (±${e.radiusMi} mi)` : "not located"}`);
       if (e.evidence) row.append(h("span", "evidence", e.evidence));
       endpoints.append(row);
     }
     if (p.locationNote) endpoints.append(h("p", "evidence", p.locationNote));
-    block.append(endpoints, h("strong", "mini-head", "Validation"), issuesList(p));
+    block.append(endpoints, h("h4", "", "Validation"), issuesList(p));
   }
   return block;
 }
@@ -440,8 +452,8 @@ function scenarioLines(pair, sc) {
 }
 
 function yardCard(pair) {
-  const card = h("div", "cost-card");
-  card.append(h("strong", "", "Impact scenario: one shared staging yard"));
+  const card = h("section", "cost-card");
+  card.append(h("h3", "", "One shared staging yard instead of two"));
   if (!pair.qualifies) { card.append(h("p", "", "Only modeled for qualifying pairs.")); return card; }
   card.append(h("p", "", verified(pair) ? `Verified pair: robust location and ${Math.round(pair.remainingDays / 30.44)} months of build overlap still ahead.` : `Not a verified pair: ${pair.remainingDays > 0 ? "location uncertainty could move it past 25 mi" : "no build overlap from today on, so no yard would be shared"}. Treat the figure below with extra caution.`));
   const out = h("div", "scenario-out");
@@ -449,7 +461,7 @@ function yardCard(pair) {
   const field = (label, key, attrs, hint) => {
     const l = h("label", "", label); const i = h("input"); Object.assign(i, { type: "number", ...attrs }); i.value = String(key === "months" ? (state.yard.months ?? Math.max(1, Math.round((pair.remainingDays ?? 0) / 30.44))) : key === "leaseRate" ? Math.round(state.yard.leaseRate * 100) : state.yard[key]);
     i.addEventListener("input", () => { const v = Number(i.value); if (!Number.isFinite(v) || v < 0) return; state.yard[key] = key === "leaseRate" ? v / 100 : v; update(); });
-    l.append(i); if (hint) l.append(h("span", "filter-hint", hint)); form.append(l); return i;
+    l.append(i); if (hint) l.append(h("span", "hint", hint)); form.append(l); return i;
   };
   field("Yard size (acres)", "acres", { min: 0, step: 0.5 }, "assumption");
   field("Months shared", "months", { min: 0, step: 1 }, "default: overlap still ahead");
@@ -482,7 +494,6 @@ function compareTable(pair) {
   const t = h("table", "compare");
   const head = h("tr"); head.append(h("th", "", ""), h("th", `desc`, sideName(pair.a)), h("th", "gpc", sideName(pair.b))); t.append(head);
   const rows = [
-    ["Project", p => `${p.projectId} · ${p.name}`],
     ["Type", p => projectType(p)],
     ["Target in service", p => targetDate(p)],
     ["Status", p => datePassed(p.inServiceDate) ? `“${p.status}” in filing; date passed, unconfirmed` : `“${p.status}” in filing`],
@@ -494,55 +505,109 @@ function compareTable(pair) {
   return t;
 }
 
-function listBox(title, items, cls = "") { const box = h("div", `list-box ${cls}`); box.append(h("strong", "", title)); const ul = h("ul"); items.forEach(i => ul.append(h("li", "", i))); box.append(ul); return box; }
+function listBox(title, items, cls = "") { const box = h("section", `list-box ${cls}`); box.append(h("h3", "", title)); const ul = h("ul"); items.forEach(i => ul.append(h("li", "", i))); box.append(ul); return box; }
 
 function toggleShortlist(pair) {
   if (state.shortlist.has(pair.id)) state.shortlist.delete(pair.id); else state.shortlist.add(pair.id);
   saveShortlist(); applyFilters();
 }
 
+const DETAIL_TABS = [["summary", "Summary"], ["scenario", "Cost scenario"], ["records", "Records"]];
+let lastDetailKey = null;
+
+function spanHead(pair) {
+  const head = h("header", "span-head");
+  const row = h("div", "span-row");
+  const end = p => { const e = h("div", `span-end ${side(p)}`); e.append(h("span", "", sideName(p)), h("strong", "", p.projectId)); return e; };
+  const line = h("div", "span-line"); line.append(h("i"), h("b", "", `${pair.miles.toFixed(2)} mi`));
+  row.append(end(pair.a), line, end(pair.b));
+  const names = h("div", "span-names"); names.append(h("p", "", pair.a.name), h("p", "", pair.b.name));
+  head.append(row, names);
+  if (!pair.qualifies) head.append(h("p", "notice", `Does not qualify: centers are over ${MAX_MILES} mi apart, but location uncertainty could bring them under.`));
+  const actions = h("div", "detail-actions");
+  const on = state.shortlist.has(pair.id);
+  const star = h("button", `button${on ? " on" : ""}`, on ? "★ Shortlisted" : "☆ Shortlist"); star.type = "button"; star.setAttribute("aria-pressed", String(on)); star.addEventListener("click", () => toggleShortlist(pair));
+  const brief = h("button", "button", "Open brief"); brief.type = "button"; brief.addEventListener("click", () => openBriefs([pair]));
+  const copy = h("button", "button", "Copy as text"); copy.type = "button"; copy.addEventListener("click", async () => { try { await navigator.clipboard.writeText(briefText(pair)); copy.textContent = "Copied"; } catch { copy.textContent = "Copy failed"; } });
+  actions.append(star, brief, copy); head.append(actions);
+  return head;
+}
+
+function factsRow(pair) {
+  const figs = h("dl", "facts");
+  [[pair.gapDays === null ? "Unknown" : `${pair.gapDays} days`, "In-service gap"], [pair.remainingDays > 0 ? `${Math.round(pair.remainingDays / 30.44)} mo` : "None", "Overlap ahead"], [pair.certainty[0].toUpperCase() + pair.certainty.slice(1), "Location"], [pair.qualifies ? `${pair.score.total}` : "–", "Score"]]
+    .forEach(([v, l]) => { const f = h("div"); f.append(h("dt", "", l), h("dd", "", v)); figs.append(f); });
+  return figs;
+}
+
+function detailTabs(pair) {
+  const nav = h("div", "dtabs"); nav.setAttribute("role", "tablist"); nav.setAttribute("aria-label", "Pair details");
+  for (const [key, label] of DETAIL_TABS) {
+    const t = h("button", `dtab${state.detailTab === key ? " active" : ""}`, label); t.type = "button";
+    t.setAttribute("role", "tab"); t.setAttribute("aria-selected", String(state.detailTab === key));
+    t.addEventListener("click", () => { state.detailTab = key; renderDetail(); $("detail").querySelector(".dtab.active")?.focus(); });
+    nav.append(t);
+  }
+  const panel = h("div", "dpanel"); panel.setAttribute("role", "tabpanel");
+  if (state.detailTab === "scenario") panel.append(yardCard(pair));
+  else if (state.detailTab === "records") { panel.append(h("p", "section-note", "Every field as parsed, how each endpoint was located, and what validation flagged.")); for (const p of [pair.a, pair.b]) panel.append(projectBlock(p, true)); }
+  else {
+    panel.append(compareTable(pair));
+    panel.append(listBox(pair.qualifies ? "Why it qualifies" : "Why it might qualify", whyQualifies(pair)), listBox("Still to confirm", toConfirm(pair), "confirm"), listBox("Possible shared resources", sharedResources(pair)));
+    const tl = h("section", "list-box"); tl.append(h("h3", "", "Build windows"), timeline(pair.a, pair.b)); panel.append(tl);
+    panel.append(scoreBlock(pair));
+  }
+  return [nav, panel];
+}
+
+function scoreBlock(pair) {
+  const score = h("section", "list-box score-block");
+  const head = h("h3", "", "Ranking score "); head.append(h("span", "", `${pair.score.total} of 100, geography first`)); score.append(head);
+  const parts = h("div", "score-parts");
+  [["Proximity", pair.score.parts.proximity, WEIGHTS.proximity], ["Shared station", pair.score.parts.shared, WEIGHTS.shared], ["Line proximity", pair.score.parts.corridor, WEIGHTS.corridor], ["Timing", pair.score.parts.timing, WEIGHTS.timing]].forEach(([k, v, max]) => {
+    const row = h("div", "score-part"); const bar = h("i", ""); bar.style.width = `${(v / max) * 100}%`; const track = h("span", "score-track"); track.append(bar);
+    row.append(h("span", "", k), track, h("b", "", `${v}/${max}`)); parts.append(row);
+  });
+  if (pair.score.parts.confidence < 1) parts.append(h("p", "muted-note", "× 0.85 because location uncertainty could move this pair past 25 miles."));
+  score.append(parts);
+  return score;
+}
+
+function landing() {
+  const box = h("div", "landing");
+  box.append(h("h2", "", "Savannah River transmission coordination"),
+    h("p", "lead", `Every planned project in DESC’s 2026–2030 list and Georgia ITS’s 2026–2035 plan, paired across the river when their centers are under ${MAX_MILES} miles apart.`),
+    overviewStats());
+  const steps = h("ol", "guide-steps");
+  [["Find", "Pairs are ranked geography first, timing second. Change the sort or open Filters to explore."], ["Check", "Every number links to the filing page it came from, and every location states its method and confidence."], ["Call", "Shortlist a pair and export a one-page brief with evidence, shared resources, a cost scenario and questions."]]
+    .forEach(([title, body]) => { const li = h("li"); li.append(h("strong", "", title), h("p", "", body)); steps.append(li); });
+  box.append(steps, h("p", "fine", "Pick a pair in the list or a link on the map to compare both projects. Pick a dot to see one project. Click empty map to deselect. Built from public filings and OpenStreetMap only, with no CEII. A planning aid, not a field plan."));
+  return box;
+}
+
 function renderDetail() {
   const detail = $("detail"); detail.replaceChildren();
   const pair = state.allPairs.find(p => p.id === state.selectedPair);
   const project = state.projects.find(p => p.id === state.selectedProject);
+  const key = pair ? `pair:${pair.id}` : project ? `project:${project.id}` : "none";
+  const changed = key !== lastDetailKey; lastDetailKey = key;
+  detail.classList.toggle("draw", changed && Boolean(pair));
+  if (changed) detail.scrollTop = 0;
   if (pair) {
-    const head = h("div", "detail-head");
-    const titles = h("div"); titles.append(h("p", "eyebrow", pair.qualifies ? "Selected pair" : "Possible pair — does not qualify"), h("h2", "", `${pair.a.projectId} × ${pair.b.projectId}`));
-    const star = h("button", `star-button${state.shortlist.has(pair.id) ? " on" : ""}`, state.shortlist.has(pair.id) ? "★ Shortlisted" : "☆ Shortlist"); star.type = "button"; star.addEventListener("click", () => toggleShortlist(pair));
-    head.append(titles, star); detail.append(head);
-    const figs = h("div", "fig-row");
-    [[`${pair.miles.toFixed(2)} mi`, "center to center"], [pair.gapDays === null ? "unknown" : `${pair.gapDays} days`, "in-service date gap"], [pair.certainty, "location certainty"]].forEach(([v, l]) => { const f = h("div", "fig"); f.append(h("strong", "", v), h("span", "", l)); figs.append(f); });
-    detail.append(figs, compareTable(pair));
-    detail.append(listBox(pair.qualifies ? "Why it qualifies" : "Why it might qualify", whyQualifies(pair), "why"), listBox("Still to confirm", toConfirm(pair), "confirm"), listBox("Possible shared resources", sharedResources(pair)));
-    const actions = h("div", "actions");
-    const brief = h("button", "ghost-button", "Open one-page brief"); brief.type = "button"; brief.addEventListener("click", () => openBriefs([pair]));
-    const copy = h("button", "ghost-button", "Copy as text"); copy.type = "button"; copy.addEventListener("click", async () => { try { await navigator.clipboard.writeText(briefText(pair)); copy.textContent = "Copied"; } catch { copy.textContent = "Copy failed"; } });
-    actions.append(brief, copy); detail.append(actions);
-    detail.append(timeline(pair.a, pair.b), yardCard(pair));
-    const score = h("div", "score-block"); score.append(h("strong", "", `${pair.score.total} / 100`), h("span", "", "Ranking score (geography first)"));
-    const parts = h("div", "score-parts");
-    [["Proximity", pair.score.parts.proximity, WEIGHTS.proximity], ["Shared station", pair.score.parts.shared, WEIGHTS.shared], ["Line proximity", pair.score.parts.corridor, WEIGHTS.corridor], ["Timing", pair.score.parts.timing, WEIGHTS.timing]].forEach(([k, v, max]) => {
-      const row = h("div", "score-part"); const bar = h("i", ""); bar.style.width = `${(v / max) * 100}%`; const track = h("span", "score-track"); track.append(bar);
-      row.append(h("span", "", k), track, h("b", "", `${v}/${max}`)); parts.append(row);
-    });
-    if (pair.score.parts.confidence < 1) parts.append(h("p", "muted-note", "× 0.85 because location uncertainty could move this pair past 25 miles."));
-    score.append(parts); detail.append(score);
-    const more = h("details", "records"); more.append(h("summary", "", "Full records and location evidence"));
-    for (const p of [pair.a, pair.b]) more.append(projectBlock(p, true));
-    detail.append(more);
+    detail.append(spanHead(pair), factsRow(pair), ...detailTabs(pair));
   } else if (project) {
-    detail.append(h("p", "eyebrow", "Selected project"), projectBlock(project, true));
+    const head = h("header", "project-head");
+    head.append(h("span", `utility-label ${side(project)}`, `${sideName(project)}, ${project.state}${project.zoneName ? `, ${project.zoneName}` : ""}`), h("h2", "", project.name));
     const count = state.pairs.length;
-    if (!project.center) detail.append(h("p", "detail-lead", "This project could not be located, so it can't be matched. See the Data quality tab."));
+    let lead;
+    if (!project.center) lead = "This project could not be located, so it can't be matched. The Data quality tab lists why.";
     else if (!state.allPairs.some(p => p.qualifies && (p.a.id === project.id || p.b.id === project.id))) {
       const n = nearestPartner(project);
-      detail.append(h("p", "detail-lead", `No project across the river within ${MAX_MILES} miles.${n ? ` Nearest: ${n.p.projectId} · ${n.p.name}, ${n.miles.toFixed(1)} mi.` : ""}`));
-    } else detail.append(h("p", "detail-lead", `${count} ${count === 1 ? "pair" : "pairs"} with the other state under the current filters. Pick one in the list.`));
-  } else {
-    detail.append(h("p", "eyebrow", "SELECTION"), h("h2", "", "Select a project or pair"), h("p", "detail-lead", "Pick a pair to zoom to both projects and compare them side by side: distance, date gap, type, confidence and sources, with what still needs confirming. Pick a dot to see one project and how it was located."));
-    const steps = h("div", "guide-steps"); [["01", "Find", "Pairs under 25 miles, ranked geography first, timing second. Change the sort to explore."], ["02", "Check", "Every number links to the filing page it came from; every location states its method and confidence."], ["03", "Call", "Shortlist a pair and export a one-page brief: evidence, shared resources, a cost scenario and questions."]].forEach(([n, title, body]) => { const item = h("div", "guide-step"); item.append(h("span", "", n), h("div", "", "")); item.lastChild.append(h("strong", "", title), h("p", "", body)); steps.append(item); });
-    detail.append(steps);
-  }
+      lead = `No project across the river within ${MAX_MILES} miles.${n ? ` The nearest is ${n.p.projectId}, ${n.p.name}, ${n.miles.toFixed(1)} mi away.` : ""}`;
+    } else lead = `${count} ${count === 1 ? "pair" : "pairs"} with the other state under the current filters. Pick one in the list to compare.`;
+    head.append(h("p", "lead", lead));
+    detail.append(head, projectBlock(project, true, false));
+  } else detail.append(landing());
 }
 
 // ---- Brief: plain text for pasting, and a printable one-page document ----
@@ -615,7 +680,7 @@ function renderQuality() {
   const v = $("view-quality"); v.replaceChildren();
   const d = state.data;
   const wrap = h("div", "doc");
-  wrap.append(h("p", "eyebrow", "DATA QUALITY"), h("h1", "", "What the filings get wrong, and what we couldn't place"),
+  wrap.append(h("h1", "", "What the filings get wrong, and what we couldn't place"),
     h("p", "doc-lead", "Every record is validated as it is parsed. Nothing here was silently fixed: impossible dates are read as the month's last day and flagged, cost rows that don't add up keep the printed total and are flagged."));
   const all = state.projects.flatMap(p => p.issues.map(i => ({ ...i, p })));
   const counts = { error: 0, warn: 0, info: 0 }; all.forEach(i => counts[i.level]++);
@@ -624,7 +689,7 @@ function renderQuality() {
 
   wrap.append(h("h2", "", "The sponsor's sample, checked against today's filings"));
   const t0 = h("table", "dq-table"); t0.innerHTML = "<thead><tr><th>Sample ID</th><th>Project</th><th>Sample date</th><th>Status in the current filing</th></tr></thead>";
-  const b0 = h("tbody"); d.starterStatus.forEach(s => { const tr = h("tr"); [s.id, s.name, s.starterDate, s.status].forEach(x => tr.append(h("td", "", x ?? ""))); b0.append(tr); }); t0.append(b0); wrap.append(t0);
+  const b0 = h("tbody"); d.starterStatus.forEach(s => { const tr = h("tr"); [s.id, s.name, s.starterDate, s.status].forEach((x, i) => tr.append(h("td", i === 2 ? "nowrap" : "", x ?? ""))); b0.append(tr); }); t0.append(b0); wrap.append(t0);
   wrap.append(h("p", "muted-note", "Both Augusta-area sample pairs are gone: DESC's Hooks–Thurmond rebuild is no longer listed and Georgia Power cancelled Evans Primary–Thurmond Dam #5 and #6 (Table 3). The McIntosh–Purrysburg reactors are complete (Table 4)."));
 
   wrap.append(h("h2", "", "List-level problems"));
@@ -635,7 +700,7 @@ function renderQuality() {
     const body = h("tbody");
     rows.forEach(i => {
       const tr = h("tr", `lvl-${i.level}`);
-      const nameCell = h("td"); const btn = h("button", "text-button", `${i.p.projectId} · ${i.p.name}`); btn.type = "button";
+      const nameCell = h("td"); const btn = h("button", "link-button", `${i.p.projectId} · ${i.p.name}`); btn.type = "button";
       btn.addEventListener("click", () => { state.selectedProject = i.p.id; state.selectedPair = null; setView("explore"); applyFilters(); });
       nameCell.append(btn);
       const srcCell = h("td"); srcCell.append(link(pdfLink(i.p.source), `p. ${i.p.source.page}`));
@@ -659,7 +724,7 @@ function renderMethod() {
   const v = $("view-method"); v.replaceChildren();
   const d = state.data, bm = d.costBenchmark;
   const wrap = h("div", "doc");
-  wrap.append(h("p", "eyebrow", "METHOD & SOURCES"), h("h1", "", "How GridLock decides"));
+  wrap.append(h("h1", "", "How GridLock decides"));
   const sec = (title, ...paras) => { wrap.append(h("h2", "", title)); paras.forEach(p => wrap.append(typeof p === "string" ? h("p", "", p) : p)); };
   const srcList = h("ul", "src-list"); d.sources.forEach(s => { const li = h("li"); li.append(link(s.url, s.title), document.createTextNode(s.projects ? ` — ${s.projects} projects` : "")); srcList.append(li); });
   sec("Sources", srcList, "The challenge zip's DESC list (2024–2028) and Georgia plan (2025 IRP) are superseded; both newer editions are public and are used here. The older DESC lists are kept only to measure schedule slip.");
@@ -682,7 +747,7 @@ function renderMethod() {
 }
 
 function setView(name) {
-  document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.view === name));
+  document.querySelectorAll(".tab").forEach(t => { t.classList.toggle("active", t.dataset.view === name); if (t.dataset.view === name) t.setAttribute("aria-current", "page"); else t.removeAttribute("aria-current"); });
   document.querySelectorAll(".view").forEach(v => { v.hidden = v.id !== `view-${name}`; });
   window.scrollTo(0, 0);
   document.querySelectorAll(".doc-view").forEach(v => { v.scrollTop = 0; });
@@ -708,6 +773,7 @@ $("sort").addEventListener("change", event => { state.sort = event.target.value;
 $("shortlist-only").addEventListener("change", event => { state.shortlistOnly = event.target.checked; applyFilters(); });
 $("shortlist-export").addEventListener("click", () => { const pairs = state.allPairs.filter(p => state.shortlist.has(p.id)); if (pairs.length) openBriefs(pairs); });
 $("export").addEventListener("click", exportCsv);
+$("filter-toggle").addEventListener("click", () => { const open = $("filters").hidden; $("filters").hidden = !open; $("filter-toggle").setAttribute("aria-expanded", String(open)); });
 $("zoom-in").addEventListener("click", () => map?.zoomIn());
 $("zoom-out").addEventListener("click", () => map?.zoomOut());
 $("fit").addEventListener("click", () => map?.fitBounds(border, { padding: 20 }));
