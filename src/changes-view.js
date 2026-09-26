@@ -182,7 +182,8 @@ export function createChangesView(ctx) {
     }
     const scope = h("p", "muted-note", view.area ? `Area: the one drawn on the map${view.bufferMi ? `, plus ${view.bufferMi} mi around it` : ""}.` : "Area: the whole region. Draw an area to narrow it.");
     const submit = h("button", "button primary", "Email me about new filings"); submit.type = "submit";
-    const status = h("p", "alert-status"); status.setAttribute("role", "status");
+    const status = h("p", "alert-status", view.alertNote ?? ""); status.setAttribute("role", "status");
+    view.alertNote = null;
     form.append(el, kinds, scope, submit, status);
     form.addEventListener("submit", async ev => {
       ev.preventDefault();
@@ -194,7 +195,7 @@ export function createChangesView(ctx) {
         const body = await r.json().catch(() => ({}));
         if (!r.ok) throw new Error(body.error ?? `HTTP ${r.status}`);
         writeStore(SUB_KEY, { id: body.id, email: email.value.trim(), kinds: picked });
-        status.textContent = "Check your inbox: an email from AWS Notifications asks you to confirm. Nothing is sent until you do.";
+        view.alertNote = body.status === "confirmed" ? "Updated your area and choices." : "Check your inbox: an email from AWS Notifications asks you to confirm. Nothing is sent until you do.";
         render();
       } catch (error) { status.textContent = `Couldn't subscribe: ${error.message}.`; }
       finally { submit.disabled = false; }

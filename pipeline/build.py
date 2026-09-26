@@ -5,6 +5,7 @@
 """
 import datetime as dt
 import difflib
+import os
 import re
 import statistics
 import sys
@@ -19,7 +20,8 @@ from geocode import OSMIndex, geocode_project
 from lines import Grid
 
 sys.setrecursionlimit(20000)
-TODAY = dt.date(2026, 9, 26)
+# Fixed so local rebuilds reproduce; the alert worker passes the day it runs (see issue #7).
+TODAY = dt.date.fromisoformat(os.environ.get("GRIDLOCK_TODAY", "2026-09-26"))
 DEFAULT_HALF_LINE_MI = 10.0
 _ov = load(ROOT / "data" / "overrides.json")
 RADIUS_OVERRIDES = _ov.get("radius", {})

@@ -7,10 +7,10 @@ Finds planned transmission projects on either side of the Savannah River that sh
 ```bash
 python3 -m http.server 8000      # then open http://localhost:8000
 node --test tests/*.test.js          # 26 tests, including the sponsor's six example rows
-python3 -m unittest discover tests   # the ground-conditions geometry and the change log
+python3 -m unittest discover tests   # ground-conditions geometry, the change log, and the alert service
 ```
 
-The app is static and has no build step, API keys or backend. The map is MapLibre GL JS (loaded from jsDelivr) over free OpenFreeMap vector tiles of OpenStreetMap data, so it needs internet access and WebGL.
+The app is static and has no build step or API keys. Email alerts are the one optional backend, a small AWS service in `infra/` (see [infra/README.md](infra/README.md)); without it everything else works. The map is MapLibre GL JS (loaded from jsDelivr) over free OpenFreeMap vector tiles of OpenStreetMap data, so it needs internet access and WebGL.
 
 ## Rebuild the data
 
