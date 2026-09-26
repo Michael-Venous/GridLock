@@ -2,24 +2,35 @@
 
 Last updated: 2026-09-26
 
-Goal: Build a usable GridLock prototype for the Sperry Tech challenge and keep its GitHub repository private until the user requests otherwise.
+Goal: a working GridLock entry for the Sperry Tech challenge (ShellHacks 2026), submitted before Sun 2026-09-27 11:00 EDT. `nick-main` is the primary branch; `origin/main` holds an older build of the 10-project prototype and is not being merged.
 
-Completed locally: Map explorer with an OpenStreetMap basemap and grid fallback, starter workbook import, six recalculated pair matches, ranked list, project and pair inspection, in-service year slider plus date-gap and distance filters, pan/zoom, CSV export, source caveats, and tests. Browser interaction verified on the local server. The planning workspace now fills the desktop viewport and map markers retain a 12 px diameter through zoom; both were verified in-browser on 2026-09-26.
+## What the app does now
 
-Decision: The downloaded `Finding_Real_Locations_Guide.docx` controls the matching rule: project center points, straight-line distance under 25 miles, and absolute difference between in-service dates. Do not infer construction window overlap from those dates.
+- Parses every project in the current public filings: DESC 2026–2030 (54 projects) and the 2025 GA ITS Ten-Year Plan 2026–2035 (255 projects). 272 are located; 18 lines are traced along OSM power lines.
+- Keeps the challenge's rule unchanged: project centers (midpoint of located endpoints) under 25 miles apart by haversine, time gap = absolute difference of in-service dates. The tests still reproduce the sponsor's six example rows exactly.
+- Adds, for ranking only: build-window overlap (DESC first budget year with spend → in-service date; Georgia Start Date → Need Date; only overlap from today on counts), location certainty (robust / sensitive / possible), shared stations and closest approach of traced lines. Score = proximity 40 + shared station 20 + line proximity 10 + timing 30, × 0.85 when location-sensitive.
+- MapLibre GL JS map, ranked pair list with filters and sorts, pair comparison, staging-yard cost scenario with cited unit costs (MISO, USDA), printable briefs, shortlist, CSV export, Data quality and Method tabs.
 
-Date detail: The supplied PDFs list planned in-service dates as calendar dates (for example, DESC Okatie–Bluffton 06/01/2025 and Georgia Power transmission entries on June 1). Because many future entries share June 1, the year slider uses year granularity while preserving the exact published dates in project details and the existing day-gap filter.
+## Decisions
 
-Data limits: The ten starter coordinates were imported from `Projects_Overlaps.xlsx` and not independently verified. Several target dates have passed. There is no supported savings estimate yet. The app labels these limits.
+- The challenge's `Finding_Real_Locations_Guide.docx` controls the qualifying rule, and nothing added changes which pairs qualify.
+- Build windows are inferred from the filings' own start dates and yearly budgets. (The early prototype deliberately avoided inferring them from in-service dates alone; that decision is superseded now that the full filings are parsed.)
+- Geography outweighs timing in the score (70 vs 30 points), as the challenge makes distance the primary signal.
+- No CEII, no non-public data, no reconstruction of Georgia's redacted costs.
 
-Repository: `git@github.com:Michael-Venous/GridLock.git` is private. The user created it, and `main` was pushed on 2026-09-26. Keep it private per the user's latest instruction. The local `gh` token remains invalid, but SSH Git push succeeded.
+## Data limits
 
-Next product steps: Verify individual locations against public planning PDFs and map sources; obtain actual construction windows; add a sourced impact estimate if time permits.
+- Locations are estimates with stated method, confidence and radius; 37 projects could not be placed and 166 endpoints rest on town-level guesses (issue #3).
+- Many published target dates have passed while the filings still list the projects as planned; the app marks their status as unconfirmed.
+- The cost scenario is a reason to make a call, not a budget.
 
-## nick-main branch (2026-09-26)
+## Repository
 
-- Replaced the 10-project sample with a pipeline over the current public filings: DESC 2026-2030 (54 projects) and the 2025 GA ITS Ten-Year Plan 2026-2035 (255 projects). 272 are located; 18 lines are traced along OSM power lines.
-- Matching keeps the 25-mile center rule and adds build-window overlap (only overlap from today onward counts), location certainty, shared stations and line closest approach. The tests still reproduce the sponsor's six rows exactly.
-- Added Data quality and Method tabs, a cost card that uses a DESC $/mile benchmark, a coordination brief, and a CSV export with source links.
-- Supplied and downloaded PDFs stay out of git (`data/raw/` is ignored); `pipeline/fetch.py` downloads the public ones.
-- Next: hand-site the remaining border endpoints (Hooks, Fenwick Street, Sand Bar Ferry, Rice Hope); optionally add Santee Cooper's Purrysburg-McIntosh tie reconductor (SCRTP 2026-03-11 deck).
+- `github.com/Michael-Venous/GridLock`, private. Work lands on `nick-main`.
+- Supplied and downloaded PDFs and the workbook stay out of git (`data/raw/` is ignored); `pipeline/fetch.py` downloads the public ones.
+
+## Open work (GitHub issues)
+
+- #3 station-name extraction; #4 routes traced to town guesses; #6 "none" confidence on placed projects; #7 pipeline vs app "today".
+- #10 hand-site Hooks, Fenwick Street, Sand Bar Ferry, Rice Hope; #11 Santee Cooper's Purrysburg–McIntosh reconductor (optional).
+- #12 submission checklist: deploy, demo video, Devpost.

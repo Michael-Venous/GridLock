@@ -98,6 +98,8 @@ def locate(recs, osm, spts, grid, anchors=None, offline=False):
             order = ["none", "low", "ambiguous", "medium", "high"]
             r["locationConfidence"] = min((e["confidence"] for e in eps), key=order.index)
         r["route"] = None
+        # Georgia is located twice (the second pass uses zone anchors); drop the first pass's route note
+        r["issues"] = [i for i in r["issues"] if not i["msg"].startswith("mapped route is")]
         if len(located) >= 2 and grid:
             legs = [grid.route(a["point"], b["point"]) for a, b in zip(located, located[1:])]
             if all(legs):

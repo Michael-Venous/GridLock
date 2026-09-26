@@ -14910,10 +14910,6 @@
     },
     {
      "level": "info",
-     "msg": "mapped route is 10.23 mi but the source states 0.94 mi"
-    },
-    {
-     "level": "info",
      "msg": "endpoint 'VIRGINIA AVENUE' located with low confidence (town)"
     }
    ],
