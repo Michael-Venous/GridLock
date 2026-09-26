@@ -117,6 +117,42 @@ def zone_anchors(ga):
             for z, ps in by.items() if len(ps) >= 3}
 
 
+def cost_benchmark(desc):
+    """$/mile from DESC's own list: line projects that state a length and whose cost row checks out."""
+    rows = []
+    for r in desc:
+        errs = [i for i in r["issues"] if i["level"] == "error"]
+        if r.get("miles") and r["miles"] >= 2 and r["cost"]["total"] and not errs and re.search(r"rebuild|construct|line", r["name"], re.I):
+            rows.append({"id": r["project_id"], "name": r["name"], "miles": r["miles"], "cost": r["cost"]["total"],
+                         "perMile": round(r["cost"]["total"] / r["miles"])})
+    per = sorted(x["perMile"] for x in rows)
+    return {"perMile": round(statistics.median(per)) if per else None, "low": per[len(per) // 4] if per else None,
+            "high": per[(3 * len(per)) // 4] if per else None, "n": len(rows), "projects": rows,
+            "basis": "median cost per stated mile of DESC 2026-2030 line projects with a stated length and a consistent cost row"}
+
+
+def starter_status(desc, ga, removed):
+    """What became of each project in the sponsor's 10-project sample, in the current filings."""
+    out = []
+    for p in load(ROOT / "data" / "starter_projects.json")["projects"]:
+        pool = desc if p["state"] == "SC" else ga
+        best = max(pool, key=lambda r: difflib.SequenceMatcher(None, norm_name(r["name"]), norm_name(p["name"])).ratio())
+        sim = difflib.SequenceMatcher(None, norm_name(best["name"]), norm_name(p["name"])).ratio()
+        gone = None
+        if p["state"] == "GA" and removed:
+            k, v = max(removed.items(), key=lambda kv: difflib.SequenceMatcher(None, norm_name(kv[1]["name"]), norm_name(p["name"])).ratio())
+            if difflib.SequenceMatcher(None, norm_name(v["name"]), norm_name(p["name"])).ratio() > 0.5:
+                gone = f"{v['status']} per Table {3 if v['status'] == 'cancelled' else 4} of the 2026-2035 plan (Teams {k}, was due {v['last_need']})"
+        if sim >= 0.8:
+            status = f"still planned as {best['project_id']}, in service {best['isd']}" + (f" (was {p['inServiceDate']})" if best["isd"] != p["inServiceDate"] else "")
+        elif gone:
+            status = gone
+        else:
+            status = "not in the 2026-2030 list (finished, dropped or renamed; the list does not say which)" if p["state"] == "SC" else "not in the 2026-2035 plan"
+        out.append({"id": p["id"], "name": p["name"], "starterDate": p["inServiceDate"], "status": status})
+    return out
+
+
 def to_app(r):
     uid = r["uid"].replace(":", "-")
     if r["state"] == "SC":
@@ -176,6 +212,8 @@ def main():
             {"id": "osm", "title": "OpenStreetMap substations, plants and power lines (Overpass, 2026-09-26)", "url": "https://www.openstreetmap.org/copyright"},
         ],
         "zoneAnchors": anchors,
+        "costBenchmark": cost_benchmark(desc),
+        "starterStatus": starter_status(desc, ga, removed),
         "removedGeorgia": removed,
         "dataQuality": dq_global,
         "projects": projects,

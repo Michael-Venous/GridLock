@@ -38,10 +38,14 @@ def main():
     removed = {}
     for label, a, b in (("cancelled", r"Table 3 Cancelled Projects[^\n]*\n[^\n]*Table 3[^\n]*\n", r"Table 4 Completed"),
                         ("completed", r"Table 4 Completed Projects[^\n]*\n[^\n]*\n[^\n]*Table 4[^\n]*\n", r"Table 5 ")):
-        for ln in section(pages, a, b).split("\n"):
+        lines = section(pages, a, b).split("\n")
+        frag = lambda ln: ln.strip() if ln.strip() and not ROW_NOYEAR.match(ln) and not re.search(r"Zone|TEAMS|Sponsor|Estimated|Assigned|Need Date|Table|CRITICAL|PUBLIC|disclos|policy|employees|notification", ln) else ""
+        for i, ln in enumerate(lines):
             m = ROW_NOYEAR.match(ln)
             if m:
-                removed[m.group(2)] = {"status": label, "zone": m.group(1), "name": m.group(3).strip(), "last_need": m.group(4)}
+                # names wrap onto the lines just above and below the row's anchor line
+                name = " ".join(x for x in (frag(lines[i - 1]) if i else "", m.group(3).strip(), frag(lines[i + 1]) if i + 1 < len(lines) else "") if x)
+                removed[m.group(2)] = {"status": label, "zone": m.group(1), "name": name, "last_need": m.group(4)}
 
     # detail pages
     out = []

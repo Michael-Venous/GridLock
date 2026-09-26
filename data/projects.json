@@ -66,191 +66,332 @@
    "lon": -82.753534
   }
  },
+ "costBenchmark": {
+  "perMile": 1242634,
+  "low": 1106164,
+  "high": 1620659,
+  "n": 10,
+  "projects": [
+   {
+    "id": "6852",
+    "name": "Urquhart \u2013 Toolebeck 115kV line: Rebuild",
+    "miles": 12.5,
+    "cost": 15948620,
+    "perMile": 1275890
+   },
+   {
+    "id": "6809 G",
+    "name": "Hooks - Modoc 115/46 kV Rebuild",
+    "miles": 6.5,
+    "cost": 10534285,
+    "perMile": 1620659
+   },
+   {
+    "id": "6810 U",
+    "name": "Cameron Jct \u2013 Elloree 46 kV Rebuild",
+    "miles": 7.3,
+    "cost": 8075000,
+    "perMile": 1106164
+   },
+   {
+    "id": "6810 O",
+    "name": "Urquhart \u2013 Aiken PSA 46 kV: Rebuild",
+    "miles": 4.5,
+    "cost": 3000000,
+    "perMile": 666667
+   },
+   {
+    "id": "6810 T",
+    "name": "Cameron Jct \u2013 Cameron \u2013 St Matthews 46 kV Rebuild",
+    "miles": 9.8,
+    "cost": 11700000,
+    "perMile": 1193878
+   },
+   {
+    "id": "6809 O",
+    "name": "St. George- Holly Hill 115kV: Rebuild Structures 83-108",
+    "miles": 3.4,
+    "cost": 8125000,
+    "perMile": 2389706
+   },
+   {
+    "id": "6808 R",
+    "name": "Wateree-Killian 230kV: Rebuild",
+    "miles": 35.0,
+    "cost": 44517719,
+    "perMile": 1271935
+   },
+   {
+    "id": "6877 A",
+    "name": "Church Creek \u2013 Dawson 230 kV: Rebuild from Long Savannah to Dawson",
+    "miles": 13.6,
+    "cost": 42375000,
+    "perMile": 3115809
+   },
+   {
+    "id": "6809 T",
+    "name": "Stevens Creek - Graniteville 115 kV: Rebuild",
+    "miles": 15.0,
+    "cost": 18200000,
+    "perMile": 1213333
+   },
+   {
+    "id": "6810 N",
+    "name": "Calhoun County - North 46 kV Rebuild",
+    "miles": 9.5,
+    "cost": 10200000,
+    "perMile": 1073684
+   }
+  ],
+  "basis": "median cost per stated mile of DESC 2026-2030 line projects with a stated length and a consistent cost row"
+ },
+ "starterStatus": [
+  {
+   "id": "DESC_1",
+   "name": "Stevens Creek - Hooks 115 kV / LR Plumb Branch 46 kV Rebuilds",
+   "starterDate": "2024-12-31",
+   "status": "not in the 2026-2030 list (finished, dropped or renamed; the list does not say which)"
+  },
+  {
+   "id": "DESC_2",
+   "name": "Hooks - Thurmond 115 kV Tie: Rebuild",
+   "starterDate": "2024-12-31",
+   "status": "not in the 2026-2030 list (finished, dropped or renamed; the list does not say which)"
+  },
+  {
+   "id": "DESC_3",
+   "name": "Jasper - Okatie 230 kV #2: Construct",
+   "starterDate": "2025-12-31",
+   "status": "still planned as 06367 D - G, in service 2026-12-01 (was 2025-12-31)"
+  },
+  {
+   "id": "DESC_4",
+   "name": "Queensboro - Ft Johnson 115 kV & Queensboro-Bayfront 115 kV (Queensboro-James Island Sect)",
+   "starterDate": "2023-12-31",
+   "status": "not in the 2026-2030 list (finished, dropped or renamed; the list does not say which)"
+  },
+  {
+   "id": "DESC_5",
+   "name": "Okatie-Bluffton 115 kV: Rebuild",
+   "starterDate": "2025-06-01",
+   "status": "not in the 2026-2030 list (finished, dropped or renamed; the list does not say which)"
+  },
+  {
+   "id": "GPC_1",
+   "name": "EVANS PRIMARY - THURMOND DAM (USA) #5 115KV REBUILD",
+   "starterDate": "2033-06-01",
+   "status": "cancelled per Table 3 of the 2026-2035 plan (Teams 20793, was due 6/1/2033)"
+  },
+  {
+   "id": "GPC_2",
+   "name": "SAV: MCINTOSH - PURRYSBURG 230KV REACTORS",
+   "starterDate": "2026-06-01",
+   "status": "completed per Table 4 of the 2026-2035 plan (Teams 20277, was due 6/1/2026)"
+  },
+  {
+   "id": "GPC_3",
+   "name": "SAV: GOSHEN (SAV) - MCINTOSH 115KV LINE REBUILD",
+   "starterDate": "2027-06-01",
+   "status": "still planned as TEAMS 20065, in service 2028-06-01 (was 2027-06-01)"
+  },
+  {
+   "id": "GPC_4",
+   "name": "MITCHELL - NORTH TIFTON 230KV RECONDUCTOR",
+   "starterDate": "2025-05-01",
+   "status": "completed per Table 4 of the 2026-2035 plan (Teams 18492, was due 5/1/2025)"
+  },
+  {
+   "id": "GPC_5",
+   "name": "JESUP - LUDOWICI PRIMARY 115KV REBUILD",
+   "starterDate": "2025-06-01",
+   "status": "completed per Table 4 of the 2026-2035 plan (Teams 11821, was due 6/1/2025)"
+  }
+ ],
  "removedGeorgia": {
   "21137": {
    "status": "cancelled",
    "zone": "206",
-   "name": "MOUNTAIN 115kV LINE",
+   "name": "GTC: CONYERS - CORNISH MOUNTAIN 115kV LINE UPGRADE",
    "last_need": "6/1/2026"
   },
   "20223": {
    "status": "cancelled",
    "zone": "216",
-   "name": "",
+   "name": "CC - PROJECT PAYTON BAINBRIDGE",
    "last_need": "6/30/2026"
   },
   "20874": {
    "status": "cancelled",
    "zone": "213",
-   "name": "PRIMARY-BARNESVILLE #1",
+   "name": "GTC: BARNESVILLE PRIMARY-BARNESVILLE #1 115kV RECONDUCTOR",
    "last_need": "12/1/2026"
   },
   "19287": {
    "status": "cancelled",
    "zone": "206",
-   "name": "",
+   "name": "GRADY-WEST END 115kV REBUILD",
    "last_need": "12/31/2026"
   },
   "20234": {
    "status": "cancelled",
    "zone": "212",
-   "name": "230kV - JACKS CREEK LOOP",
+   "name": "DOYLE - LG&E MONROE 230kV - JACKS CREEK LOOP IN",
    "last_need": "6/1/2027"
   },
   "20020": {
    "status": "cancelled",
    "zone": "214",
-   "name": "",
+   "name": "GTC: SOUTH HAZLEHURST - NEW LACY 230kV LINE",
    "last_need": "6/1/2027"
   },
   "21623": {
    "status": "cancelled",
    "zone": "214",
-   "name": "",
+   "name": "230/115 AUTO TRANSFORMERS",
    "last_need": "6/1/2027"
   },
   "19997": {
    "status": "cancelled",
    "zone": "214",
-   "name": "",
+   "name": "AULTMAN ROAD-PERRY 115kV LINE REBUILD",
    "last_need": "6/1/2028"
   },
   "20873": {
    "status": "cancelled",
    "zone": "214",
-   "name": "500/230kV XFMR",
+   "name": "GTC: BONAIRE PRIMARY 500/230kV XFMR REPLCMNT & RELAY MOD",
    "last_need": "6/1/2028"
   },
   "20777": {
    "status": "cancelled",
    "zone": "206",
-   "name": "NORTHWEST (BLACK)",
+   "name": "JACK MCDONOUGH - NORTHWEST (BLACK) 230kV RECONDUCTOR",
    "last_need": "6/1/2028"
   },
   "20586": {
    "status": "cancelled",
    "zone": "214",
-   "name": "",
+   "name": "230/115kV TRANSFORMERS AND BUS-",
    "last_need": "12/1/2028"
   },
   "10222": {
    "status": "cancelled",
    "zone": "216",
-   "name": "HUCKLEBERRY 115kV",
+   "name": "BLAKELY PRIMARY - HUCKLEBERRY 115kV REBUILD",
    "last_need": "6/1/2029"
   },
   "21138": {
    "status": "cancelled",
    "zone": "206",
-   "name": "PORTERDALE PRIMARY",
+   "name": "GLENWOOD SPRINGS - PORTERDALE PRIMARY 230kV LINE SWITCH REPL",
    "last_need": "6/1/2029"
   },
   "20760": {
    "status": "cancelled",
    "zone": "202",
-   "name": "",
+   "name": "GTC: HOPEWELL 230/115 kV BANK A",
    "last_need": "6/1/2029"
   },
   "20285": {
    "status": "cancelled",
    "zone": "216",
-   "name": "(APC) 115kV",
+   "name": "LOWER RIVER - WEBB (APC) 115kV RECONDUCTOR",
    "last_need": "6/1/2029"
   },
   "20346": {
    "status": "cancelled",
    "zone": "218",
-   "name": "BRUNSWICK 115kV",
+   "name": "MCMANUS - WEST BRUNSWICK 115kV REBUILD",
    "last_need": "6/1/2029"
   },
   "21114": {
    "status": "cancelled",
    "zone": "213",
-   "name": "230/115kV BANK #5",
+   "name": "MEAG: SOUTH GRIFFIN 230/115kV BANK #5 (PLACEHOLDER)",
    "last_need": "6/1/2029"
   },
   "21006": {
    "status": "cancelled",
    "zone": "219",
-   "name": "MAGNOLIA 115 kV LINE",
+   "name": "SAV: BOULEVARD - MAGNOLIA 115 kV LINE REBUILD",
    "last_need": "6/1/2029"
   },
   "13628": {
    "status": "cancelled",
    "zone": "216",
-   "name": "(FPL) 115kV LINE",
+   "name": "SOUTH BAINBRIDGE - SINAI (FPL) 115kV LINE RECONDUCTOR",
    "last_need": "6/1/2029"
   },
   "21129": {
    "status": "cancelled",
    "zone": "211",
-   "name": "",
+   "name": "ANNISTON - HAMMOND 230kV LINE",
    "last_need": "6/1/2030"
   },
   "20480": {
    "status": "cancelled",
    "zone": "208",
-   "name": "230kV BLACK LINE",
+   "name": "EAST POINT - UNION CITY 230kV BLACK LINE RECONDUCTOR",
    "last_need": "6/1/2030"
   },
   "21094": {
    "status": "cancelled",
    "zone": "214",
-   "name": "ROCKVILLE-NORTH SPA",
+   "name": "GTC: TIGER CREEK- ROCKVILLE-NORTH SPA 230kV PROJECT",
    "last_need": "6/1/2030"
   },
   "20789": {
    "status": "cancelled",
    "zone": "212",
-   "name": "WINDER PRIMARY 115kV",
+   "name": "JEFFERSON ROAD - WINDER PRIMARY 115kV REBUILD",
    "last_need": "6/1/2030"
   },
   "20857": {
    "status": "cancelled",
    "zone": "201",
-   "name": "",
+   "name": "NEW CAVENDER DRIVE - TRIBUTARY 230kV LINE",
    "last_need": "6/1/2030"
   },
   "20160": {
    "status": "cancelled",
    "zone": "213",
-   "name": "",
+   "name": "THOMASTON 230 NEW BUILD SUB",
    "last_need": "11/1/2030"
   },
   "20793": {
    "status": "cancelled",
    "zone": "215",
-   "name": "THURMOND DAM (USA) 5",
+   "name": "EVANS PRIMARY - THURMOND DAM (USA) 5 115kV REBUILD",
    "last_need": "6/1/2033"
   },
   "20794": {
    "status": "cancelled",
    "zone": "215",
-   "name": "THURMOND DAM (USA) 6",
+   "name": "EVANS PRIMARY - THURMOND DAM (USA) 6 115kV REBUILD",
    "last_need": "6/1/2033"
   },
   "14222": {
    "status": "cancelled",
    "zone": "215",
-   "name": "230/115kV SECOND",
+   "name": "THOMSON PRIMARY 230/115kV SECOND TRANSFORMER",
    "last_need": "6/1/2033"
   },
   "18700": {
    "status": "cancelled",
    "zone": "212",
-   "name": "",
+   "name": "DAWSON CROSSING - GAINESVILLE #1 115 kV",
    "last_need": "6/1/2034"
   },
   "17993": {
    "status": "cancelled",
    "zone": "215",
-   "name": "THOMSON PRIMARY",
+   "name": "EVANS PRIMARY - THOMSON PRIMARY 115kV REBUILD",
    "last_need": "12/31/2034"
   },
   "19676": {
    "status": "completed",
    "zone": "206",
-   "name": "ADAMSVILLE - JACK MCDONOUGH 230kV LINE REBUILD",
+   "name": "Date ADAMSVILLE - JACK MCDONOUGH 230kV LINE REBUILD",
    "last_need": "6/1/2025"
   },
   "20684": {
