@@ -1,5 +1,6 @@
 import { matchProjects, gapLabel, overlapLabel, opportunityText, savingsEstimate, yardScenario, projectType, sortPairs, milesBetween, SORTS, WEIGHTS, YARD_BASIS, MAX_MILES } from "./match.js";
 import { pairGround, groundMatches, groundLines, groundShort, groundCostNote, floodZoneText } from "./environment.js";
+import { createChangesView } from "./changes-view.js";
 
 const $ = id => document.getElementById(id);
 const state = {
@@ -21,7 +22,7 @@ const COLORS = { desc: "#0a8494", gpc: "#cb6e30" };
 const BASEMAP = "https://tiles.openfreemap.org/styles/positron";
 const FALLBACK_STYLE = { version: 8, glyphs: "https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf", sources: {}, layers: [{ id: "background", type: "background", paint: { "background-color": "#e5ecec" } }] };
 const MILES_PER_DEGREE = 69.09;
-let map = null, mapReady = false, styleFailed = false, pendingFocus = null;
+let map = null, mapReady = false, styleFailed = false, pendingFocus = null, changesView = null;
 
 // Ground layers. Around checked sites we draw the cached outlines behind each result (data/env/); zoomed in close,
 // the full federal maps take over as live images, drawn in the agencies' own colors.
@@ -874,6 +875,9 @@ function renderMethod() {
     "Cited unit costs:", basis,
     "Yard size, months, lease rate, road length and any non-mat surface cost are assumptions, marked as such and editable in the panel. Proximity alone can't establish that land or equipment can be shared; the scenario is a reason to make the call, not a budget.",
     `For scale, the panel compares the result with the smaller project's cost. DESC publishes costs; Georgia's are redacted, so for a Georgia line with a stated length we apply DESC's own median of ${money(bm.perMile)} per mile (${bm.n} line projects).`);
+  sec("Changes between filings",
+    "Every filing we read is listed in data/filings.json. Each new edition is compared with the one before it: projects are matched on their ID (DESC reuses IDs, so a DESC match also needs a similar name; an ID kept under a different name is reported as renamed), then we list what was added, dropped, rescheduled, renamed or re-costed. Georgia says why each project left its plan (Table 3 cancelled, Table 4 completed); DESC doesn't, so a dropped DESC project only says whether its date had already passed.",
+    "Pairs are recomputed with the same 25-mile rule before and after each filing, keeping every project's current location, so a pair appears or disappears only because a project was added, dropped or rescheduled. A pair whose in-service gap moves by 30 days or more is listed as a timing change.");
   const envList = h("ul", "src-list"); (d.environmentSources ?? []).forEach(s => { const li = h("li"); li.append(link(s.url, s.title)); envList.append(li); });
   sec("Ground at the work sites (mapped conditions)",
     `Checked only where a location means something: endpoints placed at a station (not a town guess) and lines traced between two such stations, for projects that could appear in a pair. For each station we read what is mapped within ${d.environmentRadiusMi} mi: the FEMA flood zone at the station and the share of land in the 1% annual-chance flood area, the share mapped as wetland or open water, and any critical habitat or protected land. For each traced line we measure the miles inside those areas. Shares and miles come from sampling points about 24 m apart.`,
@@ -891,6 +895,7 @@ function setView(name) {
   window.scrollTo(0, 0);
   document.querySelectorAll(".doc-view").forEach(v => { v.scrollTop = 0; });
   if (name === "explore") map?.resize();
+  if (name === "changes") changesView?.open();
 }
 
 function exportCsv() {
@@ -942,6 +947,18 @@ try {
   $("issue-count").textContent = String(issueTotal);
   initMap();
   syncEnvLayers();
+  changesView = createChangesView({
+    h, link, formatDate, money, colors: COLORS, basemap: BASEMAP, fallbackStyle: FALLBACK_STYLE,
+    pairExists: id => state.allPairs.some(p => p.id === id && p.qualifies),
+    openProject: id => { state.selectedProject = id; state.selectedPair = null; setView("explore"); applyFilters(); },
+    openPair: id => {
+      const pair = state.allPairs.find(p => p.id === id);
+      if (!pair) return;
+      setView("explore");
+      if (!state.pairs.includes(pair)) { Object.assign(state, FILTER_DEFAULTS); state.selectedProject = null; state.hidePast = !pair.bothPast; syncControls(); }
+      selectPair(pair);
+    },
+  });
   renderQuality(); renderMethod();
   applyFilters();
 } catch (error) { $("match-list").textContent = `Could not load project data: ${error.message}. Run the local server described in README.md.`; console.error(error); }

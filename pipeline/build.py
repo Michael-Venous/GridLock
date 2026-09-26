@@ -9,11 +9,12 @@ import re
 import statistics
 import sys
 
+import changes
 import environment
 import fetch
 import parse_desc
 import parse_ga
-from common import ROOT, dump, haversine_mi, load, midpoint, norm_name
+from common import ROOT, dump, filings, haversine_mi, load, midpoint, norm_name
 from geocode import OSMIndex, geocode_project
 from lines import Grid
 
@@ -41,8 +42,8 @@ def sponsor_points():
     return pts, issues
 
 
-def slip_history(current, editions):
-    """Match each current DESC project to earlier editions on Project ID *and* a similar name."""
+def slip_history(current, editions, need_name=True):
+    """Match each current project to earlier editions on its ID and, for DESC (which reuses IDs), a similar name."""
     for r in current:
         hist = []
         for ed, recs in editions.items():
@@ -50,7 +51,7 @@ def slip_history(current, editions):
             for o in recs:
                 same_id = o["key"] == r["key"] or o["key"].lstrip("0") == r["key"].lstrip("0")
                 sim = difflib.SequenceMatcher(None, norm_name(o["name"]), norm_name(r["name"])).ratio()
-                if same_id and sim >= 0.5 and (best is None or sim > best[0]):
+                if same_id and (sim >= 0.5 or not need_name) and (best is None or sim > best[0]):
                     best = (sim, o)
             if best:
                 hist.append({"edition": ed, "isd": best[1]["isd"], "name": best[1]["name"]})
@@ -207,11 +208,14 @@ def main():
     offline = "--offline" in sys.argv
     if not offline:
         fetch.main()
+    registry = filings()
+    cur_desc, cur_ga = filings("desc")[-1], filings("ga")[-1]
     desc_eds = parse_desc.main()
-    desc = desc_eds["2026-2030"]
-    ga = parse_ga.main()
-    older = {k: v for k, v in desc_eds.items() if k != "2026-2030"}
-    slip_history(desc, dict(sorted(older.items())))
+    ga_eds = parse_ga.main()
+    desc = desc_eds[cur_desc["edition"]]
+    ga, removed = ga_eds[cur_ga["edition"]]
+    slip_history(desc, {k: v for k, v in sorted(desc_eds.items()) if k != cur_desc["edition"]})
+    slip_history(ga, {k: v[0] for k, v in sorted(ga_eds.items()) if k != cur_ga["edition"]}, need_name=False)
     dq_global = id_collisions(desc)
 
     osm, grid = OSMIndex(), Grid()
@@ -235,14 +239,36 @@ def main():
     environment.check(desc + ga, offline=offline)
     environment.regional_layers(offline=offline)
 
-    removed = load(ROOT / "data" / "build" / "ga_removed.json")
+    # Older editions, for the change log: reuse each project's current location, place only the ones that are gone.
+    editions = {f["id"]: (desc_eds[f["edition"]] if f["parser"] == "desc" else ga_eds[f["edition"]][0]) for f in registry}
+    for st, parser in (("SC", "desc"), ("GA", "ga")):
+        changes.assign_lineage([editions[f["id"]] for f in filings(parser)], st)
+    here = {r["lineage"]: r for r in desc + ga}
+    for f in registry:
+        recs = editions[f["id"]]
+        if recs is desc or recs is ga:
+            continue
+        gone = []
+        for r in recs:
+            cur = here.get(r["lineage"])
+            if cur:
+                for k in ("endpoints", "center", "radiusMi", "locationConfidence"):
+                    r[k] = cur[k]
+            else:
+                gone.append(r)
+        locate(gone, osm, spts, None, anchors=anchors if f["parser"] == "ga" else None, offline=offline)
+        if f["parser"] == "ga":
+            unplace_zone_outliers(gone)
+    changes.write(registry, editions, {f["id"]: ga_eds[f["edition"]][1] for f in filings("ga")}, {to_app(r)["id"] for r in desc + ga})
+
     projects = [to_app(r) for r in desc + ga]
     out = {
         "generated": TODAY.isoformat(),
         "sources": [
-            {"id": "desc", "title": "DESC Planned Transmission Projects $2M and above, 2026-2030", "url": parse_desc.EDITIONS["2026-2030"], "projects": len(desc)},
-            {"id": "ga", "title": parse_ga.DOC, "url": parse_ga.URL, "projects": len(ga)},
-            {"id": "desc-old", "title": "DESC lists 2024-2028 (challenge zip) and 2025-2029, used only for schedule history", "url": parse_desc.EDITIONS["2025-2029"]},
+            {"id": "desc", "title": cur_desc["title"], "url": cur_desc["url"], "projects": len(desc)},
+            {"id": "ga", "title": cur_ga["title"], "url": cur_ga["url"], "projects": len(ga)},
+            *[{"id": f["id"], "title": f"{f['title']} (earlier edition: schedule history and the change log)", "url": f["url"]}
+              for f in registry if f not in (cur_desc, cur_ga)],
             {"id": "osm", "title": "OpenStreetMap substations, plants and power lines (Overpass, 2026-09-26)", "url": "https://www.openstreetmap.org/copyright"},
         ],
         "environmentSources": environment.SOURCES,

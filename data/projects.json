@@ -14,8 +14,18 @@
    "projects": 255
   },
   {
-   "id": "desc-old",
-   "title": "DESC lists 2024-2028 (challenge zip) and 2025-2029, used only for schedule history",
+   "id": "desc-2024-2028",
+   "title": "DESC Planned Transmission Projects $2M and above, 2024-2028 (earlier edition: schedule history and the change log)",
+   "url": "https://www.scrtp.com/assets/pdfs/home/2024-2028-2million-and-above-project-descriptions.pdf"
+  },
+  {
+   "id": "ga-2025-2034",
+   "title": "2024 GA ITS Ten-Year Plan (2025-2034), 2025 IRP Technical Appendix Volume 3, GA PSC docket 56002 #221233 (earlier edition: schedule history and the change log)",
+   "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/221233/102406"
+  },
+  {
+   "id": "desc-2025-2029",
+   "title": "DESC Planned Transmission Projects $2M and above, 2025-2029 (earlier edition: schedule history and the change log)",
    "url": "https://www.scrtp.com/assets/pdfs/home/2025-2029-2million-and-above-project-descriptions.pdf"
   },
   {
@@ -424,7 +434,7 @@
   "19676": {
    "status": "completed",
    "zone": "206",
-   "name": "Date ADAMSVILLE - JACK MCDONOUGH 230kV LINE REBUILD",
+   "name": "ADAMSVILLE - JACK MCDONOUGH 230kV LINE REBUILD",
    "last_need": "6/1/2025"
   },
   "20684": {
@@ -6492,8 +6502,14 @@
    "route": null,
    "change": "No Change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-06-01",
+     "name": "EAST POINT RELAY MODERNIZATION"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -6552,8 +6568,14 @@
    "route": null,
    "change": "No Change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-06-01",
+     "name": "GRADY 230/115KV RELAY MODERNIZATION"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -6626,8 +6648,14 @@
    "route": null,
    "change": "No Change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-06-01",
+     "name": "KLONDIKE RELAY MODERNIZATION"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -6692,8 +6720,14 @@
    "route": null,
    "change": "No Change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-06-01",
+     "name": "MORROW 115KV RELAY UPGRADE"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -6758,8 +6792,14 @@
    "route": null,
    "change": "No Change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-06-01",
+     "name": "SCOTTDALE RELAY MODERNIZATION"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -6822,8 +6862,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-12-01",
+     "name": "DRESDEN LINE PROTECTIVE RELAYING"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -6888,8 +6934,14 @@
    "route": null,
    "change": "Delayed from 2025 to 2026",
    "slipYears": 1,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2025-12-31",
+     "name": "ANTHONY SHOALS STATCOM SYSTEM"
+    }
+   ],
+   "slipDays": 365,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -6973,8 +7025,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-01-13",
+     "name": "MEAG: FORTSON SUBSTATION MODERNIZATION"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -7045,7 +7103,7 @@
    "route": null,
    "change": "New Project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -7100,7 +7158,7 @@
    "route": null,
    "change": "New Project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -7166,7 +7224,7 @@
    "route": null,
    "change": "New Project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -7247,8 +7305,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-10-01",
+     "name": "OHARA BREAKER REPLACEMENT"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -7298,7 +7362,7 @@
    "route": null,
    "change": "New Project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -7353,7 +7417,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -7417,7 +7481,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -7483,7 +7547,7 @@
    "route": null,
    "change": "New Project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -7563,7 +7627,7 @@
    "route": null,
    "change": "New project.",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -7623,7 +7687,7 @@
    "route": null,
    "change": "New Project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -7689,7 +7753,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -7750,7 +7814,7 @@
    "route": null,
    "change": "New Project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -7811,7 +7875,7 @@
    "route": null,
    "change": "New project.",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -7872,7 +7936,7 @@
    "route": null,
    "change": "New project.",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -7918,7 +7982,7 @@
    "route": null,
    "change": "New Project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -7979,7 +8043,7 @@
    "route": null,
    "change": "New project.",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -8039,7 +8103,7 @@
    "route": null,
    "change": "New project.",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -8105,7 +8169,7 @@
    "route": null,
    "change": "New project.",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -8166,7 +8230,7 @@
    "route": null,
    "change": "New project.",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -8238,8 +8302,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2030-06-01",
+     "name": "GTC: HARTWELL ENERGY - MIDDLE FORK 230KV LINE"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -8349,8 +8419,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2030-06-01",
+     "name": "GTC: HARTWELL DAM - HARTWELL ENERGY 230KV SERIES REACTORS"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -8485,8 +8561,14 @@
    "route": null,
    "change": "Advanced from 2027 to 2026.",
    "slipYears": -1,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-03-01",
+     "name": "CC - EMBLEM RIVERSIDE CUSTOMER SUB (FLEXENTIAL)"
+    }
+   ],
+   "slipDays": -365,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -8566,8 +8648,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-03-01",
+     "name": "GTC: LIZARD LOPE - WESTOVER 115 KV NEW LINE"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -8640,8 +8728,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-04-01",
+     "name": "CC - QTS FAYETTEVILLE TRANSMISSION NEEDS"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -8721,8 +8815,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-06-01",
+     "name": "ADAMSVILLE - BUZZARD ROOST 230KV REBUILD AND JUMPER UPGRADE"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -8795,8 +8895,14 @@
    "route": null,
    "change": "Advanced from 2033 to 2026",
    "slipYears": -7,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2033-06-01",
+     "name": "ARKWRIGHT BUS AND JUMPER REPLACEMENT"
+    }
+   ],
+   "slipDays": -2557,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -8861,7 +8967,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -8938,8 +9044,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-06-01",
+     "name": "BLANKETS CREEK \u2013 WOODSTOCK 115KV LINE REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -9015,8 +9127,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-06-01",
+     "name": "KATHLEEN AREA IMPROVEMENTS"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -9096,7 +9214,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -9162,8 +9280,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-06-01",
+     "name": "CC - STONEWALL TELL ROAD (TA REALTY)"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -9243,8 +9367,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-06-01",
+     "name": "DU: EAST DALTON - OOSTANAULA 115KV REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -9329,7 +9459,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -9418,8 +9548,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-06-01",
+     "name": "FENWICK STREET - SAND BAR FERRY 115KV (RECONDUCTOR/REBUILD)"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -9503,8 +9639,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-06-01",
+     "name": "GORDON-N DUBLIN 115KV (GORDON-ENGL MCI J) REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -9573,8 +9715,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-06-01",
+     "name": "GRID - GAINESVILLE #2 EQUIPMENT REPLACEMENT"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -9658,7 +9806,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -9736,8 +9884,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-06-01",
+     "name": "MEAG: DRESDEN - LAGRANGE PRIMARY 230KV UPGRADE & JUMPERS"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -9802,8 +9956,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-06-01",
+     "name": "GTC: ROBINS SPRING BUS REPLACEMENT"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -9868,8 +10028,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-06-01",
+     "name": "GTC: ROBINS SPRING CAPACITOR BANK INSTALLATION"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -9942,8 +10108,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-06-01",
+     "name": "HAMMOND - WEISS DAM 115KV LINE REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -10023,8 +10195,14 @@
    "route": null,
    "change": "Delayed from 2025 to 2026",
    "slipYears": 1,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2025-06-01",
+     "name": "MEAG: AULTMAN ROAD - BONAIRE PRIMARY 115 KV REBUILD"
+    }
+   ],
+   "slipDays": 365,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -10089,8 +10267,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-06-01",
+     "name": "PALMYRA REACTOR REMOVAL"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -10251,8 +10435,14 @@
    },
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-06-01",
+     "name": "SAV: BOULEVARD - DEPTFORD 115KV RECONDUCTOR"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -10382,8 +10572,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-06-01",
+     "name": "SAV: CC - BIG OGEECHEE 500/230KV (CC NETWORK IMPROVEMENTS)"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -10463,7 +10659,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -10544,8 +10740,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-06-01",
+     "name": "UNION CITY - YATES 230 KV WHITE LINE REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -10625,8 +10827,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-06-01",
+     "name": "UNION CITY - YATES 230KV (WHITE) SWITCH AND TRAP REPLACEMENT"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -10695,8 +10903,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-12-01",
+     "name": "GTC: DRESDEN 500KV BUS EXPANSION"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -10767,8 +10981,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-12-01",
+     "name": "GTC: GORDON - SANDERSVILLE #1 115KV LINE REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -10836,8 +11056,14 @@
    "route": null,
    "change": "Delayed within 2026",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-06-01",
+     "name": "GTC: LAGRANGE - NORTH OPELIKA 230 KV"
+    }
+   ],
+   "slipDays": 183,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -10902,7 +11128,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -10963,7 +11189,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -11018,8 +11244,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-12-31",
+     "name": "CC - CASS PINE 230/25 NEW SUB - QCELLS - CC IMPROVEMENTS"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -11078,8 +11310,14 @@
    "route": null,
    "change": "Delayed within 2026",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-06-01",
+     "name": "CC - GARRETT ROAD SWITCHING STATION - TRAE LANE"
+    }
+   ],
+   "slipDays": 213,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -11155,8 +11393,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-12-31",
+     "name": "MORROW - MOUNTAIN VIEW 115 KV REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -11232,8 +11476,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-05-01",
+     "name": "GTC: HICKORY LEVEL - VILLA RICA 230KV LINE RECONDUCTOR"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -11309,8 +11559,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-05-01",
+     "name": "MORROW - YATES COMMON 115KV LINE UPGRADE"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -11381,8 +11637,14 @@
    "route": null,
    "change": "Advanced from 2029 to 2027",
    "slipYears": -2,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2029-06-01",
+     "name": "BROADWAY - ECHECONNEE 115 KV LINE REBUILD"
+    }
+   ],
+   "slipDays": -731,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -11445,8 +11707,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-06-01",
+     "name": "CC - GULLATT ROAD TRANSMISSION IMPROVEMENTS"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -11505,8 +11773,14 @@
    "route": null,
    "change": "Advanced within 2027",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-12-31",
+     "name": "CC - HILL VIEW & GRASSY HOLLOW SUB - CC IMPROVEMENTS"
+    }
+   ],
+   "slipDays": -213,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -11556,7 +11830,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -11611,8 +11885,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-06-01",
+     "name": "CC - MICROSOFT - SHUGART (CCO06)"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -11688,8 +11968,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-06-01",
+     "name": "CC - SUMMER LAKE - VILLA RICA 230KV REBUILD (CC IMPROVEMENT)"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -11748,8 +12034,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-06-01",
+     "name": "CC - TA REALTY ELLENWOOD NETWORK IMPROVEMENTS"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -11825,8 +12117,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-06-01",
+     "name": "GTC: ADAMSVILLE - BUZZARD ROOST 230KV REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -11906,8 +12204,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-06-01",
+     "name": "GTC: DOUGLASVILLE - VILLA RICA 230KV REBUILD (CC IMPROVEMENT)"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -11983,8 +12287,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-06-01",
+     "name": "GTC: DOYLE - WINDER PRIMARY 230KV LINE JUMPER REPLACEMENT"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -12055,8 +12365,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-06-01",
+     "name": "GTC: EAST MOULTRIE - HIGHWAY 112 230 KV LINE"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -12116,8 +12432,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-06-01",
+     "name": "GTC: EAST WALTON 500/230KV PROJECT"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -12190,8 +12512,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-06-01",
+     "name": "GTC: GARRETT RD - V. RICA 230KV LINE RECONDUCTOR (CC NET IM)"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -12260,7 +12588,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -12329,8 +12657,14 @@
    "route": null,
    "change": "Delayed from 2026 to 2027",
    "slipYears": 1,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-06-01",
+     "name": "GTC: MORNING HORNET 2ND 230/115 KV BANK & THUMBS UP 115KV TL"
+    }
+   ],
+   "slipDays": 365,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -12399,8 +12733,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-06-01",
+     "name": "GTC: RIDDLEVILLE BUS REPLACEMENT"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -12465,8 +12805,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-06-01",
+     "name": "GTC: SKC 115KV BUS AND JUMPER REPLACEMENT"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -12542,8 +12888,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-06-01",
+     "name": "GTC: SWITCH WAY - THORNTON ROAD 230KV LINE REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -12623,8 +12975,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-06-01",
+     "name": "JESUP - OFFERMAN 115KV REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -12695,8 +13053,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-06-01",
+     "name": "LAWRENCEVILLE - WINDER PRIMARY 230KV LINE REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -12750,7 +13114,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -12816,7 +13180,7 @@
    "route": null,
    "change": "New Project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -12888,8 +13252,14 @@
    "route": null,
    "change": "Delayed from 2026 to 2027.",
    "slipYears": 1,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-06-01",
+     "name": "MEAG: RAY PLACE RD - WASHINGTON #3"
+    }
+   ],
+   "slipDays": 365,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -12960,8 +13330,14 @@
    "route": null,
    "change": "Delayed from 2026 to 2027",
    "slipYears": 1,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-06-01",
+     "name": "MEAG: RAY PLACE RD - WASHINGTON (WASHINGTON - WASHINGTON 3)"
+    }
+   ],
+   "slipDays": 365,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -13032,8 +13408,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-06-01",
+     "name": "MEAG: RAY PLACE RD - WARRENTON PRIMARY"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -13087,8 +13469,14 @@
    "route": null,
    "change": "Advanced from 2030 to 2027",
    "slipYears": -3,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2030-06-01",
+     "name": "NORTH SPA 230KV STRATEGIC PROJECT"
+    }
+   ],
+   "slipDays": -1096,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -13161,8 +13549,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-06-01",
+     "name": "SANDERSVILLE #1 - WADLEY PRI. 115KV REBUILD/RECONDUCTOR"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -13238,8 +13632,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-06-01",
+     "name": "SAV: GOSHEN (SAV) - KRAFT 115KV LINE REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -13365,8 +13765,14 @@
    "route": null,
    "change": "Advanced from 2028 to 2027",
    "slipYears": -1,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2028-06-01",
+     "name": "SOUTH MACON 115KV BUSES 1 & 2 REPLACEMENT"
+    }
+   ],
+   "slipDays": -366,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -13437,8 +13843,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-07-30",
+     "name": "GRID - ARKWRIGHT - LLOYD SHOALS 115KV"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -13492,8 +13904,14 @@
    "route": null,
    "change": "Delayed within 2027",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-07-15",
+     "name": "CC - TOMOCHICHI 500/230KV SOLUTION (CC NETWORK IMPROVEMENTS)"
+    }
+   ],
+   "slipDays": 62,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -13560,8 +13978,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-12-01",
+     "name": "GTC: EATONTON PRIMARY (035591) - LICK CREEK 115KV REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -13641,8 +14065,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-12-31",
+     "name": "ATHENA - EAST WATKINSVILLE 115 KV (REBUILD)"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -13713,7 +14143,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -13785,7 +14215,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -13853,7 +14283,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -13934,7 +14364,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -13994,7 +14424,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -14060,8 +14490,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2028-06-01",
+     "name": "CC - EAST VILLA RICA AREA SWITCHING STATION (CC IMPROVEMENT)"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -14121,8 +14557,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2028-06-01",
+     "name": "CC - VILLA RICA UPGRADES (CC NETWORK IMPROVEMENTS)"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -14193,7 +14635,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -14261,8 +14703,14 @@
    "route": null,
    "change": "Delayed from 2027 to 2028",
    "slipYears": 1,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-12-31",
+     "name": "DYER ROAD - EAST ROANOKE 115KV (REBUILD)"
+    }
+   ],
+   "slipDays": 153,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -14342,8 +14790,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2028-06-01",
+     "name": "FITZGERALD - PITTS 115 KV LINE REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -14416,8 +14870,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2028-06-01",
+     "name": "GTC: BARNEYVILLE - EAST MOULTRIE 115KV NEW LINE"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -14493,8 +14953,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2028-06-01",
+     "name": "GTC: BOSTWICK - EAST SOCIAL CIRCLE 230KV RECONDUCTOR"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -14559,7 +15025,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -14633,7 +15099,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -14684,7 +15150,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -14745,7 +15211,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -14806,7 +15272,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -14867,7 +15333,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -14944,7 +15410,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -15025,7 +15491,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -15076,7 +15542,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -15145,8 +15611,14 @@
    "route": null,
    "change": "Advanced from 2029 to 2028",
    "slipYears": -1,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2029-06-01",
+     "name": "LLOYD SHOALS - PORTERDALE PRIMARY 115KV REBUILD"
+    }
+   ],
+   "slipDays": -365,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -15219,7 +15691,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -15279,7 +15751,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -15356,8 +15828,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2028-06-01",
+     "name": "MEAG: BRUMBLEY CREEK - SOUTH BAINBRIDGE 115KV REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -15422,8 +15900,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2028-06-01",
+     "name": "MEAG: THOMASVILLE 230/115KV AUTOBANK REPLACEMENT"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -15477,7 +15961,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -15551,8 +16035,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2028-06-01",
+     "name": "PITTMAN ROAD - WEST POINT DAM (USA) 115KV REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -15621,8 +16111,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2028-06-01",
+     "name": "PLANT YATES BREAKER AND HALF STATION"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -15676,7 +16172,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -15802,8 +16298,14 @@
    },
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2028-06-01",
+     "name": "SAV: COLEMAN - DEAN FOREST 115KV LINE REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -15969,8 +16471,14 @@
    },
    "change": "Delayed from 2027 to 2028",
    "slipYears": 1,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-06-01",
+     "name": "SAV: GOSHEN (SAV) - MCINTOSH 115KV LINE REBUILD"
+    }
+   ],
+   "slipDays": 366,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -16090,8 +16598,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2028-06-01",
+     "name": "SMART VALVES AT EAST VILLA RICA SWITCHING STATION"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -16167,8 +16681,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2028-06-01",
+     "name": "UNION CITY - YATES 230KV (BLACK) LINE REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -16227,7 +16747,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -16293,8 +16813,14 @@
    "route": null,
    "change": "Advanced from 2029 to 2028",
    "slipYears": -1,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2029-06-01",
+     "name": "SAV: RICE HOPE NEW AUTO TRANSFORMER"
+    }
+   ],
+   "slipDays": -212,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -16367,8 +16893,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2028-12-01",
+     "name": "FIRST AVENUE - NORTH COLUMBUS 115KV LINE REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -16448,7 +16980,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -16525,8 +17057,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2029-06-01",
+     "name": "ASHLEY PARK-WANSLEY 500KV"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -16593,8 +17131,14 @@
    "route": null,
    "change": "Advanced from 2030 to 2029.",
    "slipYears": -1,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2030-06-01",
+     "name": "FARLEY (APC)-TAZEWELL 500KV"
+    }
+   ],
+   "slipDays": -365,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -16665,7 +17209,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -16750,8 +17294,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2029-06-01",
+     "name": "BUZZARD ROOST - FACTORY SHOALS 230KV NEW LINE"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -16831,8 +17381,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2029-06-01",
+     "name": "CONYERS - KLONDIKE 230 KV SECOND LINE"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -16908,7 +17464,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -16969,8 +17525,14 @@
    "route": null,
    "change": "Advanced from 2030 to 2029",
    "slipYears": -1,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2030-06-01",
+     "name": "GOAT ROCK REACTORS INSTALLATION"
+    }
+   ],
+   "slipDays": -365,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -17038,8 +17600,14 @@
    "route": null,
    "change": "Delayed from 2026 to 2029",
    "slipYears": 3,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2026-06-01",
+     "name": "GRADY - MORROW (WHITE) 115KV REBUILD"
+    }
+   ],
+   "slipDays": 1096,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -17115,7 +17683,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -17187,7 +17755,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -17256,8 +17824,14 @@
    "route": null,
    "change": "Delayed from 2028 to 2029",
    "slipYears": 1,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2028-06-01",
+     "name": "GTC: BARNESVILLE - SOUTH GRIFFIN 230KV PROJECT"
+    }
+   ],
+   "slipDays": 365,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -17333,8 +17907,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2029-06-01",
+     "name": "GTC: BARNESVILLE PRIMARY - THOMASTON 230KV"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -17394,8 +17974,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2029-06-01",
+     "name": "GTC: BAY CREEK 230/115KV SECOND AUTO TRANSFORMER"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -17463,8 +18049,14 @@
    "route": null,
    "change": "Advanced from 2030 to 2029",
    "slipYears": -1,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2030-06-01",
+     "name": "GTC: TALBOT #2 - TAZEWELL 500KV LINE"
+    }
+   ],
+   "slipDays": -365,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -17540,7 +18132,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -17621,8 +18213,14 @@
    "route": null,
    "change": "Advanced from 2033 to 2029",
    "slipYears": -4,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2033-06-01",
+     "name": "GTC: CLARKSBORO - WINDER PRIMARY 230KV REBUILD"
+    }
+   ],
+   "slipDays": -1461,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -17687,8 +18285,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2029-06-01",
+     "name": "GTC: CLIFTONDALE - LINE CREEK 230KV LINE"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -17764,7 +18368,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -17836,8 +18440,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2029-06-01",
+     "name": "GTC: DRESDEN - TALBOT 500KV LINE"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -17908,7 +18518,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -17978,7 +18588,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -18050,8 +18660,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2029-06-01",
+     "name": "GTC: TENASKA - WANSLEY 500KV NEW LINE"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -18122,7 +18738,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -18200,8 +18816,14 @@
    "route": null,
    "change": "Project advanced from 2030 to 2029",
    "slipYears": -1,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2030-06-01",
+     "name": "KETTLE CREEK PRIMARY - PINE GROVE PRIMARY 115KV REBUILD"
+    }
+   ],
+   "slipDays": -365,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -18277,8 +18899,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2029-06-01",
+     "name": "MCEVER ROAD - SHOAL CREEK 115KV REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -18354,8 +18982,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2029-06-01",
+     "name": "MEAG: AULTMAN ROAD - FORT VALLEY #1 115 KV REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -18426,8 +19060,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2029-06-01",
+     "name": "MEAG: SLAPPEY DRIVE - WESTOVER 115KV LINE REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -18507,8 +19147,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2029-06-01",
+     "name": "NORCROSS - NORTH DRUID HILLS 115KV REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -18584,8 +19230,14 @@
    "route": null,
    "change": "Delayed from 2027 to 2029",
    "slipYears": 2,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-05-01",
+     "name": "POSSUM BRANCH - YATES COMMON 115KV REBUILD (YATES TO CLEM)"
+    }
+   ],
+   "slipDays": 731,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -18733,8 +19385,14 @@
    },
    "change": "Delayed from 2028 to 2029",
    "slipYears": 1,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2028-06-01",
+     "name": "SAV: MAGNOLIA - TRUMAN PARKWAY 115KV REBUILD"
+    }
+   ],
+   "slipDays": 365,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -18897,8 +19555,14 @@
    },
    "change": "Advanced from 2032 to 2029",
    "slipYears": -3,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2032-06-01",
+     "name": "SAV: COLEMAN - MELDRIM 115KV LINE REBUILD"
+    }
+   ],
+   "slipDays": -1096,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -19079,8 +19743,14 @@
    },
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2029-06-01",
+     "name": "SAV: DEAN FOREST - LITTLE OGEECHEE 230 KV REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -19205,8 +19875,14 @@
    "route": null,
    "change": "Advanced from 2034 to 2029",
    "slipYears": -5,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2034-06-01",
+     "name": "SAV: LITTLE OGEECHEE 230/115KV BANK REPLACEMENT"
+    }
+   ],
+   "slipDays": -1826,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -19291,8 +19967,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2029-06-01",
+     "name": "BUTLER - THOMASTON 230KV LINE CONVERSION"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -19360,7 +20042,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -19430,7 +20112,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -19496,7 +20178,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -19559,8 +20241,14 @@
    "route": null,
    "change": "Advanced from 2030 to 2029",
    "slipYears": -1,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2030-06-01",
+     "name": "GTC: BIG SMARR - TOMOCHICHI 500KV"
+    }
+   ],
+   "slipDays": -182,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -19640,7 +20328,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -19706,7 +20394,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -19778,7 +20466,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -19855,7 +20543,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -19932,7 +20620,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -20013,7 +20701,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -20090,8 +20778,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2030-06-01",
+     "name": "TRIBUTARY - THORNTON RD 230KV REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -20168,7 +20862,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -20228,8 +20922,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2030-06-01",
+     "name": "CC - NORTH GEORGIA DATA NETWORK UPGRADES"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -20302,8 +21002,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2030-06-01",
+     "name": "CORNELIA - TALLULAH LODGE 115KV REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -20383,8 +21089,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2030-06-01",
+     "name": "DU: DAWSON CROSSING - NELSON (WHITE) 115 KV REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -20460,8 +21172,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2030-06-01",
+     "name": "EAST POINT - TRIBUTARY 230KV REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -20520,7 +21238,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -20597,8 +21315,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2030-06-01",
+     "name": "ECHECONNEE-WELLSTON 115KV LINE REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -20678,8 +21402,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2030-06-01",
+     "name": "GLENWOOD SPRINGS - LAKE OCONEE 115KV LINE REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -20752,8 +21482,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2030-06-01",
+     "name": "GOLDENS CREEK - WARRENTON PRIMARY 230KV REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -20829,8 +21565,14 @@
    "route": null,
    "change": "Delayed from 2029 to 2030",
    "slipYears": 1,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2029-06-01",
+     "name": "GTC: BONAIRE PRIMARY - EASTMAN PRIMARY 115 KV LINE REBUILD"
+    }
+   ],
+   "slipDays": 365,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -20901,7 +21643,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -20971,8 +21713,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2030-06-01",
+     "name": "GTC: CAVENDER DRIVE 500/230KV AUTOBANK"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -21048,7 +21796,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -21129,7 +21877,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -21195,8 +21943,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2030-06-01",
+     "name": "GTC: EAST WATKINSVILLE 230 KV STATION MODIFICATION"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -21267,8 +22021,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2030-06-01",
+     "name": "GORDON-SANDERSVILLE #1 115KV LINE REBUILD (DEEPSTEP-SAND #6)"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -21339,8 +22099,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2030-06-01",
+     "name": "GTC: POND FORK - MIDWAY 115KV LINE"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -21431,8 +22197,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2030-06-01",
+     "name": "GTC: ROCKVILLE - TIGER CREEK -WARTHEN 500KV LINES"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -21512,8 +22284,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2030-06-01",
+     "name": "GTC: BUZZARD ROOST - CAVENDER DRIVE 230KV NEW LINE"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -21582,7 +22360,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -21648,7 +22426,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -21709,7 +22487,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -21781,7 +22559,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -21858,7 +22636,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -21939,8 +22717,14 @@
    "route": null,
    "change": "Delayed from 2027 to 2030",
    "slipYears": 3,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2027-06-01",
+     "name": "LAWRENCEVILLE - WINDER 115KV LINE REBUILD"
+    }
+   ],
+   "slipDays": 1096,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -22011,8 +22795,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2030-06-01",
+     "name": "MEAG: ATHENA - WARRENTON 230KV CONVERSION"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -22083,7 +22873,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -22149,8 +22939,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2030-06-01",
+     "name": "GOSHEN AREA STRATEGIC SOLUTION"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -22241,8 +23037,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2030-06-01",
+     "name": "TALLULAH LODGE - TOCCOA 115 KV REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -22307,7 +23109,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -22393,7 +23195,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -22462,8 +23264,14 @@
    "route": null,
    "change": "Delayed within 2030",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2030-06-01",
+     "name": "ATKINSON - NORTHWEST 115KV REBUILD"
+    }
+   ],
+   "slipDays": 183,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -22522,8 +23330,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2030-12-31",
+     "name": "BAINBRIDGE TRANSMISSION: EAST RIVER ROAD, EAST BAINBRIDGE"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -22588,8 +23402,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2030-12-31",
+     "name": "GLENWOOD SPRINGS 115KV CAP BANK"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -22654,7 +23474,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -22715,7 +23535,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -22776,8 +23596,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2031-06-01",
+     "name": "BOWEN #10 500/230KV AUTOBANK REPLACEMENT"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -22901,7 +23727,7 @@
    },
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -23035,8 +23861,14 @@
    "route": null,
    "change": "Delayed from 2030 to 2031",
    "slipYears": 1,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2030-06-01",
+     "name": "GAINESVILLE #2 - MCEVER ROAD 115 KV REBUILD"
+    }
+   ],
+   "slipDays": 365,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -23107,7 +23939,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -23184,8 +24016,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2031-06-01",
+     "name": "AVERY - HOPEWELL 115KV RECONDUCTOR"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -23256,7 +24094,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -23322,7 +24160,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -23394,7 +24232,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -23471,8 +24309,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2031-06-01",
+     "name": "HATCH - WADLEY 500 KV LINE STRATEGIC PROJECT"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -23532,8 +24376,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2031-06-01",
+     "name": "MEAG: PIO NONO 230/115KV AREA SOLUTION"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -23609,7 +24459,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -23686,7 +24536,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -23763,7 +24613,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -23901,8 +24751,14 @@
    "route": null,
    "change": "Project delayed from 2029 to 2031",
    "slipYears": 2,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2029-12-31",
+     "name": "BAY CREEK - CONYERS 230KV REBUILD"
+    }
+   ],
+   "slipDays": 730,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -23978,7 +24834,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -24055,8 +24911,14 @@
    "route": null,
    "change": "Delayed from 2030 to 2032",
    "slipYears": 2,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2030-06-01",
+     "name": "ATKINSON - NORTHSIDE DRIVE 115KV REBUILD"
+    }
+   ],
+   "slipDays": 731,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -24132,7 +24994,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -24209,7 +25071,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -24290,8 +25152,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2033-06-01",
+     "name": "BAY CREEK - CONYERS 230KV LIMITING ELEMENT REPLACEMENT"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -24367,8 +25235,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2033-06-01",
+     "name": "MCGRAU FORD - MIDDLE FORK 500KV LINE PROJECT"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -24444,7 +25318,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -24521,8 +25395,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2033-06-01",
+     "name": "GTC: EAST WALTON - MIDDLE FORK 500KV"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -24602,8 +25482,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2033-06-01",
+     "name": "GTC: CENTER PRIMARY - CLARKSBORO 230 KV REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -24679,8 +25565,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2033-06-01",
+     "name": "GTC: EAST SOCIAL CIRCLE - SNELLVILLE 230KV EQUIPMENT UPGRADE"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -24751,8 +25643,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2033-06-01",
+     "name": "GTC: SHOAL CREEK - SOUTH HALL 230KV REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -24828,8 +25726,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2033-06-01",
+     "name": "MCEVER ROAD - SHOAL CREEK 115KV REBUILD"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -24894,8 +25798,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2033-06-01",
+     "name": "SAV: MELDRIM BANK D REPLACEMENT"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -24981,8 +25891,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2033-06-01",
+     "name": "WINDER PRIMARY 230KV BUS 1-2 PARALLEL BUS-TIE INSTALLATION"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -25053,8 +25969,14 @@
    "route": null,
    "change": "No change",
    "slipYears": null,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2033-12-31",
+     "name": "PINE GROVE PRIMARY - WEST VALDOSTA 115 KV RECONDUCTOR"
+    }
+   ],
+   "slipDays": 0,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -25125,7 +26047,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -25202,7 +26124,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -25274,7 +26196,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -25335,7 +26257,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -25433,8 +26355,14 @@
    "route": null,
    "change": "Delayed from 2031 to 2035",
    "slipYears": 4,
-   "history": null,
-   "slipDays": null,
+   "history": [
+    {
+     "edition": "2025-2034",
+     "isd": "2031-05-01",
+     "name": "EAST POINT - UNION CITY (WHITE) 230KV REBUILD"
+    }
+   ],
+   "slipDays": 1461,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -25510,7 +26438,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -25591,7 +26519,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
@@ -25663,7 +26591,7 @@
    "route": null,
    "change": "New project",
    "slipYears": null,
-   "history": null,
+   "history": [],
    "slipDays": null,
    "source": {
     "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",

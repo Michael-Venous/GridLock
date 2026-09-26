@@ -18,6 +18,7 @@
     <div class="brand"><span class="brand-icon" aria-hidden="true"></span><strong>Gridlock</strong><span class="brand-scope">Savannah River coordination</span></div>
     <nav class="tabs" aria-label="Views">
       <button type="button" class="tab active" data-view="explore" aria-current="page">Pairs</button>
+      <button type="button" class="tab" data-view="changes">Changes</button>
       <button type="button" class="tab" data-view="quality">Data quality <span id="issue-count" class="tab-count"></span></button>
       <button type="button" class="tab" data-view="method">Method</button>
     </nav>
@@ -77,6 +78,20 @@
       <aside class="detail-panel" id="detail" aria-live="polite" aria-label="Details"></aside>
     </section>
 
+    <section class="changes-view view" id="view-changes" hidden aria-label="Changes between filings">
+      <div class="changes-side" id="changes-side"></div>
+      <div class="changes-map-wrap">
+        <div id="changes-map" role="region" aria-label="Map of changes in the selected filing"></div>
+        <div id="draw-bar" class="draw-bar" hidden></div>
+        <div class="map-legend changes-legend">
+          <span><i class="dot desc"></i>DESC change</span>
+          <span><i class="dot gpc"></i>Georgia ITS change</span>
+          <span><i class="dot hollow"></i>Dropped project</span>
+          <span><i class="swatch link"></i>Pair appeared or changed</span>
+          <span><i class="swatch link dashed"></i>Pair gone</span>
+        </div>
+      </div>
+    </section>
     <section class="doc-view view" id="view-quality" hidden aria-label="Data quality"></section>
     <section class="doc-view view" id="view-method" hidden aria-label="Method and sources"></section>
   </main>
