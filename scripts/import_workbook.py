@@ -46,6 +46,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("workbook", type=Path)
     parser.add_argument("output", type=Path)
+    parser.add_argument("--research", type=Path, default=Path(__file__).resolve().parents[1] / "data/research.json", help="Reviewed provenance and public-filing additions")
     args = parser.parse_args()
     rows = list(read_rows(args.workbook))
     columns = {name: column for column, name in rows[0].items()}
@@ -66,6 +67,11 @@ def main():
             "source": "Projects_Overlaps.xlsx, projects sheet; compiled from supplied public planning PDFs",
             "locationStatus": "Starter coordinates; independently verify before field planning",
         })
+    if args.research.exists():
+        research = json.loads(args.research.read_text())
+        for project in projects:
+            project.update(research.get("overrides", {}).get(project["id"], {}))
+        projects.extend(research.get("additionalProjects", []))
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps({"projects": projects}, indent=2) + "\n")
     print(f"Wrote {len(projects)} projects to {args.output}")

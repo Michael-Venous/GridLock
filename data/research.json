@@ -1,30 +1,7 @@
 {
-  "projects": [
-    {
-      "id": "DESC_1",
-      "utility": "DESC",
-      "state": "SC",
-      "name": "Stevens Creek - Hooks 115 kV / LR Plumb Branch 46 kV Rebuilds",
-      "endpoints": [
-        {
-          "name": "Stevens Creek Sub",
-          "point": {
-            "lat": 33.562599,
-            "lon": -82.051362
-          }
-        },
-        {
-          "name": "Hooks Sub",
-          "point": null
-        }
-      ],
-      "center": {
-        "lat": 33.562599,
-        "lon": -82.051362
-      },
-      "inServiceDate": "2024-12-31",
-      "source": "Projects_Overlaps.xlsx, projects sheet; compiled from supplied public planning PDFs",
-      "locationStatus": "Starter coordinates; independently verify before field planning",
+  "reviewedOn": "2026-09-26",
+  "overrides": {
+    "DESC_1": {
       "locationConfidence": "Lower confidence",
       "coordinateMethod": "Single supplied endpoint; other endpoint unavailable",
       "locationNote": "Named location has not been independently corroborated. Coordinates retained from the sponsor workbook.",
@@ -44,31 +21,7 @@
       "publishedBudget": 11745543,
       "documentStatus": "In Progress in the 2024\u20132028 filing"
     },
-    {
-      "id": "DESC_2",
-      "utility": "DESC",
-      "state": "SC",
-      "name": "Hooks - Thurmond 115 kV Tie: Rebuild",
-      "endpoints": [
-        {
-          "name": "Hooks Sub",
-          "point": null
-        },
-        {
-          "name": "Thurmond Sub",
-          "point": {
-            "lat": 33.660127,
-            "lon": -82.195931
-          }
-        }
-      ],
-      "center": {
-        "lat": 33.660127,
-        "lon": -82.195931
-      },
-      "inServiceDate": "2024-12-31",
-      "source": "Projects_Overlaps.xlsx, projects sheet; compiled from supplied public planning PDFs",
-      "locationStatus": "Starter coordinates; independently verify before field planning",
+    "DESC_2": {
       "locationConfidence": "Lower confidence",
       "coordinateMethod": "Single supplied endpoint; other endpoint unavailable",
       "locationNote": "Named location has not been independently corroborated. Coordinates retained from the sponsor workbook.",
@@ -88,34 +41,7 @@
       "publishedBudget": 2200080,
       "documentStatus": "In Progress in the 2024\u20132028 filing"
     },
-    {
-      "id": "DESC_3",
-      "utility": "DESC",
-      "state": "SC",
-      "name": "Jasper - Okatie 230 kV #2: Construct",
-      "endpoints": [
-        {
-          "name": "Jasper Sub",
-          "point": {
-            "lat": 32.35912,
-            "lon": -81.1246
-          }
-        },
-        {
-          "name": "Okatie Sub",
-          "point": {
-            "lat": 32.333758,
-            "lon": -81.032495
-          }
-        }
-      ],
-      "center": {
-        "lat": 32.346439,
-        "lon": -81.078547
-      },
-      "inServiceDate": "2026-12-01",
-      "source": "Projects_Overlaps.xlsx, projects sheet; compiled from supplied public planning PDFs",
-      "locationStatus": "Starter coordinates; independently verify before field planning",
+    "DESC_3": {
       "locationConfidence": "Lower confidence",
       "coordinateMethod": "Midpoint of two supplied endpoints",
       "locationNote": "Named location has not been independently corroborated. Coordinates retained from the sponsor workbook.",
@@ -146,33 +72,10 @@
       "sourceProjectId": "06367 D - G",
       "publishedBudget": 19280474,
       "documentStatus": "In Progress in the 2026\u20132030 filing",
-      "previousInServiceDate": "2025-12-31"
+      "previousInServiceDate": "2025-12-31",
+      "inServiceDate": "2026-12-01"
     },
-    {
-      "id": "DESC_4",
-      "utility": "DESC",
-      "state": "SC",
-      "name": "Queensboro - Ft Johnson 115 kV & Queensboro-Bayfront 115 kV (Queensboro-James Island Sect)",
-      "endpoints": [
-        {
-          "name": "Queensboro Sub",
-          "point": {
-            "lat": 32.722793,
-            "lon": -79.967332
-          }
-        },
-        {
-          "name": "Ft Johnson Sub",
-          "point": null
-        }
-      ],
-      "center": {
-        "lat": 32.722793,
-        "lon": -79.967332
-      },
-      "inServiceDate": "2023-12-31",
-      "source": "Projects_Overlaps.xlsx, projects sheet; compiled from supplied public planning PDFs",
-      "locationStatus": "Starter coordinates; independently verify before field planning",
+    "DESC_4": {
       "locationConfidence": "Lower confidence",
       "coordinateMethod": "Single supplied endpoint; other endpoint unavailable",
       "locationNote": "Named location has not been independently corroborated. Coordinates retained from the sponsor workbook.",
@@ -192,34 +95,7 @@
       "publishedBudget": 5404301,
       "documentStatus": "In Progress in the 2024\u20132028 filing"
     },
-    {
-      "id": "DESC_5",
-      "utility": "DESC",
-      "state": "SC",
-      "name": "Okatie-Bluffton 115 kV: Rebuild",
-      "endpoints": [
-        {
-          "name": "Okatie Sub",
-          "point": {
-            "lat": 32.333758,
-            "lon": -81.032495
-          }
-        },
-        {
-          "name": "Bluffton Sub",
-          "point": {
-            "lat": 32.235027,
-            "lon": -80.853384
-          }
-        }
-      ],
-      "center": {
-        "lat": 32.284393,
-        "lon": -80.942939
-      },
-      "inServiceDate": "2025-06-01",
-      "source": "Projects_Overlaps.xlsx, projects sheet; compiled from supplied public planning PDFs",
-      "locationStatus": "Starter coordinates; independently verify before field planning",
+    "DESC_5": {
       "locationConfidence": "Lower confidence",
       "coordinateMethod": "Midpoint of two supplied endpoints",
       "locationNote": "Named location has not been independently corroborated. Coordinates retained from the sponsor workbook.",
@@ -239,34 +115,7 @@
       "publishedBudget": 40660000,
       "documentStatus": "In Progress in the 2024\u20132028 filing"
     },
-    {
-      "id": "GPC_1",
-      "utility": "GPC",
-      "state": "GA",
-      "name": "EVANS PRIMARY - THURMOND DAM (USA) #5 115KV REBUILD",
-      "endpoints": [
-        {
-          "name": "EVANS PRIMARY",
-          "point": {
-            "lat": 33.543994,
-            "lon": -82.168648
-          }
-        },
-        {
-          "name": "THURMOND DAM #5",
-          "point": {
-            "lat": 33.660127,
-            "lon": -82.195931
-          }
-        }
-      ],
-      "center": {
-        "lat": 33.602061,
-        "lon": -82.182289
-      },
-      "inServiceDate": "2033-06-01",
-      "source": "Projects_Overlaps.xlsx, projects sheet; compiled from supplied public planning PDFs",
-      "locationStatus": "Starter coordinates; independently verify before field planning",
+    "GPC_1": {
       "locationConfidence": "Lower confidence",
       "coordinateMethod": "Midpoint of two supplied endpoints",
       "locationNote": "Named location has not been independently corroborated. Coordinates retained from the sponsor workbook.",
@@ -284,31 +133,7 @@
       ],
       "documentStatus": "Workbook target; current status unverified"
     },
-    {
-      "id": "GPC_2",
-      "utility": "GPC",
-      "state": "GA",
-      "name": "SAV: MCINTOSH - PURRYSBURG 230KV REACTORS",
-      "endpoints": [
-        {
-          "name": "MCINTOSH",
-          "point": {
-            "lat": 32.352116,
-            "lon": -81.175112
-          }
-        },
-        {
-          "name": "PURRYSBURG",
-          "point": null
-        }
-      ],
-      "center": {
-        "lat": 32.352116,
-        "lon": -81.175112
-      },
-      "inServiceDate": "2026-06-01",
-      "source": "Projects_Overlaps.xlsx, projects sheet; compiled from supplied public planning PDFs",
-      "locationStatus": "Starter coordinates; independently verify before field planning",
+    "GPC_2": {
       "locationConfidence": "Lower confidence",
       "coordinateMethod": "Single supplied endpoint; other endpoint unavailable",
       "locationNote": "Named location has not been independently corroborated. Coordinates retained from the sponsor workbook. The workbook gives different McIntosh coordinates for these two records; resolve before planning.",
@@ -326,34 +151,7 @@
       ],
       "documentStatus": "Workbook target; current status unverified"
     },
-    {
-      "id": "GPC_3",
-      "utility": "GPC",
-      "state": "GA",
-      "name": "SAV: GOSHEN (SAV) - MCINTOSH 115KV LINE REBUILD",
-      "endpoints": [
-        {
-          "name": "GOSHEN",
-          "point": {
-            "lat": 32.248701,
-            "lon": -81.209472
-          }
-        },
-        {
-          "name": "MCINTOSH",
-          "point": {
-            "lat": 32.352116,
-            "lon": -81.182105
-          }
-        }
-      ],
-      "center": {
-        "lat": 32.300409,
-        "lon": -81.195789
-      },
-      "inServiceDate": "2027-06-01",
-      "source": "Projects_Overlaps.xlsx, projects sheet; compiled from supplied public planning PDFs",
-      "locationStatus": "Starter coordinates; independently verify before field planning",
+    "GPC_3": {
       "locationConfidence": "Lower confidence",
       "coordinateMethod": "Midpoint of two supplied endpoints",
       "locationNote": "Named location has not been independently corroborated. Coordinates retained from the sponsor workbook. The workbook gives different McIntosh coordinates for these two records; resolve before planning.",
@@ -371,34 +169,7 @@
       ],
       "documentStatus": "Workbook target; current status unverified"
     },
-    {
-      "id": "GPC_4",
-      "utility": "GPC",
-      "state": "GA",
-      "name": "MITCHELL - NORTH TIFTON 230KV RECONDUCTOR",
-      "endpoints": [
-        {
-          "name": "Mitchell Substation",
-          "point": {
-            "lat": 31.447121,
-            "lon": -84.133843
-          }
-        },
-        {
-          "name": "North Tifton Substation",
-          "point": {
-            "lat": 31.478089,
-            "lon": -83.54913
-          }
-        }
-      ],
-      "center": {
-        "lat": 31.462605,
-        "lon": -83.841487
-      },
-      "inServiceDate": "2025-05-01",
-      "source": "Projects_Overlaps.xlsx, projects sheet; compiled from supplied public planning PDFs",
-      "locationStatus": "Starter coordinates; independently verify before field planning",
+    "GPC_4": {
       "locationConfidence": "Lower confidence",
       "coordinateMethod": "Midpoint of two supplied endpoints",
       "locationNote": "Named location has not been independently corroborated. Coordinates retained from the sponsor workbook.",
@@ -416,34 +187,7 @@
       ],
       "documentStatus": "Workbook target; current status unverified"
     },
-    {
-      "id": "GPC_5",
-      "utility": "GPC",
-      "state": "GA",
-      "name": "JESUP - LUDOWICI PRIMARY 115KV REBUILD",
-      "endpoints": [
-        {
-          "name": "JESUP",
-          "point": {
-            "lat": 31.603106,
-            "lon": -81.924947
-          }
-        },
-        {
-          "name": "LUDOWICI PRIMARY",
-          "point": {
-            "lat": 31.721597,
-            "lon": -81.743703
-          }
-        }
-      ],
-      "center": {
-        "lat": 31.662351,
-        "lon": -81.834325
-      },
-      "inServiceDate": "2025-06-01",
-      "source": "Projects_Overlaps.xlsx, projects sheet; compiled from supplied public planning PDFs",
-      "locationStatus": "Starter coordinates; independently verify before field planning",
+    "GPC_5": {
       "locationConfidence": "Lower confidence",
       "coordinateMethod": "Midpoint of two supplied endpoints",
       "locationNote": "Named location has not been independently corroborated. Coordinates retained from the sponsor workbook.",
@@ -460,7 +204,9 @@
         }
       ],
       "documentStatus": "Workbook target; current status unverified"
-    },
+    }
+  },
+  "additionalProjects": [
     {
       "id": "DESC_6",
       "utility": "DESC",

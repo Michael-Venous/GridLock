@@ -10,7 +10,7 @@
 <body>
   <header class="topbar">
     <div class="brand"><span class="brand-icon">G</span><div><strong>GridLock</strong><small>Transmission planning workspace</small></div></div>
-    <div class="top-actions"><span class="dataset-tag">DESC + GEORGIA POWER <span class="dataset-divider">/</span> SAMPLE DATA</span><button id="export" class="ghost-button" type="button">Export CSV</button></div>
+    <div class="top-actions"><span class="dataset-tag">DESC + GEORGIA POWER <span class="dataset-divider">/</span> RESEARCH PREVIEW</span><button id="export" class="ghost-button" type="button">Export CSV</button></div>
   </header>
 
   <main class="shell">
@@ -21,19 +21,19 @@
 
     <section class="workspace" aria-label="Coordination explorer">
       <aside class="side-panel">
-        <div class="panel-header"><div><p class="eyebrow">MATCH REVIEW</p><h2 id="queue-title">Candidate pairs</h2></div><button id="reset" class="text-button" type="button">Clear</button></div>
+        <div class="panel-header"><div><p class="eyebrow">MATCH REVIEW</p><h2 id="queue-title">Candidate pairs</h2></div><button id="reset" class="text-button" type="button">Clear selection</button></div>
         <label class="search-wrap"><span class="sr-only">Search projects</span><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Search project or utility"></label>
-        <div class="filters"><label>In-service through <strong id="year-value">2033</strong><input id="year" type="range" min="2023" max="2033" value="2033"><span class="filter-hint">Both projects must have a target year on or before this year.</span></label><label>Maximum distance <strong id="distance-value">25 mi</strong><input id="distance" type="range" min="1" max="25" value="25"></label><label>In-service date gap<select id="gap"><option value="all">Any gap</option><option value="365">Within 1 year</option><option value="730">Within 2 years</option></select></label></div>
-        <div class="list-topline"><span id="result-count">Loading…</span><span>Closest first</span></div>
+        <div class="filters"><label>In-service through <strong id="year-value">2033</strong><input id="year" type="range" min="2023" max="2033" value="2033"><span class="filter-hint">Both projects must have a target year on or before this year.</span></label><label>Maximum distance <strong id="distance-value">25 mi</strong><input id="distance" type="range" min="1" max="25" value="25"></label><label>In-service date gap<select id="gap"><option value="all">Any gap</option><option value="365">Within 1 year</option><option value="730">Within 2 years</option></select></label><label>Rank candidates<select id="sort"><option value="distance">Closest first</option><option value="timing">Smallest date gap first</option></select></label><label class="shortlist-filter"><input id="shortlisted" type="checkbox"> Shortlisted pairs only</label><button id="reset-filters" class="text-button" type="button">Reset filters</button><p id="filter-summary" class="filter-hint"></p></div>
+        <div class="list-topline"><span id="result-count">Loading…</span><span id="sort-description">Closest first</span></div>
         <div id="match-list" class="match-list" aria-live="polite"></div>
       </aside>
 
       <section class="map-panel" aria-label="Interactive project map">
         <div class="map-heading"><div><strong>Project locations</strong><span>Georgia · South Carolina</span></div><div class="legend"><span><i class="swatch desc"></i> Dominion SC</span><span><i class="swatch gpc"></i> Georgia Power</span><span><i class="swatch link"></i> Candidate pair</span></div></div>
         <div class="map-wrap">
-          <svg id="map" viewBox="0 0 900 650" role="img" aria-label="Map of planned projects and qualifying cross-utility pairs"></svg>
+          <svg id="map" viewBox="0 0 900 650" role="group" aria-label="Map of planned projects and qualifying cross-utility pairs"></svg>
           <div class="map-controls"><button id="zoom-in" type="button" aria-label="Zoom in">+</button><button id="zoom-out" type="button" aria-label="Zoom out">−</button><button id="fit" type="button" aria-label="Reset map view">⌖</button></div>
-          <div class="map-note">Project centers from the supplied workbook · scroll to zoom · drag to pan</div>
+          <div class="map-note">Approximate project centers · scroll to zoom · drag to pan</div>
           <div class="map-attribution">© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a></div>
         </div>
         <div class="map-footer"><span><i class="dot desc"></i> DESC <b id="desc-count">5</b></span><span><i class="dot gpc"></i> GPC <b id="gpc-count">5</b></span><span class="map-footer-note">Lines between dots show matches, not transmission routes.</span></div>

@@ -6,7 +6,7 @@ import { matchProjects, milesBetween, dateGapDays } from "../src/match.js";
 const projects = JSON.parse(readFileSync(new URL("../data/projects.json", import.meta.url))).projects;
 
 test("starter data produces six qualifying cross-utility pairs", () => {
-  const pairs = matchProjects(projects);
+  const pairs = matchProjects(projects.filter(p => p.recordOrigin === "Sponsor workbook"));
   assert.equal(pairs.length, 6);
   assert.deepEqual(pairs.map(pair => pair.id).sort(), [
     "DESC_1__GPC_1", "DESC_2__GPC_1", "DESC_3__GPC_2",
