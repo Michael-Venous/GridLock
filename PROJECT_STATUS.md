@@ -4,7 +4,7 @@ Last updated: 2026-09-26
 
 Goal: Build a usable GridLock prototype for the Sperry Tech challenge and keep its GitHub repository private until the user requests otherwise.
 
-Completed locally: Map explorer with an OpenStreetMap basemap and grid fallback, starter workbook import, six recalculated pair matches, ranked list, project and pair inspection, in-service year slider plus date-gap and distance filters, pan/zoom, CSV export, source caveats, and tests. Browser interaction verified on the local server. The interface was restyled as a restrained planning workspace.
+Completed locally: Map explorer with an OpenStreetMap basemap and grid fallback, starter workbook import, six recalculated pair matches, ranked list, project and pair inspection, in-service year slider plus date-gap and distance filters, pan/zoom, CSV export, source caveats, and tests. Browser interaction verified on the local server. The planning workspace now fills the desktop viewport and map markers retain a 12 px diameter through zoom; both were verified in-browser on 2026-09-26.
 
 Decision: The downloaded `Finding_Real_Locations_Guide.docx` controls the matching rule: project center points, straight-line distance under 25 miles, and absolute difference between in-service dates. Do not infer construction window overlap from those dates.
 

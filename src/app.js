@@ -127,6 +127,13 @@ function mapBase(svg) {
   renderTiles();
 }
 
+function sizeMarkers() {
+  const svg = $("map");
+  const pixelsToMapUnits = state.view.w / Math.max(svg.getBoundingClientRect().width, 1);
+  svg.querySelectorAll(".marker-core").forEach(marker => marker.setAttribute("r", String(6 * pixelsToMapUnits)));
+  svg.querySelectorAll(".marker-halo").forEach(marker => marker.setAttribute("r", String(14 * pixelsToMapUnits)));
+}
+
 function renderMap() {
   const svg = $("map");
   if (!svg.querySelector("#map-overlay")) mapBase(svg);
@@ -151,6 +158,7 @@ function renderMap() {
     overlay.append(group);
   });
   svg.setAttribute("viewBox", `${state.view.x} ${state.view.y} ${state.view.w} ${state.view.h}`);
+  sizeMarkers();
   $("desc-count").textContent = String(visibleProjects.filter(project => project.utility === "DESC").length);
   $("gpc-count").textContent = String(visibleProjects.filter(project => project.utility === "GPC").length);
 }
@@ -192,6 +200,7 @@ function zoom(factor, x = state.view.x + state.view.w / 2, y = state.view.y + st
   state.view.y = y - (y - state.view.y) * nextH / state.view.h;
   state.view.w = nextW; state.view.h = nextH;
   $("map").setAttribute("viewBox", `${state.view.x} ${state.view.y} ${nextW} ${nextH}`);
+  sizeMarkers();
   renderTiles();
 }
 
@@ -226,4 +235,15 @@ try {
   $("year").min = String(Math.min(...years)); $("year").max = String(Math.max(...years)); state.year = Math.max(...years); $("year").value = String(state.year);
   state.view = fittedView();
   applyFilters();
+  new ResizeObserver(() => {
+    const svg = $("map");
+    const rect = svg.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    const centerY = state.view.y + state.view.h / 2;
+    state.view.h = state.view.w * rect.height / rect.width;
+    state.view.y = centerY - state.view.h / 2;
+    svg.setAttribute("viewBox", `${state.view.x} ${state.view.y} ${state.view.w} ${state.view.h}`);
+    sizeMarkers();
+    renderTiles();
+  }).observe($("map"));
 } catch (error) { $("match-list").textContent = `Could not load project data: ${error.message}. Run the local server described in README.md.`; }
