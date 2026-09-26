@@ -1,4 +1,8 @@
-import { matchProjects, gapLabel, overlapLabel, opportunityText, savingsEstimate, yardScenario, projectType, sortPairs, milesBetween, SORTS, WEIGHTS, YARD_BASIS, MAX_MILES } from "./match.js";
+import { verifiedRoute, matchProjects, gapLabel, overlapLabel, opportunityText, savingsEstimate, yardScenario, projectType, sortPairs, milesBetween, SORTS, WEIGHTS, YARD_BASIS, MAX_MILES } from "./match.js";
+
+import { matchesProject, withinDistance, encodeView, decodeView } from "./view-state.js";
+import { briefMapSvg } from "./brief-map.js";
+import { PLANNING_FORUMS, PLANNING_TRANSITION } from "./planning-forums.js";
 
 const $ = id => document.getElementById(id);
 const state = {
@@ -18,6 +22,7 @@ const BASEMAP = "https://tiles.openfreemap.org/styles/positron";
 const FALLBACK_STYLE = { version: 8, glyphs: "https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf", sources: {}, layers: [{ id: "background", type: "background", paint: { "background-color": "#e5ecec" } }] };
 const MILES_PER_DEGREE = 69.09;
 let map = null, mapReady = false, styleFailed = false, pendingFocus = null;
+let returnTarget = null, resultScroll = 0;
 const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const lngLat = point => [point.lon, point.lat];
@@ -31,7 +36,7 @@ function ring(center, miles, steps = 64) {
 function geometryFeatures(project) {
   const s = side(project), out = [];
   if (project.center && project.radiusMi) out.push({ type: "Feature", geometry: { type: "Polygon", coordinates: [ring(project.center, project.radiusMi)] }, properties: { kind: "uncertainty", side: s } });
-  if (project.route) out.push({ type: "Feature", geometry: { type: "LineString", coordinates: project.route.coords.map(([lat, lon]) => [lon, lat]) }, properties: { kind: "route", side: s } });
+  if (verifiedRoute(project)) out.push({ type: "Feature", geometry: { type: "LineString", coordinates: project.route.coords.map(([lat, lon]) => [lon, lat]) }, properties: { kind: "route", side: s } });
   for (const e of project.endpoints) if (e.point) out.push(pointFeature(e.point, { kind: "endpoint", side: s, title: `${e.name} · ${e.method} · ${e.confidence}` }));
   return out;
 }
@@ -51,7 +56,7 @@ const money = n => n == null ? "—" : n >= 1e6 ? `$${(n / 1e6).toFixed(n >= 1e7
 function datePassed(value) { return Boolean(value && value < state.asOf); }
 function pdfLink(source) { return `${source.url}#page=${source.page}`; }
 function includesSearch(pair, q = state.search) {
-  return !q || [pair.a, pair.b].some(p => `${p.id} ${p.projectId} ${p.name} ${p.utility} ${p.endpoints.map(e => e.name).join(" ")}`.toLowerCase().includes(q));
+  return [pair.a, pair.b].some(p => matchesProject(p, q));
 }
 function bySelectedYear(project, year = state.year) { return !project.inServiceDate || Number(project.inServiceDate.slice(0, 4)) <= year; }
 const certaintyText = {
@@ -60,12 +65,12 @@ const certaintyText = {
   possible: "Outside 25 miles at the best-estimate locations, but within reach of the location uncertainty. Not a qualifying pair.",
 };
 
-const GAP_LABELS = { ahead: "Build overlap from today on", overlap: "Build overlap (any time)", 365: "In-service within 1 year", 730: "In-service within 2 years" };
+const GAP_LABELS = { ahead: "Planning overlap after data date", overlap: "Planning overlap (any time)", 365: "In-service within 1 year", 730: "In-service within 2 years" };
 
 // The filter predicate, parameterized so the empty state can ask "what if this one filter were off?".
 function filterPairs(f) {
   return state.allPairs.filter(pair =>
-    (f.includePossible || pair.qualifies) && bySelectedYear(pair.a, f.year) && bySelectedYear(pair.b, f.year) && pair.miles < f.distance + (pair.qualifies ? 0 : 99) &&
+    (f.includePossible || pair.qualifies) && bySelectedYear(pair.a, f.year) && bySelectedYear(pair.b, f.year) && withinDistance(pair, f.distance) &&
     (!f.hidePast || !pair.bothPast) &&
     (f.gap === "all" || (f.gap === "ahead" ? pair.remainingDays > 0 : f.gap === "overlap" ? pair.overlapDays > 0 : pair.gapDays !== null && pair.gapDays <= Number(f.gap))) &&
     (!f.shortlistOnly || state.shortlist.has(pair.id)) &&
@@ -89,7 +94,7 @@ function activeFilters() {
 function clearFilter(key) {
   if (key === "selectedProject") state.selectedProject = null;
   else state[key] = FILTER_DEFAULTS[key];
-  syncControls();
+  syncControls(); $("search").focus();
 }
 
 function syncControls() {
@@ -100,21 +105,27 @@ function syncControls() {
 }
 
 function applyFilters() {
-  if (state.selectedProject && !bySelectedYear(state.projects.find(project => project.id === state.selectedProject))) state.selectedProject = null;
+  if (state.selectedProject && !state.projects.some(project => project.id === state.selectedProject)) state.selectedProject = null;
   state.pairs = sortPairs(filterPairs(state), state.sort);
   if (state.selectedPair && !state.pairs.some(p => p.id === state.selectedPair)) state.selectedPair = null;
   $("distance-value").textContent = `${state.distance} mi`;
   $("year-value").textContent = String(state.year);
   const q = state.pairs.filter(p => p.qualifies).length;
+  const total = state.allPairs.filter(p => p.qualifies).length;
+  const pastHidden = state.hidePast ? state.allPairs.filter(p => p.qualifies && p.bothPast).length : 0;
+  $("result-scope").textContent = `${total} qualifying in dataset${pastHidden ? ` · ${pastHidden} past-date pair${pastHidden === 1 ? "" : "s"} hidden` : ""}. As of ${formatDate(state.asOf)}.`;
   $("result-count").textContent = `${q} qualifying ${q === 1 ? "pair" : "pairs"}${state.pairs.length > q ? ` + ${state.pairs.length - q} possible` : ""}`;
   $("queue-title").textContent = state.selectedProject ? `Pairs for ${state.projects.find(p => p.id === state.selectedProject)?.projectId}` : "Ranked pairs";
   $("clear-selection").disabled = !state.selectedPair && !state.selectedProject;
+  $("skip-details").disabled = !state.selectedPair && !state.selectedProject;
   const filterCount = activeFilters().filter(f => !["search", "selectedProject"].includes(f.key)).length;
   $("reset-filters").disabled = !filterCount;
   $("filter-count").hidden = !filterCount; $("filter-count").textContent = String(filterCount);
   $("shortlist-count").textContent = String(state.shortlist.size);
   $("shortlist-export").disabled = !state.shortlist.size;
-  renderChips(); renderList(); renderMap(); renderDetail();
+  const scroll = $("match-list").scrollTop;
+  renderChips(); renderList(); $("match-list").scrollTop = scroll; renderMap(); renderDetail();
+  writeViewUrl();
 }
 
 function renderChips() {
@@ -132,7 +143,7 @@ function overviewStats() {
   const qualifying = state.allPairs.filter(p => p.qualifies);
   const paired = new Set(qualifying.flatMap(p => [p.a.id, p.b.id]));
   const cards = [[String(state.projects.length), "projects parsed"], [`${located.length}`, "located on the map"], [String(qualifying.length), "qualifying pairs"],
-    [String(qualifying.filter(p => p.remainingDays > 0).length), "building at the same time"], [String(located.filter(p => !paired.has(p.id)).length), "with no partner in range"]];
+    [String(qualifying.filter(p => p.remainingDays > 0).length), "overlapping planning windows"], [String(located.filter(p => !paired.has(p.id)).length), "with no partner in range"]];
   const row = h("div", "stat-row");
   row.append(...cards.map(([value, label]) => { const card = h("div", "stat"); card.append(h("strong", "", value), h("span", "", label)); return card; }));
   return row;
@@ -165,11 +176,23 @@ function emptyState() {
 
 function renderList() {
   const list = $("match-list"); list.replaceChildren();
+  if (state.search) {
+    const hits = state.projects.filter(p => matchesProject(p, state.search));
+    const projects = h("section", "project-results");
+    projects.append(h("h3", "", `${hits.length} project${hits.length === 1 ? "" : "s"} found (all projects)`));
+    for (const p of hits) {
+      const button = h("button", "project-result"); button.type = "button"; button.dataset.projectId = p.id;
+      const partners = state.allPairs.filter(pair => pair.qualifies && [pair.a.id, pair.b.id].includes(p.id)).length;
+      button.append(h("strong", "", projectLabel(p)), h("span", "", !p.center ? "Not located · inspect record" : partners ? `${partners} qualifying partner${partners === 1 ? "" : "s"}` : "No partner within 25 miles · inspect record"));
+      button.addEventListener("click", () => selectProject(p)); projects.append(button);
+    }
+    list.append(projects, h("h3", "results-heading", "Pairs under current filters"));
+  }
   if (!state.pairs.length) { list.append(emptyState()); return; }
   let rank = 0;
   state.pairs.forEach(pair => {
     const button = h("button", `pair-row${pair.id === state.selectedPair ? " active" : ""}${pair.qualifies ? "" : " possible"}`);
-    button.type = "button"; button.setAttribute("aria-pressed", String(pair.id === state.selectedPair));
+    button.type = "button"; button.dataset.pairId = pair.id; button.setAttribute("aria-pressed", String(pair.id === state.selectedPair));
     button.setAttribute("aria-label", `${pair.qualifies ? `Rank ${rank + 1}, score ${pair.score.total}` : "Possible pair, not qualifying"}: ${pair.a.name} and ${pair.b.name}, ${pair.miles.toFixed(1)} miles`);
     button.append(h("span", "pr-rank", pair.qualifies ? String(++rank) : "?"));
     const body = h("span", "pr-body");
@@ -178,8 +201,9 @@ function renderList() {
     const tag = (text, kind = "") => tags.append(h("span", `tag ${kind}`, text));
     if (state.shortlist.has(pair.id)) tag("Shortlisted", "star");
     if (!pair.qualifies) tag("Could qualify", "muted");
-    if (pair.shared.length) tag(`Shares ${pair.shared[0].a}`, "good");
-    if (pair.remainingDays > 0) tag("Building together", "good");
+    if (pair.shared.length) tag(pair.remainingDays > 0 ? "Confirmed worksite · planning overlap" : `Confirmed worksite: ${pair.shared[0].a}`, "good");
+    else if (pair.nearbyEndpoints?.length) tag("Nearby endpoints · site unconfirmed", "muted");
+    if (pair.remainingDays > 0) tag("Planning overlap", "good");
     else if (pair.overlapDays > 0) tag("Overlap past", "muted");
     if (pair.certainty === "sensitive") tag("Location-sensitive", "warn");
     if (pair.bothPast) tag("Both dates passed", "muted");
@@ -195,7 +219,44 @@ function renderList() {
 
 function gapShort(days) { return days < 60 ? `${days} d` : days < 730 ? `${Math.round(days / 30.44)} mo` : `${(days / 365.25).toFixed(1)} yr`; }
 
-function selectPair(pair) { state.selectedPair = pair.id; applyFilters(); focusPair(pair); }
+function rememberResults() {
+  resultScroll = $("match-list").scrollTop;
+  const node = document.activeElement;
+  returnTarget = node?.dataset.pairId ? {kind: "pairId", id: node.dataset.pairId} : node?.dataset.projectId ? {kind: "projectId", id: node.dataset.projectId} : null;
+}
+function revealDetails() {
+  if (!state.selectedPair && !state.selectedProject) { $("search").focus(); return; }
+  $("view-explore").classList.add("show-detail");
+  const detail = $("detail"); detail.focus({preventScroll: true});
+  if (window.matchMedia("(max-width: 1100px)").matches) window.scrollTo({top: 0, behavior: "instant"});
+}
+function backToResults() {
+  $("view-explore").classList.remove("show-detail");
+  const list = $("match-list"); list.scrollTop = resultScroll;
+  const row = returnTarget && [...list.querySelectorAll("button")].find(n => n.dataset[returnTarget.kind] === returnTarget.id);
+  (row ?? $("search")).focus({preventScroll: true});
+  if (window.matchMedia("(max-width: 1100px)").matches) window.scrollTo({top: 0, behavior: "instant"});
+  requestAnimationFrame(() => map?.resize());
+}
+function selectPair(pair) {
+  if (!pair) return;
+  rememberResults(); state.selectedPair = pair.id; applyFilters(); focusPair(pair); revealDetails();
+}
+function selectProject(project) {
+  if (!project) return;
+  rememberResults(); state.selectedProject = project.id; state.selectedPair = null;
+  applyFilters(); revealDetails();
+}
+function writeViewUrl() {
+  if (!state.data) return;
+  const hash = encodeView(state, FILTER_DEFAULTS);
+  history.replaceState(null, "", `${location.pathname}${location.search}${hash ? `#${hash}` : ""}`);
+}
+function restoreViewUrl() {
+  Object.assign(state, decodeView(location.hash, {defaults: FILTER_DEFAULTS, minYear: Number($("year").min), maxYear: Number($("year").max), sortKeys: Object.keys(SORTS)}));
+  if (!state.projects.some(p => p.id === state.selectedProject)) state.selectedProject = null;
+  if (!state.allPairs.some(p => p.id === state.selectedPair)) state.selectedPair = null;
+}
 
 function nearestPartner(project) {
   if (!project.center) return null;
@@ -243,7 +304,7 @@ function initMap() {
     const hits = map.queryRenderedFeatures(event.point, { layers: ["project-hit", "links-hit"] });
     const project = hits.find(f => f.layer.id === "project-hit");
     const link = hits.find(f => f.layer.id === "links-hit");
-    if (project) { state.selectedProject = project.properties.id; state.selectedPair = null; applyFilters(); }
+    if (project) selectProject(state.projects.find(p => p.id === project.properties.id));
     else if (link) selectPair(state.pairs.find(p => p.id === link.properties.id));
     else if (state.selectedPair || state.selectedProject) { state.selectedPair = null; state.selectedProject = null; applyFilters(); }
   });
@@ -334,8 +395,8 @@ function timeline(a, b) {
     row.append(h("span", "tl-label", sideName(p)), track);
     box.append(row);
   }
-  const today = h("div", "tl-today"); today.style.left = pct(state.asOf); today.title = `Today (${state.asOf})`;
-  const axis = h("div", "tl-axis"); const tlabel = h("span", "tl-now", "today"); tlabel.style.left = pct(state.asOf);
+  const today = h("div", "tl-today"); today.style.left = pct(state.asOf); today.title = `Data as of ${state.asOf}`;
+  const axis = h("div", "tl-axis"); const tlabel = h("span", "tl-now", "as of"); tlabel.style.left = pct(state.asOf);
   axis.append(h("span", "", String(new Date(lo).getUTCFullYear())), tlabel, h("span", "", String(new Date(hi).getUTCFullYear())));
   box.querySelectorAll(".tl-track").forEach(tr => tr.append(today.cloneNode()));
   box.append(axis);
@@ -377,9 +438,9 @@ function projectBlock(p, full = false, heading = true) {
   block.append(infoRow("Project ID", p.projectId), infoRow("Type", projectType(p)));
   block.append(infoRow("Target in service (published)", targetDate(p)));
   const st = infoRow("Current status", statusText(p)); if (datePassed(p.inServiceDate)) st.classList.add("warn-row"); block.append(st);
-  if (p.window?.start) block.append(infoRow("Build window", `${formatDate(p.window.start)} → ${formatDate(p.window.end)} (${p.window.basis})`));
+  if (p.window?.start) block.append(infoRow("Planning window", `${formatDate(p.window.start)} → ${formatDate(p.window.end)} (${p.window.basis})`));
   block.append(infoRow("Cost", p.cost?.total ? `${money(p.cost.total)} (DESC estimate)` : p.state === "GA" ? "Redacted in the public filing" : "—"));
-  if (p.miles || p.route) block.append(infoRow("Length", `${p.miles ? `${p.miles} mi stated` : "not stated"}${p.route ? ` · ${p.route.miles} mi traced on OSM` : ""}`));
+  if (p.miles || p.route) block.append(infoRow("Length", `${p.miles ? `${p.miles} mi stated` : "not stated"}${p.route ? ` · ${p.route.miles} mi inferred OSM path (circuit unverified)` : ""}`));
   if (p.slipDays) block.append(infoRow("Schedule history", `${p.slipDays > 0 ? "slipped" : "advanced"} ${Math.abs(Math.round(p.slipDays / 30.44))} months since ${p.history[0].edition}`));
   else if (p.change && p.state === "GA") block.append(infoRow("Change vs last plan", p.change));
   block.append(infoRow("Map point", centerMethod(p)), infoRow("Location confidence", `${p.locationConfidence} · ±${p.radiusMi ?? "?"} mi`));
@@ -403,10 +464,11 @@ function projectBlock(p, full = false, heading = true) {
 // ---- What a planner needs from a pair, shared by the panel and the brief ----
 function whyQualifies(pair) {
   const out = [`Centers are ${pair.miles.toFixed(2)} mi apart, ${pair.qualifies ? `under the challenge's ${MAX_MILES}-mile rule` : `outside the ${MAX_MILES}-mile rule`}. ${certaintyText[pair.certainty]}`];
-  if (pair.shared.length) out.push(`They share a station: ${pair.shared.map(s => s.a === s.b ? s.a : `${s.a} / ${s.b}`).join(", ")} (endpoints within 0.5 mi).`);
-  if (pair.remainingDays > 0) out.push(`Their build windows overlap for ${Math.round(pair.remainingDays / 30.44)} months from today.`);
-  else if (pair.overlapDays > 0) out.push("Their build windows overlapped, but that overlap is in the past.");
-  else if (pair.gapDays !== null) out.push(`Their build windows don't overlap; in-service dates are ${pair.gapDays} days apart.`);
+  if (pair.shared.length) out.push(`Source-confirmed common worksite: ${pair.shared.map(s => s.a === s.b ? s.a : `${s.a} / ${s.b}`).join(", ")}. Outage and sharing feasibility remain unconfirmed.`);
+  else if (pair.nearbyEndpoints?.length) out.push(`Network endpoints are nearby (${pair.nearbyEndpoints.map(s => s.a === s.b ? s.a : `${s.a} / ${s.b}`).join(", ")}); this does not confirm construction at a shared site.`);
+  if (pair.remainingDays > 0) out.push(`Their inferred planning windows overlap for ${Math.round(pair.remainingDays / 30.44)} months after the data date.`);
+  else if (pair.overlapDays > 0) out.push("Their inferred planning windows overlapped, but that overlap is in the past.");
+  else if (pair.gapDays !== null) out.push(`Their inferred planning windows don't overlap; in-service dates are ${pair.gapDays} days apart.`);
   return out;
 }
 
@@ -421,19 +483,33 @@ function toConfirm(pair) {
     }
   }
   if (pair.certainty === "sensitive") out.push(`The pair is inside ${MAX_MILES} mi only at best-estimate locations (±${pair.a.radiusMi} and ±${pair.b.radiusMi} mi).`);
-  out.push(`Build windows are inferred (${pair.a.window?.basis ?? "unknown"}; ${pair.b.window?.basis ?? "unknown"}). Confirm construction and outage months.`);
+  out.push(`Planning windows are inferred (${pair.a.window?.basis ?? "unknown"}; ${pair.b.window?.basis ?? "unknown"}). Confirm construction and outage months.`);
   out.push("Proximity alone doesn't show that land, yard space or equipment can be shared. Confirm site access, ownership and each utility's contracting rules.");
   return out;
 }
 
 function sharedResources(pair) {
+  if (!pair.qualifies) return ["Verify precise locations and the center-distance rule before proposing shared resources."];
   const out = [];
-  if (pair.shared.length) out.push(`Work at ${pair.shared[0].a}: one outage plan, one mobilization to the site, shared yard space at the station.`);
-  if (pair.remainingDays > 0) out.push("One staging/laydown yard between the two sites instead of two (see scenario).", "Crane, mat and specialty-crew mobilizations scheduled back to back.");
-  if (pair.approachMiles !== null && pair.approachMiles < 2) out.push(`Access roads and crossings: the two ${pair.a.route && pair.b.route ? "traced lines" : "project sites"} come within ${pair.approachMiles.toFixed(1)} mi.`);
+  if (pair.shared.length) out.push(`Both source descriptions support work at ${pair.shared[0].a}. If construction months align, investigate shared mobilization and yard space. Confirm each project's outage needs separately.`);
+  if (pair.remainingDays > 0) out.push("If a usable shared site is confirmed, compare one staging/laydown yard with two (see scenario).", "Ask whether crane, mat and specialty-crew mobilizations could be coordinated.");
+  if (pair.corridorVerified && pair.approachMiles !== null && pair.approachMiles < 2) out.push(`Access roads and crossings: the two ${pair.a.route && pair.b.route ? "traced lines" : "project sites"} come within ${pair.approachMiles.toFixed(1)} mi.`);
   if (projectType(pair.a) === projectType(pair.b)) out.push(`Same kind of work (${projectType(pair.a).toLowerCase()}): joint procurement, shared spares or one specialist contractor.`);
   if (!out.length) out.push("Crew and contractor scheduling across the river; no site-level sharing is indicated.");
   return out;
+}
+
+function planningForumBlock(pair) {
+  const box = h("section", "list-box planning-forums"); box.append(h("h3", "", "Where to raise it"));
+  for (const p of [pair.a, pair.b]) {
+    const forum = PLANNING_FORUMS[p.state]; if (!forum) continue;
+    const row = h("p"); row.append(h("strong", "", `${sideName(p)}: `), link(forum.contactUrl, `${forum.shortName} contact page`)); box.append(row);
+  }
+  const note = h("p", "muted-note", `${PLANNING_TRANSITION.text} Checked ${formatDate(PLANNING_TRANSITION.checkedOn)}. `);
+  note.append(link(PLANNING_TRANSITION.sourceUrl, PLANNING_TRANSITION.sourceLabel)); box.append(note); return box;
+}
+function planningForumText(pair) {
+  return [...[pair.a, pair.b].map(p => `${sideName(p)}: ${PLANNING_FORUMS[p.state].shortName} - ${PLANNING_FORUMS[p.state].contactUrl}`), `${PLANNING_TRANSITION.text} Checked ${PLANNING_TRANSITION.checkedOn}: ${PLANNING_TRANSITION.sourceUrl}`];
 }
 
 function questions(pair) {
@@ -441,7 +517,7 @@ function questions(pair) {
   return [
     `Is ${pair.b.projectId} still scheduled for ${formatDate(pair.b.inServiceDate)}? Which months need outages or heavy construction?`,
     "Where will your staging/laydown yard be, how large, and is there room for a second project's material?",
-    pair.shared.length ? `Can the work at ${pair.shared[0].b} be done under one outage? Who controls yard space inside that station?` : "Which contractors, mat suppliers and crane vendors are you planning to use?",
+    pair.shared.length ? `What are each project's outage needs at ${pair.shared[0].b}, and who controls yard space?` : "Which contractors, mat suppliers and crane vendors are you planning to use?",
     `Would ${other} share a site lease or access road if the schedules line up? What approvals would that need?`,
     "Who is the right planning contact for follow-up?",
   ];
@@ -449,7 +525,6 @@ function questions(pair) {
 
 // ---- Staging-yard scenario ----
 function yardInputs() { const y = state.yard; return { acres: y.acres, months: y.months, leaseRate: y.leaseRate, surfacePerAcre: y.surface === "mats" ? YARD_BASIS.matsPerAcre.value : y.surfacePerAcre, roadMiles: y.roadMiles }; }
-function verified(pair) { return pair.qualifies && pair.certainty === "robust" && pair.remainingDays > 0; }
 function scenarioLines(pair, sc) {
   return [
     ["Yard surface", `${sc.acres} ac × ${money(sc.surfacePerAcre)}/ac = ${money(sc.parts.surface)}`, state.yard.surface === "mats" ? "cited: MISO timber-mat rate" : "your assumption"],
@@ -470,7 +545,7 @@ function sideBySide(pair, sc) {
   box.append(
     col("Separately", apart, money(2 * sc.oneYard), `Two yards, ${money(sc.oneYard)} each, over ${sc.months} months.`),
     col("Coordinated", together, sc.active ? `${money(sc.oneYard)} – ${money(1.5 * sc.oneYard)}` : money(2 * sc.oneYard),
-      sc.active ? `One combined yard, assumed 1.0–1.5× the size of one, for the ${sc.months} months both are building.` : "Build windows don't overlap from today on, so each still needs its own yard."));
+      sc.active ? `One combined yard, assumed 1.0–1.5× the size of one, for ${sc.months} assumed shared months.` : sc.reason));
   return box;
 }
 
@@ -478,7 +553,7 @@ function yardCard(pair) {
   const card = h("section", "cost-card");
   card.append(h("h3", "", "One shared staging yard instead of two"));
   if (!pair.qualifies) { card.append(h("p", "", "Only modeled for qualifying pairs.")); return card; }
-  card.append(h("p", "", verified(pair) ? `Verified pair: robust location and ${Math.round(pair.remainingDays / 30.44)} months of build overlap still ahead.` : `Not a verified pair: ${pair.remainingDays > 0 ? "location uncertainty could move it past 25 mi" : "no build overlap from today on, so no yard would be shared"}. Treat the figure below with extra caution.`));
+  card.append(h("p", "scenario-caution", `${certaintyText[pair.certainty]} Construction timing is inferred; a usable shared yard, access and agreement have not been confirmed. This is an illustrative avoided-cost scenario, not verified savings.`));
   const out = h("div", "scenario-out");
   const form = h("div", "scenario-form");
   const field = (label, key, attrs, hint) => {
@@ -498,13 +573,13 @@ function yardCard(pair) {
   field("Shared access road (miles)", "roadMiles", { min: 0, step: 0.05 }, "assumption");
   function update() {
     const sc = yardScenario(pair, yardInputs());
-    out.replaceChildren(sideBySide(pair, sc), h("div", "cost-big", sc.active ? `${money(sc.low)} – ${money(sc.high)}` : "$0"), h("p", "cost-caption", sc.active ? "avoided by coordinating" : "avoided: no overlap ahead, so nothing is shared"));
+    out.replaceChildren(sideBySide(pair, sc), h("div", "cost-big", sc.active ? `${money(sc.low)} – ${money(sc.high)}` : "$0"), h("p", "cost-caption", sc.active ? "illustrative avoided cost if sharing is feasible" : sc.reason));
     const ul = h("ul", "cost-basis"); scenarioLines(pair, sc).forEach(([k, v, why]) => { const li = h("li"); li.append(h("b", "", `${k}: `), document.createTextNode(v), h("span", "why", ` · ${why}`)); ul.append(li); });
     ul.append(h("li", "", `One yard ≈ ${money(sc.oneYard)}. A combined yard is assumed to be 1.0–1.5× one project's yard, so sharing avoids 0.5–1.0 of a yard.`));
     const est = savingsEstimate(pair, { benchmarkPerMile: state.data.costBenchmark.perMile });
     if (est && sc.active) ul.append(h("li", "", `For scale: the smaller project costs about ${money(Math.min(est.costA, est.costB))}${est.aEstimated || est.bEstimated ? " (Georgia side estimated from DESC's median $/mi)" : " (published)"}; the high end is ${((sc.high / Math.min(est.costA, est.costB)) * 100).toFixed(1)}% of it.`));
     out.append(ul);
-    if (!sc.active) out.append(h("p", "", "No overlap ahead: each project would need its own yard, so nothing is saved."));
+    if (!sc.active) out.append(h("p", "", `Scenario unavailable: ${sc.reason}`));
   }
   update();
   card.append(form, out);
@@ -520,7 +595,7 @@ function compareTable(pair) {
     ["Type", p => projectType(p)],
     ["Target in service", p => targetDate(p)],
     ["Status", p => datePassed(p.inServiceDate) ? `“${p.status}” in filing; date passed, unconfirmed` : `“${p.status}” in filing`],
-    ["Build window", p => p.window?.start ? `${formatDate(p.window.start)} → ${formatDate(p.window.end)}` : "unknown"],
+    ["Planning window", p => p.window?.start ? `${formatDate(p.window.start)} → ${formatDate(p.window.end)}` : "unknown"],
     ["Location", p => `${p.locationConfidence}, ±${p.radiusMi} mi · ${centerMethod(p).split(" (")[0].split(";")[0]}`],
     ["Source", p => sourceLink(p)],
   ];
@@ -533,6 +608,9 @@ function listBox(title, items, cls = "") { const box = h("section", `list-box ${
 function toggleShortlist(pair) {
   if (state.shortlist.has(pair.id)) state.shortlist.delete(pair.id); else state.shortlist.add(pair.id);
   saveShortlist(); applyFilters();
+  const action = $("detail").querySelector('[data-action="shortlist"]');
+  if (action) action.focus({preventScroll: true});
+  else { backToResults(); ($("match-list").querySelector("button") ?? $("search")).focus({preventScroll: true}); }
 }
 
 const DETAIL_TABS = [["summary", "Summary"], ["scenario", "Cost scenario"], ["records", "Records"]];
@@ -549,10 +627,12 @@ function spanHead(pair) {
   if (!pair.qualifies) head.append(h("p", "notice", `Does not qualify: centers are over ${MAX_MILES} mi apart, but location uncertainty could bring them under.`));
   const actions = h("div", "detail-actions");
   const on = state.shortlist.has(pair.id);
-  const star = h("button", `button${on ? " on" : ""}`, on ? "★ Shortlisted" : "☆ Shortlist"); star.type = "button"; star.setAttribute("aria-pressed", String(on)); star.addEventListener("click", () => toggleShortlist(pair));
+  const star = h("button", `button${on ? " on" : ""}`, on ? "★ Shortlisted" : "☆ Shortlist"); star.type = "button"; star.dataset.action = "shortlist"; star.setAttribute("aria-pressed", String(on)); star.addEventListener("click", () => toggleShortlist(pair));
   const brief = h("button", "button", "Open brief"); brief.type = "button"; brief.addEventListener("click", () => openBriefs([pair]));
   const copy = h("button", "button", "Copy as text"); copy.type = "button"; copy.addEventListener("click", async () => { try { await navigator.clipboard.writeText(briefText(pair)); copy.textContent = "Copied"; } catch { copy.textContent = "Copy failed"; } });
-  actions.append(star, brief, copy); head.append(actions);
+  const share = h("button", "button", "Copy link"); share.type = "button";
+  share.addEventListener("click", async () => { writeViewUrl(); try { await navigator.clipboard.writeText(location.href); share.textContent = "Link copied"; } catch { share.textContent = "Use address bar link"; } });
+  actions.append(star, brief, copy, share); head.append(actions);
   return head;
 }
 
@@ -567,18 +647,25 @@ function detailTabs(pair) {
   const nav = h("div", "dtabs"); nav.setAttribute("role", "tablist"); nav.setAttribute("aria-label", "Pair details");
   for (const [key, label] of DETAIL_TABS) {
     const t = h("button", `dtab${state.detailTab === key ? " active" : ""}`, label); t.type = "button";
-    t.setAttribute("role", "tab"); t.setAttribute("aria-selected", String(state.detailTab === key));
-    t.addEventListener("click", () => { state.detailTab = key; renderDetail(); $("detail").querySelector(".dtab.active")?.focus(); });
+    t.id = `detail-tab-${key}`; t.tabIndex = state.detailTab === key ? 0 : -1;
+    t.setAttribute("role", "tab"); t.setAttribute("aria-selected", String(state.detailTab === key)); t.setAttribute("aria-controls", "detail-content");
+    t.addEventListener("keydown", event => {
+      if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+      event.preventDefault(); const i = DETAIL_TABS.findIndex(([k]) => k === key);
+      const next = event.key === "Home" ? 0 : event.key === "End" ? DETAIL_TABS.length - 1 : (i + (event.key === "ArrowRight" ? 1 : -1) + DETAIL_TABS.length) % DETAIL_TABS.length;
+      state.detailTab = DETAIL_TABS[next][0]; renderDetail(); $("detail").querySelector(".dtab.active")?.focus(); writeViewUrl();
+    });
+    t.addEventListener("click", () => { state.detailTab = key; renderDetail(); $("detail").querySelector(".dtab.active")?.focus(); writeViewUrl(); });
     nav.append(t);
   }
-  const panel = h("div", "dpanel"); panel.setAttribute("role", "tabpanel");
+  const panel = h("div", "dpanel"); panel.id = "detail-content"; panel.tabIndex = 0; panel.setAttribute("role", "tabpanel"); panel.setAttribute("aria-labelledby", `detail-tab-${state.detailTab}`);
   if (state.detailTab === "scenario") panel.append(yardCard(pair));
   else if (state.detailTab === "records") { panel.append(h("p", "section-note", "Every field as parsed, how each endpoint was located, and what validation flagged.")); for (const p of [pair.a, pair.b]) panel.append(projectBlock(p, true)); }
   else {
     panel.append(compareTable(pair));
     panel.append(listBox(pair.qualifies ? "Why it qualifies" : "Why it might qualify", whyQualifies(pair)), listBox("Still to confirm", toConfirm(pair), "confirm"), listBox("Possible shared resources", sharedResources(pair)));
-    const tl = h("section", "list-box"); tl.append(h("h3", "", "Build windows"), timeline(pair.a, pair.b)); panel.append(tl);
-    panel.append(scoreBlock(pair));
+    const tl = h("section", "list-box"); tl.append(h("h3", "", "Planning windows"), timeline(pair.a, pair.b)); panel.append(tl);
+    panel.append(scoreBlock(pair), planningForumBlock(pair));
   }
   return [nav, panel];
 }
@@ -587,12 +674,13 @@ function scoreBlock(pair) {
   const score = h("section", "list-box score-block");
   const head = h("h3", "", "Ranking score "); head.append(h("span", "", `${pair.score.total} of 100, geography first`)); score.append(head);
   const parts = h("div", "score-parts");
-  [["Proximity", pair.score.parts.proximity, WEIGHTS.proximity], ["Shared station", pair.score.parts.shared, WEIGHTS.shared], ["Line proximity", pair.score.parts.corridor, WEIGHTS.corridor], ["Timing", pair.score.parts.timing, WEIGHTS.timing]].forEach(([k, v, max]) => {
+  [["Proximity", pair.score.parts.proximity, WEIGHTS.proximity], ["Confirmed site", pair.score.parts.shared, WEIGHTS.shared], ["Verified routes", pair.score.parts.corridor, WEIGHTS.corridor], ["Timing", pair.score.parts.timing, WEIGHTS.timing]].forEach(([k, v, max]) => {
     const row = h("div", "score-part"); const bar = h("i", ""); bar.style.width = `${(v / max) * 100}%`; const track = h("span", "score-track"); track.append(bar);
     row.append(h("span", "", k), track, h("b", "", `${v}/${max}`)); parts.append(row);
   });
   if (pair.score.parts.confidence < 1) parts.append(h("p", "muted-note", "× 0.85 because location uncertainty could move this pair past 25 miles."));
   score.append(parts);
+  for (const note of pair.score.notes ?? []) score.append(h("p", "muted-note", note));
   return score;
 }
 
@@ -602,7 +690,7 @@ function landing() {
     h("p", "lead", `Every planned project in DESC’s 2026–2030 list and Georgia ITS’s 2026–2035 plan, paired across the river when their centers are under ${MAX_MILES} miles apart.`),
     overviewStats());
   const steps = h("ol", "guide-steps");
-  [["Find", "Pairs are ranked geography first, timing second. Change the sort or open Filters to explore."], ["Check", "Every number links to the filing page it came from, and every location states its method and confidence."], ["Call", "Shortlist a pair and export a one-page brief with evidence, shared resources, a cost scenario and questions."]]
+  [["Find", "Pairs are ranked geography first, timing second. Change the sort or open Filters to explore."], ["Check", "Every number links to the filing page it came from, and every location states its method and confidence."], ["Call", "Shortlist a pair and export a coordination brief with evidence, shared resources, a cost scenario and questions."]]
     .forEach(([title, body]) => { const li = h("li"); li.append(h("strong", "", title), h("p", "", body)); steps.append(li); });
   box.append(steps, h("p", "fine", "Pick a pair in the list or a link on the map to compare both projects. Pick a dot to see one project. Click empty map to deselect. Built from public filings and OpenStreetMap only, with no CEII. A planning aid, not a field plan."));
   return box;
@@ -616,6 +704,10 @@ function renderDetail() {
   const changed = key !== lastDetailKey; lastDetailKey = key;
   detail.classList.toggle("draw", changed && Boolean(pair));
   if (changed) detail.scrollTop = 0;
+  detail.setAttribute("aria-label", pair ? `Selected pair: ${pair.a.projectId} and ${pair.b.projectId}` : project ? `Selected project: ${project.name}` : "How to use GridLock");
+  if (pair || project) {
+    const back = h("button", "button back-results", "← Back to results"); back.type = "button"; back.addEventListener("click", backToResults); detail.append(back);
+  } else $("view-explore").classList.remove("show-detail");
   if (pair) {
     detail.append(spanHead(pair), factsRow(pair), ...detailTabs(pair));
   } else if (project) {
@@ -641,11 +733,12 @@ function briefText(pair) {
     `GridLock coordination brief · ${state.asOf}`, "",
     `${pair.a.name} (${sideName(pair.a)} ${pair.a.projectId}, ${projectType(pair.a)})`, `  × ${pair.b.name} (${sideName(pair.b)} ${pair.b.projectId}, ${projectType(pair.b)})`, "",
     `Distance: ${pair.miles.toFixed(2)} mi center to center (${pair.certainty}) · In-service gap: ${pair.gapDays ?? "unknown"} days (${pair.a.inServiceDate} vs ${pair.b.inServiceDate})`,
-    "", "Why it qualifies:", ...bullets(whyQualifies(pair)),
+    "", pair.qualifies ? "Why it qualifies:" : "Does not qualify at current locations - why it might qualify:", ...bullets(whyQualifies(pair)),
     "", "Possible shared resources:", ...bullets(sharedResources(pair)),
-    "", `Staging-yard scenario: ${sc.active ? `${money(sc.low)} – ${money(sc.high)}` : "$0 (no overlap ahead)"}`, ...bullets(scenarioLines(pair, sc).map(([k, v, why]) => `${k}: ${v} (${why})`)),
+    "", `Staging-yard scenario: ${sc.active ? `${money(sc.low)} – ${money(sc.high)} (illustrative; feasibility unconfirmed)` : `Unavailable: ${sc.reason}`}`, ...(sc.active ? bullets(scenarioLines(pair, sc).map(([k, v, why]) => `${k}: ${v} (${why})`)) : []),
     "", "Still to confirm:", ...bullets(toConfirm(pair)),
     "", `Questions for ${sideName(pair.b)}:`, ...questions(pair).map((q, i) => `  ${i + 1}. ${q}`),
+    "", "Where to raise it:", ...planningForumText(pair),
     "", "Sources:", `  ${sourceLabel(pair.a.source)}: ${pdfLink(pair.a.source)}`, `  ${sourceLabel(pair.b.source)}: ${pdfLink(pair.b.source)}`,
     `  ${YARD_BASIS.matsPerAcre.source}`, `  ${YARD_BASIS.roadPerMile.source}`, `  ${YARD_BASIS.landPerAcre.source}`,
     "Built from public filings and OpenStreetMap only; no CEII. Locations are estimates.",
@@ -663,21 +756,24 @@ function briefHtml(pair) {
   return `<section class="page">
   <header><div><p class="eyebrow">GridLock coordination brief · ${esc(state.asOf)}</p><h1>${esc(a.name)} <span>×</span> ${esc(b.name)}</h1></div>
   <div class="figs"><div><b>${pair.miles.toFixed(2)} mi</b>center to center</div><div><b>${pair.gapDays ?? "?"} days</b>in-service gap</div><div><b>${esc(pair.certainty)}</b>location</div></div></header>
+  ${!pair.qualifies ? `<p class="qualification-notice">Does not qualify at current locations: outside the ${MAX_MILES}-mile rule.</p>` : ""}
+  ${briefMapSvg(pair)}
   <table class="cmp"><tr><th></th><th>${esc(sideName(a))}</th><th>${esc(sideName(b))}</th></tr>
   ${row("Project", p => `${esc(p.projectId)} · ${esc(p.name)}`)}${row("Type", p => esc(projectType(p)))}${row("Target in service", p => esc(targetDate(p)))}
   ${row("Status", p => esc(datePassed(p.inServiceDate) ? `“${p.status}” in filing; date passed, unconfirmed` : `“${p.status}” in filing`))}
-  ${row("Build window", p => p.window?.start ? `${esc(p.window.start)} → ${esc(p.window.end)}` : "unknown")}${row("Cost", p => p.cost?.total ? money(p.cost.total) : "redacted")}
+  ${row("Planning window", p => p.window?.start ? `${esc(p.window.start)} → ${esc(p.window.end)}` : "unknown")}${row("Cost", p => p.cost?.total ? money(p.cost.total) : "redacted")}
   ${row("Location", p => `${esc(p.locationConfidence)}, ±${p.radiusMi} mi · ${esc(centerMethod(p))}`)}${row("Endpoints", eps)}${row("Source", src)}</table>
-  <div class="cols"><div><h2>Why it qualifies</h2><ul>${li(whyQualifies(pair))}</ul><h2>Possible shared resources</h2><ul>${li(sharedResources(pair))}</ul>
-  <h2>Staging-yard scenario: ${sc.active ? `${money(sc.low)} – ${money(sc.high)}` : "$0"}</h2><ul>${scenarioLines(pair, sc).map(([k, v, why]) => `<li><b>${k}:</b> ${esc(v)} <i>(${esc(why)})</i></li>`).join("")}<li>Combined yard assumed 1.0–1.5× one yard, so sharing avoids 0.5–1.0 of a yard (${money(sc.oneYard)}). Proximity alone does not prove the land or equipment can be shared.</li></ul></div>
+  <div class="cols"><div><h2>${pair.qualifies ? "Why it qualifies" : "Why it might qualify"}</h2><ul>${li(whyQualifies(pair))}</ul><h2>Possible shared resources</h2><ul>${li(sharedResources(pair))}</ul>
+  <h2>Staging-yard scenario${sc.active ? `: ${money(sc.low)} – ${money(sc.high)}` : " unavailable"}</h2>${sc.active ? `<p>Illustrative avoided cost; sharing feasibility unconfirmed.</p><ul>${scenarioLines(pair, sc).map(([k, v, why]) => `<li><b>${k}:</b> ${esc(v)} <i>(${esc(why)})</i></li>`).join("")}<li>Combined yard assumed 1.0–1.5× one yard. Proximity does not prove land or equipment can be shared.</li></ul>` : `<p>${esc(sc.reason)}</p>`}</div>
   <div><h2>Still to confirm</h2><ul>${li(toConfirm(pair))}</ul><h2>Questions for ${esc(sideName(b))}</h2><ol>${li(questions(pair))}</ol></div></div>
+  <section class="forum"><h2>Where to raise it</h2><p>${[a,b].map(p => `${esc(sideName(p))}: <a href="${esc(PLANNING_FORUMS[p.state].contactUrl)}">${esc(PLANNING_FORUMS[p.state].shortName)} contact page</a>`).join(" · ")}</p><p>${esc(PLANNING_TRANSITION.text)} Checked ${esc(PLANNING_TRANSITION.checkedOn)}. <a href="${esc(PLANNING_TRANSITION.sourceUrl)}">Transition notice</a></p></section>
   <footer>Cost basis: ${esc(YARD_BASIS.matsPerAcre.source)}; ${esc(YARD_BASIS.roadPerMile.source)}; ${esc(YARD_BASIS.landPerAcre.source)}. Built from public filings and OpenStreetMap only; no CEII. Locations are estimates with stated uncertainty.</footer>
 </section>`;
 }
 
 function openBriefs(pairs) {
   const w = window.open("", "_blank");
-  if (!w) return;
+  if (!w) { $("session-notice").textContent = "The brief window was blocked. Allow pop-ups for this site and try again."; return; }
   w.document.write(`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>GridLock brief${pairs.length > 1 ? "s" : ""}</title><style>
   body { margin: 0; background: #e9eef0; color: #22343c; font: 11px/1.45 "IBM Plex Sans", Arial, sans-serif; }
   .bar { position: sticky; top: 0; display: flex; gap: 10px; align-items: center; padding: 10px 16px; background: #183541; color: #fff; }
@@ -693,8 +789,24 @@ function openBriefs(pairs) {
   .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; } ul, ol { margin: 0; padding-left: 16px; } li { margin: 2px 0; } i { color: #6b7d84; }
   footer { margin-top: 12px; padding-top: 6px; border-top: 1px solid #d9e0e3; color: #6b7d84; font-size: 8.5px; }
   a { color: #1b6472; }
+  .brief-map { width: 100%; height: auto; display: block; margin: 8px 0; }
+  .qualification-notice { font-weight: bold; background: #fff3dd; padding: 8px; }
+  tr, .brief-map, h2 { break-inside: avoid; } h2 { break-after: avoid; }
   @media (max-width: 700px) { .cols { grid-template-columns: 1fr; } header { flex-direction: column; } .page { padding: 16px; min-height: 0; } }
-  @media print { body { background: #fff; } .bar { display: none; } .page { margin: 0; width: auto; min-height: 0; padding: 0; page-break-after: always; } @page { size: letter; margin: .45in; } }
+  @media print {
+    body { background: #fff; line-height: 1.25; }
+    .bar { display: none; }
+    .page { margin: 0; width: auto; min-height: 0; padding: 0; page-break-after: always; }
+    header { padding-bottom: 6px; }
+    h2 { margin: 7px 0 2px; }
+    th, td { padding: 2px 5px; }
+    .brief-map { max-height: 155px; margin: 6px 0; }
+    .cols { gap: 16px; }
+    .qualification-notice { margin: 6px 0; padding: 6px 8px; }
+    .forum p { margin: 4px 0; }
+    footer { margin-top: 8px; padding-top: 4px; line-height: 1.3; }
+    @page { size: letter; margin: .4in; }
+  }
   </style></head><body><div class="bar"><strong>${pairs.length} coordination brief${pairs.length > 1 ? "s" : ""}</strong><button onclick="print()">Print / save as PDF</button></div>${pairs.map(briefHtml).join("")}</body></html>`);
   w.document.close();
 }
@@ -710,7 +822,7 @@ function renderQuality() {
   const sum = h("div", "stat-row"); [[counts.error, "errors"], [counts.warn, "warnings"], [counts.info, "notes"], [state.projects.filter(p => !p.center).length, "projects not located"]].forEach(([n, l]) => { const c = h("div", "stat"); c.append(h("strong", "", String(n)), h("span", "", l)); sum.append(c); });
   wrap.append(sum);
 
-  wrap.append(h("h2", "", "The sponsor's sample, checked against today's filings"));
+  wrap.append(h("h2", "", "The sponsor's sample, checked against the current data edition"));
   const t0 = h("table", "dq-table"); t0.innerHTML = "<thead><tr><th>Sample ID</th><th>Project</th><th>Sample date</th><th>Status in the current filing</th></tr></thead>";
   const b0 = h("tbody"); d.starterStatus.forEach(s => { const tr = h("tr"); [s.id, s.name, s.starterDate, s.status].forEach((x, i) => tr.append(h("td", i === 2 ? "nowrap" : "", x ?? ""))); b0.append(tr); }); t0.append(b0); wrap.append(t0);
   wrap.append(h("p", "muted-note", "Both Augusta-area sample pairs are gone: DESC's Hooks–Thurmond rebuild is no longer listed and Georgia Power cancelled Evans Primary–Thurmond Dam #5 and #6 (Table 3). The McIntosh–Purrysburg reactors are complete (Table 4)."));
@@ -724,7 +836,7 @@ function renderQuality() {
     rows.forEach(i => {
       const tr = h("tr", `lvl-${i.level}`);
       const nameCell = h("td"); const btn = h("button", "link-button", `${i.p.projectId} · ${i.p.name}`); btn.type = "button";
-      btn.addEventListener("click", () => { state.selectedProject = i.p.id; state.selectedPair = null; setView("explore"); applyFilters(); });
+      btn.addEventListener("click", () => { Object.assign(state, FILTER_DEFAULTS); setView("explore"); selectProject(i.p); syncControls(); });
       nameCell.append(btn);
       const srcCell = h("td"); srcCell.append(link(pdfLink(i.p.source), `p. ${i.p.source.page}`));
       tr.append(h("td", "", i.level), nameCell, h("td", "", i.msg), srcCell); body.append(tr);
@@ -753,14 +865,14 @@ function renderMethod() {
   sec("Sources", srcList, "The challenge zip's DESC list (2024–2028) and Georgia plan (2025 IRP) are superseded; both newer editions are public and are used here. The older DESC lists are kept only to measure schedule slip.");
   sec("The qualifying rule (unchanged from the challenge)", `A DESC project and a Georgia project form a pair when their centers are less than ${MAX_MILES} miles apart by great-circle (haversine) distance. A project's center is the midpoint of its located endpoints, or the single located endpoint. The time gap is the absolute difference between in-service dates. Our tests reproduce the sponsor's six example rows to the hundredth of a mile and the day.`);
   sec("What we add on top (ranking only — never changes which pairs qualify)",
-    "Build windows: DESC's first budget year with spend through its in-service date; Georgia's detail-page Start Date through Need Date. Overlap still ahead of today counts; overlap already in the past does not.",
+    "Planning windows: DESC's first budget year with spend through its in-service date; Georgia's detail-page Start Date through Need Date. Overlap still ahead of the data date counts; overlap already in the past does not.",
     "Certainty: each location carries an uncertainty radius. A pair is robust if it stays under 25 miles at the edges of both radii, sensitive if it only does at the best estimate, and possible (shown only on request) if it could qualify.",
-    "Shared station: endpoints within half a mile. Line proximity: closest approach of lines traced along OpenStreetMap power lines, where both ends could be placed.",
-    `Score = proximity (${WEIGHTS.proximity}) + shared station (${WEIGHTS.shared}) + line proximity (${WEIGHTS.corridor}) + timing (${WEIGHTS.timing}), × 0.85 when location-sensitive. The challenge makes geography the primary signal and timing a strong secondary one, so the geographic parts add up to ${WEIGHTS.proximity + WEIGHTS.shared + WEIGHTS.corridor} of 100. In practice distance sets most of the order and timing reorders pairs at similar distances. To explore alternatives, sort by distance, by closest in-service dates, or by build overlap still ahead.`);
+    "Shared worksite: both records need explicit source-backed worksite confirmation. Nearby network endpoints alone earn no shared-site points. Line proximity scores require verified circuit evidence on both routes; inferred OSM paths do not earn a bonus.",
+    `Score = proximity (${WEIGHTS.proximity}) + confirmed worksite (${WEIGHTS.shared}) + verified route proximity (${WEIGHTS.corridor}) + timing (${WEIGHTS.timing}), × 0.85 when location-sensitive. The challenge makes geography the primary signal and timing a strong secondary one, so the geographic parts add up to ${WEIGHTS.proximity + WEIGHTS.shared + WEIGHTS.corridor} of 100. In practice distance sets most of the order and timing reorders pairs at similar distances. To explore alternatives, sort by distance, by closest in-service dates, or by build overlap still ahead.`);
   sec("How locations are found", "In order of trust: hand-sited points with a written reason (data/overrides.json); coordinates from the sponsor's starter workbook; OpenStreetMap substations and plants by exact then partial name, restricted to the right state; and last, a town-level match (±6 mi). When a name fits several places (there are two Goshens 87 miles apart), the one nearest the project's other endpoint and its planning zone wins. Matches far from the rest of the project are rejected rather than kept.");
   const basis = h("ul", "src-list"); [YARD_BASIS.matsPerAcre, YARD_BASIS.roadPerMile, YARD_BASIS.landPerAcre].forEach(b => { const li = h("li"); li.append(link(b.url, b.source)); basis.append(li); });
   sec("Impact scenario (bonus): one shared staging yard",
-    "For a pair building at the same time, we model what one shared staging/laydown yard would avoid compared with two separate yards. One yard = surface (acres × $/acre) + land lease (acres × land value × lease rate × months) + a short access road (miles × $/mile). A combined yard is assumed to be 1.0–1.5× the size of one project's yard, so sharing avoids 0.5–1.0 of a yard. With no build overlap from today on, the saving is $0.",
+    "For a pair overlapping planning windows, we model what one shared staging/laydown yard would avoid compared with two separate yards. One yard = surface (acres × $/acre) + land lease (acres × land value × lease rate × months) + a short access road (miles × $/mile). A combined yard is assumed to be 1.0–1.5× the size of one project's yard, so sharing avoids 0.5–1.0 of a yard. With no build overlap after the data date, the saving is $0.",
     "Cited unit costs:", basis,
     "Yard size, months, lease rate, road length and any non-mat surface cost are assumptions, marked as such and editable in the panel. Proximity alone can't establish that land or equipment can be shared; the scenario is a reason to make the call, not a budget.",
     `For scale, the panel compares the result with the smaller project's cost. DESC publishes costs; Georgia's are redacted, so for a Georgia line with a stated length we apply DESC's own median of ${money(bm.perMile)} per mile (${bm.n} line projects).`);
@@ -778,18 +890,20 @@ function setView(name) {
 }
 
 function exportCsv() {
-  const header = ["rank", "qualifies", "score", "certainty", "desc_project", "desc_id", "desc_type", "desc_status", "ga_project", "ga_teams", "ga_type", "ga_status", "distance_miles", "in_service_gap_days", "build_overlap_days", "overlap_days_ahead", "shared_station", "closest_approach_miles", "in_service_desc", "in_service_ga", "source_desc", "source_ga"];
-  const lines = [header, ...state.pairs.map((p, i) => [i + 1, p.qualifies, p.score.total, p.certainty, p.a.name, p.a.projectId, projectType(p.a), p.a.status, p.b.name, p.b.projectId, projectType(p.b), p.b.status, p.miles.toFixed(3), p.gapDays ?? "", p.overlapDays ?? "", p.remainingDays ?? "", p.shared.map(s => s.a).join("; "), p.approachMiles?.toFixed(2) ?? "", p.a.inServiceDate ?? "", p.b.inServiceDate ?? "", pdfLink(p.a.source), pdfLink(p.b.source)])];
+  const header = ["as_of", "rank", "qualifies", "score", "certainty", "desc_project", "desc_id", "desc_type", "desc_status", "ga_project", "ga_teams", "ga_type", "ga_status", "distance_miles", "in_service_gap_days", "build_overlap_days", "overlap_days_ahead", "confirmed_shared_worksite", "verified_route_approach_miles", "in_service_desc", "in_service_ga", "source_desc", "source_ga"];
+  const lines = [header, ...state.pairs.map((p, i) => [state.asOf, i + 1, p.qualifies, p.score.total, p.certainty, p.a.name, p.a.projectId, projectType(p.a), p.a.status, p.b.name, p.b.projectId, projectType(p.b), p.b.status, p.miles.toFixed(3), p.gapDays ?? "", p.overlapDays ?? "", p.remainingDays ?? "", p.shared.map(s => s.a).join("; "), p.corridorVerified ? p.approachMiles?.toFixed(2) ?? "" : "", p.a.inServiceDate ?? "", p.b.inServiceDate ?? "", pdfLink(p.a.source), pdfLink(p.b.source)])];
   const csv = lines.map(row => row.map(value => `"${String(value).replaceAll('"', '""')}"`).join(",")).join("\r\n");
   const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" })); a.download = "gridlock-opportunities.csv"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }
+
+$("skip-details").addEventListener("click", revealDetails);
 
 $("distance").addEventListener("input", event => { state.distance = Number(event.target.value); applyFilters(); });
 $("year").addEventListener("input", event => { state.year = Number(event.target.value); applyFilters(); });
 $("gap").addEventListener("change", event => { state.gap = event.target.value; applyFilters(); });
 $("hide-past").addEventListener("change", event => { state.hidePast = event.target.checked; applyFilters(); });
 $("possible").addEventListener("change", event => { state.includePossible = event.target.checked; applyFilters(); });
-$("search").addEventListener("input", event => { state.search = event.target.value.trim().toLowerCase(); applyFilters(); });
+$("search").addEventListener("input", event => { state.search = event.target.value.trim().toLowerCase(); state.selectedProject = null; applyFilters(); });
 $("reset-filters").addEventListener("click", () => { Object.assign(state, FILTER_DEFAULTS); syncControls(); });
 $("clear-selection").addEventListener("click", () => { state.selectedProject = null; state.selectedPair = null; applyFilters(); });
 $("sort").addEventListener("change", event => { state.sort = event.target.value; applyFilters(); });
@@ -808,16 +922,23 @@ try {
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
   state.data = await response.json();
   state.projects = state.data.projects;
-  state.asOf = new Date().toISOString().slice(0, 10);
+  state.asOf = state.data.generated;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(state.asOf ?? "")) throw new Error("Dataset is missing a valid as-of date");
   state.allPairs = matchProjects(state.projects, MAX_MILES, { includePossible: true, asOf: state.asOf });
   const years = state.projects.map(project => Number(project.inServiceDate?.slice(0, 4))).filter(Number.isFinite);
   $("year").min = String(Math.min(...years)); $("year").max = String(Math.max(...years)); state.year = FILTER_DEFAULTS.year = Math.max(...years); $("year").value = String(state.year);
-  state.shortlist = new Set([...loadShortlist()].filter(id => state.allPairs.some(p => p.id === id)));
+  const saved = loadShortlist();
+  state.shortlist = new Set([...saved].filter(id => state.allPairs.some(p => p.id === id)));
+  if (saved.size !== state.shortlist.size) { saveShortlist(); $("session-notice").textContent = "Some saved pairs changed or were ambiguous in this data edition and were removed. Please review your shortlist."; }
   for (const [key, s] of Object.entries(SORTS)) { const o = h("option", "", s.label); o.value = key; $("sort").append(o); }
-  $("sort-hint").textContent = `Score: geography ${WEIGHTS.proximity + WEIGHTS.shared + WEIGHTS.corridor} pts (distance ${WEIGHTS.proximity}, shared station ${WEIGHTS.shared}, line proximity ${WEIGHTS.corridor}) + timing ${WEIGHTS.timing}. Distance sets most of the order.`;
+  $("sort-hint").textContent = `Score: geography ${WEIGHTS.proximity + WEIGHTS.shared + WEIGHTS.corridor} pts (distance ${WEIGHTS.proximity}, confirmed worksite ${WEIGHTS.shared}, verified routes ${WEIGHTS.corridor}) + timing ${WEIGHTS.timing}. Distance sets most of the order.`;
   const issueTotal = state.projects.reduce((n, p) => n + p.issues.filter(i => i.level !== "info").length, 0);
   $("issue-count").textContent = String(issueTotal);
   initMap();
+  new ResizeObserver(() => requestAnimationFrame(() => map?.resize())).observe($("map"));
   renderQuality(); renderMethod();
-  applyFilters();
+  restoreViewUrl(); syncControls();
+  if (state.selectedPair) { focusPair(state.allPairs.find(p => p.id === state.selectedPair)); revealDetails(); }
+  else if (state.selectedProject) revealDetails();
+  window.addEventListener("hashchange", () => { restoreViewUrl(); syncControls(); if (state.selectedPair || state.selectedProject) revealDetails(); });
 } catch (error) { $("match-list").textContent = `Could not load project data: ${error.message}. Run the local server described in README.md.`; console.error(error); }

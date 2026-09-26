@@ -1,12 +1,13 @@
 # GridLock
 
-Finds planned transmission projects on either side of the Savannah River that should be coordinated: Dominion Energy South Carolina (DESC) and the Georgia Integrated Transmission System (Georgia Power, GTC, MEAG, Dalton). It covers every project in the latest public filings, not just a sample. Each pair comes with a side-by-side comparison, the build windows, shared stations, what still needs confirming, a ranking you can inspect, a staging-yard cost scenario with cited unit costs, and a printable one-page brief. Planners can shortlist pairs and export all their briefs at once. Every number links back to the page it came from.
+Finds planned transmission projects on either side of the Savannah River that should be coordinated: Dominion Energy South Carolina (DESC) and the Georgia Integrated Transmission System (Georgia Power, GTC, MEAG, Dalton). It covers every project in the latest public filings, not just a sample. Each pair comes with a side-by-side comparison, the build windows, shared stations, what still needs confirming, a ranking you can inspect, a staging-yard cost scenario with cited unit costs, and a printable coordination brief. Planners can shortlist pairs and export all their briefs at once. Every number links back to the page it came from.
 
 ## Run it
 
 ```bash
 python3 -m http.server 8000      # then open http://localhost:8000
-node --test tests/*.test.js      # 14 tests, including the sponsor's six example rows
+node --test tests/*.test.js      # algorithm, view-state and brief-map regressions
+python3 -m unittest discover -s tests -p 'test_pipeline.py' -v
 ```
 
 The app is static and has no build step, API keys or backend. The map is MapLibre GL JS (loaded from jsDelivr) over free OpenFreeMap vector tiles of OpenStreetMap data, so it needs internet access and WebGL.
@@ -33,9 +34,9 @@ The zip's documents are out of date. Since they were published, Georgia cancelle
 ## How it decides
 
 - **Qualifying rule (the challenge's rule, unchanged):** project centers less than 25 miles apart by haversine distance. A center is the midpoint of the located endpoints, or the single located endpoint. The time gap is the absolute difference between in-service dates.
-- **Build windows:** DESC runs from its first budget year with spend to the in-service date. Georgia runs from the detail page's Start Date to its Need Date. Only overlap from today onward counts toward ranking.
+- **Build windows:** DESC runs from its first budget year with spend to the in-service date. Georgia runs from the detail page's Start Date to its Need Date. Only overlap after the published data date counts toward ranking. The app uses `data.generated` so the list, validation notes and exported brief agree across viewing dates.
 - **Certainty:** every location has an uncertainty radius. *Robust* pairs stay under 25 mi even at the edges of both radii. *Sensitive* pairs qualify only at the best estimate. *Possible* pairs don't qualify but could, and are shown only on request.
-- **Score (ranking only):** the challenge makes geography the primary signal and timing a strong secondary one, so the score is proximity (40) + shared station within 0.5 mi (20) + closest approach of traced lines (10) + timing (30), multiplied by 0.85 when the pair is location-sensitive. Distance sets most of the order. The list can also be sorted by distance, by closest in-service dates, or by build overlap still ahead.
+- **Score (ranking only):** the challenge makes geography the primary signal and timing a strong secondary one, so the score is proximity (40) + source-confirmed common worksite (20) + closest approach of source-verified routes (10) + timing (30), multiplied by 0.85 when the pair is location-sensitive. Nearby endpoints alone do not confirm a common construction site, and inferred OSM traces do not earn a route bonus. Unawarded evidence points are explained in the score panel. The list can also be sorted by distance, by closest in-service dates, or by build overlap still ahead.
 - **Records:** each project shows its published target date separately from its status in the filing. When the target date has passed, the status is marked unconfirmed. Each project also shows its type, how its map point was set (midpoint of two located endpoints, or one known endpoint with a wider radius), its location confidence and its source page.
 - **Locations, in order of trust:** hand-sited points with a written reason (`data/overrides.json`), then the sponsor's coordinates, then an OSM exact or partial name match on the correct side of the state line, then a town-level fallback (±6 mi). Same-name places, such as the two Goshens 87 mi apart, are resolved against the other endpoint and the planning zone. Matches implausibly far from the rest of the project are rejected.
 - **Impact scenario (bonus):** for a pair building at the same time, one shared staging yard instead of two. One yard = surface (acres × $/acre) + lease (acres × land value × rate × months) + access road (miles × $/mile). Cited unit costs: timber mats $69,975/acre and access road $593,636/mile ([MISO MTEP24 cost guide](https://cdn.misoenergy.org/20240501%20PSC%20Item%2004%20MISO%20Transmission%20Cost%20Estimation%20Guide%20for%20MTEP24632680.pdf), pp. 19 and 23), and pasture land at $5,100/acre in GA and $4,500/acre in SC ([USDA Land Values 2026](https://www.nass.usda.gov/Publications/Todays_Reports/reports/land0726.pdf), p. 15). Yard size, months, lease rate and road length are labeled assumptions that can be edited. A combined yard is assumed to be 1.0–1.5× one yard, so sharing avoids 0.5–1.0 of a yard. Proximity alone can't prove sharing is possible.
@@ -47,4 +48,12 @@ The parser flags problems instead of fixing them silently. In the 2026–2030 DE
 
 ## Limits
 
-This is a planning aid. Locations are estimates with stated confidence; 37 of 309 projects could not be placed and are listed in the Data quality tab. We used no CEII or non-public data and did not try to reconstruct redacted costs.
+This is a planning aid. Locations are estimates with stated confidence; 32 of 309 projects could not be placed and are listed in the Data quality tab. We used no CEII or non-public data and did not try to reconstruct redacted costs.
+
+## Review fixes (2026-09-26)
+
+The review branch `codex/gridlock-review-fixes` adds universal project search, visible mobile details with Back to results, keyboard focus and tab navigation, shareable selected/filter views, consistent scenario eligibility in every export, an offline SVG brief map, and source-checked planning-forum links. Max distance applies to qualifying centers and to the minimum plausible distance of explicitly enabled possible candidates.
+
+The rebuilt data has 309 unique internal records, 277 placed projects, 32 unplaced projects, and 13 inferred OSM traces. Traces are explicitly unverified and do not appear as verified circuit routes or affect corridor scoring. Manual coordinates can declare their own confidence and radius; unsited station candidates still require public evidence. The pipeline is reproducible offline after fetching the public source PDFs once.
+
+The six sponsor example pairs remain unchanged. `PROJECT_STATUS.md` records the current validation and remaining submission work.

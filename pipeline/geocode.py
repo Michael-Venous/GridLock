@@ -32,7 +32,8 @@ VOLT = re.compile(r"\b\d{2,3}(?:\s*[-/]\s*\d{1,3})?\s*kv\b", re.I)
 STOP = re.compile(r"\b(rebuild|rebuilds|reconductor|construct|construction|upgrade|upgrades|replace|replacement|new|line|lines|"
                   r"tie|tap|loop|sub|substation|switching station|fold-in|fold in|network improvements|improvements|"
                   r"relay|modernization|breaker|breakers|auto transformer|autotransformer|transformer|statcom|cap bank|"
-                  r"series reactor|reactors?|conversion|strategic|solution|project|area|bus|jumper|spdc|second|add)\b.*$", re.I)
+                  r"series reactor|reactors?|conversion|strategic|solution|project|area|bus|jumper|spdc|second|add|"
+                  r"overstressed|network|switch|transmission|terminal|equipment|protection|capacitor)\b", re.I)
 
 
 def side_of_river(lat, lon):
@@ -80,19 +81,34 @@ def endpoint_names(rec):
     if ov is not None:
         return ov
     name = rec["name"]
-    if rec["state"] == "SC":
-        name = name.split(":")[0]
-    else:
-        name = re.sub(r"^(SAV|GTC|MEAG|DU|SPC|GRID)\s*[:\-]\s*", "", name)
-        name = re.sub(r"^CC\s*-\s*", "", name)
+    if rec["state"] != "SC":
+        name = re.sub(r"^(SAV|GTC|MEAG|DU|SPC|GRID)\s*[:\-]\s*", "", name, flags=re.I)
+        name = re.sub(r"^CC\s*[:\-–]\s*", "", name, flags=re.I)
+        name = re.sub(r"^.*\bAT\s+", "", name, flags=re.I)
+    name = name.split(":")[0]
     name = re.sub(r"\([^)]*\)", " ", name)
     name = re.sub(r"#\s*\d+", " ", name)
     m = VOLT.search(name)
     if m:
         name = name[:m.start()]
-    name = STOP.sub("", name)
-    parts = [p.strip(" ,&/") for p in re.split(r"\s*[-\u2013]\s*", name)]
-    return [p for p in parts if len(p) > 1][:3]
+    parts = []
+    for part in re.split(r"\s*[-–&]\s*", name):
+        part = part.strip(" ,/")
+        # Line Creek, New Hampton and Project Speedway are names. A descriptor
+        # can end a name only after at least one name word has been retained.
+        name_prefixes = {"line", "new", "project", "switch"}
+        stop = next((m for m in STOP.finditer(part) if m.start() > 0 or m.group().lower() not in name_prefixes), None)
+        part = part[:stop.start()].strip() if stop else part
+        if len(part) > 1:
+            parts.append(part)
+    return parts[:3]
+
+
+def compatible_directions(a, b):
+    """Do not turn East Villa Rica into West Villa Rica via a fuzzy name match."""
+    aa, bb = set(a.split()), set(b.split())
+    return not any(left in aa and right in bb or right in aa and left in bb
+                   for left, right in (("east", "west"), ("north", "south")))
 
 
 class OSMIndex:
@@ -121,7 +137,8 @@ class OSMIndex:
                 and not NOT_GRID.search(i["name"]) and on_state_side(state, i["lat"], i["lon"])]
         if part:
             return part, "osm-partial"
-        close = [i for i in self.items if len(q) > 5 and not NOT_GRID.search(i["name"]) and difflib.SequenceMatcher(None, q, i["norm"]).ratio() >= 0.9
+        close = [i for i in self.items if len(q) > 5 and compatible_directions(q, i["norm"])
+                 and not NOT_GRID.search(i["name"]) and difflib.SequenceMatcher(None, q, i["norm"]).ratio() >= 0.9
                  and on_state_side(state, i["lat"], i["lon"])]
         return close, ("osm-partial" if close else None)
 
@@ -169,8 +186,12 @@ def geocode_project(rec, osm, sponsor_points, anchor=None, allow_network=True):
         key = norm_name(n)
         pt = OVERRIDES["points"].get(f"{rec['state']}:{key}")
         if pt:
+            confidence = pt.get("confidence", CONF["manual"])
+            radius = pt.get("radiusMi", RADIUS["manual"])
+            if confidence not in ("low", "medium", "high") or not isinstance(radius, (int, float)) or not math.isfinite(radius) or radius <= 0:
+                raise ValueError(f"Invalid confidence/radiusMi for point override {rec['state']}:{key}")
             resolved.append({"name": n, "cands": [[{"lat": pt["lat"], "lon": pt["lon"]}]], "method": "manual",
-                             "evidence": pt["why"]})
+                             "confidence": confidence, "radiusMi": radius, "evidence": pt["why"]})
             continue
         sp = sponsor_points.get(f"{rec['state']}:{key}")
         if sp and anchor and haversine_mi(sp["lat"], sp["lon"], anchor["lat"], anchor["lon"]) > FAR_MI:
@@ -186,7 +207,7 @@ def geocode_project(rec, osm, sponsor_points, anchor=None, allow_network=True):
         if len(key) > 2:
             towns = nominatim(n, rec["state"], network=allow_network)
             if towns:
-                resolved.append({"name": n, "cands": [[t] for t in towns], "method": "town", "evidence": "Nominatim: " + towns[0]["label"]})
+                resolved.append({"name": n, "cands": [[t] for t in towns], "method": "town", "evidence": None})
                 continue
         resolved.append({"name": n, "cands": [], "method": None, "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"})
 
@@ -224,8 +245,9 @@ def geocode_project(rec, osm, sponsor_points, anchor=None, allow_network=True):
             continue
         g = r["cands"][choice[i]]
         c = g[0]
-        conf, method = CONF[r["method"]], r["method"]
-        note = r["evidence"] or f"OSM {', '.join(sorted({x['osm'] + ' ' + repr(x['name']) for x in g})[:2])}"
+        conf, method = r.get("confidence", CONF[r["method"]]), r["method"]
+        note = r["evidence"] or ("Nominatim: " + c["label"] if method == "town" else
+                                f"OSM {', '.join(sorted({x['osm'] + ' ' + repr(x['name']) for x in g})[:2])}")
         if len(r["cands"]) > 1:
             alts = [x[0] for k, x in enumerate(r["cands"]) if k != choice[i]]
             far = max(haversine_mi(c["lat"], c["lon"], a["lat"], a["lon"]) for a in alts)
@@ -234,5 +256,5 @@ def geocode_project(rec, osm, sponsor_points, anchor=None, allow_network=True):
             note += f"; {len(r['cands'])} places share this name (next one {far:.0f} mi away)" + (
                 "; picked the one nearest the other endpoint(s)" + (" and the planning zone" if anchor else "") if disambiguated else "")
         endpoints.append({"name": r["name"], "point": {"lat": round(c["lat"], 6), "lon": round(c["lon"], 6)}, "method": method,
-                          "confidence": conf, "radiusMi": RADIUS[method], "evidence": note})
+                          "confidence": conf, "radiusMi": r.get("radiusMi", RADIUS[method]), "evidence": note})
     return endpoints

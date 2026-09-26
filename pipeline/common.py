@@ -108,7 +108,8 @@ VOLT_RE = re.compile(r"\b\d{2,3}(?:\s*[-/]\s*\d{1,3}(?:\.\d)?)?\s*kv\b.*$", re.I
 
 
 def norm_name(s):
-    s = s.lower().replace("&", " and ")
+    s = s.lower().replace("&", " and ").replace("'", "").replace("’", "")
+    s = re.sub(r"\bhydroelectric\b", "hydro", s)
     s = re.sub(r"\((sav|usa|aug)\)", " ", s)
     s = re.sub(r"\b(st|ft|mt)\.?\s", lambda m: {"st": "saint ", "ft": "fort ", "mt": "mount "}[m.group(1)], s)
     s = re.sub(r"[^a-z0-9 ]", " ", s)

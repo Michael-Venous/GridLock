@@ -2,35 +2,40 @@
 
 Last updated: 2026-09-26
 
-Goal: a working GridLock entry for the Sperry Tech challenge (ShellHacks 2026), submitted before Sun 2026-09-27 11:00 EDT. `nick-main` is the primary branch; `origin/main` holds an older build of the 10-project prototype and is not being merged.
+Goal: a usable, evidence-led GridLock entry for the Sperry Tech challenge (ShellHacks 2026). GitHub issue #12 records Sun 2026-09-27 11:00 EDT as the submission deadline; check the event dashboard before submission.
 
-## What the app does now
+## Review and implementation baseline
 
-- Parses every project in the current public filings: DESC 2026–2030 (54 projects) and the 2025 GA ITS Ten-Year Plan 2026–2035 (255 projects). 268 are located; 17 lines are traced along OSM power lines.
-- Keeps the challenge's rule unchanged: project centers (midpoint of located endpoints) under 25 miles apart by haversine, time gap = absolute difference of in-service dates. The tests still reproduce the sponsor's six example rows exactly.
-- Adds, for ranking only: build-window overlap (DESC first budget year with spend → in-service date; Georgia Start Date → Need Date; only overlap from today on counts), location certainty (robust / sensitive / possible), shared stations and closest approach of traced lines. Score = proximity 40 + shared station 20 + line proximity 10 + timing 30, × 0.85 when location-sensitive.
-- MapLibre GL JS map, ranked pair list with filters and sorts, pair comparison, staging-yard cost scenario with cited unit costs (MISO, USDA), printable briefs, shortlist, CSV export, Data quality and Method tabs.
+- The latest fetched `main` and `nick-main` both pointed to `8b0762a`. The user explicitly approved proceeding with that latest available code on 2026-09-26.
+- Review fixes are on `codex/gridlock-review-fixes`; `main` has not been merged or deployed by this task. GitHub issues #21-26 were opened for the specific previously untracked review defects.
+- The original challenge rule is unchanged: cross-state centers strictly under 25 miles by haversine; absolute in-service date gap. The six sponsor fixture pairs still reproduce exactly.
 
-## Decisions
+## Current implemented state
 
-- The challenge's `Finding_Real_Locations_Guide.docx` controls the qualifying rule, and nothing added changes which pairs qualify.
-- Build windows are inferred from the filings' own start dates and yearly budgets. (The early prototype deliberately avoided inferring them from in-service dates alone; that decision is superseded now that the full filings are parsed.)
-- Geography outweighs timing in the score (70 vs 30 points), as the challenge makes distance the primary signal.
-- No CEII, no non-public data, no reconstruction of Georgia's redacted costs.
+- 309 unique records, 277 mapped projects, 32 unplaced. Full dataset: 72 qualifying pairs (60 robust / 12 sensitive) and 11 possible leads; default hide-past filter displays 71 qualifying pairs. No mapped project has location confidence `none`.
+- Source parsing preserves station names, handles work-description prefixes and directional distinctions, and flags zero-endpoint extraction. Geocoder evidence names the actual selected candidate. Ambiguous printed IDs now have separate internal IDs.
+- The 13 remaining OSM traces are explicitly unverified; four town/road-based traces were removed. Only routes with source-backed circuit evidence may appear as verified routes or earn corridor points.
+- A common network endpoint is an investigation lead, not proof of a shared worksite. Shared-site ranking points require sourced construction scope for both projects. Inferred planning windows and illustrative savings remain clearly conditional.
+- Universal project search includes unmatched and unlocated records. Pair/project selection opens details on narrow screens, Back to results preserves position, keyboard focus is restored and detail tabs support arrow/Home/End navigation.
+- Combined filters use a consistent distance policy: qualifying centers must meet the selected cutoff; explicitly enabled possible leads use their minimum distance across location uncertainty. The UI labels that distinction.
+- The app uses the dataset's `generated` date consistently. Counts explain dataset versus visible scope. Shareable URL state restores selection and filters without exposing local shortlist state.
+- Screen, copied text and printable briefs share scenario eligibility. Nonqualifying and zero-duration cases show no modeled saving. Briefs include a self-contained SVG location overview and source-checked SCRTP/SERTP contact links with conditional transition wording.
 
-## Data limits
+## Validation
 
-- Locations are estimates with stated method, confidence and radius; 41 projects could not be placed (4 of them unplaced because their names matched sites far outside their planning zone) and 162 endpoints rest on town-level guesses (issue #3).
-- Many published target dates have passed while the filings still list the projects as planned; the app marks their status as unconfirmed.
-- The cost scenario is a reason to make a call, not a budget.
+- 29 JavaScript regressions pass, including sponsor fixtures, source-backed ranking, geometry intersections, scenario eligibility, URL state, project search and SVG geometry/escaping.
+- 17 Python pipeline regressions pass. The downloaded public source editions reproduced the original committed JSON byte for byte; the fixed pipeline then produced identical output on two successive offline builds.
+- 18 Chromium desktop/mobile and print checks pass. Keyboard and touch-size navigation, exact list-position restoration, standalone search, duplicate IDs, combined filters and URL/shortlist persistence were verified. Qualifying and possible brief examples each print to one unclipped Letter page. Tests used a 412 × 915 mobile viewport, not a physical phone.
 
-## Repository
+## Remaining work
 
-- `github.com/Michael-Venous/GridLock`, private. Work lands on `nick-main`.
-- Supplied and downloaded PDFs and the workbook stay out of git (`data/raw/` is ignored); `pipeline/fetch.py` downloads the public ones.
+- #3 / #10: review unresolved or town-level station placements and actual work scopes. Manual overrides now support explicit confidence/radius, but Hooks, Fenwick Street, Sand Bar Ferry and Rice Hope were not assigned unverified coordinates.
+- #12: verify the real judge URL/deployment, video and Devpost submission. No deployment or submission is implied by these local tests.
+- #19: optional LLM-suggested names remain a separate, source-verifiable enrichment step. Deterministic parser fixes already improve coverage.
+- #1 / #11 / #13-16: optional routing, extra utility coverage, shared inventory, Maps API/environmental layers and cloud alerts remain future scope. Existing satellite/Maps links and source history are available; broad versions are not implemented.
 
-## Open work (GitHub issues)
+## Evidence and handoff
 
-- #3 station-name extraction; #4 routes traced to town guesses; #6 "none" confidence on placed projects; #7 pipeline vs app "today".
-- #10 hand-site Hooks, Fenwick Street, Sand Bar Ferry, Rice Hope; #11 Santee Cooper's Purrysburg–McIntosh reconductor (optional).
-- #12 submission checklist: deploy, demo video, Devpost.
+- Previous review: `../gridlock-review-2026-09-26/` (challenge, code, usability and all original issue details).
+- Current update bundle: `../gridlock-update-2026-09-26/` (before/after metrics, created-issue URLs, regression results, browser evidence, screenshots and concise PDF).
+- Public raw inputs remain ignored under `data/raw/`. No CEII, non-public utility data or redacted-cost reconstruction is used.
