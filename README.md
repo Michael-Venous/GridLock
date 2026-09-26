@@ -9,7 +9,7 @@ python3 -m http.server 8000      # then open http://localhost:8000
 node --test tests/*.test.js      # 14 tests, including the sponsor's six example rows
 ```
 
-The app is static and has no build step, API keys or backend. The OpenStreetMap basemap needs internet access.
+The app is static and has no build step, API keys or backend. The map is MapLibre GL JS (loaded from jsDelivr) over free OpenFreeMap vector tiles of OpenStreetMap data, so it needs internet access and WebGL.
 
 ## Rebuild the data
 

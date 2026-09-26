@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#07151d">
   <title>GridLock | Coordination finder</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/dist/maplibre-gl.css">
   <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/dist/maplibre-gl.js" defer></script>
 </head>
 <body>
   <header class="topbar">
@@ -52,10 +54,9 @@
       <section class="map-panel" aria-label="Interactive project map">
         <div class="map-heading"><div><strong>Project locations</strong><span>Georgia · South Carolina</span></div><div class="legend"><span><i class="swatch desc"></i> DESC (SC)</span><span><i class="swatch gpc"></i> Georgia ITS</span><span><i class="swatch link"></i> Qualifying pair</span><span><i class="swatch route"></i> Traced line</span></div></div>
         <div class="map-wrap">
-          <svg id="map" viewBox="0 0 900 650" role="img" aria-label="Map of planned projects and qualifying cross-utility pairs"></svg>
+          <div id="map" role="region" aria-label="Map of planned projects and qualifying cross-utility pairs"></div>
           <div class="map-controls"><button id="zoom-in" type="button" aria-label="Zoom in">+</button><button id="zoom-out" type="button" aria-label="Zoom out">−</button><button id="fit" type="button" aria-label="Reset map view">⌖</button><button id="fit-all" type="button" aria-label="Show both states" title="Show both states">⤢</button></div>
-          <div class="map-note">Dots are project centers (midpoint of located endpoints). Rings show location uncertainty. Scroll to zoom · drag to pan</div>
-          <div class="map-attribution">© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a></div>
+          <div class="map-note">Dots are project centers (midpoint of located endpoints). Rings show location uncertainty. Scroll to zoom, drag to pan, click empty map to deselect</div>
         </div>
         <div class="map-footer"><span><i class="dot desc"></i> DESC <b id="desc-count">0</b></span><span><i class="dot gpc"></i> Georgia ITS <b id="gpc-count">0</b></span><span class="map-footer-note">Straight links show matches, not transmission routes.</span></div>
       </section>

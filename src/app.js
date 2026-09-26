@@ -1,81 +1,41 @@
 import { matchProjects, gapLabel, overlapLabel, opportunityText, savingsEstimate, yardScenario, projectType, sortPairs, milesBetween, SORTS, WEIGHTS, YARD_BASIS, MAX_MILES } from "./match.js";
 
 const $ = id => document.getElementById(id);
-const svgNS = "http://www.w3.org/2000/svg";
 const state = {
   data: null, projects: [], allPairs: [], pairs: [], selectedProject: null, selectedPair: null, search: "", distance: 25, year: 2035,
-  gap: "all", hidePast: true, includePossible: false, shortlistOnly: false, sort: "score", asOf: null, view: { x: 0, y: 0, w: 900, h: 650 },
+  gap: "all", hidePast: true, includePossible: false, shortlistOnly: false, sort: "score", asOf: null,
   shortlist: new Set(), yard: { acres: 5, months: null, leaseRate: 0.10, surface: "mats", surfacePerAcre: YARD_BASIS.matsPerAcre.value, roadMiles: 0.25 },
 };
 const FILTER_DEFAULTS = { search: "", distance: 25, year: 2035, gap: "all", hidePast: true, includePossible: false, shortlistOnly: false };
 const SHORTLIST_KEY = "gridlock.shortlist";
 function loadShortlist() { try { return new Set(JSON.parse(localStorage.getItem(SHORTLIST_KEY) ?? "[]")); } catch { return new Set(); } }
 function saveShortlist() { try { localStorage.setItem(SHORTLIST_KEY, JSON.stringify([...state.shortlist])); } catch { /* storage unavailable: shortlist lasts for this visit */ } }
-const bounds = { west: -85.8, east: -78.4, south: 30.3, north: 35.3 };
-const border = { west: -82.7, east: -80.6, south: 31.85, north: 33.95 };
-const tileZoom = 8;
-const tileSize = 256;
-const worldSize = tileSize * 2 ** tileZoom;
+const bounds = [[-85.8, 30.3], [-78.4, 35.3]];
+const border = [[-82.7, 31.85], [-80.6, 33.95]];
+const COLORS = { desc: "#0a8494", gpc: "#cb6e30" };
+// OpenFreeMap: free OpenStreetMap vector tiles, no API key.
+const BASEMAP = "https://tiles.openfreemap.org/styles/positron";
+const FALLBACK_STYLE = { version: 8, glyphs: "https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf", sources: {}, layers: [{ id: "background", type: "background", paint: { "background-color": "#e5ecec" } }] };
+const MILES_PER_DEGREE = 69.09;
+let map = null, mapReady = false, styleFailed = false, pendingFocus = null;
+const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-function worldPoint(point) {
-  const latitude = Math.max(-85.0511, Math.min(85.0511, point.lat)) * Math.PI / 180;
-  return {
-    x: (point.lon + 180) / 360 * worldSize,
-    y: (1 - Math.log(Math.tan(latitude) + 1 / Math.cos(latitude)) / Math.PI) / 2 * worldSize,
-  };
+const lngLat = point => [point.lon, point.lat];
+const featureCollection = features => ({ type: "FeatureCollection", features });
+const pointFeature = (point, properties) => ({ type: "Feature", geometry: { type: "Point", coordinates: lngLat(point) }, properties });
+// A circle of the given radius in miles, as a polygon, so it stays true to scale at every zoom.
+function ring(center, miles, steps = 64) {
+  const dLat = miles / MILES_PER_DEGREE, dLon = dLat / Math.cos(center.lat * Math.PI / 180);
+  return Array.from({ length: steps + 1 }, (_, i) => { const t = 2 * Math.PI * i / steps; return [center.lon + dLon * Math.cos(t), center.lat + dLat * Math.sin(t)]; });
 }
-const northwest = worldPoint({ lat: bounds.north, lon: bounds.west });
-const southeast = worldPoint({ lat: bounds.south, lon: bounds.east });
-const scaleX = 900 / (southeast.x - northwest.x);
-const scaleY = 650 / (southeast.y - northwest.y);
-const loadedTiles = new Set();
-
-function viewFor(box) {
-  const rect = $("map").getBoundingClientRect();
-  const ratio = rect.width / Math.max(rect.height, 1);
-  const a = position({ lat: box.north, lon: box.west }), b = position({ lat: box.south, lon: box.east });
-  let w = b.x - a.x, h = b.y - a.y;
-  if (w / h < ratio) w = h * ratio; else h = w / ratio;
-  return { x: (a.x + b.x) / 2 - w / 2, y: (a.y + b.y) / 2 - h / 2, w, h };
-}
-const fittedView = () => viewFor(border);
-
-// Pick the OSM zoom level whose tiles land near 256 screen pixels, and redraw when it changes.
-let tileLevel = null;
-function renderTiles() {
-  const tiles = $("map").querySelector(".basemap");
-  if (!tiles) return;
-  const view = state.view;
-  const pxPerUnit = Math.max($("map").getBoundingClientRect().width, 1) / view.w;
-  const z = Math.max(5, Math.min(13, Math.round(tileZoom + Math.log2(pxPerUnit * scaleX))));   // screen px per level-8 world px
-  if (z !== tileLevel) { tiles.replaceChildren(); loadedTiles.clear(); tileLevel = z; }
-  const f = 2 ** (z - tileZoom);            // tiles at level z are this many times denser than level 8
-  const size = tileSize / f;                // one level-z tile in level-8 world pixels
-  const minX = Math.floor((northwest.x + view.x / scaleX) / size);
-  const maxX = Math.floor((northwest.x + (view.x + view.w) / scaleX) / size);
-  const minY = Math.floor((northwest.y + view.y / scaleY) / size);
-  const maxY = Math.floor((northwest.y + (view.y + view.h) / scaleY) / size);
-  if ((maxX - minX + 1) * (maxY - minY + 1) > 400) return;
-  for (let x = minX; x <= maxX; x++) {
-    for (let y = minY; y <= maxY; y++) {
-      const key = `${z}/${x}/${y}`;
-      if (loadedTiles.has(key)) continue;
-      loadedTiles.add(key);
-      tiles.append(el("image", {
-        x: (x * size - northwest.x) * scaleX, y: (y * size - northwest.y) * scaleY,
-        width: size * scaleX + 0.02 * size * scaleX, height: size * scaleY + 0.02 * size * scaleY,
-        href: `https://tile.openstreetmap.org/${z}/${x}/${y}.png`, class: "basemap-tile", preserveAspectRatio: "none",
-      }));
-    }
-  }
+function geometryFeatures(project) {
+  const s = side(project), out = [];
+  if (project.center && project.radiusMi) out.push({ type: "Feature", geometry: { type: "Polygon", coordinates: [ring(project.center, project.radiusMi)] }, properties: { kind: "uncertainty", side: s } });
+  if (project.route) out.push({ type: "Feature", geometry: { type: "LineString", coordinates: project.route.coords.map(([lat, lon]) => [lon, lat]) }, properties: { kind: "route", side: s } });
+  for (const e of project.endpoints) if (e.point) out.push(pointFeature(e.point, { kind: "endpoint", side: s, title: `${e.name} · ${e.method} · ${e.confidence}` }));
+  return out;
 }
 
-function el(tag, attrs = {}, text = "") {
-  const node = document.createElementNS(svgNS, tag);
-  for (const [key, value] of Object.entries(attrs)) node.setAttribute(key, value);
-  if (text) node.textContent = text;
-  return node;
-}
 function h(tag, className = "", text = "") {
   const node = document.createElement(tag);
   node.className = className;
@@ -83,10 +43,6 @@ function h(tag, className = "", text = "") {
   return node;
 }
 function link(href, text) { const a = h("a", "", text); a.href = href; a.target = "_blank"; a.rel = "noopener noreferrer"; return a; }
-function position(point) {
-  const world = worldPoint(point);
-  return { x: (world.x - northwest.x) / (southeast.x - northwest.x) * 900, y: (world.y - northwest.y) / (southeast.y - northwest.y) * 650 };
-}
 const side = project => project.state === "SC" ? "desc" : "gpc";
 const sideName = project => project.state === "SC" ? "DESC" : project.utility === "SAV" ? "GPC · Savannah" : project.utility;
 function projectLabel(project) { return `${project.projectId} · ${project.name}`; }
@@ -239,95 +195,113 @@ function nearestPartner(project) {
   return best;
 }
 
-function mapBase(svg) {
-  svg.append(el("rect", { x: -2000, y: -2000, width: 5000, height: 5000, fill: "#e5ecec" }));
-  const fallback = el("g", { class: "map-grid" });
-  for (let lon = -85; lon <= -79; lon++) {
-    const p = position({ lat: 32, lon });
-    fallback.append(el("line", { x1: p.x, y1: -2000, x2: p.x, y2: 3000, class: "grid-line" }), el("text", { x: p.x + 5, y: 18, class: "grid-label" }, `${Math.abs(lon)}°W`));
-  }
-  for (let lat = 31; lat <= 35; lat++) {
-    const p = position({ lat, lon: -85 });
-    fallback.append(el("line", { x1: -2000, y1: p.y, x2: 3000, y2: p.y, class: "grid-line" }), el("text", { x: 8, y: p.y - 7, class: "grid-label" }, `${lat}°N`));
-  }
-  svg.append(fallback);
-  svg.append(el("g", { class: "basemap" }), el("rect", { x: -2000, y: -2000, width: 5000, height: 5000, class: "basemap-shade" }), el("g", { id: "map-overlay" }));
-  renderTiles();
+function initMap() {
+  if (!window.maplibregl) { $("map").append(h("p", "map-error", "The map library could not load. Check the internet connection and reload; the list and details still work.")); return; }
+  try {
+    map = new maplibregl.Map({ container: "map", style: BASEMAP, bounds: border, fitBoundsOptions: { padding: 20 }, attributionControl: { compact: false }, dragRotate: false, pitchWithRotate: false, touchPitch: false });
+  } catch (error) { $("map").append(h("p", "map-error", `The map needs WebGL, which this browser has turned off (${error.message}). The list and details still work.`)); return; }
+  map.touchZoomRotate.disableRotation();
+  map.keyboard.disableRotation();
+  // If the basemap style can't be fetched, fall back to a plain background so the project layers still draw.
+  map.on("error", event => { if (!mapReady && !map.isStyleLoaded() && !styleFailed) { styleFailed = true; console.warn("Basemap unavailable:", event.error?.message); map.setStyle(FALLBACK_STYLE); } });
+  map.on("load", () => {
+    addLayers();
+    mapReady = true;
+    renderMap();
+    if (pendingFocus) { focusPair(pendingFocus); pendingFocus = null; }
+  });
+  const tip = new maplibregl.Popup({ closeButton: false, closeOnClick: false, className: "map-tip", offset: 12, maxWidth: "280px" });
+  let hovered = null;
+  const setHover = next => {
+    if (hovered && (!next || hovered.id !== next.id || hovered.source !== next.source)) map.setFeatureState(hovered, { hover: false });
+    if (next) map.setFeatureState(next, { hover: true });
+    hovered = next;
+  };
+  const hitAt = point => mapReady ? map.queryRenderedFeatures(point, { layers: ["project-hit", "links-hit", "endpoints"] })[0] : null;
+  map.on("mousemove", event => {
+    const f = hitAt(event.point);
+    setHover(f && f.layer.id !== "endpoints" ? { source: f.source, id: f.id } : null);
+    map.getCanvas().style.cursor = f && f.layer.id !== "endpoints" ? "pointer" : "";
+    if (f) tip.setLngLat(event.lngLat).setText(f.properties.title).addTo(map); else tip.remove();
+  });
+  map.getCanvas().addEventListener("mouseleave", () => { setHover(null); tip.remove(); });
+  // MapLibre fires click only for a press that didn't turn into a pan, so a click on empty map deselects.
+  map.on("click", event => {
+    if (!mapReady) return;
+    const hits = map.queryRenderedFeatures(event.point, { layers: ["project-hit", "links-hit"] });
+    const project = hits.find(f => f.layer.id === "project-hit");
+    const link = hits.find(f => f.layer.id === "links-hit");
+    if (project) { state.selectedProject = project.properties.id; state.selectedPair = null; applyFilters(); }
+    else if (link) selectPair(state.pairs.find(p => p.id === link.properties.id));
+    else if (state.selectedPair || state.selectedProject) { state.selectedPair = null; state.selectedProject = null; applyFilters(); }
+  });
 }
 
-function sizeMarkers() {
-  const svg = $("map");
-  const px = state.view.w / Math.max(svg.getBoundingClientRect().width, 1);
-  svg.querySelectorAll(".marker-core").forEach(marker => marker.setAttribute("r", String((marker.closest(".chosen") ? 8 : marker.classList.contains("small") ? 3.5 : 6) * px)));
-  svg.querySelectorAll(".marker-halo").forEach(marker => marker.setAttribute("r", String(14 * px)));
-  svg.querySelectorAll(".marker-label").forEach(t => { t.setAttribute("x", Number(t.dataset.x) + 11 * px); t.setAttribute("y", Number(t.dataset.y) + 4 * px); t.setAttribute("font-size", 12 * px); t.setAttribute("stroke-width", 3.5 * px); });
-  svg.querySelectorAll(".endpoint").forEach(dot => { const [cx, cy] = [Number(dot.dataset.x), Number(dot.dataset.y)]; dot.setAttribute("x", cx - 3 * px); dot.setAttribute("y", cy - 3 * px); dot.setAttribute("width", 6 * px); dot.setAttribute("height", 6 * px); });
-}
-
-function milesToUnits(point, miles) {
-  const a = position(point), b = position({ lat: point.lat + miles / 69.0, lon: point.lon });
-  return Math.abs(a.y - b.y);
-}
-
-function drawProjectGeometry(overlay, project) {
-  if (project.center && project.radiusMi) {
-    const p = position(project.center);
-    overlay.append(el("circle", { cx: p.x, cy: p.y, r: milesToUnits(project.center, project.radiusMi), class: `uncertainty ${side(project)}` }));
-  }
-  if (project.route) {
-    overlay.append(el("polyline", { points: project.route.coords.map(([lat, lon]) => { const q = position({ lat, lon }); return `${q.x},${q.y}`; }).join(" "), class: `route ${side(project)}` }));
-  }
-  for (const e of project.endpoints) {
-    if (!e.point) continue;
-    const q = position(e.point);
-    const dot = el("rect", { x: q.x - 2, y: q.y - 2, width: 4, height: 4, "data-x": q.x, "data-y": q.y, class: `endpoint ${side(project)}` });
-    dot.append(el("title", {}, `${e.name} · ${e.method} · ${e.confidence}`));
-    overlay.append(dot);
-  }
+function addLayers() {
+  map.addSource("geometry", { type: "geojson", data: featureCollection([]) });
+  map.addSource("links", { type: "geojson", data: featureCollection([]), promoteId: "id" });
+  map.addSource("projects", { type: "geojson", data: featureCollection([]), promoteId: "id" });
+  const bySide = ["match", ["get", "side"], "desc", COLORS.desc, COLORS.gpc];
+  const kind = k => ["==", ["get", "kind"], k];
+  const hover = ["boolean", ["feature-state", "hover"], false];
+  const linkState = ["get", "state"];
+  map.addLayer({ id: "uncertainty-fill", type: "fill", source: "geometry", filter: kind("uncertainty"), paint: { "fill-color": bySide, "fill-opacity": 0.08 } });
+  map.addLayer({ id: "uncertainty-line", type: "line", source: "geometry", filter: kind("uncertainty"), paint: { "line-color": bySide, "line-width": 1.2, "line-dasharray": [4, 3] } });
+  map.addLayer({ id: "routes", type: "line", source: "geometry", filter: kind("route"), layout: { "line-join": "round", "line-cap": "round" }, paint: { "line-color": bySide, "line-width": 3.5 } });
+  const linkPaint = {
+    "line-color": ["case", ["any", hover, ["==", linkState, "selected"]], "#132f3b", "#37535f"],
+    "line-width": ["case", ["any", hover, ["==", linkState, "selected"]], 5, 2.7],
+  };
+  map.addLayer({ id: "links", type: "line", source: "links", filter: ["!", ["get", "possible"]], layout: { "line-sort-key": ["match", linkState, "selected", 2, "normal", 1, 0], "line-cap": "round" },
+    paint: { ...linkPaint, "line-opacity": ["case", hover, 1, ["==", linkState, "selected"], 1, ["==", linkState, "dim"], 0.15, 0.72] } });
+  map.addLayer({ id: "links-possible", type: "line", source: "links", filter: ["get", "possible"],
+    paint: { ...linkPaint, "line-dasharray": [2, 2], "line-opacity": ["case", hover, 1, ["==", linkState, "selected"], 1, ["==", linkState, "dim"], 0.15, 0.45] } });
+  map.addLayer({ id: "links-hit", type: "line", source: "links", paint: { "line-color": "#000", "line-width": 14, "line-opacity": 0 } });
+  map.addLayer({ id: "endpoints", type: "circle", source: "geometry", filter: kind("endpoint"), paint: { "circle-radius": 3.5, "circle-color": "#fff", "circle-stroke-color": bySide, "circle-stroke-width": 1.5 } });
+  const focus = ["get", "focus"];
+  map.addLayer({ id: "project-halo", type: "circle", source: "projects", filter: ["any", ["==", focus, "chosen"], ["get", "matched"]],
+    paint: { "circle-radius": 14, "circle-color": bySide, "circle-opacity": ["case", ["==", focus, "chosen"], 0.2, hover, 0.2, 0], "circle-stroke-color": bySide, "circle-stroke-width": ["case", ["==", focus, "chosen"], 2.5, hover, 2, 0] } });
+  map.addLayer({ id: "project-core", type: "circle", source: "projects", layout: { "circle-sort-key": ["get", "order"] },
+    paint: {
+      "circle-radius": ["case", ["==", focus, "chosen"], 8, ["get", "matched"], 6, 3.5],
+      "circle-color": bySide,
+      "circle-stroke-color": ["case", ["==", focus, "chosen"], "#13232a", "#fff"],
+      "circle-stroke-width": ["case", ["get", "matched"], 2.5, ["==", focus, "chosen"], 2.5, 1.5],
+      "circle-opacity": ["case", ["==", focus, "faded"], 0.35, ["get", "matched"], 1, ["case", hover, 1, 0.55]],
+      "circle-stroke-opacity": ["case", ["==", focus, "faded"], 0.35, 1],
+    } });
+  map.addLayer({ id: "project-hit", type: "circle", source: "projects", layout: { "circle-sort-key": ["get", "order"] }, paint: { "circle-radius": 12, "circle-color": "#000", "circle-opacity": 0 } });
+  map.addLayer({ id: "project-labels", type: "symbol", source: "projects", filter: ["==", focus, "chosen"],
+    layout: { "text-field": ["get", "label"], "text-font": ["Noto Sans Bold"], "text-size": 12, "text-anchor": "left", "text-offset": [1.35, 0], "text-allow-overlap": true, "text-ignore-placement": true },
+    paint: { "text-color": ["match", ["get", "side"], "desc", "#0b5f6b", "#9a4a17"], "text-halo-color": "#fff", "text-halo-width": 2.5 } });
 }
 
 function renderMap() {
-  const svg = $("map");
-  if (!svg.querySelector("#map-overlay")) mapBase(svg);
-  const overlay = svg.querySelector("#map-overlay");
-  overlay.replaceChildren();
   const pair = state.allPairs.find(p => p.id === state.selectedPair);
   const project = state.projects.find(p => p.id === state.selectedProject);
-  if (pair) { drawProjectGeometry(overlay, pair.a); drawProjectGeometry(overlay, pair.b); }
-  if (project) drawProjectGeometry(overlay, project);
   const activeIds = new Set(state.pairs.flatMap(p => [p.a.id, p.b.id]));
   const focusIds = new Set(pair ? [pair.a.id, pair.b.id] : project ? [project.id] : []);
-  state.pairs.forEach(p => {
-    const a = position(p.a.center), b = position(p.b.center);
-    const line = el("line", { x1: a.x, y1: a.y, x2: b.x, y2: b.y, class: `pair-link${p.id === state.selectedPair ? " selected" : state.selectedPair ? " dim" : ""}${p.qualifies ? "" : " possible"}` });
-    line.append(el("title", {}, `${p.a.projectId} ↔ ${p.b.projectId}: ${p.miles.toFixed(1)} miles`));
-    line.addEventListener("click", event => { event.stopPropagation(); selectPair(p); });
-    overlay.append(line);
-  });
   const visibleProjects = state.projects.filter(p => p.center && bySelectedYear(p));
-  visibleProjects.sort((x, y) => activeIds.has(x.id) - activeIds.has(y.id) || focusIds.has(x.id) - focusIds.has(y.id)).forEach(p => {
-    const q = position(p.center);
-    const matched = activeIds.has(p.id);
-    const focused = focusIds.has(p.id);
-    const group = el("g", { class: `project-marker ${side(p)}${matched ? " matched" : ""}${focused ? " chosen" : pair ? " faded" : ""}`, tabindex: "0", role: "button", "aria-label": `View ${projectLabel(p)}` });
-    group.append(el("circle", { cx: q.x, cy: q.y, r: 13, class: "marker-halo" }), el("circle", { cx: q.x, cy: q.y, r: 6.5, class: `marker-core${matched ? "" : " small"}` }), el("title", {}, `${projectLabel(p)}\n${sideName(p)} · in service ${formatDate(p.inServiceDate)}`));
-    const select = event => { event.stopPropagation(); state.selectedProject = p.id; state.selectedPair = null; applyFilters(); };
-    group.addEventListener("click", select);
-    group.addEventListener("keydown", event => { if (event.key === "Enter" || event.key === " ") select(event); });
-    if (focused) group.append(el("text", { x: q.x, y: q.y, "data-x": q.x, "data-y": q.y, class: `marker-label ${side(p)}` }, p.projectId));
-    overlay.append(group);
-  });
-  svg.setAttribute("viewBox", `${state.view.x} ${state.view.y} ${state.view.w} ${state.view.h}`);
-  sizeMarkers();
   $("desc-count").textContent = String(visibleProjects.filter(p => p.state === "SC").length);
   $("gpc-count").textContent = String(visibleProjects.filter(p => p.state === "GA").length);
+  if (!mapReady) return;
+  map.getSource("geometry").setData(featureCollection((pair ? [pair.a, pair.b] : project ? [project] : []).flatMap(geometryFeatures)));
+  map.getSource("links").setData(featureCollection(state.pairs.map(p => ({
+    type: "Feature", geometry: { type: "LineString", coordinates: [lngLat(p.a.center), lngLat(p.b.center)] },
+    properties: { id: p.id, possible: !p.qualifies, state: p.id === state.selectedPair ? "selected" : state.selectedPair ? "dim" : "normal", title: `${p.a.projectId} ↔ ${p.b.projectId}: ${p.miles.toFixed(1)} miles` },
+  }))));
+  map.getSource("projects").setData(featureCollection(visibleProjects.map(p => pointFeature(p.center, {
+    id: p.id, side: side(p), matched: activeIds.has(p.id), focus: focusIds.has(p.id) ? "chosen" : pair ? "faded" : "normal", label: p.projectId,
+    order: (activeIds.has(p.id) ? 1 : 0) + (focusIds.has(p.id) ? 2 : 0),
+    title: `${projectLabel(p)}\n${sideName(p)} · in service ${formatDate(p.inServiceDate)}`,
+  }))));
 }
 
 function focusPair(pair) {
+  if (!mapReady) { pendingFocus = pair; return; }
   const lats = [pair.a.center.lat, pair.b.center.lat], lons = [pair.a.center.lon, pair.b.center.lon];
-  const pad = 0.04 + Math.max(pair.a.radiusMi ?? 0, pair.b.radiusMi ?? 0) / 69;
-  state.view = viewFor({ north: Math.max(...lats) + pad, south: Math.min(...lats) - pad, west: Math.min(...lons) - pad, east: Math.max(...lons) + pad });
-  renderMap(); renderTiles();
+  const pad = 0.04 + Math.max(pair.a.radiusMi ?? 0, pair.b.radiusMi ?? 0) / MILES_PER_DEGREE;
+  map.fitBounds([[Math.min(...lons) - pad, Math.min(...lats) - pad], [Math.max(...lons) + pad, Math.max(...lats) + pad]], { padding: 30, duration: reducedMotion() ? 0 : 700 });
 }
 
 function infoRow(label, value) { const row = h("div", "info-row"); row.append(h("span", "", label), value instanceof Node ? value : h("strong", "", value)); return row; }
@@ -712,18 +686,7 @@ function setView(name) {
   document.querySelectorAll(".view").forEach(v => { v.hidden = v.id !== `view-${name}`; });
   window.scrollTo(0, 0);
   document.querySelectorAll(".doc-view").forEach(v => { v.scrollTop = 0; });
-  if (name === "explore") { renderMap(); renderTiles(); }
-}
-
-function zoom(factor, x = state.view.x + state.view.w / 2, y = state.view.y + state.view.h / 2) {
-  const nextW = Math.max(12, Math.min(2400, state.view.w * factor));
-  const nextH = state.view.h * nextW / state.view.w;
-  state.view.x = x - (x - state.view.x) * nextW / state.view.w;
-  state.view.y = y - (y - state.view.y) * nextH / state.view.h;
-  state.view.w = nextW; state.view.h = nextH;
-  $("map").setAttribute("viewBox", `${state.view.x} ${state.view.y} ${nextW} ${nextH}`);
-  sizeMarkers();
-  renderTiles();
+  if (name === "explore") map?.resize();
 }
 
 function exportCsv() {
@@ -745,22 +708,11 @@ $("sort").addEventListener("change", event => { state.sort = event.target.value;
 $("shortlist-only").addEventListener("change", event => { state.shortlistOnly = event.target.checked; applyFilters(); });
 $("shortlist-export").addEventListener("click", () => { const pairs = state.allPairs.filter(p => state.shortlist.has(p.id)); if (pairs.length) openBriefs(pairs); });
 $("export").addEventListener("click", exportCsv);
-$("zoom-in").addEventListener("click", () => zoom(0.7));
-$("zoom-out").addEventListener("click", () => zoom(1 / 0.7));
-$("fit").addEventListener("click", () => { state.view = fittedView(); renderMap(); renderTiles(); });
-$("fit-all").addEventListener("click", () => { state.view = viewFor(bounds); renderMap(); renderTiles(); });
+$("zoom-in").addEventListener("click", () => map?.zoomIn());
+$("zoom-out").addEventListener("click", () => map?.zoomOut());
+$("fit").addEventListener("click", () => map?.fitBounds(border, { padding: 20 }));
+$("fit-all").addEventListener("click", () => map?.fitBounds(bounds, { padding: 20 }));
 document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => setView(t.dataset.view)));
-$("map").addEventListener("wheel", event => { event.preventDefault(); const rect = $("map").getBoundingClientRect(); const x = state.view.x + (event.clientX - rect.left) / rect.width * state.view.w; const y = state.view.y + (event.clientY - rect.top) / rect.height * state.view.h; zoom(event.deltaY > 0 ? 1.15 : 0.87, x, y); }, { passive: false });
-let dragging = null;
-$("map").addEventListener("pointerdown", event => { if (event.target.closest(".project-marker, .pair-link")) return; dragging = { x: event.clientX, y: event.clientY, view: { ...state.view } }; $("map").setPointerCapture(event.pointerId); });
-$("map").addEventListener("pointermove", event => { if (!dragging) return; const rect = $("map").getBoundingClientRect(); state.view.x = dragging.view.x - (event.clientX - dragging.x) / rect.width * state.view.w; state.view.y = dragging.view.y - (event.clientY - dragging.y) / rect.height * state.view.h; $("map").setAttribute("viewBox", `${state.view.x} ${state.view.y} ${state.view.w} ${state.view.h}`); renderTiles(); });
-// A click on empty map (a press that didn't turn into a pan) deselects, like clicking off a node in any map app.
-$("map").addEventListener("pointerup", event => {
-  const moved = dragging ? Math.hypot(event.clientX - dragging.x, event.clientY - dragging.y) : Infinity;
-  dragging = null;
-  if (moved < 5 && (state.selectedPair || state.selectedProject)) { state.selectedPair = null; state.selectedProject = null; applyFilters(); }
-});
-$("map").addEventListener("pointercancel", () => { dragging = null; });
 
 try {
   const response = await fetch("data/projects.json");
@@ -776,18 +728,7 @@ try {
   $("sort-hint").textContent = `Score: geography ${WEIGHTS.proximity + WEIGHTS.shared + WEIGHTS.corridor} pts (distance ${WEIGHTS.proximity}, shared station ${WEIGHTS.shared}, line proximity ${WEIGHTS.corridor}) + timing ${WEIGHTS.timing}. Distance sets most of the order.`;
   const issueTotal = state.projects.reduce((n, p) => n + p.issues.filter(i => i.level !== "info").length, 0);
   $("issue-count").textContent = String(issueTotal);
-  state.view = fittedView();
+  initMap();
   renderQuality(); renderMethod();
   applyFilters();
-  new ResizeObserver(() => {
-    const svg = $("map");
-    const rect = svg.getBoundingClientRect();
-    if (!rect.width || !rect.height) return;
-    const centerY = state.view.y + state.view.h / 2;
-    state.view.h = state.view.w * rect.height / rect.width;
-    state.view.y = centerY - state.view.h / 2;
-    svg.setAttribute("viewBox", `${state.view.x} ${state.view.y} ${state.view.w} ${state.view.h}`);
-    sizeMarkers();
-    renderTiles();
-  }).observe($("map"));
 } catch (error) { $("match-list").textContent = `Could not load project data: ${error.message}. Run the local server described in README.md.`; console.error(error); }
