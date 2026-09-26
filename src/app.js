@@ -22,6 +22,7 @@ function position(point) {
 }
 function projectLabel(project) { return `${project.id} · ${project.name}`; }
 function formatDate(value) { return value ? new Intl.DateTimeFormat("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" }).format(new Date(`${value}T00:00:00Z`)) : "Unknown"; }
+function datePassed(value) { return Boolean(value && value < new Date().toISOString().slice(0, 10)); }
 function includesSearch(pair) { const q = state.search; return !q || [pair.a, pair.b].some(p => `${p.id} ${p.name} ${p.utility}`.toLowerCase().includes(q)); }
 
 function applyFilters() {
@@ -34,7 +35,7 @@ function applyFilters() {
 }
 
 function renderStats() {
-  const cards = [["10", "planned projects"], [String(state.allPairs.length), "nearby pairs"], ["2", "utilities compared"]];
+  const cards = [[String(state.projects.length), "source projects"], [String(state.allPairs.length), "nearby pairs"], ["2", "utilities compared"]];
   $("stats").replaceChildren(...cards.map(([value, label]) => { const card = h("div", "stat"); card.append(h("strong", "", value), h("span", "", label)); return card; }));
 }
 
@@ -46,7 +47,7 @@ function renderList() {
     button.type = "button"; button.setAttribute("aria-label", `View match ${index + 1}: ${pair.a.name} and ${pair.b.name}`);
     const top = h("div", "card-top"); top.append(h("span", "rank", `#${index + 1} opportunity`), h("strong", "distance-pill", `${pair.miles.toFixed(1)} mi`));
     button.append(top, h("strong", "pair-title", `${pair.a.name} × ${pair.b.name}`));
-    const meta = h("div", "card-meta"); meta.append(h("span", "", "DESC ↔ GPC"), h("span", "", gapLabel(pair.gapDays))); button.append(meta);
+    const meta = h("div", "card-meta"); meta.append(h("span", "", datePassed(pair.a.inServiceDate) || datePassed(pair.b.inServiceDate) ? "Past target date · status unverified" : "DESC ↔ GPC"), h("span", "", gapLabel(pair.gapDays))); button.append(meta);
     button.addEventListener("click", () => { state.selectedPair = pair.id; state.selectedProject = null; applyFilters(); });
     list.append(button);
   });
@@ -97,7 +98,9 @@ function renderDetail() {
   if (pair) {
     detail.append(h("p", "eyebrow", "Opportunity detail"), h("h2", "", "Why this pair?"), h("p", "detail-lead", opportunityText(pair)));
     const score = h("div", "score-block"); score.append(h("strong", "", `${pair.miles.toFixed(2)} miles`), h("span", "", "Center-to-center distance · straight line")); detail.append(score);
-    const timing = h("div", "timing-callout"); timing.append(h("strong", "", gapLabel(pair.gapDays)), h("span", "", "between in-service dates. This does not confirm that construction windows overlap.")); detail.append(timing);
+    const timing = h("div", "timing-callout"); timing.append(h("strong", "", gapLabel(pair.gapDays)), h("span", "", "between in-service dates. This does not confirm that construction windows overlap."));
+    if (datePassed(pair.a.inServiceDate) || datePassed(pair.b.inServiceDate)) timing.append(h("span", "", "At least one published in-service date has passed; current project status is unverified."));
+    detail.append(timing);
     for (const p of [pair.a, pair.b]) {
       const block = h("div", "project-block"); block.append(h("span", `utility-label ${p.utility.toLowerCase()}`, `${p.utility} · ${p.state}`), h("h3", "", p.name), infoRow("In service", formatDate(p.inServiceDate)), infoRow("Map center", `${p.center.lat.toFixed(4)}, ${p.center.lon.toFixed(4)}`)); detail.append(block);
     }

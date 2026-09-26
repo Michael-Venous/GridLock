@@ -21,7 +21,7 @@ Open `http://localhost:8000` in a browser. The app is static and can be hosted o
 
 The prototype recalculates all cross-utility pairs from project center coordinates using the haversine straight-line distance. A pair qualifies only when its centers are **less than 25 miles** apart. Results rank by distance, then by the absolute gap between published in-service dates. The date gap is only a clue; it does not prove construction windows overlap. When a workbook endpoint lacks coordinates, the provided project center is used as supplied. The workbook's coordinates have not been independently verified, and map lines connecting matched projects are visual links, not proposed routes.
 
-The map shows the supplied geographic coordinates on an interactive latitude/longitude grid. Named places are orientation labels, not a surveyed basemap. The app has project selection, pair selection, search, distance and timing filters, zoom/pan, and CSV export of the current ranked list. It does not make a savings claim because there is no supported cost basis in the starter package.
+The map shows the supplied geographic coordinates on an interactive latitude/longitude grid. Named places are orientation labels, not a surveyed basemap. The app has project selection, pair selection, search, distance and timing filters, zoom/pan, and CSV export of the current ranked list. Several published in-service dates are now in the past, and the app flags them without assuming the projects were completed. It does not make a savings claim because there is no supported cost basis in the starter package.
 
 To regenerate the JSON from your copy of the supplied workbook:
 
