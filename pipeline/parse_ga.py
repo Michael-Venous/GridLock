@@ -1,21 +1,25 @@
-"""Parse the '2025 GA ITS Ten-Year Plan (2026-2035)' (GA PSC docket 56002, filing #225600).
+"""Parse a Georgia ITS Ten-Year Plan (GA PSC filings; see data/filings.json for each edition).
 
 Table 2 gives zone + sponsor per TEAMS number; each project's detail page gives the title,
 start date, need date, description and change-from-last-plan note. We join the two on TEAMS #.
 Tables 3 (cancelled) and 4 (completed) are read only so they can be reported, never merged in.
+The 2024 plan (2025-2034) and the 2025 plan (2026-2035) share this layout; the older one writes
+"10 Year" for "10-Year" and prints redacted cost columns after the sponsor in Table 2.
 """
 import re
 
-from common import RAW, BUILD, dump, parse_date, pdf_pages, iso
+from common import RAW, BUILD, dump, filings, parse_date, pdf_pages, iso
 
-URL = "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866"
-DOC = "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600"
 ZONES = {"215": "Augusta area", "218": "Southeast GA", "219": "Savannah area"}
-ROW = re.compile(r"^\s*(\d{3})\s+(20\d\d)\s+(\d{4,6})\b.*?\s(GPC|GTC|MEAG|DU|SAV|SPC)\s*$")
+# sponsor ends the row (2025 plan), or follows the need date with redacted cost columns after it (2024 plan)
+ROW = re.compile(r"^\s*(\d{3})\s+(20\d\d)\s+(\d{4,6})\b(?:.*?\s(GPC|GTC|MEAG|DU|SAV|SPC)\s*$|.*?\s\d{1,2}/\d{1,2}/\d{4}\s+(GPC|GTC|MEAG|DU|SAV|SPC)\b)")
 ROW_NOYEAR = re.compile(r"^\s*(\d{3})\s+(\d{4,6})\s+(.*?)\s{2,}(\d{1,2}/\d{1,2}/\d{4})")
 MILES = re.compile(r"(\d+(?:\.\d+)?)\s*(?:-\s*)?(?:circuit\s+)?miles?\b", re.I)
 SPONSOR_NAMES = {"GPC": "Georgia Power", "SAV": "Georgia Power (Savannah)", "GTC": "Georgia Transmission Corp",
                  "MEAG": "MEAG Power", "DU": "Dalton Utilities", "SPC": "Southern Power"}
+EDITIONS = {f["edition"]: f for f in filings("ga")}
+CURRENT = max(EDITIONS.values(), key=lambda f: f["date"])
+URL, DOC = CURRENT["url"], CURRENT["title"]
 
 
 def section(pages, start_pat, end_pat):
@@ -25,21 +29,22 @@ def section(pages, start_pat, end_pat):
     return text[a.end(): a.end() + b.start()]
 
 
-def main():
-    pages = pdf_pages(RAW / "ga_its_2026-2035.pdf")
+def parse(edition):
+    filing = EDITIONS[edition]
+    pages = pdf_pages(RAW / filing["file"])
 
     # Table 2 -> zone, year, sponsor
     t2 = {}
-    for ln in section(pages, r"Table 2 Georgia ITS 10-Year Plan Project List\s*\n", r"Table 3 Cancelled").split("\n"):
+    for ln in section(pages, r"Table 2 Georgia ITS 10[- ]Year Plan Project List\s*\n", r"Table 3 Cancelled").split("\n"):
         m = ROW.match(ln)
         if m:
-            t2[m.group(3)] = {"zone": m.group(1), "year": m.group(2), "sponsor": m.group(4)}
+            t2[m.group(3)] = {"zone": m.group(1), "year": m.group(2), "sponsor": m.group(4) or m.group(5)}
 
     removed = {}
     for label, a, b in (("cancelled", r"Table 3 Cancelled Projects[^\n]*\n[^\n]*Table 3[^\n]*\n", r"Table 4 Completed"),
                         ("completed", r"Table 4 Completed Projects[^\n]*\n[^\n]*\n[^\n]*Table 4[^\n]*\n", r"Table 5 ")):
         lines = section(pages, a, b).split("\n")
-        frag = lambda ln: ln.strip() if ln.strip() and not ROW_NOYEAR.match(ln) and not re.search(r"Zone|TEAMS|Sponsor|Estimated|Assigned|Need Date|Table|CRITICAL|PUBLIC|disclos|policy|employees|notification", ln) else ""
+        frag = lambda ln: ln.strip() if ln.strip() and not ROW_NOYEAR.match(ln) and not re.search(r"Zone|TEAMS|Sponsor|Estimated|Assigned|Need Date|Table|CRITICAL|PUBLIC|disclos|policy|employees|notification|REDACTED|Year|Date", ln) else ""
         for i, ln in enumerate(lines):
             m = ROW_NOYEAR.match(ln)
             if m:
@@ -62,7 +67,7 @@ def main():
         desc = re.sub(r"\s+", " ", desc.group(1)).strip() if desc else ""
         support = re.search(r"Supporting Statement\s*\n(.*?)\n\s*Change From Previous", page, re.S)
         support = re.sub(r"\s+", " ", support.group(1)).strip() if support else ""
-        chg = re.search(r"Change From Previous Ten-Year Plan\s*\n\s*(.*?)\n\s*\n", page, re.S)
+        chg = re.search(r"Change From Previous Ten[- ]Year Plan\s*\n\s*(.*?)\n\s*\n", page, re.S)
         chg = re.sub(r"\s+", " ", chg.group(1)).strip() if chg else ""
         issues = []
         need, e1 = parse_date(dm.group(1)) if dm else (None, "no need date on detail page")
@@ -93,15 +98,20 @@ def main():
             "cost": {"total": None, "by_year": {}, "basis": "redacted in public filing"},
             "miles": max(miles) if miles else None,
             "change": chg, "slip_years": slip,
-            "source": {"doc": DOC, "url": URL, "page": pno, "item": f"Teams # {teams}"},
+            "source": {"doc": filing["title"], "url": filing["url"], "page": pno, "item": f"Teams # {teams}"},
             "issues": issues,
         })
     missing = sorted(set(t2) - {r["key"] for r in out})
-    dump(out, BUILD / "ga_2026-2035.json")
-    dump(removed, BUILD / "ga_removed.json")
-    print(f"GA ITS 2026-2035: {len(out)} detail pages, {len(t2)} Table 2 rows, {len(missing)} Table 2 rows without detail page,"
+    dump(out, BUILD / f"ga_{edition}.json")
+    dump(removed, BUILD / f"ga_removed_{edition}.json")
+    print(f"GA ITS {edition}: {len(out)} detail pages, {len(t2)} Table 2 rows, {len(missing)} Table 2 rows without detail page,"
           f" {len(removed)} cancelled/completed, {sum(len(r['issues']) for r in out)} issues")
-    return out
+    return out, removed
+
+
+def main():
+    """Every edition in the registry, newest first: {edition: (records, removed)}."""
+    return {ed: parse(ed) for ed in sorted(EDITIONS, reverse=True)}
 
 
 def _sponsor_from_title(t):

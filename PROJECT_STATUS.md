@@ -10,6 +10,8 @@ Goal: a working Gridlock entry for the Sperry Tech challenge (ShellHacks 2026), 
 - Keeps the challenge's rule unchanged: project centers (midpoint of located endpoints) under 25 miles apart by haversine, time gap = absolute difference of in-service dates. The tests still reproduce the sponsor's six example rows exactly.
 - Adds, for ranking only: build-window overlap (DESC first budget year with spend → in-service date; Georgia Start Date → Need Date; only overlap from today on counts), location certainty (robust / sensitive / possible), shared stations and closest approach of traced lines. Score = proximity 40 + shared station 20 + line proximity 10 + timing 30, × 0.85 when location-sensitive.
 - MapLibre GL JS map, ranked pair list with filters and sorts, pair comparison, staging-yard cost scenario with cited unit costs (MISO, USDA), printable briefs, shortlist, CSV export, Data quality and Method tabs.
+- Ground at the work sites (#15): FEMA flood zones, NWI wetlands, USFWS and NOAA Fisheries critical habitat and PAD-US protected land, read at every station-level site and traced line of projects that could pair; shown in the pair panel, brief, CSV, a Ground filter and four map layers. Mapped conditions only, no permit claims.
+- Changes tab (#16): every filing is listed in `data/filings.json` (now including the 2024 Georgia plan); each new edition is compared with the one before, projects and pairs, filterable by a drawn area. Email alerts were built for AWS but dropped: the hackathon account can't send email, and alerts can't be demoed since filings come about once a year. The code is kept on branch `nick-env-alerts-aws`.
 
 ## Decisions
 
@@ -34,3 +36,5 @@ Goal: a working Gridlock entry for the Sperry Tech challenge (ShellHacks 2026), 
 - #3 station-name extraction; #4 routes traced to town guesses; #6 "none" confidence on placed projects; #7 pipeline vs app "today".
 - #10 hand-site Hooks, Fenwick Street, Sand Bar Ferry, Rice Hope; #11 Santee Cooper's Purrysburg–McIntosh reconductor (optional).
 - #12 submission checklist: deploy, demo video, Devpost.
+- #15 environmental layers and #16 change log: built on branch `nick-env-alerts`, not yet merged into nick-main.
+- #17 map in the brief; #18 planning-forum links (SCRTP, SERTP); #19 LLM-suggested station names, kept only when verifiable; #20 shared-station outage flag and wording.

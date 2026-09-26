@@ -127,3 +127,9 @@ def dump(obj, path):
 
 def load(path):
     return json.loads(Path(path).read_text())
+
+
+def filings(parser=None):
+    """The filing registry (data/filings.json), oldest first, optionally only one parser's filings."""
+    fs = sorted(load(ROOT / "data" / "filings.json")["filings"], key=lambda f: f["date"])
+    return [f for f in fs if parser is None or f["parser"] == parser]

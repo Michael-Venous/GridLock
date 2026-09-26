@@ -2,13 +2,9 @@
 import datetime as dt
 import re
 
-from common import RAW, BUILD, dump, parse_date, pdf_pages, iso
+from common import RAW, BUILD, dump, filings, parse_date, pdf_pages, iso
 
-EDITIONS = {
-    "2026-2030": "https://www.scrtp.com/assets/pdfs/home/2026-2030-2million-and-above-project-descriptions.pdf",
-    "2025-2029": "https://www.scrtp.com/assets/pdfs/home/2025-2029-2million-and-above-project-descriptions.pdf",
-    "2024-2028": "(challenge zip) Project Listings/Dominion Energy/2024-2028-2million-and-above-project-descriptions.pdf",
-}
+EDITIONS = {f["edition"]: f["url"] for f in filings("desc")}
 HEADER = re.compile(r"Dominion Energy South Carolina\s*\n\s*Planned Transmission Projects \$2M and above Total\s*\n\s*5 Year Budget")
 MONEY = re.compile(r"(?<![\w$,])\$?\d[\d,]*")
 MILES = re.compile(r"(?:approx\.?\s*|~)?(\d+(?:\.\d+)?)\s*(?:-\s*)?mi(?:les?)?\b", re.I)
@@ -20,7 +16,7 @@ def field(body, label, nxt):
 
 
 def parse(edition):
-    pages = pdf_pages(RAW / f"desc_{edition}.pdf")
+    pages = pdf_pages(RAW / next(f["file"] for f in filings("desc") if f["edition"] == edition))
     out = []
     for pno, page in enumerate(pages, 1):
         for m in re.finditer(r"Project (\d+) of (\d+)", page):
@@ -110,7 +106,7 @@ def record(n, total, body, edition, page):
 
 def main():
     res = {}
-    for ed in EDITIONS:
+    for ed in sorted(EDITIONS, reverse=True):
         recs = parse(ed)
         dump(recs, BUILD / f"desc_{ed}.json")
         res[ed] = recs

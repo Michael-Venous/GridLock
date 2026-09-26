@@ -18,6 +18,7 @@
     <div class="brand"><span class="brand-icon" aria-hidden="true"></span><strong>Gridlock</strong><span class="brand-scope">Savannah River coordination</span></div>
     <nav class="tabs" aria-label="Views">
       <button type="button" class="tab active" data-view="explore" aria-current="page">Pairs</button>
+      <button type="button" class="tab" data-view="changes">Changes</button>
       <button type="button" class="tab" data-view="quality">Data quality <span id="issue-count" class="tab-count"></span></button>
       <button type="button" class="tab" data-view="method">Method</button>
     </nav>
@@ -40,6 +41,7 @@
             <label class="range">In service by <strong id="year-value">2035</strong><input id="year" type="range" min="2025" max="2035" value="2035" title="Both projects must have a target year on or before this year."></label>
             <label class="range">Max distance <strong id="distance-value">25 mi</strong><input id="distance" type="range" min="1" max="25" value="25"></label>
             <label class="select">Timing<select id="gap"><option value="all">Any timing</option><option value="ahead">Build overlap from today on</option><option value="overlap">Build overlap, any time</option><option value="365">In service within 1 year</option><option value="730">In service within 2 years</option></select></label>
+            <label class="select">Ground at the sites<select id="ground"><option value="all">Any</option><option value="flood">Flood area mapped at a site</option><option value="habitat">Critical habitat mapped at a site</option><option value="protected">Protected land mapped at a site</option><option value="clear">Checked, none of those mapped</option><option value="unchecked">Not checked (no station-level location)</option></select></label>
             <label class="check"><input id="hide-past" type="checkbox" checked> Hide pairs where both target dates have passed</label>
             <label class="check"><input id="possible" type="checkbox"> Include pairs that could qualify within location uncertainty</label>
             <label class="check"><input id="shortlist-only" type="checkbox"> Shortlisted pairs only</label>
@@ -54,6 +56,16 @@
 
       <section class="map-panel" aria-label="Interactive project map">
         <div id="map" role="region" aria-label="Map of planned projects and qualifying cross-utility pairs"></div>
+        <div class="map-layers">
+          <button id="layers-toggle" class="button" type="button" aria-expanded="false" aria-controls="layers-panel">Ground layers <span id="layers-count" class="count" hidden></span></button>
+          <div id="layers-panel" class="layers-panel" hidden>
+            <label><input type="checkbox" data-layer="wetlands"><i class="lsw wetlands" aria-hidden="true"></i>Wetlands and open water <small>USFWS</small></label>
+            <label><input type="checkbox" data-layer="flood"><i class="lsw flood" aria-hidden="true"></i>Flood zones <small>FEMA</small></label>
+            <label><input type="checkbox" data-layer="habitat"><i class="lsw habitat" aria-hidden="true"></i>Critical habitat <small>USFWS, NOAA</small></label>
+            <label><input type="checkbox" data-layer="protected"><i class="lsw protected" aria-hidden="true"></i>Protected lands <small>USGS</small></label>
+            <p>Wetland and flood outlines are drawn inside the dashed areas we checked: 0.25 mi around a station, and those touching a traced line. Zoom in close for the agencies' full maps.</p>
+          </div>
+        </div>
         <div class="map-controls" role="group" aria-label="Map view"><button id="zoom-in" type="button" aria-label="Zoom in" title="Zoom in">+</button><button id="zoom-out" type="button" aria-label="Zoom out" title="Zoom out">−</button><button id="fit" type="button" aria-label="Fit the border region" title="Fit the border region"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"/></svg></button><button id="fit-all" type="button" aria-label="Show both states" title="Show both states"><svg aria-hidden="true" viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.5"/><path d="M8 1v3M8 12v3M1 8h3M12 8h3"/></svg></button></div>
         <div class="map-legend">
           <span><i class="dot desc"></i>DESC, South Carolina<b id="desc-count">0</b></span>
@@ -66,6 +78,20 @@
       <aside class="detail-panel" id="detail" aria-live="polite" aria-label="Details"></aside>
     </section>
 
+    <section class="changes-view view" id="view-changes" hidden aria-label="Changes between filings">
+      <div class="changes-side" id="changes-side"></div>
+      <div class="changes-map-wrap">
+        <div id="changes-map" role="region" aria-label="Map of changes in the selected filing"></div>
+        <div id="draw-bar" class="draw-bar" hidden></div>
+        <div class="map-legend changes-legend">
+          <span><i class="dot desc"></i>DESC change</span>
+          <span><i class="dot gpc"></i>Georgia ITS change</span>
+          <span><i class="dot hollow"></i>Dropped project</span>
+          <span><i class="swatch link"></i>Pair appeared or changed</span>
+          <span><i class="swatch link dashed"></i>Pair gone</span>
+        </div>
+      </div>
+    </section>
     <section class="doc-view view" id="view-quality" hidden aria-label="Data quality"></section>
     <section class="doc-view view" id="view-method" hidden aria-label="Method and sources"></section>
   </main>
