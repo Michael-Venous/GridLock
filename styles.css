@@ -444,7 +444,7 @@ input[type="range"], input[type="checkbox"] { accent-color: var(--ink); }
   .workspace { display: flex; flex-direction: column; }
   .side-panel { height: 600px; border-right: 0; border-bottom: 1px solid var(--rule); }
   .map-panel { height: 440px; }
-  .map-legend { right: 12px; min-width: 0; grid-template-columns: 1fr 1fr; gap: 5px 12px; }
+  .map-legend { right: 12px; bottom: 40px; min-width: 0; grid-template-columns: 1fr 1fr; gap: 5px 12px; }
   .map-legend span:nth-child(n+3) { display: none; }
   .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .facts > div:nth-child(3) { border-left: 0; padding-left: 18px; border-top: 1px solid var(--rule-soft); }
