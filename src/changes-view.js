@@ -1,8 +1,7 @@
-// The Changes tab: what each new filing changed, on a map, filtered to an area the planner draws, with email alerts.
-import { KINDS, ALERT_KINDS, itemsIn, changeItems, countByKind, inArea, boundsRing, closeRing, daysLabel } from "./changes.js";
+// The Changes tab: what each new filing changed, on a map, filtered to an area the planner draws.
+import { KINDS, itemsIn, changeItems, countByKind, inArea, boundsRing, closeRing, daysLabel } from "./changes.js";
 
 const AREA_KEY = "gridlock.area";
-const SUB_KEY = "gridlock.subscription";
 const KIND_TAG = { added: "New", removed: "Dropped", date: "Rescheduled", cost: "Re-costed", name: "Renamed", pairNew: "New pair", pairGone: "Pair gone", pairTiming: "Timing changed" };
 const readStore = (key, fallback) => { try { return JSON.parse(localStorage.getItem(key) ?? "null") ?? fallback; } catch { return fallback; } };
 const writeStore = (key, value) => { try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* storage unavailable: lasts for this visit */ } };
@@ -10,7 +9,7 @@ const writeStore = (key, value) => { try { localStorage.setItem(key, JSON.string
 export function createChangesView(ctx) {
   const { h, link, formatDate, money, colors, basemap, fallbackStyle, openProject, openPair, pairExists } = ctx;
   const saved = readStore(AREA_KEY, {});
-  const view = { data: null, config: null, event: null, area: saved.area ?? null, bufferMi: saved.bufferMi ?? 0, kinds: null, drawing: null, map: null, mapReady: false };
+  const view = { data: null, event: null, area: saved.area ?? null, bufferMi: saved.bufferMi ?? 0, kinds: null, drawing: null, map: null, mapReady: false };
   const side = document.getElementById("changes-side");
   const drawBar = document.getElementById("draw-bar");
 
@@ -18,9 +17,9 @@ export function createChangesView(ctx) {
     if (!view.data) {
       side.replaceChildren(h("p", "muted-note", "Loading the change log…"));
       try {
-        const [d, c] = await Promise.all([fetch("data/changes.json").then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); }),
-          fetch("data/alerts.json").then(r => r.ok ? r.json() : {}).catch(() => ({}))]);
-        view.data = d; view.config = c; view.event = d.events[0]?.id ?? null;
+        const r = await fetch("data/changes.json");
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        view.data = await r.json(); view.event = view.data.events[0]?.id ?? null;
       } catch (error) { side.replaceChildren(h("p", "muted-note", `Could not load the change log: ${error.message}.`)); return; }
     }
     initMap();
@@ -41,7 +40,6 @@ export function createChangesView(ctx) {
     side.append(areaBlock(), eventsBlock());
     const e = event();
     if (e) side.append(detailBlock(e));
-    side.append(alertsBlock());
     renderMap();
   }
 
@@ -160,67 +158,6 @@ export function createChangesView(ctx) {
     if (p.kind !== "gone" && pairExists(id)) { const links = h("span", "change-links"); const b = h("button", "link-button", "Open pair"); b.type = "button"; b.addEventListener("click", () => openPair(id)); links.append(b); li.append(links); }
     li.addEventListener("mouseenter", () => highlight(p.points)); li.addEventListener("mouseleave", () => highlight(null));
     return li;
-  }
-
-  // ---------- alerts ----------
-  function alertsBlock() {
-    const box = h("section", "alerts-block");
-    box.append(h("h2", "", "Email me when a new filing changes this area"));
-    const api = view.config?.apiUrl;
-    if (!api) {
-      box.append(h("p", "muted-note", "Alerts aren't switched on for this copy of Gridlock. They need the small AWS service in infra/ (see infra/README.md)."));
-      return box;
-    }
-    const sub = readStore(SUB_KEY, null);
-    const form = h("form", "alert-form");
-    const email = h("input"); Object.assign(email, { type: "email", required: true, autocomplete: "email", placeholder: "you@utility.com" }); email.value = sub?.email ?? "";
-    const el = h("label", "", "Email"); el.append(email);
-    const kinds = h("fieldset", "alert-kinds"); kinds.append(h("legend", "", "Tell me about"));
-    const chosen = new Set(sub?.kinds ?? ALERT_KINDS);
-    for (const k of [...ALERT_KINDS, "pairTiming", "cost"]) {
-      const l = h("label", "check"); const c = h("input"); c.type = "checkbox"; c.checked = chosen.has(k); c.value = k; l.append(c, document.createTextNode(` ${KINDS[k]}`)); kinds.append(l);
-    }
-    const scope = h("p", "muted-note", view.area ? `Area: the one drawn on the map${view.bufferMi ? `, plus ${view.bufferMi} mi around it` : ""}.` : "Area: the whole region. Draw an area to narrow it.");
-    const submit = h("button", "button primary", "Email me about new filings"); submit.type = "submit";
-    const status = h("p", "alert-status", view.alertNote ?? ""); status.setAttribute("role", "status");
-    view.alertNote = null;
-    form.append(el, kinds, scope, submit, status);
-    form.addEventListener("submit", async ev => {
-      ev.preventDefault();
-      const picked = [...kinds.querySelectorAll("input:checked")].map(c => c.value);
-      if (!picked.length) { status.textContent = "Pick at least one kind of change."; return; }
-      submit.disabled = true; status.textContent = "Sending…";
-      try {
-        const r = await fetch(`${api}subscribe`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email: email.value.trim(), area: view.area, bufferMi: view.bufferMi, kinds: picked }) });
-        const body = await r.json().catch(() => ({}));
-        if (!r.ok) throw new Error(body.error ?? `HTTP ${r.status}`);
-        writeStore(SUB_KEY, { id: body.id, email: email.value.trim(), kinds: picked });
-        view.alertNote = body.status === "confirmed" ? "Updated your area and choices." : "Check your inbox: an email from AWS Notifications asks you to confirm. Nothing is sent until you do.";
-        render();
-      } catch (error) { status.textContent = `Couldn't subscribe: ${error.message}.`; }
-      finally { submit.disabled = false; }
-    });
-    box.append(form);
-    if (sub?.id) {
-      const sample = h("div", "sample-box");
-      sample.append(h("p", "muted-note", `Subscribed as ${sub.email}. Once you've confirmed, you can send yourself a sample built from the latest real filing that touches your area; it is labelled as a sample.`));
-      const b = h("button", "button", "Send me a sample"); b.type = "button";
-      const st = h("p", "alert-status"); st.setAttribute("role", "status");
-      b.addEventListener("click", async () => {
-        b.disabled = true; st.textContent = "Sending…";
-        try {
-          const r = await fetch(`${api}sample`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: sub.id }) });
-          const body = await r.json().catch(() => ({}));
-          if (!r.ok) throw new Error(body.error ?? `HTTP ${r.status}`);
-          st.textContent = body.items ? `Sent: ${body.items} changes from ${body.filing}.` : `No filing has changed anything in your area yet, so the sample says so.`;
-        } catch (error) { st.textContent = `Couldn't send: ${error.message}.`; }
-        finally { b.disabled = false; }
-      });
-      sample.append(b, st);
-      box.append(sample);
-    }
-    box.append(h("p", "fine", "Emails go out through Amazon SNS from AWS Notifications, with an unsubscribe link in every message. We keep your email address, your area and the kinds you picked, and nothing else."));
-    return box;
   }
 
   // ---------- map ----------

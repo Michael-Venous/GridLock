@@ -1,5 +1,5 @@
 {
-  "about": "Every public filing the pipeline reads, oldest first. The newest filing per utility is current; earlier ones give schedule history and the change log. The alert worker appends new filings here when it finds them.",
+  "about": "Every public filing the pipeline reads, oldest first. The newest filing per utility is current; earlier ones give schedule history and the change log. Add a new edition here to fold it in.",
   "watch": {
     "desc": {"page": "https://www.scrtp.com/", "pattern": "assets/pdfs/home/(\\d{4}-\\d{4})-2million-and-above-project-descriptions\\.pdf"},
     "ga": {"dockets": ["56002"], "search": "Transmission", "note": "Georgia's annual transmission update has been filed in the IRP docket; a new IRP opens a new docket, which has to be added here."}

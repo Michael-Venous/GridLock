@@ -1,11 +1,10 @@
-// Area matching and summaries for the change log (data/changes.json). Pure functions: the app, the tests and the
-// alert worker's rules (backend/alerts.py mirrors inArea) all agree on what "in your area" means.
+// Area matching and summaries for the change log (data/changes.json). Pure functions, so the app and the tests
+// agree on what "in your area" means.
 
 export const KINDS = {
   added: "New projects", removed: "Dropped projects", date: "Rescheduled", cost: "Re-costed", name: "Renamed",
   pairNew: "New pairs", pairGone: "Pairs gone", pairTiming: "Pair timing changed",
 };
-export const ALERT_KINDS = ["added", "removed", "date", "pairNew", "pairGone"];
 
 const R_MI = 3958.7613;
 const toXY = ([lon, lat], lat0) => [lon * Math.PI / 180 * R_MI * Math.cos(lat0 * Math.PI / 180), lat * Math.PI / 180 * R_MI];

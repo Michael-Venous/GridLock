@@ -20,7 +20,7 @@ from geocode import OSMIndex, geocode_project
 from lines import Grid
 
 sys.setrecursionlimit(20000)
-# Fixed so local rebuilds reproduce; the alert worker passes the day it runs (see issue #7).
+# Fixed so local rebuilds reproduce; set GRIDLOCK_TODAY to rebuild as of another day (see issue #7).
 TODAY = dt.date.fromisoformat(os.environ.get("GRIDLOCK_TODAY", "2026-09-26"))
 DEFAULT_HALF_LINE_MI = 10.0
 _ov = load(ROOT / "data" / "overrides.json")

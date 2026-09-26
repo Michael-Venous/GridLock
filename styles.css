@@ -399,17 +399,6 @@ input[type="range"], input[type="checkbox"] { accent-color: var(--ink); }
 .change-fact { color: var(--ink-2); }
 .change-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 2px; font-size: 12px; }
 .change-links a { color: var(--ink-2); }
-.alerts-block .alert-form { display: grid; gap: 12px; margin-top: 12px; }
-.alert-form label { display: grid; gap: 4px; color: var(--ink-2); font-size: 13px; }
-.alert-form input[type="email"] { height: 34px; padding: 0 10px; border: 1px solid var(--rule); border-radius: var(--radius); color: var(--ink); font: inherit; font-size: 14px; }
-.alert-form input[type="email"]:focus { border-color: var(--ink); outline: 1px solid var(--ink); }
-.alert-kinds { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; margin: 0; padding: 0; border: 0; }
-.alert-kinds legend { margin-bottom: 6px; color: var(--ink-2); font-size: 13px; }
-.alert-kinds .check { display: flex; align-items: center; gap: 6px; color: var(--ink); }
-.alert-form .button { justify-self: start; }
-.alert-status { min-height: 1em; color: var(--ink); font-size: 13px; }
-.sample-box { display: grid; gap: 8px; margin-top: 14px; padding: 12px; border: 1px solid var(--rule); border-radius: var(--radius); background: var(--ground); }
-.sample-box .button { justify-self: start; }
 .changes-map-wrap { position: relative; min-width: 0; min-height: 0; overflow: hidden; background: #e9eeee; }
 #changes-map { position: absolute; inset: 0; }
 .draw-bar { position: absolute; top: 12px; left: 12px; right: 12px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 8px 12px; border: 1px solid var(--ink); border-radius: var(--radius); background: var(--paper); font-size: 13px; }

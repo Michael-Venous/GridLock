@@ -1,1 +1,0 @@
-{"apiUrl": null, "about": "Base URL of the alerts service (infra/), ending in a slash. Null leaves email alerts switched off in the Changes tab."}

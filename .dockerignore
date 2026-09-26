@@ -1,7 +1,0 @@
-.git
-data/raw
-data/build
-data/env
-node_modules
-infra/.terraform
-**/__pycache__
