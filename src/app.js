@@ -458,6 +458,22 @@ function scenarioLines(pair, sc) {
   ];
 }
 
+// Working separately vs coordinated, for the one thing the cost model covers: staging yards over the shared months.
+function sideBySide(pair, sc) {
+  const box = h("div", "sbs");
+  const col = (title, yards, cost, note) => { const c = h("div", "sbs-col"); c.append(h("h4", "", title), yards, h("div", "sbs-cost", cost), h("p", "", note)); return c; };
+  const yard = (cls, text) => { const y = h("span", `yard ${cls}`); y.append(h("span", "", text)); return y; };
+  const apart = h("div", "yards"); apart.append(yard(side(pair.a), sideName(pair.a)), yard(side(pair.b), sideName(pair.b)));
+  const together = h("div", "yards");
+  if (sc.active) together.append(yard("both", "Shared"));
+  else together.append(yard(side(pair.a), sideName(pair.a)), yard(side(pair.b), sideName(pair.b)));
+  box.append(
+    col("Separately", apart, money(2 * sc.oneYard), `Two yards, ${money(sc.oneYard)} each, over ${sc.months} months.`),
+    col("Coordinated", together, sc.active ? `${money(sc.oneYard)} – ${money(1.5 * sc.oneYard)}` : money(2 * sc.oneYard),
+      sc.active ? `One combined yard, assumed 1.0–1.5× the size of one, for the ${sc.months} months both are building.` : "Build windows don't overlap from today on, so each still needs its own yard."));
+  return box;
+}
+
 function yardCard(pair) {
   const card = h("section", "cost-card");
   card.append(h("h3", "", "One shared staging yard instead of two"));
@@ -482,7 +498,7 @@ function yardCard(pair) {
   field("Shared access road (miles)", "roadMiles", { min: 0, step: 0.05 }, "assumption");
   function update() {
     const sc = yardScenario(pair, yardInputs());
-    out.replaceChildren(h("div", "cost-big", sc.active ? `${money(sc.low)} – ${money(sc.high)}` : "$0"));
+    out.replaceChildren(sideBySide(pair, sc), h("div", "cost-big", sc.active ? `${money(sc.low)} – ${money(sc.high)}` : "$0"), h("p", "cost-caption", sc.active ? "avoided by coordinating" : "avoided: no overlap ahead, so nothing is shared"));
     const ul = h("ul", "cost-basis"); scenarioLines(pair, sc).forEach(([k, v, why]) => { const li = h("li"); li.append(h("b", "", `${k}: `), document.createTextNode(v), h("span", "why", ` · ${why}`)); ul.append(li); });
     ul.append(h("li", "", `One yard ≈ ${money(sc.oneYard)}. A combined yard is assumed to be 1.0–1.5× one project's yard, so sharing avoids 0.5–1.0 of a yard.`));
     const est = savingsEstimate(pair, { benchmarkPerMile: state.data.costBenchmark.perMile });

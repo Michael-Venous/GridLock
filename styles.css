@@ -248,7 +248,18 @@ input[type="range"], input[type="checkbox"] { accent-color: var(--ink); }
 
 .cost-card { padding-top: 16px; }
 .cost-card > p { color: var(--ink-2); font-size: 13px; }
-.cost-big { margin: 14px 0 6px; font-family: var(--cond); font-size: 30px; font-weight: 600; line-height: 1.1; letter-spacing: -.01em; }
+.sbs { display: grid; grid-template-columns: 1fr 1fr; margin: 16px 0 0; border: 1px solid var(--rule); border-radius: var(--radius); }
+.sbs-col { padding: 12px 14px 13px; }
+.sbs-col + .sbs-col { border-left: 1px solid var(--rule); }
+.sbs h4 { margin: 0 0 10px; font-size: 13px; font-weight: 600; }
+.sbs p { margin: 4px 0 0; color: var(--ink-2); font-size: 12px; line-height: 1.4; }
+.sbs-cost { margin-top: 10px; font-family: var(--cond); font-size: 20px; font-weight: 600; line-height: 1.15; }
+.yards { display: flex; gap: 8px; align-items: flex-end; height: 46px; }
+.yard { display: flex; align-items: flex-end; width: 46px; height: 38px; padding: 3px 5px; border: 1.5px solid var(--desc); border-radius: 3px; background: color-mix(in srgb, var(--desc) 12%, var(--paper)); font-size: 10px; line-height: 1.1; color: var(--desc-text); overflow: hidden; }
+.yard.gpc { border-color: var(--gpc); background: color-mix(in srgb, var(--gpc) 12%, var(--paper)); color: var(--gpc-text); }
+.yard.both { width: 69px; height: 46px; border-color: var(--ink-2); background: linear-gradient(90deg, color-mix(in srgb, var(--desc) 16%, var(--paper)) 50%, color-mix(in srgb, var(--gpc) 16%, var(--paper)) 50%); color: var(--ink); }
+.cost-caption { margin: 0 0 10px; color: var(--ink-2); font-size: 13px; }
+.cost-big { margin: 14px 0 2px; font-family: var(--cond); font-size: 30px; font-weight: 600; line-height: 1.1; letter-spacing: -.01em; }
 .cost-basis { margin: 0 0 10px; padding-left: 17px; font-size: 13px; line-height: 1.5; }
 .cost-basis li + li { margin-top: 4px; }
 .cost-basis .why { color: var(--ink-3); }
@@ -339,6 +350,8 @@ input[type="range"], input[type="checkbox"] { accent-color: var(--ink); }
   .dtabs { top: 0; }
 }
 @media (max-width: 760px) {
+  .sbs { grid-template-columns: 1fr; }
+  .sbs-col + .sbs-col { border-left: 0; border-top: 1px solid var(--rule); }
   body { padding-bottom: 52px; }
   .topbar { gap: 12px; padding: 0 12px; }
   .tabs { position: fixed; z-index: 5; bottom: 0; left: 0; right: 0; justify-content: space-around; gap: 0; height: 52px; border-top: 1px solid var(--rule); background: var(--paper); }
