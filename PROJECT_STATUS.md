@@ -7,7 +7,7 @@ Goal: a usable, evidence-led GridLock entry for the Sperry Tech challenge (Shell
 ## Review and implementation baseline
 
 - The latest fetched `main` and `nick-main` both pointed to `8b0762a`. The user explicitly approved proceeding with that latest available code on 2026-09-26.
-- Review fixes are on `codex/gridlock-review-fixes`; `main` has not been merged or deployed by this task. GitHub issues #21-26 were opened for the specific previously untracked review defects.
+- Review fixes are pushed on `codex/gridlock-review-fixes`, code commit `167847e`, in [draft PR #29](https://github.com/Michael-Venous/GridLock/pull/29); `main` has not been merged or deployed by this task. GitHub issues #21-26 were opened for the specific previously untracked review defects.
 - The original challenge rule is unchanged: cross-state centers strictly under 25 miles by haversine; absolute in-service date gap. The six sponsor fixture pairs still reproduce exactly.
 
 ## Current implemented state
@@ -32,10 +32,12 @@ Goal: a usable, evidence-led GridLock entry for the Sperry Tech challenge (Shell
 - #3 / #10: review unresolved or town-level station placements and actual work scopes. Manual overrides now support explicit confidence/radius, but Hooks, Fenwick Street, Sand Bar Ferry and Rice Hope were not assigned unverified coordinates.
 - #12: verify the real judge URL/deployment, video and Devpost submission. No deployment or submission is implied by these local tests.
 - #19: optional LLM-suggested names remain a separate, source-verifiable enrichment step. Deterministic parser fixes already improve coverage.
+- #27 / #28 arrived during review and remain open: timeline-slip scenarios must be explicitly hypothetical and cannot change geographic qualification; outage-season flags need source evidence beyond inferred planning windows.
 - #1 / #11 / #13-16: optional routing, extra utility coverage, shared inventory, Maps API/environmental layers and cloud alerts remain future scope. Existing satellite/Maps links and source history are available; broad versions are not implemented.
 
 ## Evidence and handoff
 
 - Previous review: `../gridlock-review-2026-09-26/` (challenge, code, usability and all original issue details).
-- Current update bundle: `../gridlock-update-2026-09-26/` (before/after metrics, created-issue URLs, regression results, browser evidence, screenshots and concise PDF).
+- Current update bundle: `../gridlock-update-2026-09-26/` (before/after metrics, all 28 issue snapshots, review comments, regression results, browser evidence, screenshots and three-page PDF at `output/pdf/GridLock-Current-State-and-Next-Steps.pdf`).
+- PR #29 implements #4, #6, #7, #17, #18, #20 and new #21-26; those issues remain open pending merge. #3/#10 are partially improved and remain open. Delivery evidence is maintained in the update bundle.
 - Public raw inputs remain ignored under `data/raw/`. No CEII, non-public utility data or redacted-cost reconstruction is used.
