@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07151d">
+  <title>GridLock | Coordination finder</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-icon">⌁</span><div><strong>GridLock</strong><small>Transmission coordination finder</small></div></div>
+    <div class="top-actions"><span class="dataset-tag">Sperry Tech challenge · starter dataset</span><button id="export" class="ghost-button" type="button">Export matches CSV</button></div>
+  </header>
+
+  <main class="shell">
+    <section class="intro" aria-label="Overview">
+      <div><p class="eyebrow">Plan together, build smarter</p><h1>Find the projects worth a conversation.</h1><p>Compare planned work across neighboring utilities. Explore nearby pairs, check their timing, and see the evidence behind every match.</p></div>
+      <div class="stat-row" id="stats" aria-live="polite"></div>
+    </section>
+
+    <section class="workspace" aria-label="Coordination explorer">
+      <aside class="side-panel">
+        <div class="panel-header"><div><p class="eyebrow">Opportunity queue</p><h2 id="queue-title">All matches</h2></div><button id="reset" class="text-button" type="button">Clear selection</button></div>
+        <label class="search-wrap"><span class="sr-only">Search projects</span><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Search project or utility"></label>
+        <div class="filters"><label>Maximum distance <strong id="distance-value">25 mi</strong><input id="distance" type="range" min="1" max="25" value="25"></label><label>In-service date gap<select id="gap"><option value="all">Any gap</option><option value="365">Within 1 year</option><option value="730">Within 2 years</option></select></label></div>
+        <div class="list-topline"><span id="result-count">Loading…</span><span>Closest first</span></div>
+        <div id="match-list" class="match-list" aria-live="polite"></div>
+      </aside>
+
+      <section class="map-panel" aria-label="Interactive project map">
+        <div class="map-heading"><div><strong>Project map</strong><span>Georgia &amp; South Carolina</span></div><div class="legend"><span><i class="swatch desc"></i> Dominion SC</span><span><i class="swatch gpc"></i> Georgia Power</span><span><i class="swatch link"></i> Nearby pair</span></div></div>
+        <div class="map-wrap">
+          <svg id="map" viewBox="0 0 900 650" role="img" aria-label="Map of planned projects and qualifying cross-utility pairs"></svg>
+          <div class="map-controls"><button id="zoom-in" type="button" aria-label="Zoom in">+</button><button id="zoom-out" type="button" aria-label="Zoom out">−</button><button id="fit" type="button" aria-label="Reset map view">⌖</button></div>
+          <div class="map-note">Straight-line positions from the supplied workbook · scroll to zoom · drag to pan</div>
+        </div>
+        <div class="map-footer"><span><i class="dot desc"></i> DESC <b id="desc-count">5</b></span><span><i class="dot gpc"></i> GPC <b id="gpc-count">5</b></span><span class="map-footer-note">Lines between dots show matches, not transmission routes.</span></div>
+      </section>
+
+      <aside class="detail-panel" id="detail" aria-live="polite"></aside>
+    </section>
+    <footer>Exploratory planning aid. In-service dates are not construction windows. Verify locations and feasibility with both utilities before acting.</footer>
+  </main>
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>
