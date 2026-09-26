@@ -67,6 +67,12 @@ function h(tag, className = "", text = "") {
 function link(href, text) { const a = h("a", "", text); a.href = href; a.target = "_blank"; a.rel = "noopener noreferrer"; return a; }
 const side = project => project.state === "SC" ? "desc" : "gpc";
 const sideName = project => project.state === "SC" ? "DESC" : project.utility === "SAV" ? "GPC · Savannah" : project.utility;
+// Checked 2026-09-26 (issue #18). SERTP has announced DESC and Santee Cooper plan to join, retiring SCRTP,
+// once DESC's FERC Order 1920 compliance filing takes effect; recheck this before shipping a later build.
+const PLANNING_FORUMS = {
+  SC: { name: "South Carolina Regional Transmission Planning (SCRTP)", url: "https://www.scrtp.com", contact: "https://www.scrtp.com/contact-us.html" },
+  GA: { name: "Southeastern Regional Transmission Planning (SERTP)", url: "https://www.southeasternrtp.com", contact: "https://www.southeasternrtp.com/contact.cshtml" },
+};
 function projectLabel(project) { return `${project.projectId} · ${project.name}`; }
 function formatDate(value) { return value ? new Intl.DateTimeFormat("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" }).format(new Date(`${value}T00:00:00Z`)) : "Unknown"; }
 const money = n => n == null ? "—" : n >= 1e6 ? `$${(n / 1e6).toFixed(n >= 1e7 ? 0 : 1)}M` : `$${Math.round(n / 1000)}k`;
@@ -203,9 +209,11 @@ function renderList() {
     const tag = (text, kind = "") => tags.append(h("span", `tag ${kind}`, text));
     if (state.shortlist.has(pair.id)) tag("Shortlisted", "star");
     if (!pair.qualifies) tag("Could qualify", "muted");
-    if (pair.shared.length) tag(`Shares ${pair.shared[0].a}`, "good");
-    if (pair.remainingDays > 0) tag("Building together", "good");
-    else if (pair.overlapDays > 0) tag("Overlap past", "muted");
+    const buildingTogether = pair.remainingDays > 0;
+    if (pair.shared.length && buildingTogether) tag("Same station, building together", "good");
+    else if (pair.shared.length) tag(`Shares ${pair.shared[0].a}`, "good");
+    else if (buildingTogether) tag("Building together", "good");
+    if (!buildingTogether && pair.overlapDays > 0) tag("Overlap past", "muted");
     if (pair.certainty === "sensitive") tag("Location-sensitive", "warn");
     const ground = pairGround(pair);
     const mapped = [ground.flood && "Flood area", ground.habitat.length && "Critical habitat", ground.protected.length && "Protected land"].filter(Boolean);
@@ -517,7 +525,7 @@ function toConfirm(pair) {
 
 function sharedResources(pair) {
   const out = [];
-  if (pair.shared.length) out.push(`Work at ${pair.shared[0].a}: one outage plan, one mobilization to the site, shared yard space at the station.`);
+  if (pair.shared.length) out.push(`Both projects work at ${pair.shared[0].a}. If their outages fall in the same months, planning them together could save a mobilization and yard space. Confirm each project's outage needs.`);
   if (pair.remainingDays > 0) out.push("One staging/laydown yard between the two sites instead of two (see scenario).", "Crane, mat and specialty-crew mobilizations scheduled back to back.");
   if (pair.approachMiles !== null && pair.approachMiles < 2) out.push(`Access roads and crossings: the two ${pair.a.route && pair.b.route ? "traced lines" : "project sites"} come within ${pair.approachMiles.toFixed(1)} mi.`);
   if (projectType(pair.a) === projectType(pair.b)) out.push(`Same kind of work (${projectType(pair.a).toLowerCase()}): joint procurement, shared spares or one specialist contractor.`);
@@ -637,6 +645,21 @@ function groundBox(pair) {
   return box;
 }
 
+function forumBox(pair) {
+  const box = h("section", "list-box forum-box");
+  box.append(h("h3", "", "Where to raise it"));
+  const ul = h("ul");
+  for (const p of [pair.a, pair.b]) {
+    const f = PLANNING_FORUMS[p.state];
+    const li = h("li");
+    li.append(`${sideName(p)} plans through `, link(f.url, f.name), " (", link(f.contact, "contact"), ")");
+    ul.append(li);
+  }
+  box.append(ul);
+  box.append(h("p", "muted-note", "SERTP has announced that DESC and Santee Cooper plan to join, retiring SCRTP, once DESC's FERC Order 1920 compliance filing takes effect — after that, both sides of a pair sit in one planning region."));
+  return box;
+}
+
 function toggleShortlist(pair) {
   if (state.shortlist.has(pair.id)) state.shortlist.delete(pair.id); else state.shortlist.add(pair.id);
   saveShortlist(); applyFilters();
@@ -683,7 +706,7 @@ function detailTabs(pair) {
   else if (state.detailTab === "records") { panel.append(h("p", "section-note", "Every field as parsed, how each endpoint was located, and what validation flagged.")); for (const p of [pair.a, pair.b]) panel.append(projectBlock(p, true)); }
   else {
     panel.append(compareTable(pair));
-    panel.append(listBox(pair.qualifies ? "Why it qualifies" : "Why it might qualify", whyQualifies(pair)), listBox("Still to confirm", toConfirm(pair), "confirm"), listBox("Possible shared resources", sharedResources(pair)), groundBox(pair));
+    panel.append(listBox(pair.qualifies ? "Why it qualifies" : "Why it might qualify", whyQualifies(pair)), listBox("Still to confirm", toConfirm(pair), "confirm"), listBox("Possible shared resources", sharedResources(pair)), groundBox(pair), forumBox(pair));
     const tl = h("section", "list-box"); tl.append(h("h3", "", "Build windows"), timeline(pair.a, pair.b)); panel.append(tl);
     panel.append(scoreBlock(pair));
   }
@@ -754,6 +777,8 @@ function briefText(pair) {
     "", "Ground at the work sites (mapped, not surveyed):", ...[pair.a, pair.b].flatMap(p => [`  ${sideName(p)} ${p.projectId}:`, ...groundLines(p, state.data.environmentRadiusMi).map(x => `    - ${x}`)]),
     "", "Still to confirm:", ...bullets(toConfirm(pair)),
     "", `Questions for ${sideName(pair.b)}:`, ...questions(pair).map((q, i) => `  ${i + 1}. ${q}`),
+    "", "Where to raise it:", `  ${sideName(pair.a)} → ${PLANNING_FORUMS[pair.a.state].name}: ${PLANNING_FORUMS[pair.a.state].contact}`,
+    `  ${sideName(pair.b)} → ${PLANNING_FORUMS[pair.b.state].name}: ${PLANNING_FORUMS[pair.b.state].contact}`,
     "", "Sources:", `  ${sourceLabel(pair.a.source)}: ${pdfLink(pair.a.source)}`, `  ${sourceLabel(pair.b.source)}: ${pdfLink(pair.b.source)}`,
     `  ${YARD_BASIS.matsPerAcre.source}`, `  ${YARD_BASIS.roadPerMile.source}`, `  ${YARD_BASIS.landPerAcre.source}`,
     "Built from public filings and OpenStreetMap only; no CEII. Locations are estimates.",
@@ -781,6 +806,7 @@ function briefHtml(pair) {
   <div><h2>Still to confirm</h2><ul>${li(toConfirm(pair))}</ul><h2>Questions for ${esc(sideName(b))}</h2><ol>${li(questions(pair))}</ol></div></div>
   <h2>Ground at the work sites</h2><div class="cols">${[a, b].map(p => `<div><b>${esc(sideName(p))} ${esc(p.projectId)}</b><ul>${li(groundLines(p, state.data.environmentRadiusMi))}</ul></div>`).join("")}</div>
   <p class="note">${esc(GROUND_NOTE)}</p>
+  <p class="note">Raise ${esc(sideName(a))}'s side through <a href="${esc(PLANNING_FORUMS[a.state].contact)}">${esc(PLANNING_FORUMS[a.state].name)}</a>; raise ${esc(sideName(b))}'s side through <a href="${esc(PLANNING_FORUMS[b.state].contact)}">${esc(PLANNING_FORUMS[b.state].name)}</a>.</p>
   <footer>Cost basis: ${esc(YARD_BASIS.matsPerAcre.source)}; ${esc(YARD_BASIS.roadPerMile.source)}; ${esc(YARD_BASIS.landPerAcre.source)}. Built from public filings and OpenStreetMap only; no CEII. Locations are estimates with stated uncertainty.</footer>
 </section>`;
 }
@@ -846,11 +872,11 @@ function renderQuality() {
   const order = { error: 0, warn: 1 };
   wrap.append(h("h2", "", "Errors and warnings in the filings and in our matching"));
   wrap.append(table(all.filter(i => i.level !== "info").sort((a, b) => order[a.level] - order[b.level])));
-  const notes = all.filter(i => i.level === "info" && !/has passed/.test(i.msg));
+  const notes = all.filter(i => i.level === "info");
   const more = h("details", "dq-more"); more.append(h("summary", "", `${notes.length} notes: phased dates, customer-funded costs, low-confidence locations, route vs stated length`), table(notes));
   wrap.append(more);
-  const passed = all.filter(i => /has passed/.test(i.msg)).length;
-  wrap.append(h("p", "muted-note", `${passed} further notes flag in-service dates that have already passed while the filing still lists the project as planned or in progress.`));
+  const passed = state.projects.filter(p => datePassed(p.inServiceDate)).length;
+  wrap.append(h("p", "muted-note", `As of ${state.asOf}, ${passed} projects have an in-service date that has already passed while the filing still lists them as planned or in progress.`));
   v.append(wrap);
 }
 

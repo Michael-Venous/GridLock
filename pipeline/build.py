@@ -20,7 +20,8 @@ from geocode import OSMIndex, geocode_project
 from lines import Grid
 
 sys.setrecursionlimit(20000)
-# Fixed so local rebuilds reproduce; set GRIDLOCK_TODAY to rebuild as of another day (see issue #7).
+# Recorded as data/projects.json's "generated" date only; the app computes "has this date passed" itself
+# from the viewer's own clock (issue #7), so this no longer needs to track wall-clock time.
 TODAY = dt.date.fromisoformat(os.environ.get("GRIDLOCK_TODAY", "2026-09-26"))
 DEFAULT_HALF_LINE_MI = 10.0
 _ov = load(ROOT / "data" / "overrides.json")
@@ -99,19 +100,28 @@ def locate(recs, osm, spts, grid, anchors=None, offline=False):
             if len(located) < len(eps):
                 rad += (r["miles"] / 2) if r.get("miles") else DEFAULT_HALF_LINE_MI
             r["radiusMi"] = round(max(rad, RADIUS_OVERRIDES.get(r["uid"].rsplit(":", 1)[0] if r["state"] == "SC" else r["uid"], 0)), 2)
-            order = ["none", "low", "ambiguous", "medium", "high"]
-            r["locationConfidence"] = min((e["confidence"] for e in eps), key=order.index)
+            # "none" only means unplaced (see the `not located` branch above); an endpoint we did place
+            # is never weaker than "low", so a missing partner caps confidence at "low", not "none" (issue #6).
+            order = ["low", "ambiguous", "medium", "high"]
+            r["locationConfidence"] = "low" if len(located) < len(eps) else min((e["confidence"] for e in located), key=order.index)
         r["route"] = None
         # Georgia is located twice (the second pass uses zone anchors); drop the first pass's route note
         r["issues"] = [i for i in r["issues"] if not i["msg"].startswith("mapped route is")]
-        if len(located) >= 2 and grid:
+        # Only trace between endpoints we actually placed on a named site; a town-center guess (±6 mi)
+        # produces a route to a made-up point (issue #4, e.g. TEAMS 21293: 0.94 mi stated, 10.23 mi traced).
+        if len(located) >= 2 and grid and all(e["method"] != "town" for e in located):
             legs = [grid.route(a["point"], b["point"]) for a, b in zip(located, located[1:])]
             if all(legs):
-                coords = [c for leg in legs for c in leg["coords"]]
-                r["route"] = {"miles": round(sum(l["miles"] for l in legs), 2), "coords": coords,
-                              "source": "shortest path along OpenStreetMap power=line ways between the endpoints"}
-                if r.get("miles") and abs(r["route"]["miles"] - r["miles"]) / r["miles"] > 0.35:
-                    r["issues"].append({"level": "info", "msg": f"mapped route is {r['route']['miles']} mi but the source states {r['miles']} mi"})
+                miles = round(sum(l["miles"] for l in legs), 2)
+                ratio = (miles / r["miles"]) if r.get("miles") else None
+                if ratio and (ratio > 3 or ratio < 1 / 3):
+                    r["issues"].append({"level": "warn", "msg": f"mapped route ({miles} mi) differs from the stated length ({r['miles']} mi) by more than 3x; dropped instead of shown"})
+                else:
+                    coords = [c for leg in legs for c in leg["coords"]]
+                    r["route"] = {"miles": miles, "coords": coords,
+                                  "source": "shortest path along OpenStreetMap power=line ways between the endpoints"}
+                    if r.get("miles") and abs(miles - r["miles"]) / r["miles"] > 0.35:
+                        r["issues"].append({"level": "info", "msg": f"mapped route is {miles} mi but the source states {r['miles']} mi"})
 
 
 def zone_anchors(ga):
@@ -229,9 +239,9 @@ def main():
     locate(ga, osm, spts, grid, anchors=anchors, offline=offline)   # second pass: zone-aware disambiguation
     unplace_zone_outliers(ga)
 
+    # "Has this date passed?" is computed by the app from the viewer's own clock (state.asOf), not baked in
+    # here against the pipeline's fixed TODAY — the two drifted apart between rebuilds (issue #7).
     for r in desc + ga:
-        if r["isd"] and dt.date.fromisoformat(r["isd"]) < TODAY:
-            r["issues"].append({"level": "info", "msg": f"in-service date {r['isd']} has passed; status in source is {r['status']!r}"})
         for e in r["endpoints"]:
             if not e["point"]:
                 r["issues"].append({"level": "warn", "msg": f"endpoint {e['name']!r} could not be located"})

@@ -194,7 +194,7 @@ export function yardScenario(pair, { acres = 5, months = null, leaseRate = 0.10,
 }
 
 export function opportunityText(pair) {
-  if (pair.shared.length) return `Both projects work at ${pair.shared[0].b}: one outage plan, one set of mats and one laydown yard could serve both.`;
+  if (pair.shared.length) return `Both projects work at ${pair.shared[0].b}. If their outages fall in the same months, planning them together could save a mobilization and yard space. Confirm each project's outage needs.`;
   if (pair.overlapDays > 0 && pair.miles < 10) return "Close by and building at the same time: share staging, deliveries and specialist crews.";
   if (pair.overlapDays > 0) return "Building at the same time in the same region: coordinate crews, equipment and procurement.";
   if (pair.miles < 5) return "Nearby work: investigate staging space, deliveries, and specialist equipment.";
