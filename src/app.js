@@ -365,6 +365,12 @@ function statusText(p) {
   return passed ? `Filing says “${p.status}”, but the target date has passed. Current status not confirmed.` : `“${p.status}” in the filing. Not independently confirmed.`;
 }
 
+// Only station-level placements get imagery links; a town guess would open an unrelated street.
+const sitePlaced = e => e.point && ["high", "medium"].includes(e.confidence) && e.method !== "town";
+// Street View links (map_action=pano) open a black "no imagery" screen at most stations, which sit back from the road; a pin keeps Street View one drag of the pegman away.
+const mapPinUrl = pt => `https://www.google.com/maps/search/?api=1&query=${pt.lat.toFixed(5)},${pt.lon.toFixed(5)}`;
+const satelliteUrl = pt => `https://www.google.com/maps/@?api=1&map_action=map&center=${pt.lat.toFixed(5)},${pt.lon.toFixed(5)}&zoom=18&basemap=satellite`;
+
 function projectBlock(p, full = false, heading = true) {
   const block = h("section", "project-block");
   if (heading) block.append(h("span", `utility-label ${side(p)}`, `${sideName(p)}, ${p.state}${p.zoneName ? `, ${p.zoneName}` : ""}`), h("h3", "", p.name));
@@ -384,6 +390,7 @@ function projectBlock(p, full = false, heading = true) {
     const endpoints = h("div", "endpoint-box"); endpoints.append(h("h4", "", "Endpoints and how each was located"));
     for (const e of p.endpoints) {
       const row = h("p", "", `${e.name}: ${e.point ? `${e.point.lat.toFixed(4)}, ${e.point.lon.toFixed(4)} · ${e.method} · ${e.confidence} (±${e.radiusMi} mi)` : "not located"}`);
+      if (sitePlaced(e)) { const views = h("span", "site-views"); views.append(link(satelliteUrl(e.point), "Satellite"), link(mapPinUrl(e.point), "Google Maps")); row.append(views); }
       if (e.evidence) row.append(h("span", "evidence", e.evidence));
       endpoints.append(row);
     }
@@ -636,7 +643,7 @@ function briefHtml(pair) {
   const a = pair.a, b = pair.b;
   const row = (k, f) => `<tr><th>${k}</th><td>${f(a)}</td><td>${f(b)}</td></tr>`;
   const src = p => `<a href="${esc(pdfLink(p.source))}">${esc(sourceLabel(p.source))}</a>`;
-  const eps = p => p.endpoints.map(e => `${esc(e.name)}: ${e.point ? `${e.point.lat.toFixed(4)}, ${e.point.lon.toFixed(4)} · ${esc(e.method)}, ${esc(e.confidence)} ±${e.radiusMi} mi` : "not located"}`).join("<br>");
+  const eps = p => p.endpoints.map(e => `${esc(e.name)}: ${e.point ? `${e.point.lat.toFixed(4)}, ${e.point.lon.toFixed(4)} · ${esc(e.method)}, ${esc(e.confidence)} ±${e.radiusMi} mi` : "not located"}${sitePlaced(e) ? ` · <a href="${esc(satelliteUrl(e.point))}">Satellite</a> · <a href="${esc(mapPinUrl(e.point))}">Google Maps</a>` : ""}`).join("<br>");
   return `<section class="page">
   <header><div><p class="eyebrow">GridLock coordination brief · ${esc(state.asOf)}</p><h1>${esc(a.name)} <span>×</span> ${esc(b.name)}</h1></div>
   <div class="figs"><div><b>${pair.miles.toFixed(2)} mi</b>center to center</div><div><b>${pair.gapDays ?? "?"} days</b>in-service gap</div><div><b>${esc(pair.certainty)}</b>location</div></div></header>

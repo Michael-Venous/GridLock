@@ -275,6 +275,7 @@ input[type="range"], input[type="checkbox"] { accent-color: var(--ink); }
 .desc-text { margin: 12px 0 0; padding: 10px 12px; border-radius: var(--radius); background: var(--ground); font-size: 13px; line-height: 1.55; }
 .endpoint-box p { margin: 6px 0 0; font-size: 13px; }
 .evidence { display: block; color: var(--ink-3); font-size: 12px; }
+.site-views { display: inline-flex; gap: 10px; margin-left: 8px; font-size: 12px; white-space: nowrap; }
 .issue-list { display: grid; gap: 4px; margin: 6px 0; padding: 0; list-style: none; }
 .issue { padding: 5px 10px; border-left: 3px solid var(--rule); background: var(--ground); font-size: 13px; }
 .issue b { margin-right: 6px; font-weight: 600; text-transform: capitalize; }
