@@ -24,6 +24,39 @@
    "url": "https://www.openstreetmap.org/copyright"
   }
  ],
+ "environmentSources": [
+  {
+   "id": "nwi",
+   "title": "USFWS National Wetlands Inventory",
+   "url": "https://www.fws.gov/program/national-wetlands-inventory",
+   "service": "https://fwspublicservices.wim.usgs.gov/wetlandsmapservice/rest/services/Wetlands/MapServer"
+  },
+  {
+   "id": "nfhl",
+   "title": "FEMA National Flood Hazard Layer (effective flood maps)",
+   "url": "https://www.fema.gov/flood-maps/national-flood-hazard-layer",
+   "service": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer"
+  },
+  {
+   "id": "fws-ch",
+   "title": "USFWS critical habitat, final and proposed",
+   "url": "https://ecos.fws.gov/ecp/report/table/critical-habitat.html",
+   "service": "https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/USFWS_Critical_Habitat/FeatureServer"
+  },
+  {
+   "id": "nmfs-ch",
+   "title": "NOAA Fisheries critical habitat",
+   "url": "https://www.fisheries.noaa.gov/national/endangered-species-conservation/critical-habitat",
+   "service": "https://maps.fisheries.noaa.gov/server/rest/services/All_NMFS_Critical_Habitat/MapServer"
+  },
+  {
+   "id": "padus",
+   "title": "USGS Protected Areas Database of the US (PAD-US 4.1), manager type",
+   "url": "https://www.usgs.gov/programs/gap-analysis-project/science/pad-us-data-overview",
+   "service": "https://services.arcgis.com/v01gqwM5QqNysAAi/arcgis/rest/services/Manager_Type_PADUS/FeatureServer"
+  }
+ ],
+ "environmentRadiusMi": 0.25,
  "zoneAnchors": {
   "208": {
    "lat": 33.461186,
@@ -637,7 +670,11 @@
      "msg": "endpoint 'Summerville' located with ambiguous confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-02726K",
@@ -710,7 +747,11 @@
      "msg": "in-service date 2026-05-31 has passed; status in source is 'In Progress'"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-6853B-F",
@@ -809,7 +850,11 @@
      "msg": "endpoint 'Killian' located with low confidence (town)"
     }
    ],
-   "locationNote": "Scout is a customer substation; the description says the work modifies the VCS1 and Killian terminals."
+   "locationNote": "Scout is a customer substation; the description says the work modifies the VCS1 and Killian terminals.",
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-6846A",
@@ -912,7 +957,11 @@
      "msg": "endpoint 'Eastover' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-6809N",
@@ -1011,7 +1060,11 @@
      "msg": "endpoint 'Saluda County' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-06874B",
@@ -1099,7 +1152,11 @@
      "msg": "endpoint 'Boone Hill' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-6852",
@@ -1251,7 +1308,70 @@
      "msg": "in-service date 2026-08-12 has passed; status in source is 'In Progress'"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "Urquhart",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.0,
+       "waterShare": 0.017,
+       "types": {
+        "Freshwater Pond": 0.017
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.021
+      },
+      "habitat": [],
+      "protected": []
+     },
+     {
+      "name": "Toolebeck",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.0,
+       "waterShare": 0.0,
+       "types": {},
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.0
+      },
+      "habitat": [],
+      "protected": []
+     }
+    ],
+    "route": {
+     "miles": 16.89,
+     "wetlands": {
+      "miles": 0.03,
+      "waterMiles": 0.14,
+      "types": {
+       "Riverine": 0.09,
+       "Freshwater Pond": 0.05,
+       "Freshwater Forested/Shrub Wetland": 0.03
+      }
+     },
+     "flood": {
+      "sfhaMiles": 1.05,
+      "mappedMiles": 16.87
+     },
+     "habitat": [],
+     "protected": []
+    }
+   }
   },
   {
    "id": "DESC-6859",
@@ -1335,7 +1455,11 @@
      "msg": "endpoint 'Dawson' located with ambiguous confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-6341A-F",
@@ -1421,7 +1545,11 @@
     "item": "Project 9 of 54"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-5392A-C",
@@ -1516,7 +1644,11 @@
      "msg": "endpoint 'Gills Creek' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-0139M,N",
@@ -1591,7 +1723,43 @@
     "item": "Project 11 of 54"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "Okatie",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.131,
+       "waterShare": 0.0,
+       "types": {
+        "Freshwater Forested/Shrub Wetland": 0.131
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "AE",
+       "subtype": null,
+       "sfha": true,
+       "mapped": true,
+       "sfhaShare": 0.911
+      },
+      "habitat": [],
+      "protected": [
+       {
+        "name": "Private 417",
+        "manager": "Non-Governmental Organization",
+        "managerType": "Non-Governmental Organization",
+        "category": "Easement",
+        "designation": "Conservation Easement",
+        "access": "Closed"
+       }
+      ]
+     }
+    ],
+    "route": null
+   }
   },
   {
    "id": "DESC-06367D-G",
@@ -1731,7 +1899,85 @@
      "msg": "malformed money ['$14,303648']"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "Jasper",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.281,
+       "waterShare": 0.087,
+       "types": {
+        "Freshwater Forested/Shrub Wetland": 0.271,
+        "Freshwater Pond": 0.086,
+        "Freshwater Emergent Wetland": 0.009,
+        "Riverine": 0.001
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "A",
+       "subtype": null,
+       "sfha": true,
+       "mapped": true,
+       "sfhaShare": 0.913
+      },
+      "habitat": [],
+      "protected": []
+     },
+     {
+      "name": "Okatie",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.131,
+       "waterShare": 0.0,
+       "types": {
+        "Freshwater Forested/Shrub Wetland": 0.131
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "AE",
+       "subtype": null,
+       "sfha": true,
+       "mapped": true,
+       "sfhaShare": 0.911
+      },
+      "habitat": [],
+      "protected": [
+       {
+        "name": "Private 417",
+        "manager": "Non-Governmental Organization",
+        "managerType": "Non-Governmental Organization",
+        "category": "Easement",
+        "designation": "Conservation Easement",
+        "access": "Closed"
+       }
+      ]
+     }
+    ],
+    "route": {
+     "miles": 6.67,
+     "wetlands": {
+      "miles": 0.41,
+      "waterMiles": 0.08,
+      "types": {
+       "Freshwater Emergent Wetland": 0.21,
+       "Freshwater Forested/Shrub Wetland": 0.19,
+       "Riverine": 0.06,
+       "Freshwater Pond": 0.02
+      }
+     },
+     "flood": {
+      "sfhaMiles": 4.13,
+      "mappedMiles": 6.67
+     },
+     "habitat": [],
+     "protected": []
+    }
+   }
   },
   {
    "id": "DESC-6367D",
@@ -1855,7 +2101,85 @@
     "item": "Project 13 of 54"
    },
    "issues": [],
-   "locationNote": "Riverport is a tap off the Jasper-Okatie corridor; the tap point is not public, so the project is placed on its host line with the line's uncertainty. Its uncertainty radius is set to half the 6.5-mile host line plus a margin (3.5 mi)."
+   "locationNote": "Riverport is a tap off the Jasper-Okatie corridor; the tap point is not public, so the project is placed on its host line with the line's uncertainty. Its uncertainty radius is set to half the 6.5-mile host line plus a margin (3.5 mi).",
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "Jasper",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.281,
+       "waterShare": 0.087,
+       "types": {
+        "Freshwater Forested/Shrub Wetland": 0.271,
+        "Freshwater Pond": 0.086,
+        "Freshwater Emergent Wetland": 0.009,
+        "Riverine": 0.001
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "A",
+       "subtype": null,
+       "sfha": true,
+       "mapped": true,
+       "sfhaShare": 0.913
+      },
+      "habitat": [],
+      "protected": []
+     },
+     {
+      "name": "Okatie",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.131,
+       "waterShare": 0.0,
+       "types": {
+        "Freshwater Forested/Shrub Wetland": 0.131
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "AE",
+       "subtype": null,
+       "sfha": true,
+       "mapped": true,
+       "sfhaShare": 0.911
+      },
+      "habitat": [],
+      "protected": [
+       {
+        "name": "Private 417",
+        "manager": "Non-Governmental Organization",
+        "managerType": "Non-Governmental Organization",
+        "category": "Easement",
+        "designation": "Conservation Easement",
+        "access": "Closed"
+       }
+      ]
+     }
+    ],
+    "route": {
+     "miles": 6.67,
+     "wetlands": {
+      "miles": 0.41,
+      "waterMiles": 0.08,
+      "types": {
+       "Freshwater Emergent Wetland": 0.21,
+       "Freshwater Forested/Shrub Wetland": 0.19,
+       "Riverine": 0.06,
+       "Freshwater Pond": 0.02
+      }
+     },
+     "flood": {
+      "sfhaMiles": 4.13,
+      "mappedMiles": 6.67
+     },
+     "habitat": [],
+     "protected": []
+    }
+   }
   },
   {
    "id": "DESC-6381",
@@ -1924,7 +2248,11 @@
      "msg": "endpoint 'Flat Rock' located with ambiguous confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "no endpoint is placed at a station, so the ground can't be checked"
+   }
   },
   {
    "id": "DESC-6870A",
@@ -2015,7 +2343,11 @@
      "msg": "endpoint 'Bush River' located with ambiguous confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-6847",
@@ -2101,7 +2433,11 @@
      "msg": "cost row sums to $28,405,642 but Total says $22,788,174"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-6359",
@@ -2192,7 +2528,11 @@
      "msg": "endpoint 'Ritter' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-6238H",
@@ -2271,7 +2611,11 @@
      "msg": "no yearly budget: $20,350,000 is financed by the interconnection customer and reimbursed later"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-6809M",
@@ -2362,7 +2706,11 @@
      "msg": "Project ID '6809 M' is shared with another project in the same list"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-6809G",
@@ -2445,7 +2793,44 @@
      "msg": "endpoint 'Hooks' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "Modoc",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.0,
+       "waterShare": 0.009,
+       "types": {
+        "Riverine": 0.006,
+        "Freshwater Pond": 0.003
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.0
+      },
+      "habitat": [],
+      "protected": [
+       {
+        "name": "Sumter National Forest",
+        "manager": "Forest Service",
+        "managerType": "Federal",
+        "category": "Fee",
+        "designation": "National Forest",
+        "access": "Open Access"
+       }
+      ]
+     }
+    ],
+    "route": null
+   }
   },
   {
    "id": "DESC-6808L",
@@ -2577,7 +2962,36 @@
      "msg": "endpoint 'St Helena' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "Burton",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.016,
+       "waterShare": 0.005,
+       "types": {
+        "Freshwater Forested/Shrub Wetland": 0.011,
+        "Freshwater Emergent Wetland": 0.005,
+        "Freshwater Pond": 0.005
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.0
+      },
+      "habitat": [],
+      "protected": []
+     }
+    ],
+    "route": null
+   }
   },
   {
    "id": "DESC-06371D",
@@ -2652,7 +3066,11 @@
     "item": "Project 22 of 54"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-6810U",
@@ -2738,7 +3156,11 @@
     "item": "Project 23 of 54"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-7956B",
@@ -2807,7 +3229,11 @@
      "msg": "endpoint 'Atomic Road' located with ambiguous confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "no endpoint is placed at a station, so the ground can't be checked"
+   }
   },
   {
    "id": "DESC-6810J",
@@ -2899,7 +3325,11 @@
      "msg": "endpoint 'Santee City' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-6810O",
@@ -2990,7 +3420,34 @@
      "msg": "endpoint 'Aiken' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "Urquhart",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.0,
+       "waterShare": 0.017,
+       "types": {
+        "Freshwater Pond": 0.017
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.021
+      },
+      "habitat": [],
+      "protected": []
+     }
+    ],
+    "route": null
+   }
   },
   {
    "id": "DESC-6808P",
@@ -3076,7 +3533,11 @@
      "msg": "endpoint 'Hopkins' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-6809I2",
@@ -3156,7 +3617,11 @@
      "msg": "endpoint 'Red House Road' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-6809S",
@@ -3240,7 +3705,11 @@
      "msg": "endpoint 'Kilbourne Park' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-6873",
@@ -3306,7 +3775,11 @@
      "msg": "endpoint 'Winnsboro West' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-6388A",
@@ -3401,7 +3874,11 @@
      "msg": "endpoint 'Summerville' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-06372A",
@@ -3492,7 +3969,11 @@
      "msg": "endpoint 'Ritter' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-6854C",
@@ -3561,7 +4042,11 @@
      "msg": "endpoint 'Jackson' located with ambiguous confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "no endpoint is placed at a station, so the ground can't be checked"
+   }
   },
   {
    "id": "DESC-06005B",
@@ -3636,7 +4121,11 @@
     "item": "Project 34 of 54"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-6809F",
@@ -3767,7 +4256,11 @@
      "msg": "cost row sums to $7,700,000 but Total says $7,912,400"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-6808N,O",
@@ -3866,7 +4359,11 @@
      "msg": "endpoint 'Pineland' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-6842C,D",
@@ -3935,7 +4432,11 @@
      "msg": "endpoint 'Coast Guard' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-6864D,E",
@@ -4010,7 +4511,11 @@
      "msg": "endpoint 'Millrace' located with ambiguous confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-1060A,I,L",
@@ -4101,7 +4606,11 @@
      "msg": "endpoint 'Williams Street' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-6810T",
@@ -4237,7 +4746,11 @@
      "msg": "endpoint 'Saint Matthews' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-6888",
@@ -4387,7 +4900,94 @@
     "item": "Project 41 of 54"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "Okatie",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.131,
+       "waterShare": 0.0,
+       "types": {
+        "Freshwater Forested/Shrub Wetland": 0.131
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "AE",
+       "subtype": null,
+       "sfha": true,
+       "mapped": true,
+       "sfhaShare": 0.911
+      },
+      "habitat": [],
+      "protected": [
+       {
+        "name": "Private 417",
+        "manager": "Non-Governmental Organization",
+        "managerType": "Non-Governmental Organization",
+        "category": "Easement",
+        "designation": "Conservation Easement",
+        "access": "Closed"
+       }
+      ]
+     },
+     {
+      "name": "McIntosh",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.031,
+       "waterShare": 0.038,
+       "types": {
+        "Freshwater Pond": 0.031,
+        "Freshwater Emergent Wetland": 0.029,
+        "Riverine": 0.007,
+        "Freshwater Forested/Shrub Wetland": 0.002
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.036
+      },
+      "habitat": [],
+      "protected": []
+     }
+    ],
+    "route": {
+     "miles": 10.56,
+     "wetlands": {
+      "miles": 1.15,
+      "waterMiles": 0.27,
+      "types": {
+       "Freshwater Emergent Wetland": 0.93,
+       "Freshwater Forested/Shrub Wetland": 0.22,
+       "Riverine": 0.18,
+       "Freshwater Pond": 0.09
+      }
+     },
+     "flood": {
+      "sfhaMiles": 6.57,
+      "mappedMiles": 10.56
+     },
+     "habitat": [
+      {
+       "species": "Atlantic sturgeon",
+       "status": "Endangered",
+       "stage": "final",
+       "unit": "Unit 3 Savannah River, Back River, Middle River, Front River, Little Back River, South River, Steamboat River, and McCoy's Cut",
+       "source": "NOAA Fisheries",
+       "crosses": true
+      }
+     ],
+     "protected": []
+    }
+   }
   },
   {
    "id": "DESC-6809R",
@@ -4467,7 +5067,11 @@
      "msg": "cost row sums to $4,550,000 but Total says $4,450,000"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-6809O",
@@ -4542,7 +5146,11 @@
     "item": "Project 43 of 54"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-06076A",
@@ -4637,7 +5245,11 @@
      "msg": "endpoint 'Ritter' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-6808R",
@@ -4728,7 +5340,11 @@
      "msg": "endpoint 'Killian' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-6877A",
@@ -4814,7 +5430,11 @@
      "msg": "endpoint 'Dawson' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-6869D",
@@ -4889,7 +5509,11 @@
      "msg": "endpoint 'Long Savannah' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-6809M",
@@ -5034,7 +5658,92 @@
      "msg": "Project ID '6809 M' is shared with another project in the same list"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "Modoc",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.0,
+       "waterShare": 0.009,
+       "types": {
+        "Riverine": 0.006,
+        "Freshwater Pond": 0.003
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.0
+      },
+      "habitat": [],
+      "protected": [
+       {
+        "name": "Sumter National Forest",
+        "manager": "Forest Service",
+        "managerType": "Federal",
+        "category": "Fee",
+        "designation": "National Forest",
+        "access": "Open Access"
+       }
+      ]
+     },
+     {
+      "name": "McCormick",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.027,
+       "waterShare": 0.003,
+       "types": {
+        "Freshwater Forested/Shrub Wetland": 0.026,
+        "Riverine": 0.003,
+        "Freshwater Emergent Wetland": 0.001
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.044
+      },
+      "habitat": [],
+      "protected": []
+     }
+    ],
+    "route": {
+     "miles": 14.04,
+     "wetlands": {
+      "miles": 0,
+      "waterMiles": 0.08,
+      "types": {
+       "Riverine": 0.08
+      }
+     },
+     "flood": {
+      "sfhaMiles": 0,
+      "mappedMiles": 13.9
+     },
+     "habitat": [],
+     "protected": [
+      {
+       "name": "Sumter National Forest",
+       "manager": "Forest Service",
+       "managerType": "Federal",
+       "category": "Fee",
+       "designation": "National Forest",
+       "access": "Open Access",
+       "miles": 1.26
+      }
+     ]
+    }
+   }
   },
   {
    "id": "DESC-6809T",
@@ -5166,7 +5875,97 @@
     "item": "Project 49 of 54"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "Stevens Creek",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.025,
+       "waterShare": 0.575,
+       "types": {
+        "Lake": 0.34,
+        "Riverine": 0.235,
+        "Freshwater Forested/Shrub Wetland": 0.025
+       },
+       "atStation": [
+        "Riverine"
+       ]
+      },
+      "flood": {
+       "zone": "AE",
+       "subtype": "FLOODWAY",
+       "sfha": true,
+       "mapped": true,
+       "sfhaShare": 0.697
+      },
+      "habitat": [],
+      "protected": []
+     },
+     {
+      "name": "Graniteville",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.008,
+       "waterShare": 0.0,
+       "types": {
+        "Freshwater Forested/Shrub Wetland": 0.008
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.0
+      },
+      "habitat": [],
+      "protected": [
+       {
+        "name": "Sage Valley - Railroad Tract",
+        "manager": "Non-Governmental Organization",
+        "managerType": "Non-Governmental Organization",
+        "category": "Easement",
+        "designation": "Conservation Easement",
+        "access": "Closed"
+       }
+      ]
+     }
+    ],
+    "route": {
+     "miles": 14.86,
+     "wetlands": {
+      "miles": 0.42,
+      "waterMiles": 0.79,
+      "types": {
+       "Riverine": 0.49,
+       "Freshwater Emergent Wetland": 0.31,
+       "Freshwater Pond": 0.21,
+       "Freshwater Forested/Shrub Wetland": 0.11,
+       "Lake": 0.09
+      }
+     },
+     "flood": {
+      "sfhaMiles": 0.97,
+      "mappedMiles": 14.8
+     },
+     "habitat": [],
+     "protected": [
+      {
+       "name": "Sage Valley - Flat Rock (Flat Rock Tract)",
+       "manager": "Non-Governmental Organization",
+       "managerType": "Non-Governmental Organization",
+       "category": "Easement",
+       "designation": "Conservation Easement",
+       "access": "Closed",
+       "miles": 0.61
+      }
+     ]
+    }
+   }
   },
   {
    "id": "DESC-6810N",
@@ -5283,7 +6082,11 @@
      "msg": "endpoint 'Calhoun County' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-0167C-D",
@@ -5363,7 +6166,11 @@
      "msg": "endpoint 'Union Pier' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-6808V",
@@ -5454,7 +6261,11 @@
      "msg": "endpoint 'Bayfront' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-0147A-I",
@@ -5534,7 +6345,11 @@
      "msg": "endpoint 'Clements Ferry' located with low confidence (town)"
     }
    ],
-   "locationNote": "Title says '115kV Tap from Cainhoy'."
+   "locationNote": "Title says '115kV Tap from Cainhoy'.",
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "DESC-06810F",
@@ -5625,7 +6440,11 @@
      "msg": "malformed money ['25,000']"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20491",
@@ -5687,7 +6506,11 @@
      "msg": "in-service date 2026-06-01 has passed; status in source is 'Planned'"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20474",
@@ -5751,7 +6574,11 @@
      "msg": "endpoint 'GRADY' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20490",
@@ -5813,7 +6640,11 @@
      "msg": "in-service date 2026-06-01 has passed; status in source is 'Planned'"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20300",
@@ -5875,7 +6706,11 @@
      "msg": "in-service date 2026-06-01 has passed; status in source is 'Planned'"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20489",
@@ -5941,7 +6776,11 @@
      "msg": "endpoint 'SCOTTDALE' located with ambiguous confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20668",
@@ -5997,7 +6836,11 @@
      "msg": "endpoint 'OHARA' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20326",
@@ -6054,7 +6897,35 @@
     "item": "Teams # 20326"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "ANTHONY SHOALS",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.0,
+       "waterShare": 0.006,
+       "types": {
+        "Freshwater Pond": 0.005,
+        "Riverine": 0.001
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.0
+      },
+      "habitat": [],
+      "protected": []
+     }
+    ],
+    "route": null
+   }
   },
   {
    "id": "GA-18832",
@@ -6111,7 +6982,11 @@
     "item": "Teams # 18832"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21573",
@@ -6179,7 +7054,11 @@
     "item": "Teams # 21573"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21575",
@@ -6235,7 +7114,11 @@
      "msg": "endpoint 'OLIVER DAM & BULL CREEK' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21275",
@@ -6292,7 +7175,37 @@
     "item": "Teams # 21275"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "MCINTOSH",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.031,
+       "waterShare": 0.038,
+       "types": {
+        "Freshwater Pond": 0.031,
+        "Freshwater Emergent Wetland": 0.029,
+        "Riverine": 0.007,
+        "Freshwater Forested/Shrub Wetland": 0.002
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.036
+      },
+      "habitat": [],
+      "protected": []
+     }
+    ],
+    "route": null
+   }
   },
   {
    "id": "GA-21022",
@@ -6348,7 +7261,11 @@
      "msg": "endpoint 'OHARA' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21528",
@@ -6390,7 +7307,11 @@
     "item": "Teams # 21528"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21526",
@@ -6450,7 +7371,11 @@
      "msg": "endpoint 'GRADY' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21421",
@@ -6506,7 +7431,11 @@
      "msg": "endpoint 'GORDON OVERSTRESSED' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21257",
@@ -6563,7 +7492,36 @@
     "item": "Teams # 21257"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "WEST MCINTOSH",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.064,
+       "waterShare": 0.001,
+       "types": {
+        "Freshwater Forested/Shrub Wetland": 0.057,
+        "Freshwater Emergent Wetland": 0.007,
+        "Freshwater Pond": 0.001
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.034
+      },
+      "habitat": [],
+      "protected": []
+     }
+    ],
+    "route": null
+   }
   },
   {
    "id": "GA-19788",
@@ -6619,7 +7577,11 @@
      "msg": "endpoint 'OHARA' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21533",
@@ -6675,7 +7637,11 @@
      "msg": "endpoint 'UNION CITY PRIMARY' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21523",
@@ -6732,7 +7698,11 @@
     "item": "Teams # 21523"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21529",
@@ -6789,7 +7759,11 @@
     "item": "Teams # 21529"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21525",
@@ -6846,7 +7820,11 @@
     "item": "Teams # 21525"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21527",
@@ -6903,7 +7881,11 @@
     "item": "Teams # 21527"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21379",
@@ -6945,7 +7927,11 @@
     "item": "Teams # 21379"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21530",
@@ -7007,7 +7993,11 @@
      "msg": "endpoint 'SWITCH WAY' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21515",
@@ -7063,7 +8053,11 @@
      "msg": "endpoint 'WANSLEY OVERSTRESSED' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21516",
@@ -7120,7 +8114,11 @@
     "item": "Teams # 21516"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21517",
@@ -7177,7 +8175,11 @@
     "item": "Teams # 21517"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21113",
@@ -7250,7 +8252,45 @@
      "msg": "endpoint 'CASH CREEK' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "HARTWELL ENERGY",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.026,
+       "waterShare": 0.021,
+       "types": {
+        "Freshwater Emergent Wetland": 0.026,
+        "Riverine": 0.013,
+        "Freshwater Pond": 0.008
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.01
+      },
+      "habitat": [],
+      "protected": [
+       {
+        "name": "Hartwell Recreation Area",
+        "manager": "Army Corps of Engineers",
+        "managerType": "Federal",
+        "category": "Fee",
+        "designation": "Recreation Management Area",
+        "access": "Open Access"
+       }
+      ]
+     }
+    ],
+    "route": null
+   }
   },
   {
    "id": "GA-21111",
@@ -7318,7 +8358,92 @@
     "item": "Teams # 21111"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "HARTWELL DAM",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.0,
+       "waterShare": 0.416,
+       "types": {
+        "Lake": 0.211,
+        "Riverine": 0.205
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.493
+      },
+      "habitat": [],
+      "protected": [
+       {
+        "name": "Hartwell Recreation Area",
+        "manager": "Army Corps of Engineers",
+        "managerType": "Federal",
+        "category": "Fee",
+        "designation": "Recreation Management Area",
+        "access": "Open Access"
+       },
+       {
+        "name": "Hartwell Lake",
+        "manager": "Army Corps of Engineers",
+        "managerType": "Federal",
+        "category": "Designation",
+        "designation": "Recreation Management Area",
+        "access": "Open Access"
+       },
+       {
+        "name": "Richard B. Russell Lake",
+        "manager": "Army Corps of Engineers",
+        "managerType": "Federal",
+        "category": "Designation",
+        "designation": "Recreation Management Area",
+        "access": "Open Access"
+       }
+      ]
+     },
+     {
+      "name": "HARTWELL ENERGY",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.026,
+       "waterShare": 0.021,
+       "types": {
+        "Freshwater Emergent Wetland": 0.026,
+        "Riverine": 0.013,
+        "Freshwater Pond": 0.008
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.01
+      },
+      "habitat": [],
+      "protected": [
+       {
+        "name": "Hartwell Recreation Area",
+        "manager": "Army Corps of Engineers",
+        "managerType": "Federal",
+        "category": "Fee",
+        "designation": "Recreation Management Area",
+        "access": "Open Access"
+       }
+      ]
+     }
+    ],
+    "route": null
+   }
   },
   {
    "id": "GA-20509",
@@ -7378,7 +8503,11 @@
      "msg": "endpoint 'EMBLEM RIVERSIDE CUSTOMER' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-18691",
@@ -7459,7 +8588,11 @@
      "msg": "endpoint 'WESTOVER' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20018",
@@ -7525,7 +8658,11 @@
      "msg": "endpoint 'FAYETTEVILLE' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-19597",
@@ -7606,7 +8743,11 @@
      "msg": "endpoint 'BUZZARD ROOST' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20767",
@@ -7668,7 +8809,11 @@
      "msg": "in-service date 2026-06-01 has passed; status in source is 'Planned'"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21654",
@@ -7730,7 +8875,11 @@
      "msg": "in-service date 2026-06-01 has passed; status in source is 'Planned'"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-18960",
@@ -7803,7 +8952,11 @@
      "msg": "in-service date 2026-06-01 has passed; status in source is 'Planned'"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20512",
@@ -7880,7 +9033,11 @@
      "msg": "endpoint 'KATHLEEN' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21249",
@@ -7953,7 +9110,11 @@
      "msg": "in-service date 2026-06-01 has passed; status in source is 'Planned'"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20216",
@@ -8019,7 +9180,11 @@
      "msg": "endpoint 'STONEWALL TELL ROAD' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-18679",
@@ -8104,7 +9269,11 @@
      "msg": "endpoint 'OOSTANAULA' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-13188",
@@ -8186,7 +9355,11 @@
      "msg": "endpoint 'SOUTH DALTON' located with ambiguous confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-16007",
@@ -8267,7 +9440,11 @@
      "msg": "endpoint 'SAND BAR FERRY' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "no endpoint is placed at a station, so the ground can't be checked"
+   }
   },
   {
    "id": "GA-19618",
@@ -8344,7 +9521,11 @@
      "msg": "endpoint 'N DUBLIN' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-19706",
@@ -8406,7 +9587,11 @@
      "msg": "in-service date 2026-06-01 has passed; status in source is 'Planned'"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21701",
@@ -8499,7 +9684,11 @@
      "msg": "endpoint 'LAKE VARNER' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-19598",
@@ -8561,7 +9750,11 @@
      "msg": "in-service date 2026-06-01 has passed; status in source is 'Planned'"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-19999",
@@ -8623,7 +9816,11 @@
      "msg": "in-service date 2026-06-01 has passed; status in source is 'Planned'"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20001",
@@ -8685,7 +9882,11 @@
      "msg": "in-service date 2026-06-01 has passed; status in source is 'Planned'"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-19636",
@@ -8759,7 +9960,11 @@
      "msg": "endpoint 'WEISS DAM' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-13787",
@@ -8832,7 +10037,11 @@
      "msg": "in-service date 2026-06-01 has passed; status in source is 'Planned'"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-18690",
@@ -8898,7 +10107,11 @@
      "msg": "endpoint 'PALMYRA' located with ambiguous confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20066",
@@ -9052,7 +10265,82 @@
      "msg": "in-service date 2026-06-01 has passed; status in source is 'Planned'"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "BOULEVARD",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.119,
+       "waterShare": 0.0,
+       "types": {
+        "Freshwater Forested/Shrub Wetland": 0.119
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.0
+      },
+      "habitat": [],
+      "protected": []
+     },
+     {
+      "name": "DEPTFORD",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.202,
+       "waterShare": 0.0,
+       "types": {
+        "Freshwater Forested/Shrub Wetland": 0.127,
+        "Estuarine and Marine Wetland": 0.075
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.178
+      },
+      "habitat": [],
+      "protected": []
+     }
+    ],
+    "route": {
+     "miles": 9.29,
+     "wetlands": {
+      "miles": 0.57,
+      "waterMiles": 0.05,
+      "types": {
+       "Freshwater Forested/Shrub Wetland": 0.57,
+       "Riverine": 0.05
+      }
+     },
+     "flood": {
+      "sfhaMiles": 2.42,
+      "mappedMiles": 9.28
+     },
+     "habitat": [],
+     "protected": [
+      {
+       "name": "Lamara Heights",
+       "manager": "City Land",
+       "managerType": "Local Government",
+       "category": "Fee",
+       "designation": "Local Park",
+       "access": "Open Access",
+       "miles": 0.03
+      }
+     ]
+    }
+   }
   },
   {
    "id": "GA-19966",
@@ -9112,7 +10400,11 @@
      "msg": "endpoint 'Big Ogeechee' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21309",
@@ -9189,7 +10481,11 @@
      "msg": "endpoint 'SAW MILL ROAD' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-17900",
@@ -9266,7 +10562,11 @@
      "msg": "endpoint 'UNION CITY' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20691",
@@ -9343,7 +10643,11 @@
      "msg": "endpoint 'UNION CITY' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20273",
@@ -9400,7 +10704,11 @@
     "item": "Teams # 20273"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20002",
@@ -9468,7 +10776,11 @@
     "item": "Teams # 20002"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-19334",
@@ -9538,7 +10850,11 @@
      "msg": "endpoint 'NORTH OPELIKA' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21174",
@@ -9595,7 +10911,11 @@
     "item": "Teams # 21174"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-18979",
@@ -9652,7 +10972,11 @@
     "item": "Teams # 18979"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20151",
@@ -9708,7 +11032,11 @@
      "msg": "endpoint 'CASS PINE' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20243",
@@ -9764,7 +11092,11 @@
      "msg": "endpoint 'GARRETT ROAD' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-19363",
@@ -9837,7 +11169,11 @@
      "msg": "endpoint 'MOUNTAIN VIEW' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-19635",
@@ -9910,7 +11246,11 @@
      "msg": "endpoint 'HICKORY LEVEL' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-19601",
@@ -9978,7 +11318,11 @@
     "item": "Teams # 19601"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21047",
@@ -10055,7 +11399,11 @@
      "msg": "endpoint 'ECHECONNEE' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20771",
@@ -10111,7 +11459,11 @@
      "msg": "endpoint 'GULLATT ROAD TRANSMISSION' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20150",
@@ -10167,7 +11519,11 @@
      "msg": "endpoint 'HILL VIEW & GRASSY HOLLOW' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21332",
@@ -10209,7 +11565,11 @@
     "item": "Teams # 21332"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-18736",
@@ -10265,7 +11625,11 @@
      "msg": "endpoint 'SHUGART' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20781",
@@ -10338,7 +11702,11 @@
      "msg": "endpoint 'SUMMER LAKE' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20736",
@@ -10394,7 +11762,11 @@
      "msg": "endpoint 'TA REALTY ELLENWOOD' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20858",
@@ -10471,7 +11843,11 @@
      "msg": "endpoint 'BUZZARD ROOST' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20776",
@@ -10544,7 +11920,11 @@
      "msg": "endpoint 'DOUGLASVILLE' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20778",
@@ -10612,7 +11992,11 @@
     "item": "Teams # 20778"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-19358",
@@ -10680,7 +12064,11 @@
     "item": "Teams # 19358"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-09662",
@@ -10742,7 +12130,11 @@
      "msg": "endpoint 'EAST WALTON' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20505",
@@ -10816,7 +12208,11 @@
      "msg": "endpoint 'V. RICA' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21284",
@@ -10873,7 +12269,11 @@
     "item": "Teams # 21284"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20015",
@@ -10947,7 +12347,11 @@
      "msg": "endpoint 'STANTON SPRINGS' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-19622",
@@ -11009,7 +12413,11 @@
      "msg": "endpoint 'RIDDLEVILLE' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-19606",
@@ -11071,7 +12479,11 @@
      "msg": "endpoint 'SKC' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20506",
@@ -11148,7 +12560,11 @@
      "msg": "endpoint 'THORNTON ROAD' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-18668",
@@ -11216,7 +12632,11 @@
     "item": "Teams # 18668"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-10481",
@@ -11284,7 +12704,11 @@
     "item": "Teams # 10481"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21283",
@@ -11340,7 +12764,11 @@
      "msg": "endpoint 'LLOYD SHOALS: REMOVE LIMITING ELEMENTS ON' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21688",
@@ -11397,7 +12825,11 @@
     "item": "Teams # 21688"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20270",
@@ -11465,7 +12897,11 @@
     "item": "Teams # 20270"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20271",
@@ -11533,7 +12969,11 @@
     "item": "Teams # 20271"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20264",
@@ -11601,7 +13041,11 @@
     "item": "Teams # 20264"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21093",
@@ -11657,7 +13101,11 @@
      "msg": "endpoint 'CC: NORTH SPA' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-19248",
@@ -11727,7 +13175,11 @@
      "msg": "endpoint 'WADLEY PRI.' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20785",
@@ -11795,7 +13247,77 @@
     "item": "Teams # 20785"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "GOSHEN",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.04,
+       "waterShare": 0.018,
+       "types": {
+        "Freshwater Forested/Shrub Wetland": 0.034,
+        "Freshwater Pond": 0.018,
+        "Freshwater Emergent Wetland": 0.006
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.03
+      },
+      "habitat": [],
+      "protected": []
+     },
+     {
+      "name": "KRAFT",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.021,
+       "waterShare": 0.324,
+       "types": {
+        "Riverine": 0.258,
+        "Freshwater Pond": 0.066,
+        "Freshwater Forested/Shrub Wetland": 0.019,
+        "Freshwater Emergent Wetland": 0.001
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "0.2 PCT ANNUAL CHANCE FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.469
+      },
+      "habitat": [
+       {
+        "species": "Atlantic sturgeon",
+        "status": "Endangered",
+        "stage": "final",
+        "unit": "Unit 3 Savannah River, Back River, Middle River, Front River, Little Back River, South River, Steamboat River, and McCoy's Cut",
+        "source": "NOAA Fisheries"
+       }
+      ],
+      "protected": [
+       {
+        "name": "Savannah National Wildlife Refuge",
+        "manager": "U.S. Fish and Wildlife Service",
+        "managerType": "Federal",
+        "category": "Fee",
+        "designation": "National Wildlife Refuge",
+        "access": "Restricted Access"
+       }
+      ]
+     }
+    ],
+    "route": null
+   }
   },
   {
    "id": "GA-20768",
@@ -11852,7 +13374,11 @@
     "item": "Teams # 20768"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-18573",
@@ -11920,7 +13446,11 @@
     "item": "Teams # 18573"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20717",
@@ -11976,7 +13506,11 @@
      "msg": "endpoint 'TOMOCHICHI' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20591",
@@ -12044,7 +13578,11 @@
      "msg": "endpoint 'LICK CREEK' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-17977",
@@ -12112,7 +13650,11 @@
     "item": "Teams # 17977"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-18624",
@@ -12180,7 +13722,11 @@
     "item": "Teams # 18624"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21287",
@@ -12253,7 +13799,11 @@
      "msg": "endpoint 'BACKWATER' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21580",
@@ -12321,7 +13871,11 @@
      "msg": "endpoint 'TOMOCHICHI' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21292",
@@ -12394,7 +13948,11 @@
      "msg": "endpoint 'EMERSON' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21419",
@@ -12450,7 +14008,11 @@
      "msg": "endpoint 'DEER CREEK' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20797",
@@ -12507,7 +14069,11 @@
     "item": "Teams # 20797"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20774",
@@ -12564,7 +14130,11 @@
     "item": "Teams # 20774"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21324",
@@ -12637,7 +14207,11 @@
      "msg": "endpoint 'CORN CRIB' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20024",
@@ -12705,7 +14279,11 @@
      "msg": "endpoint 'EAST ROANOKE' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21048",
@@ -12778,7 +14356,11 @@
      "msg": "endpoint 'PITTS' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20503",
@@ -12848,7 +14430,11 @@
      "msg": "endpoint 'BARNEYVILLE' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-19992",
@@ -12921,7 +14507,11 @@
      "msg": "endpoint 'BOSTWICK' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21695",
@@ -12983,7 +14573,11 @@
      "msg": "endpoint 'BOBCAT' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21282",
@@ -13053,7 +14647,11 @@
      "msg": "endpoint 'SOUTH GRIFFIN' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21567",
@@ -13095,7 +14693,11 @@
     "item": "Teams # 21567"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21345",
@@ -13152,7 +14754,11 @@
     "item": "Teams # 21345"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21274",
@@ -13209,7 +14815,11 @@
     "item": "Teams # 21274"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21566",
@@ -13271,7 +14881,11 @@
      "msg": "endpoint 'HAMPTON' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21582",
@@ -13348,7 +14962,11 @@
      "msg": "endpoint 'HILLS BRIDGE' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21674",
@@ -13421,7 +15039,11 @@
      "msg": "endpoint 'HILLS BRIDGE' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21605",
@@ -13463,7 +15085,11 @@
     "item": "Teams # 21605"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21141",
@@ -13533,7 +15159,11 @@
      "msg": "endpoint 'PORTERDALE PRIMARY' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21581",
@@ -13603,7 +15233,11 @@
      "msg": "endpoint 'TOMOCHICHI' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21568",
@@ -13659,7 +15293,11 @@
      "msg": "endpoint 'BIG SOUTH GRIFFIN' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-19629",
@@ -13732,7 +15370,11 @@
      "msg": "endpoint 'BRUMBLEY CREEK' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-19630",
@@ -13789,7 +15431,11 @@
     "item": "Teams # 19630"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21279",
@@ -13845,7 +15491,11 @@
      "msg": "endpoint 'MORROW: REMOVE LIMITING ELEMENTS ON' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20482",
@@ -13919,7 +15569,11 @@
      "msg": "endpoint 'WEST POINT DAM' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20656",
@@ -13976,7 +15630,11 @@
     "item": "Teams # 20656"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21319",
@@ -14036,7 +15694,11 @@
      "msg": "endpoint 'RAINBOW DRIVE' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20783",
@@ -14149,7 +15811,73 @@
     "item": "Teams # 20783"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "COLEMAN",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.074,
+       "waterShare": 0.008,
+       "types": {
+        "Freshwater Forested/Shrub Wetland": 0.074,
+        "Riverine": 0.008
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.106
+      },
+      "habitat": [],
+      "protected": []
+     },
+     {
+      "name": "DEAN FOREST",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.153,
+       "waterShare": 0.014,
+       "types": {
+        "Freshwater Forested/Shrub Wetland": 0.153,
+        "Freshwater Pond": 0.014
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "0.2 PCT ANNUAL CHANCE FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.441
+      },
+      "habitat": [],
+      "protected": []
+     }
+    ],
+    "route": {
+     "miles": 6.58,
+     "wetlands": {
+      "miles": 2.27,
+      "waterMiles": 0,
+      "types": {
+       "Freshwater Emergent Wetland": 1.54,
+       "Freshwater Forested/Shrub Wetland": 0.72
+      }
+     },
+     "flood": {
+      "sfhaMiles": 1.83,
+      "mappedMiles": 6.47
+     },
+     "habitat": [],
+     "protected": []
+    }
+   }
   },
   {
    "id": "GA-20065",
@@ -14250,7 +15978,77 @@
     "item": "Teams # 20065"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "GOSHEN",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.04,
+       "waterShare": 0.018,
+       "types": {
+        "Freshwater Forested/Shrub Wetland": 0.034,
+        "Freshwater Pond": 0.018,
+        "Freshwater Emergent Wetland": 0.006
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.03
+      },
+      "habitat": [],
+      "protected": []
+     },
+     {
+      "name": "MCINTOSH",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.031,
+       "waterShare": 0.038,
+       "types": {
+        "Freshwater Pond": 0.031,
+        "Freshwater Emergent Wetland": 0.029,
+        "Riverine": 0.007,
+        "Freshwater Forested/Shrub Wetland": 0.002
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.036
+      },
+      "habitat": [],
+      "protected": []
+     }
+    ],
+    "route": {
+     "miles": 8.37,
+     "wetlands": {
+      "miles": 0.3,
+      "waterMiles": 0.12,
+      "types": {
+       "Freshwater Emergent Wetland": 0.3,
+       "Freshwater Pond": 0.07,
+       "Riverine": 0.04
+      }
+     },
+     "flood": {
+      "sfhaMiles": 0.5,
+      "mappedMiles": 8.37
+     },
+     "habitat": [],
+     "protected": []
+    }
+   }
   },
   {
    "id": "GA-21069",
@@ -14306,7 +16104,11 @@
      "msg": "endpoint 'SMART VALVES AT EAST VILLA RICA' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20274",
@@ -14379,7 +16181,11 @@
      "msg": "endpoint 'UNION CITY' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21179",
@@ -14435,7 +16241,11 @@
      "msg": "endpoint 'BOWEN NETWORK' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20989",
@@ -14497,7 +16307,11 @@
      "msg": "endpoint 'RICE HOPE' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "no endpoint is placed at a station, so the ground can't be checked"
+   }
   },
   {
    "id": "GA-13166",
@@ -14571,7 +16385,11 @@
      "msg": "endpoint 'NORTH COLUMBUS' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-19958",
@@ -14644,7 +16462,11 @@
      "msg": "endpoint 'THRILL HILL' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21062",
@@ -14717,7 +16539,11 @@
      "msg": "endpoint 'ASHLEY PARK' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21063",
@@ -14785,7 +16611,11 @@
      "msg": "endpoint 'PLANT FARLEY' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21293",
@@ -14857,7 +16687,11 @@
      "msg": "endpoint 'VIRGINIA AVENUE' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21036",
@@ -14934,7 +16768,11 @@
      "msg": "endpoint 'FACTORY SHOALS' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21142",
@@ -15007,7 +16845,11 @@
      "msg": "endpoint 'CONYERS' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21628",
@@ -15075,7 +16917,11 @@
     "item": "Teams # 21628"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21128",
@@ -15132,7 +16978,11 @@
     "item": "Teams # 21128"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21139",
@@ -15202,7 +17052,11 @@
      "msg": "endpoint 'GRADY' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21428",
@@ -15270,7 +17124,11 @@
     "item": "Teams # 21428"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21429",
@@ -15338,7 +17196,11 @@
     "item": "Teams # 21429"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-08458",
@@ -15408,7 +17270,11 @@
      "msg": "endpoint 'BIG SOUTH GRIFFIN' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21112",
@@ -15476,7 +17342,11 @@
     "item": "Teams # 21112"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-10814",
@@ -15533,7 +17403,11 @@
     "item": "Teams # 10814"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21076",
@@ -15603,7 +17477,11 @@
      "msg": "endpoint 'BIG TAZEWELL' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21610",
@@ -15680,7 +17558,11 @@
      "msg": "endpoint 'THORNTON ROAD' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20773",
@@ -15753,7 +17635,11 @@
      "msg": "endpoint 'CLARKSBORO' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20849",
@@ -15815,7 +17701,11 @@
      "msg": "endpoint 'CLIFTONDALE' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21034",
@@ -15883,7 +17773,11 @@
     "item": "Teams # 21034"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-19950",
@@ -15951,7 +17845,11 @@
     "item": "Teams # 19950"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21594",
@@ -16028,7 +17926,11 @@
      "msg": "endpoint 'SOUTH GRIFFIN' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21700",
@@ -16085,7 +17987,11 @@
     "item": "Teams # 21700"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21123",
@@ -16153,7 +18059,11 @@
     "item": "Teams # 21123"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21051",
@@ -16230,7 +18140,11 @@
      "msg": "endpoint 'POST RD' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20284",
@@ -16300,7 +18214,11 @@
      "msg": "endpoint 'KETTLE CREEK PRIMARY' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-19621",
@@ -16373,7 +18291,11 @@
      "msg": "endpoint 'SHOAL CREEK' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-17706",
@@ -16441,7 +18363,11 @@
     "item": "Teams # 17706"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-11051",
@@ -16518,7 +18444,11 @@
      "msg": "endpoint 'WESTOVER' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20757",
@@ -16591,7 +18521,11 @@
      "msg": "endpoint 'NORTH DRUID HILLS' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-15879",
@@ -16664,7 +18598,11 @@
      "msg": "endpoint 'POSSUM BRANCH' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20407",
@@ -16813,7 +18751,65 @@
      "msg": "endpoint 'TRUMAN PARKWAY' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "BOULEVARD",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.119,
+       "waterShare": 0.0,
+       "types": {
+        "Freshwater Forested/Shrub Wetland": 0.119
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.0
+      },
+      "habitat": [],
+      "protected": []
+     },
+     {
+      "name": "MAGNOLIA",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.094,
+       "waterShare": 0.03,
+       "types": {
+        "Freshwater Forested/Shrub Wetland": 0.094,
+        "Riverine": 0.03
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "AE",
+       "subtype": null,
+       "sfha": true,
+       "mapped": true,
+       "sfhaShare": 0.628
+      },
+      "habitat": [],
+      "protected": [
+       {
+        "name": "Jenkins Pool",
+        "manager": "City Land",
+        "managerType": "Local Government",
+        "category": "Fee",
+        "designation": "Local Other or Unknown",
+        "access": "Open Access"
+       }
+      ]
+     }
+    ],
+    "route": null
+   }
   },
   {
    "id": "GA-20784",
@@ -16910,7 +18906,76 @@
     "item": "Teams # 20784"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "COLEMAN",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.074,
+       "waterShare": 0.008,
+       "types": {
+        "Freshwater Forested/Shrub Wetland": 0.074,
+        "Riverine": 0.008
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.106
+      },
+      "habitat": [],
+      "protected": []
+     },
+     {
+      "name": "MELDRIM",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.143,
+       "waterShare": 0.031,
+       "types": {
+        "Freshwater Emergent Wetland": 0.084,
+        "Freshwater Forested/Shrub Wetland": 0.058,
+        "Freshwater Pond": 0.026,
+        "Riverine": 0.005
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.295
+      },
+      "habitat": [],
+      "protected": []
+     }
+    ],
+    "route": {
+     "miles": 9.51,
+     "wetlands": {
+      "miles": 3.11,
+      "waterMiles": 0.21,
+      "types": {
+       "Freshwater Forested/Shrub Wetland": 2.36,
+       "Freshwater Emergent Wetland": 0.75,
+       "Riverine": 0.21
+      }
+     },
+     "flood": {
+      "sfhaMiles": 4.87,
+      "mappedMiles": 9.51
+     },
+     "habitat": [],
+     "protected": []
+    }
+   }
   },
   {
    "id": "GA-21023",
@@ -17023,7 +19088,76 @@
     "item": "Teams # 21023"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "DEAN FOREST",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.153,
+       "waterShare": 0.014,
+       "types": {
+        "Freshwater Forested/Shrub Wetland": 0.153,
+        "Freshwater Pond": 0.014
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "0.2 PCT ANNUAL CHANCE FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.441
+      },
+      "habitat": [],
+      "protected": []
+     },
+     {
+      "name": "LITTLE OGEECHEE",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.002,
+       "waterShare": 0.056,
+       "types": {
+        "Freshwater Pond": 0.048,
+        "Riverine": 0.008,
+        "Freshwater Forested/Shrub Wetland": 0.002
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.0
+      },
+      "habitat": [],
+      "protected": []
+     }
+    ],
+    "route": {
+     "miles": 7.63,
+     "wetlands": {
+      "miles": 1.14,
+      "waterMiles": 0.15,
+      "types": {
+       "Freshwater Forested/Shrub Wetland": 0.75,
+       "Estuarine and Marine Wetland": 0.3,
+       "Estuarine and Marine Deepwater": 0.15,
+       "Freshwater Emergent Wetland": 0.09
+      }
+     },
+     "flood": {
+      "sfhaMiles": 1.74,
+      "mappedMiles": 7.63
+     },
+     "habitat": [],
+     "protected": []
+    }
+   }
   },
   {
    "id": "GA-20787",
@@ -17080,7 +19214,36 @@
     "item": "Teams # 20787"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "LITTLE OGEECHEE",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.002,
+       "waterShare": 0.056,
+       "types": {
+        "Freshwater Pond": 0.048,
+        "Riverine": 0.008,
+        "Freshwater Forested/Shrub Wetland": 0.002
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.0
+      },
+      "habitat": [],
+      "protected": []
+     }
+    ],
+    "route": null
+   }
   },
   {
    "id": "GA-16887",
@@ -17137,7 +19300,11 @@
     "item": "Teams # 16887"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21296",
@@ -17211,7 +19378,11 @@
      "msg": "endpoint 'WABASH AVENUE' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21160",
@@ -17273,7 +19444,11 @@
      "msg": "endpoint 'ASHLEY PARK' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21699",
@@ -17330,7 +19505,11 @@
     "item": "Teams # 21699"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21073",
@@ -17398,7 +19577,11 @@
      "msg": "endpoint 'TOMOCHICHI' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21679",
@@ -17471,7 +19654,11 @@
      "msg": "endpoint 'PALMYRA' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21655",
@@ -17528,7 +19715,11 @@
     "item": "Teams # 21655"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21497",
@@ -17601,7 +19792,11 @@
      "msg": "endpoint 'JUDY MOUNTAIN' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-16903",
@@ -17674,7 +19869,11 @@
      "msg": "endpoint 'BRANDON FARM RD' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21625",
@@ -17751,7 +19950,11 @@
      "msg": "endpoint 'ECHECONNEE' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21096",
@@ -17824,7 +20027,11 @@
      "msg": "endpoint 'BROADWAY' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21098",
@@ -17901,7 +20108,11 @@
      "msg": "endpoint 'TRIBUTARY' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21496",
@@ -17971,7 +20182,11 @@
      "msg": "endpoint 'CAVENDER DRIVE' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21130",
@@ -18027,7 +20242,11 @@
      "msg": "endpoint 'NORTH GEORGIA NETWORK' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-10478",
@@ -18101,7 +20320,11 @@
      "msg": "endpoint 'TALLULAH LODGE' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-18669",
@@ -18174,7 +20397,11 @@
      "msg": "detail page has no matching Table 2 row (zone/sponsor unknown)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21097",
@@ -18247,7 +20474,11 @@
      "msg": "endpoint 'TRIBUTARY' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21304",
@@ -18303,7 +20534,11 @@
      "msg": "endpoint 'EAST POINT SWITCH' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-19627",
@@ -18380,7 +20615,11 @@
      "msg": "endpoint 'WELLSTON' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20298",
@@ -18453,7 +20692,11 @@
      "msg": "endpoint 'GLENWOOD SPRINGS' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-19996",
@@ -18523,7 +20766,11 @@
      "msg": "endpoint 'GOLDENS CREEK' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21140",
@@ -18591,7 +20838,11 @@
     "item": "Teams # 21140"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21620",
@@ -18668,7 +20919,11 @@
      "msg": "endpoint 'ROCKHOUSE RD' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21013",
@@ -18730,7 +20985,11 @@
      "msg": "endpoint 'CAVENDER DRIVE' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21271",
@@ -18807,7 +21066,11 @@
      "msg": "endpoint 'EAST VILLA RICA SS' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21261",
@@ -18880,7 +21143,11 @@
      "msg": "endpoint 'DYER ROAD' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20375",
@@ -18937,7 +21204,11 @@
     "item": "Teams # 20375"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20428",
@@ -19005,7 +21276,11 @@
     "item": "Teams # 20428"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21131",
@@ -19082,7 +21357,11 @@
      "msg": "endpoint 'MIDWAY' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21077",
@@ -19170,7 +21449,11 @@
      "msg": "endpoint 'MINK CREEK' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21014",
@@ -19247,7 +21530,11 @@
      "msg": "endpoint 'CAVENDER DRIVE' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21322",
@@ -19309,7 +21596,11 @@
      "msg": "endpoint 'UNION CITY' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21298",
@@ -19366,7 +21657,11 @@
     "item": "Teams # 21298"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21321",
@@ -19423,7 +21718,11 @@
     "item": "Teams # 21321"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-12680",
@@ -19496,7 +21795,11 @@
      "msg": "endpoint 'KATHLEEN' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21326",
@@ -19573,7 +21876,11 @@
      "msg": "endpoint 'PITTMAN RD' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-10143",
@@ -19641,7 +21948,11 @@
     "item": "Teams # 10143"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21118",
@@ -19709,7 +22020,11 @@
     "item": "Teams # 21118"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21289",
@@ -19782,7 +22097,11 @@
      "msg": "endpoint 'TALBOT CO' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21116",
@@ -19839,7 +22158,34 @@
     "item": "Teams # 21116"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "Goshen",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.0,
+       "waterShare": 0.003,
+       "types": {
+        "Riverine": 0.003
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.0
+      },
+      "habitat": [],
+      "protected": []
+     }
+    ],
+    "route": null
+   }
   },
   {
    "id": "GA-19995",
@@ -19909,7 +22255,11 @@
      "msg": "endpoint 'TALLULAH LODGE' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21656",
@@ -19966,7 +22316,36 @@
     "item": "Teams # 21656"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "THOMSON PRIMARY",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.001,
+       "waterShare": 0.005,
+       "types": {
+        "Freshwater Pond": 0.003,
+        "Riverine": 0.001,
+        "Freshwater Forested/Shrub Wetland": 0.001
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.0
+      },
+      "habitat": [],
+      "protected": []
+     }
+    ],
+    "route": null
+   }
   },
   {
    "id": "GA-21624",
@@ -20023,7 +22402,11 @@
     "item": "Teams # 21624"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20761",
@@ -20093,7 +22476,11 @@
      "msg": "endpoint 'TILFORD YARDS' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-18848",
@@ -20149,7 +22536,11 @@
      "msg": "endpoint 'BAINBRIDGE TRANSMISSION: EAST RIVER ROAD, EAST BAINBRIDGE' could not be located"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-19626",
@@ -20211,7 +22602,11 @@
      "msg": "endpoint 'GLENWOOD SPRINGS' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21328",
@@ -20268,7 +22663,11 @@
     "item": "Teams # 21328"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21270",
@@ -20325,7 +22724,11 @@
     "item": "Teams # 21270"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-10811",
@@ -20382,7 +22785,11 @@
     "item": "Teams # 10811"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21641",
@@ -20503,7 +22910,73 @@
     "item": "Teams # 21641"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "DUM JON",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.163,
+       "waterShare": 0.005,
+       "types": {
+        "Freshwater Forested/Shrub Wetland": 0.111,
+        "Freshwater Emergent Wetland": 0.052,
+        "Riverine": 0.005
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.129
+      },
+      "habitat": [],
+      "protected": []
+     },
+     {
+      "name": "SOUTH AUGUSTA",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.0,
+       "waterShare": 0.031,
+       "types": {
+        "Riverine": 0.025,
+        "Freshwater Pond": 0.006
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA WITH REDUCED FLOOD RISK DUE TO LEVEE",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.607
+      },
+      "habitat": [],
+      "protected": []
+     }
+    ],
+    "route": {
+     "miles": 5.69,
+     "wetlands": {
+      "miles": 0,
+      "waterMiles": 0.06,
+      "types": {
+       "Riverine": 0.06
+      }
+     },
+     "flood": {
+      "sfhaMiles": 0.46,
+      "mappedMiles": 5.53
+     },
+     "habitat": [],
+     "protected": []
+    }
+   }
   },
   {
    "id": "GA-12120",
@@ -20571,7 +23044,11 @@
     "item": "Teams # 12120"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21618",
@@ -20644,7 +23121,11 @@
      "msg": "endpoint 'NORTH DUBLIN' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-19632",
@@ -20712,7 +23193,11 @@
     "item": "Teams # 19632"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-19610",
@@ -20785,7 +23270,11 @@
      "msg": "endpoint 'ECHECONNEE' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21626",
@@ -20842,7 +23331,11 @@
     "item": "Teams # 21626"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21616",
@@ -20915,7 +23408,11 @@
      "msg": "endpoint 'PORTERDALE' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20756",
@@ -20983,7 +23480,11 @@
     "item": "Teams # 20756"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21099",
@@ -21045,7 +23546,11 @@
      "msg": "endpoint 'PIO NONO' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21675",
@@ -21118,7 +23623,11 @@
      "msg": "endpoint 'PITTS' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-13040",
@@ -21191,7 +23700,11 @@
      "msg": "endpoint 'PITTMAN RD' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21297",
@@ -21259,7 +23772,77 @@
     "item": "Teams # 21297"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "GOSHEN",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.04,
+       "waterShare": 0.018,
+       "types": {
+        "Freshwater Forested/Shrub Wetland": 0.034,
+        "Freshwater Pond": 0.018,
+        "Freshwater Emergent Wetland": 0.006
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.03
+      },
+      "habitat": [],
+      "protected": []
+     },
+     {
+      "name": "KRAFT",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.021,
+       "waterShare": 0.324,
+       "types": {
+        "Riverine": 0.258,
+        "Freshwater Pond": 0.066,
+        "Freshwater Forested/Shrub Wetland": 0.019,
+        "Freshwater Emergent Wetland": 0.001
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "0.2 PCT ANNUAL CHANCE FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.469
+      },
+      "habitat": [
+       {
+        "species": "Atlantic sturgeon",
+        "status": "Endangered",
+        "stage": "final",
+        "unit": "Unit 3 Savannah River, Back River, Middle River, Front River, Little Back River, South River, Steamboat River, and McCoy's Cut",
+        "source": "NOAA Fisheries"
+       }
+      ],
+      "protected": [
+       {
+        "name": "Savannah National Wildlife Refuge",
+        "manager": "U.S. Fish and Wildlife Service",
+        "managerType": "Federal",
+        "category": "Fee",
+        "designation": "National Wildlife Refuge",
+        "access": "Restricted Access"
+       }
+      ]
+     }
+    ],
+    "route": null
+   }
   },
   {
    "id": "GA-20248",
@@ -21332,7 +23915,11 @@
      "msg": "endpoint 'CONYERS' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21598",
@@ -21405,7 +23992,11 @@
      "msg": "endpoint 'ADAMSVILLE' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20764",
@@ -21478,7 +24069,11 @@
      "msg": "endpoint 'NORTHSIDE DRIVE' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21262",
@@ -21551,7 +24146,11 @@
      "msg": "endpoint 'DYER ROAD' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-14681",
@@ -21628,7 +24227,11 @@
      "msg": "endpoint 'ROME' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20758",
@@ -21701,7 +24304,11 @@
      "msg": "endpoint 'CONYERS' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-09661",
@@ -21774,7 +24381,11 @@
      "msg": "endpoint 'CASH CREEK' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21335",
@@ -21847,7 +24458,11 @@
      "msg": "endpoint 'MOUNTAIN VIEW' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21075",
@@ -21924,7 +24539,11 @@
      "msg": "endpoint 'EAST WALTON' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-12217",
@@ -21997,7 +24616,11 @@
      "msg": "endpoint 'CLARKSBORO' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-12147",
@@ -22065,7 +24688,11 @@
     "item": "Teams # 12147"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20791",
@@ -22138,7 +24765,11 @@
      "msg": "endpoint 'SHOAL CREEK' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21053",
@@ -22211,7 +24842,11 @@
      "msg": "endpoint 'SHOAL CREEK' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-20796",
@@ -22268,7 +24903,37 @@
     "item": "Teams # 20796"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "MELDRIM",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.143,
+       "waterShare": 0.031,
+       "types": {
+        "Freshwater Emergent Wetland": 0.084,
+        "Freshwater Forested/Shrub Wetland": 0.058,
+        "Freshwater Pond": 0.026,
+        "Riverine": 0.005
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.295
+      },
+      "habitat": [],
+      "protected": []
+     }
+    ],
+    "route": null
+   }
   },
   {
    "id": "GA-20759",
@@ -22325,7 +24990,11 @@
     "item": "Teams # 20759"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-10487",
@@ -22393,7 +25062,11 @@
     "item": "Teams # 10487"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21301",
@@ -22466,7 +25139,11 @@
      "msg": "endpoint 'POWERS FERRY' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21291",
@@ -22534,7 +25211,11 @@
     "item": "Teams # 21291"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21268",
@@ -22602,7 +25283,11 @@
     "item": "Teams # 21268"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21300",
@@ -22659,7 +25344,37 @@
     "item": "Teams # 21300"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "MELDRIM",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.143,
+       "waterShare": 0.031,
+       "types": {
+        "Freshwater Emergent Wetland": 0.084,
+        "Freshwater Forested/Shrub Wetland": 0.058,
+        "Freshwater Pond": 0.026,
+        "Riverine": 0.005
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.295
+      },
+      "habitat": [],
+      "protected": []
+     }
+    ],
+    "route": null
+   }
   },
   {
    "id": "GA-20690",
@@ -22732,7 +25447,11 @@
      "msg": "endpoint 'UNION CITY' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21295",
@@ -22809,7 +25528,11 @@
      "msg": "endpoint 'SCOTTDALE' located with low confidence (town)"
     }
    ],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21303",
@@ -22877,7 +25600,11 @@
     "item": "Teams # 21303"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   },
   {
    "id": "GA-21269",
@@ -22945,7 +25672,11 @@
     "item": "Teams # 21269"
    },
    "issues": [],
-   "locationNote": null
+   "locationNote": null,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
   }
  ]
 }

@@ -1,15 +1,19 @@
 import { matchProjects, gapLabel, overlapLabel, opportunityText, savingsEstimate, yardScenario, projectType, sortPairs, milesBetween, SORTS, WEIGHTS, YARD_BASIS, MAX_MILES } from "./match.js";
+import { pairGround, groundMatches, groundLines, groundShort, groundCostNote, floodZoneText } from "./environment.js";
 
 const $ = id => document.getElementById(id);
 const state = {
   data: null, projects: [], allPairs: [], pairs: [], selectedProject: null, selectedPair: null, search: "", distance: 25, year: 2035,
-  gap: "all", hidePast: true, includePossible: false, shortlistOnly: false, sort: "score", asOf: null, detailTab: "summary",
+  gap: "all", ground: "all", hidePast: true, includePossible: false, shortlistOnly: false, sort: "score", asOf: null, detailTab: "summary",
   shortlist: new Set(), yard: { acres: 5, months: null, leaseRate: 0.10, surface: "mats", surfacePerAcre: YARD_BASIS.matsPerAcre.value, roadMiles: 0.25 },
 };
-const FILTER_DEFAULTS = { search: "", distance: 25, year: 2035, gap: "all", hidePast: true, includePossible: false, shortlistOnly: false };
+const FILTER_DEFAULTS = { search: "", distance: 25, year: 2035, gap: "all", ground: "all", hidePast: true, includePossible: false, shortlistOnly: false };
 const SHORTLIST_KEY = "gridlock.shortlist";
+const LAYERS_KEY = "gridlock.layers";
 function loadShortlist() { try { return new Set(JSON.parse(localStorage.getItem(SHORTLIST_KEY) ?? "[]")); } catch { return new Set(); } }
 function saveShortlist() { try { localStorage.setItem(SHORTLIST_KEY, JSON.stringify([...state.shortlist])); } catch { /* storage unavailable: shortlist lasts for this visit */ } }
+function loadLayers() { try { return new Set(JSON.parse(localStorage.getItem(LAYERS_KEY) ?? "[]")); } catch { return new Set(); } }
+function saveLayers() { try { localStorage.setItem(LAYERS_KEY, JSON.stringify([...envOn])); } catch { /* storage unavailable: layer choice lasts for this visit */ } }
 const bounds = [[-85.8, 30.3], [-78.4, 35.3]];
 const border = [[-82.7, 31.85], [-80.6, 33.95]];
 const COLORS = { desc: "#0a8494", gpc: "#cb6e30" };
@@ -18,6 +22,23 @@ const BASEMAP = "https://tiles.openfreemap.org/styles/positron";
 const FALLBACK_STYLE = { version: 8, glyphs: "https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf", sources: {}, layers: [{ id: "background", type: "background", paint: { "background-color": "#e5ecec" } }] };
 const MILES_PER_DEGREE = 69.09;
 let map = null, mapReady = false, styleFailed = false, pendingFocus = null;
+
+// Ground layers. Around checked sites we draw the cached outlines behind each result (data/env/); zoomed in close,
+// the full federal maps take over as live images, drawn in the agencies' own colors.
+const NWI_EXPORT = "https://fwspublicservices.wim.usgs.gov/wetlandsmapservice/rest/services/Wetlands/MapServer/export";
+const NFHL_EXPORT = "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/export";
+const exportTiles = (url, layer) => `${url}?bbox={bbox-epsg-3857}&bboxSR=3857&imageSR=3857&size=512,512&format=png32&transparent=true&layers=show:${layer}&f=image`;
+const ENV_COLORS = { wetland: "#1f8a3c", water: "#4f78c4", flood: "#3fb6d0", flood02: "#9fdbe6", habitat: "#b0397a", protected: "#8a7a2c" };
+const LIVE_ZOOM = { wetlands: 12, flood: 14 };
+const ENV_LAYERS = {
+  wetlands: ["env-wetland-fill", "env-water-fill", "env-nwi"],
+  flood: ["env-flood-fill", "env-flood-line", "env-nfhl"],
+  habitat: ["env-habitat-fill", "env-habitat-line"],
+  protected: ["env-protected-fill", "env-protected-line"],
+};
+const ENV_DATA = { evidence: "data/env/evidence.geojson", habitat: "data/env/habitat.geojson", protected: "data/env/protected.geojson" };
+const envOn = loadLayers();
+const envLoaded = new Set();
 const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const lngLat = point => [point.lon, point.lat];
@@ -61,6 +82,7 @@ const certaintyText = {
 };
 
 const GAP_LABELS = { ahead: "Build overlap from today on", overlap: "Build overlap (any time)", 365: "In-service within 1 year", 730: "In-service within 2 years" };
+const GROUND_LABELS = { flood: "Flood area mapped at a site", habitat: "Critical habitat mapped at a site", protected: "Protected land mapped at a site", clear: "Ground checked, none of those mapped", unchecked: "Ground not checked" };
 
 // The filter predicate, parameterized so the empty state can ask "what if this one filter were off?".
 function filterPairs(f) {
@@ -68,6 +90,7 @@ function filterPairs(f) {
     (f.includePossible || pair.qualifies) && bySelectedYear(pair.a, f.year) && bySelectedYear(pair.b, f.year) && pair.miles < f.distance + (pair.qualifies ? 0 : 99) &&
     (!f.hidePast || !pair.bothPast) &&
     (f.gap === "all" || (f.gap === "ahead" ? pair.remainingDays > 0 : f.gap === "overlap" ? pair.overlapDays > 0 : pair.gapDays !== null && pair.gapDays <= Number(f.gap))) &&
+    groundMatches(pair, f.ground) &&
     (!f.shortlistOnly || state.shortlist.has(pair.id)) &&
     includesSearch(pair, f.search) && (!f.selectedProject || pair.a.id === f.selectedProject || pair.b.id === f.selectedProject));
 }
@@ -79,6 +102,7 @@ function activeFilters() {
   if (state.year < FILTER_DEFAULTS.year) out.push({ key: "year", label: `In service by ${state.year}` });
   if (state.distance < FILTER_DEFAULTS.distance) out.push({ key: "distance", label: `Within ${state.distance} mi` });
   if (state.gap !== "all") out.push({ key: "gap", label: GAP_LABELS[state.gap] });
+  if (state.ground !== "all") out.push({ key: "ground", label: GROUND_LABELS[state.ground] });
   if (!state.hidePast) out.push({ key: "hidePast", label: "Including pairs already past both dates" });
   if (state.includePossible) out.push({ key: "includePossible", label: "Including possible (non-qualifying) pairs" });
   if (state.shortlistOnly) out.push({ key: "shortlistOnly", label: "Shortlist only" });
@@ -94,7 +118,7 @@ function clearFilter(key) {
 
 function syncControls() {
   $("search").value = state.search; $("distance").value = String(state.distance); $("year").value = String(state.year);
-  $("gap").value = state.gap; $("hide-past").checked = state.hidePast; $("possible").checked = state.includePossible;
+  $("gap").value = state.gap; $("ground").value = state.ground; $("hide-past").checked = state.hidePast; $("possible").checked = state.includePossible;
   $("shortlist-only").checked = state.shortlistOnly; $("sort").value = state.sort;
   applyFilters();
 }
@@ -182,6 +206,12 @@ function renderList() {
     if (pair.remainingDays > 0) tag("Building together", "good");
     else if (pair.overlapDays > 0) tag("Overlap past", "muted");
     if (pair.certainty === "sensitive") tag("Location-sensitive", "warn");
+    const ground = pairGround(pair);
+    const mapped = [ground.flood && "Flood area", ground.habitat.length && "Critical habitat", ground.protected.length && "Protected land"].filter(Boolean);
+    if (mapped.length) {
+      tag(mapped.length > 1 ? `${mapped[0]} +${mapped.length - 1}` : mapped[0], "env");
+      tags.lastChild.title = `Mapped at the work sites: ${mapped.join(", ").toLowerCase()}`;
+    }
     if (pair.bothPast) tag("Both dates passed", "muted");
     else if (datePassed(pair.a.inServiceDate) || datePassed(pair.b.inServiceDate)) tag("A date has passed", "warn");
     if (tags.childElementCount) body.append(tags);
@@ -210,15 +240,17 @@ function nearestPartner(project) {
 function initMap() {
   if (!window.maplibregl) { $("map").append(h("p", "map-error", "The map library could not load. Check the internet connection and reload; the list and details still work.")); return; }
   try {
-    map = new maplibregl.Map({ container: "map", style: BASEMAP, bounds: border, fitBoundsOptions: { padding: 20 }, attributionControl: { compact: false }, dragRotate: false, pitchWithRotate: false, touchPitch: false });
+    map = new maplibregl.Map({ container: "map", style: BASEMAP, bounds: border, fitBoundsOptions: { padding: 20 }, attributionControl: { compact: window.innerWidth < 760 }, dragRotate: false, pitchWithRotate: false, touchPitch: false });
   } catch (error) { $("map").append(h("p", "map-error", `The map needs WebGL, which this browser has turned off (${error.message}). The list and details still work.`)); return; }
   map.touchZoomRotate.disableRotation();
   map.keyboard.disableRotation();
   // If the basemap style can't be fetched, fall back to a plain background so the project layers still draw.
   map.on("error", event => { if (!mapReady && !map.isStyleLoaded() && !styleFailed) { styleFailed = true; console.warn("Basemap unavailable:", event.error?.message); map.setStyle(FALLBACK_STYLE); } });
   map.on("load", () => {
+    addEnvLayers();
     addLayers();
     mapReady = true;
+    syncEnvLayers();
     renderMap();
     if (pendingFocus) { focusPair(pendingFocus); pendingFocus = null; }
   });
@@ -230,11 +262,17 @@ function initMap() {
     hovered = next;
   };
   const hitAt = point => mapReady ? map.queryRenderedFeatures(point, { layers: ["project-hit", "links-hit", "endpoints"] })[0] : null;
+  const envHitAt = point => {
+    if (!mapReady || !envOn.size) return null;
+    const ids = Object.entries(ENV_LAYERS).filter(([k]) => envOn.has(k)).flatMap(([, ls]) => ls).filter(id => map.getLayer(id) && map.getLayer(id).type !== "raster");
+    return ids.length ? map.queryRenderedFeatures(point, { layers: ids })[0] : null;
+  };
   map.on("mousemove", event => {
     const f = hitAt(event.point);
     setHover(f && f.layer.id !== "endpoints" ? { source: f.source, id: f.id } : null);
     map.getCanvas().style.cursor = f && f.layer.id !== "endpoints" ? "pointer" : "";
-    if (f) tip.setLngLat(event.lngLat).setText(f.properties.title).addTo(map); else tip.remove();
+    const text = f ? f.properties.title : envTitle(envHitAt(event.point));
+    if (text) tip.setLngLat(event.lngLat).setText(text).addTo(map); else tip.remove();
   });
   map.getCanvas().addEventListener("mouseleave", () => { setHover(null); tip.remove(); });
   // MapLibre fires click only for a press that didn't turn into a pan, so a click on empty map deselects.
@@ -247,6 +285,56 @@ function initMap() {
     else if (link) selectPair(state.pairs.find(p => p.id === link.properties.id));
     else if (state.selectedPair || state.selectedProject) { state.selectedPair = null; state.selectedProject = null; applyFilters(); }
   });
+}
+
+// Added before the project layers, so they sit underneath. Sources stay empty until a layer is first turned on.
+function addEnvLayers() {
+  const hidden = { visibility: "none" };
+  const empty = featureCollection([]);
+  map.addSource("env-evidence", { type: "geojson", data: empty, attribution: "USFWS NWI, FEMA NFHL" });
+  map.addSource("env-habitat", { type: "geojson", data: empty, attribution: "USFWS, NOAA Fisheries" });
+  map.addSource("env-protected", { type: "geojson", data: empty, attribution: "USGS PAD-US" });
+  map.addSource("env-nwi", { type: "raster", tiles: [exportTiles(NWI_EXPORT, 0)], tileSize: 256, minzoom: LIVE_ZOOM.wetlands, attribution: "USFWS NWI" });
+  map.addSource("env-nfhl", { type: "raster", tiles: [exportTiles(NFHL_EXPORT, 28)], tileSize: 256, minzoom: LIVE_ZOOM.flood, attribution: "FEMA NFHL" });
+  const layer = ["get", "layer"];
+  map.addLayer({ id: "env-protected-fill", type: "fill", source: "env-protected", layout: hidden, paint: { "fill-color": ENV_COLORS.protected, "fill-opacity": 0.12 } });
+  map.addLayer({ id: "env-protected-line", type: "line", source: "env-protected", layout: hidden, paint: { "line-color": ENV_COLORS.protected, "line-width": 0.8, "line-opacity": 0.6 } });
+  map.addLayer({ id: "env-flood-fill", type: "fill", source: "env-evidence", maxzoom: LIVE_ZOOM.flood, layout: hidden, filter: ["==", layer, "flood"],
+    paint: { "fill-color": ["case", ["get", "sfha"], ENV_COLORS.flood, ENV_COLORS.flood02], "fill-opacity": 0.35 } });
+  map.addLayer({ id: "env-flood-line", type: "line", source: "env-evidence", maxzoom: LIVE_ZOOM.flood, layout: hidden, filter: ["==", layer, "flood"], paint: { "line-color": ENV_COLORS.flood, "line-width": 0.6 } });
+  map.addLayer({ id: "env-nfhl", type: "raster", source: "env-nfhl", layout: hidden, paint: { "raster-opacity": 0.7 } });
+  map.addLayer({ id: "env-wetland-fill", type: "fill", source: "env-evidence", maxzoom: LIVE_ZOOM.wetlands, layout: hidden, filter: ["all", ["==", layer, "wetlands"], ["!", ["get", "water"]]], paint: { "fill-color": ENV_COLORS.wetland, "fill-opacity": 0.45 } });
+  map.addLayer({ id: "env-water-fill", type: "fill", source: "env-evidence", maxzoom: LIVE_ZOOM.wetlands, layout: hidden, filter: ["all", ["==", layer, "wetlands"], ["get", "water"]], paint: { "fill-color": ENV_COLORS.water, "fill-opacity": 0.45 } });
+  map.addLayer({ id: "env-nwi", type: "raster", source: "env-nwi", layout: hidden, paint: { "raster-opacity": 0.75 } });
+  map.addLayer({ id: "env-footprint", type: "line", source: "env-evidence", layout: hidden, filter: ["==", layer, "footprint"],
+    paint: { "line-color": "#10222a", "line-width": 1, "line-opacity": 0.55, "line-dasharray": [2, 2] } });
+  map.addLayer({ id: "env-habitat-fill", type: "fill", source: "env-habitat", layout: hidden, paint: { "fill-color": ENV_COLORS.habitat, "fill-opacity": 0.14 } });
+  map.addLayer({ id: "env-habitat-line", type: "line", source: "env-habitat", layout: hidden, paint: { "line-color": ENV_COLORS.habitat, "line-width": ["case", ["in", ["geometry-type"], ["literal", ["LineString", "MultiLineString"]]], 3, 1], "line-opacity": 0.75 } });
+}
+
+function syncEnvLayers() {
+  document.querySelectorAll("#layers-panel input[data-layer]").forEach(input => { input.checked = envOn.has(input.dataset.layer); });
+  $("layers-count").hidden = !envOn.size; $("layers-count").textContent = String(envOn.size);
+  if (!mapReady) return;
+  for (const [key, ids] of Object.entries(ENV_LAYERS)) {
+    const on = envOn.has(key);
+    if (on) {
+      const src = key === "wetlands" || key === "flood" ? "evidence" : key;
+      if (!envLoaded.has(src)) { envLoaded.add(src); map.getSource(`env-${src}`).setData(ENV_DATA[src]); }
+    }
+    ids.forEach(id => map.setLayoutProperty(id, "visibility", on ? "visible" : "none"));
+  }
+  map.setLayoutProperty("env-footprint", "visibility", envOn.has("wetlands") || envOn.has("flood") ? "visible" : "none");
+}
+
+function envTitle(f) {
+  if (!f) return null;
+  const p = f.properties;
+  if (p.layer === "wetlands") return `${p.water ? "Open water" : "Mapped wetland"}: ${p.type} (USFWS National Wetlands Inventory)`;
+  if (p.layer === "flood") return `FEMA flood zone ${p.zone}: ${floodZoneText(p.zone, p.subtype) ?? "see FEMA map"}`;
+  if (p.layer === "habitat") return `Critical habitat: ${p.species}${p.stage === "proposed" ? " (proposed)" : ""}, ${String(p.status ?? "listed").toLowerCase()} (${p.source})${p.unit ? `\n${p.unit}` : ""}`;
+  if (p.layer === "protected") return `Protected land: ${p.name}${p.manager ? `, ${p.manager}` : ""}${p.category ? ` (${p.category.toLowerCase()})` : ""}\nUSGS PAD-US`;
+  return null;
 }
 
 function addLayers() {
@@ -501,6 +589,8 @@ function yardCard(pair) {
     out.replaceChildren(sideBySide(pair, sc), h("div", "cost-big", sc.active ? `${money(sc.low)} – ${money(sc.high)}` : "$0"), h("p", "cost-caption", sc.active ? "avoided by coordinating" : "avoided: no overlap ahead, so nothing is shared"));
     const ul = h("ul", "cost-basis"); scenarioLines(pair, sc).forEach(([k, v, why]) => { const li = h("li"); li.append(h("b", "", `${k}: `), document.createTextNode(v), h("span", "why", ` · ${why}`)); ul.append(li); });
     ul.append(h("li", "", `One yard ≈ ${money(sc.oneYard)}. A combined yard is assumed to be 1.0–1.5× one project's yard, so sharing avoids 0.5–1.0 of a yard.`));
+    const ground = groundCostNote(pair);
+    if (ground) ul.append(h("li", "", ground));
     const est = savingsEstimate(pair, { benchmarkPerMile: state.data.costBenchmark.perMile });
     if (est && sc.active) ul.append(h("li", "", `For scale: the smaller project costs about ${money(Math.min(est.costA, est.costB))}${est.aEstimated || est.bEstimated ? " (Georgia side estimated from DESC's median $/mi)" : " (published)"}; the high end is ${((sc.high / Math.min(est.costA, est.costB)) * 100).toFixed(1)}% of it.`));
     out.append(ul);
@@ -529,6 +619,22 @@ function compareTable(pair) {
 }
 
 function listBox(title, items, cls = "") { const box = h("section", `list-box ${cls}`); box.append(h("h3", "", title)); const ul = h("ul"); items.forEach(i => ul.append(h("li", "", i))); box.append(ul); return box; }
+
+const GROUND_NOTE = "What federal maps show (FEMA, USFWS, NOAA Fisheries, USGS PAD-US), read within 0.25 mi of each station-level site and along traced lines. A map is not a field survey or a permit decision; each project still needs its own permits.";
+function groundBox(pair) {
+  const box = h("section", "list-box ground-box");
+  box.append(h("h3", "", "Ground at the work sites"));
+  for (const p of [pair.a, pair.b]) {
+    box.append(h("h4", `ground-for ${side(p)}`, `${sideName(p)} ${p.projectId}`));
+    const ul = h("ul"); groundLines(p, state.data.environmentRadiusMi).forEach(t => ul.append(h("li", "", t))); box.append(ul);
+  }
+  const note = h("p", "muted-note", `${GROUND_NOTE} `);
+  const show = h("button", "link-button", "Show on the map"); show.type = "button";
+  show.addEventListener("click", () => { if (!envOn.size) { envOn.add("wetlands"); envOn.add("flood"); saveLayers(); syncEnvLayers(); } openLayersPanel(); });
+  note.append(show);
+  box.append(note);
+  return box;
+}
 
 function toggleShortlist(pair) {
   if (state.shortlist.has(pair.id)) state.shortlist.delete(pair.id); else state.shortlist.add(pair.id);
@@ -576,7 +682,7 @@ function detailTabs(pair) {
   else if (state.detailTab === "records") { panel.append(h("p", "section-note", "Every field as parsed, how each endpoint was located, and what validation flagged.")); for (const p of [pair.a, pair.b]) panel.append(projectBlock(p, true)); }
   else {
     panel.append(compareTable(pair));
-    panel.append(listBox(pair.qualifies ? "Why it qualifies" : "Why it might qualify", whyQualifies(pair)), listBox("Still to confirm", toConfirm(pair), "confirm"), listBox("Possible shared resources", sharedResources(pair)));
+    panel.append(listBox(pair.qualifies ? "Why it qualifies" : "Why it might qualify", whyQualifies(pair)), listBox("Still to confirm", toConfirm(pair), "confirm"), listBox("Possible shared resources", sharedResources(pair)), groundBox(pair));
     const tl = h("section", "list-box"); tl.append(h("h3", "", "Build windows"), timeline(pair.a, pair.b)); panel.append(tl);
     panel.append(scoreBlock(pair));
   }
@@ -644,6 +750,7 @@ function briefText(pair) {
     "", "Why it qualifies:", ...bullets(whyQualifies(pair)),
     "", "Possible shared resources:", ...bullets(sharedResources(pair)),
     "", `Staging-yard scenario: ${sc.active ? `${money(sc.low)} – ${money(sc.high)}` : "$0 (no overlap ahead)"}`, ...bullets(scenarioLines(pair, sc).map(([k, v, why]) => `${k}: ${v} (${why})`)),
+    "", "Ground at the work sites (mapped, not surveyed):", ...[pair.a, pair.b].flatMap(p => [`  ${sideName(p)} ${p.projectId}:`, ...groundLines(p, state.data.environmentRadiusMi).map(x => `    - ${x}`)]),
     "", "Still to confirm:", ...bullets(toConfirm(pair)),
     "", `Questions for ${sideName(pair.b)}:`, ...questions(pair).map((q, i) => `  ${i + 1}. ${q}`),
     "", "Sources:", `  ${sourceLabel(pair.a.source)}: ${pdfLink(pair.a.source)}`, `  ${sourceLabel(pair.b.source)}: ${pdfLink(pair.b.source)}`,
@@ -671,6 +778,8 @@ function briefHtml(pair) {
   <div class="cols"><div><h2>Why it qualifies</h2><ul>${li(whyQualifies(pair))}</ul><h2>Possible shared resources</h2><ul>${li(sharedResources(pair))}</ul>
   <h2>Staging-yard scenario: ${sc.active ? `${money(sc.low)} – ${money(sc.high)}` : "$0"}</h2><ul>${scenarioLines(pair, sc).map(([k, v, why]) => `<li><b>${k}:</b> ${esc(v)} <i>(${esc(why)})</i></li>`).join("")}<li>Combined yard assumed 1.0–1.5× one yard, so sharing avoids 0.5–1.0 of a yard (${money(sc.oneYard)}). Proximity alone does not prove the land or equipment can be shared.</li></ul></div>
   <div><h2>Still to confirm</h2><ul>${li(toConfirm(pair))}</ul><h2>Questions for ${esc(sideName(b))}</h2><ol>${li(questions(pair))}</ol></div></div>
+  <h2>Ground at the work sites</h2><div class="cols">${[a, b].map(p => `<div><b>${esc(sideName(p))} ${esc(p.projectId)}</b><ul>${li(groundLines(p, state.data.environmentRadiusMi))}</ul></div>`).join("")}</div>
+  <p class="note">${esc(GROUND_NOTE)}</p>
   <footer>Cost basis: ${esc(YARD_BASIS.matsPerAcre.source)}; ${esc(YARD_BASIS.roadPerMile.source)}; ${esc(YARD_BASIS.landPerAcre.source)}. Built from public filings and OpenStreetMap only; no CEII. Locations are estimates with stated uncertainty.</footer>
 </section>`;
 }
@@ -692,6 +801,7 @@ function openBriefs(pairs) {
   .cmp th:first-child { width: 17%; color: #647780; font-weight: 600; } .cmp tr:first-child th { color: #183541; }
   .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; } ul, ol { margin: 0; padding-left: 16px; } li { margin: 2px 0; } i { color: #6b7d84; }
   footer { margin-top: 12px; padding-top: 6px; border-top: 1px solid #d9e0e3; color: #6b7d84; font-size: 8.5px; }
+  .note { margin: 4px 0 0; color: #6b7d84; font-size: 9px; }
   a { color: #1b6472; }
   @media (max-width: 700px) { .cols { grid-template-columns: 1fr; } header { flex-direction: column; } .page { padding: 16px; min-height: 0; } }
   @media print { body { background: #fff; } .bar { display: none; } .page { margin: 0; width: auto; min-height: 0; padding: 0; page-break-after: always; } @page { size: letter; margin: .45in; } }
@@ -764,8 +874,14 @@ function renderMethod() {
     "Cited unit costs:", basis,
     "Yard size, months, lease rate, road length and any non-mat surface cost are assumptions, marked as such and editable in the panel. Proximity alone can't establish that land or equipment can be shared; the scenario is a reason to make the call, not a budget.",
     `For scale, the panel compares the result with the smaller project's cost. DESC publishes costs; Georgia's are redacted, so for a Georgia line with a stated length we apply DESC's own median of ${money(bm.perMile)} per mile (${bm.n} line projects).`);
+  const envList = h("ul", "src-list"); (d.environmentSources ?? []).forEach(s => { const li = h("li"); li.append(link(s.url, s.title)); envList.append(li); });
+  sec("Ground at the work sites (mapped conditions)",
+    `Checked only where a location means something: endpoints placed at a station (not a town guess) and lines traced between two such stations, for projects that could appear in a pair. For each station we read what is mapped within ${d.environmentRadiusMi} mi: the FEMA flood zone at the station and the share of land in the 1% annual-chance flood area, the share mapped as wetland or open water, and any critical habitat or protected land. For each traced line we measure the miles inside those areas. Shares and miles come from sampling points about 24 m apart.`,
+    envList,
+    "Service answers are cached with the date they were read (data/cache/environment.json), so rebuilding offline gives the same results. On the map, the wetland and flood outlines behind each result are drawn inside the checked areas (dashed); zoomed in close, the agencies' own full maps are shown instead.",
+    "These are mapped conditions, not a field survey, a wetland delineation or a permit decision. Coordinating two projects doesn't remove either one's permits. Nothing here changes which pairs qualify or how they score.");
   sec("What this does not use", "No CEII, no non-public data and no paid APIs. Georgia filings carry a CEII banner even in their public-disclosure versions; we use only what the Commission published, and we do not reconstruct redacted costs.");
-  sec("Reproduce", Object.assign(h("pre", "code"), { textContent: "python3 pipeline/build.py        # fetch filings, parse, geocode, trace lines -> data/projects.json\npython3 pipeline/build.py --offline\nnode --test tests/*.test.js\npython3 -m http.server 8000" }));
+  sec("Reproduce", Object.assign(h("pre", "code"), { textContent: "python3 pipeline/build.py        # fetch filings, parse, geocode, trace lines, read federal maps -> data/\npython3 pipeline/build.py --offline\nnode --test tests/*.test.js\npython3 -m unittest discover tests\npython3 -m http.server 8000" }));
   v.append(wrap);
 }
 
@@ -778,8 +894,8 @@ function setView(name) {
 }
 
 function exportCsv() {
-  const header = ["rank", "qualifies", "score", "certainty", "desc_project", "desc_id", "desc_type", "desc_status", "ga_project", "ga_teams", "ga_type", "ga_status", "distance_miles", "in_service_gap_days", "build_overlap_days", "overlap_days_ahead", "shared_station", "closest_approach_miles", "in_service_desc", "in_service_ga", "source_desc", "source_ga"];
-  const lines = [header, ...state.pairs.map((p, i) => [i + 1, p.qualifies, p.score.total, p.certainty, p.a.name, p.a.projectId, projectType(p.a), p.a.status, p.b.name, p.b.projectId, projectType(p.b), p.b.status, p.miles.toFixed(3), p.gapDays ?? "", p.overlapDays ?? "", p.remainingDays ?? "", p.shared.map(s => s.a).join("; "), p.approachMiles?.toFixed(2) ?? "", p.a.inServiceDate ?? "", p.b.inServiceDate ?? "", pdfLink(p.a.source), pdfLink(p.b.source)])];
+  const header = ["rank", "qualifies", "score", "certainty", "desc_project", "desc_id", "desc_type", "desc_status", "ga_project", "ga_teams", "ga_type", "ga_status", "distance_miles", "in_service_gap_days", "build_overlap_days", "overlap_days_ahead", "shared_station", "closest_approach_miles", "in_service_desc", "in_service_ga", "ground_desc", "ground_ga", "source_desc", "source_ga"];
+  const lines = [header, ...state.pairs.map((p, i) => [i + 1, p.qualifies, p.score.total, p.certainty, p.a.name, p.a.projectId, projectType(p.a), p.a.status, p.b.name, p.b.projectId, projectType(p.b), p.b.status, p.miles.toFixed(3), p.gapDays ?? "", p.overlapDays ?? "", p.remainingDays ?? "", p.shared.map(s => s.a).join("; "), p.approachMiles?.toFixed(2) ?? "", p.a.inServiceDate ?? "", p.b.inServiceDate ?? "", groundShort(p.a), groundShort(p.b), pdfLink(p.a.source), pdfLink(p.b.source)])];
   const csv = lines.map(row => row.map(value => `"${String(value).replaceAll('"', '""')}"`).join(",")).join("\r\n");
   const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" })); a.download = "gridlock-opportunities.csv"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }
@@ -787,6 +903,13 @@ function exportCsv() {
 $("distance").addEventListener("input", event => { state.distance = Number(event.target.value); applyFilters(); });
 $("year").addEventListener("input", event => { state.year = Number(event.target.value); applyFilters(); });
 $("gap").addEventListener("change", event => { state.gap = event.target.value; applyFilters(); });
+$("ground").addEventListener("change", event => { state.ground = event.target.value; applyFilters(); });
+function openLayersPanel() { $("layers-panel").hidden = false; $("layers-toggle").setAttribute("aria-expanded", "true"); }
+$("layers-toggle").addEventListener("click", () => { const open = $("layers-panel").hidden; $("layers-panel").hidden = !open; $("layers-toggle").setAttribute("aria-expanded", String(open)); });
+document.querySelectorAll("#layers-panel input[data-layer]").forEach(input => input.addEventListener("change", () => {
+  if (input.checked) envOn.add(input.dataset.layer); else envOn.delete(input.dataset.layer);
+  saveLayers(); syncEnvLayers();
+}));
 $("hide-past").addEventListener("change", event => { state.hidePast = event.target.checked; applyFilters(); });
 $("possible").addEventListener("change", event => { state.includePossible = event.target.checked; applyFilters(); });
 $("search").addEventListener("input", event => { state.search = event.target.value.trim().toLowerCase(); applyFilters(); });
@@ -818,6 +941,7 @@ try {
   const issueTotal = state.projects.reduce((n, p) => n + p.issues.filter(i => i.level !== "info").length, 0);
   $("issue-count").textContent = String(issueTotal);
   initMap();
+  syncEnvLayers();
   renderQuality(); renderMethod();
   applyFilters();
 } catch (error) { $("match-list").textContent = `Could not load project data: ${error.message}. Run the local server described in README.md.`; console.error(error); }

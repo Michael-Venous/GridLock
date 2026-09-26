@@ -336,6 +336,28 @@ input[type="range"], input[type="checkbox"] { accent-color: var(--ink); }
 .src-list { padding-left: 18px; font-size: 15px; line-height: 1.7; }
 .code { padding: 14px 16px; overflow: auto; border-radius: var(--radius); background: var(--ink); color: #e6eef0; font-size: 13px; line-height: 1.6; }
 
+/* ---------- ground at the work sites ----------
+   Layer colors follow the agencies' own maps (NWI greens and blues, FEMA's flood cyan), so the cached outlines
+   and the live federal maps read as one layer when they hand over at close zoom. */
+:root { --env-wetland: #1f8a3c; --env-water: #4f78c4; --env-flood: #3fb6d0; --env-habitat: #b0397a; --env-protected: #8a7a2c; }
+.tag.env { background: none; box-shadow: inset 0 0 0 1px var(--rule); color: var(--ink); }
+.map-layers { position: absolute; top: 12px; left: 12px; display: grid; justify-items: start; gap: 6px; max-width: calc(100% - 80px); }
+.map-layers > .button { box-shadow: 0 1px 2px rgb(16 34 42 / .08); }
+.layers-panel { display: grid; gap: 7px; width: 250px; max-width: 100%; padding: 10px 12px; border: 1px solid var(--rule); border-radius: var(--radius); background: rgb(255 255 255 / .96); box-shadow: 0 1px 2px rgb(16 34 42 / .08); font-size: 13px; }
+.layers-panel[hidden] { display: none; }
+.layers-panel label { display: flex; align-items: center; gap: 8px; }
+.layers-panel small { margin-left: auto; color: var(--ink-3); font-size: 11px; }
+.layers-panel p { margin: 2px 0 0; color: var(--ink-2); font-size: 12px; line-height: 1.4; }
+.lsw { flex: none; width: 14px; height: 10px; border-radius: 2px; }
+.lsw.wetlands { background: linear-gradient(90deg, var(--env-wetland) 55%, var(--env-water) 55%); }
+.lsw.flood { background: var(--env-flood); opacity: .7; }
+.lsw.habitat { background: none; box-shadow: inset 0 0 0 2px var(--env-habitat); }
+.lsw.protected { background: color-mix(in srgb, var(--env-protected) 25%, transparent); box-shadow: inset 0 0 0 1px var(--env-protected); }
+.ground-box h4 { margin: 10px 0 4px; font-size: 13px; font-weight: 600; }
+.ground-box h4.desc { color: var(--desc-text); }
+.ground-box h4.gpc { color: var(--gpc-text); }
+.ground-box .muted-note .link-button { margin-left: 2px; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }

@@ -9,6 +9,7 @@ import re
 import statistics
 import sys
 
+import environment
 import fetch
 import parse_desc
 import parse_ga
@@ -198,6 +199,7 @@ def to_app(r):
         "history": r.get("history"), "slipDays": r.get("slip_days"),
         "source": r["source"], "issues": r["issues"],
         "locationNote": ENDPOINT_NOTES.get(r["uid"].rsplit(":", 1)[0] if r["state"] == "SC" else r["uid"]),
+        "environment": r.get("environment"),
     }
 
 
@@ -230,6 +232,9 @@ def main():
             elif e["confidence"] in ("ambiguous", "low"):
                 r["issues"].append({"level": "info", "msg": f"endpoint {e['name']!r} located with {e['confidence']} confidence ({e['method']})"})
 
+    environment.check(desc + ga, offline=offline)
+    environment.regional_layers(offline=offline)
+
     removed = load(ROOT / "data" / "build" / "ga_removed.json")
     projects = [to_app(r) for r in desc + ga]
     out = {
@@ -240,6 +245,8 @@ def main():
             {"id": "desc-old", "title": "DESC lists 2024-2028 (challenge zip) and 2025-2029, used only for schedule history", "url": parse_desc.EDITIONS["2025-2029"]},
             {"id": "osm", "title": "OpenStreetMap substations, plants and power lines (Overpass, 2026-09-26)", "url": "https://www.openstreetmap.org/copyright"},
         ],
+        "environmentSources": environment.SOURCES,
+        "environmentRadiusMi": environment.SITE_RADIUS_MI,
         "zoneAnchors": anchors,
         "costBenchmark": cost_benchmark(desc),
         "starterStatus": starter_status(desc, ga, removed),
