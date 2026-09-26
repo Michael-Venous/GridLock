@@ -53,27 +53,35 @@ class Grid:
             return None
         straight = haversine_mi(a["lat"], a["lon"], b["lat"], b["lon"])
         limit = max(straight * max_ratio, 2.0)
-        dist = {s: 0.0 for s in src}
+        # the walk from each station to the line it snaps to counts, so the path starts and ends at the closest vertices
+        dist = {s: haversine_mi(a["lat"], a["lon"], *s) for s in src}
         prev = {}
-        pq = [(0.0, s) for s in src]
+        pq = [(d, s) for s, d in dist.items()]
         heapq.heapify(pq)
+        best, end = math.inf, None
         while pq:
             d, u = heapq.heappop(pq)
-            if d > dist.get(u, math.inf) or d > limit:
+            if d > dist.get(u, math.inf) or d > limit or d >= best:
                 continue
             if u in dst:
-                path = [u]
-                while path[-1] in prev:
-                    path.append(prev[path[-1]])
-                path.reverse()
-                return {"miles": round(d, 2), "coords": simplify(path)}
+                total = d + haversine_mi(b["lat"], b["lon"], *u)
+                if total < best:
+                    best, end = total, u
             for v, w in self.adj[u]:
                 nd = d + w
                 if nd < dist.get(v, math.inf):
                     dist[v] = nd
                     prev[v] = u
                     heapq.heappush(pq, (nd, v))
-        return None
+        if end is None:
+            return None
+        path = [end]
+        while path[-1] in prev:
+            path.append(prev[path[-1]])
+        path.reverse()
+        # drawn from station to station: the short stubs join the station points to the mapped line
+        path = [(a["lat"], a["lon"])] + path + [(b["lat"], b["lon"])]
+        return {"miles": round(best, 2), "coords": simplify(path)}
 
 
 def simplify(path, tol_mi=0.05):

@@ -1163,8 +1163,12 @@
    },
    "miles": 12.5,
    "route": {
-    "miles": 16.21,
+    "miles": 16.89,
     "coords": [
+     [
+      33.43338,
+      -81.90921
+     ],
      [
       33.4307,
       -81.90526
@@ -1206,8 +1210,12 @@
       -81.69358
      ],
      [
-      33.53141,
-      -81.6749
+      33.52899,
+      -81.67841
+     ],
+     [
+      33.53463,
+      -81.66933
      ]
     ],
     "source": "shortest path along OpenStreetMap power=line ways between the endpoints"
@@ -1234,6 +1242,10 @@
     "item": "Project 7 of 54"
    },
    "issues": [
+    {
+     "level": "info",
+     "msg": "mapped route is 16.89 mi but the source states 12.5 mi"
+    },
     {
      "level": "info",
      "msg": "in-service date 2026-08-12 has passed; status in source is 'In Progress'"
@@ -1643,11 +1655,11 @@
    },
    "miles": 6.5,
    "route": {
-    "miles": 5.94,
+    "miles": 6.67,
     "coords": [
      [
-      32.36474,
-      -81.12376
+      32.35912,
+      -81.1246
      ],
      [
       32.36649,
@@ -1684,6 +1696,10 @@
      [
       32.33422,
       -81.03836
+     ],
+     [
+      32.33376,
+      -81.03249
      ]
     ],
     "source": "shortest path along OpenStreetMap power=line ways between the endpoints"
@@ -1779,11 +1795,11 @@
    },
    "miles": null,
    "route": {
-    "miles": 5.94,
+    "miles": 6.67,
     "coords": [
      [
-      32.36474,
-      -81.12376
+      32.35912,
+      -81.1246
      ],
      [
       32.36649,
@@ -1820,6 +1836,10 @@
      [
       32.33422,
       -81.03836
+     ],
+     [
+      32.33376,
+      -81.03249
      ]
     ],
     "source": "shortest path along OpenStreetMap power=line ways between the endpoints"
@@ -2489,11 +2509,11 @@
    },
    "miles": null,
    "route": {
-    "miles": 2.33,
+    "miles": 3.07,
     "coords": [
      [
-      32.4368,
-      -80.71428
+      32.43649,
+      -80.72102
      ],
      [
       32.43706,
@@ -2522,6 +2542,10 @@
      [
       32.43786,
       -80.67942
+     ],
+     [
+      32.43484,
+      -80.67467
      ]
     ],
     "source": "shortest path along OpenStreetMap power=line ways between the endpoints"
@@ -3676,11 +3700,11 @@
    },
    "miles": 7.5,
    "route": {
-    "miles": 8.5,
+    "miles": 9.24,
     "coords": [
      [
-      33.50671,
-      -80.80888
+      33.5022,
+      -80.80646
      ],
      [
       33.50914,
@@ -3711,8 +3735,12 @@
       -80.69793
      ],
      [
-      33.55802,
-      -80.70748
+      33.55683,
+      -80.70722
+     ],
+     [
+      33.56367,
+      -80.709
      ]
     ],
     "source": "shortest path along OpenStreetMap power=line ways between the endpoints"
@@ -4137,11 +4165,11 @@
    },
    "miles": 9.8,
    "route": {
-    "miles": 8.13,
+    "miles": 8.89,
     "coords": [
      [
-      33.56887,
-      -80.70985
+      33.56367,
+      -80.709
      ],
      [
       33.58196,
@@ -4174,6 +4202,10 @@
      [
       33.66801,
       -80.77204
+     ],
+     [
+      33.66488,
+      -80.77787
      ]
     ],
     "source": "shortest path along OpenStreetMap power=line ways between the endpoints"
@@ -4269,8 +4301,12 @@
    },
    "miles": null,
    "route": {
-    "miles": 9.83,
+    "miles": 10.56,
     "coords": [
+     [
+      32.33376,
+      -81.03249
+     ],
      [
       32.33422,
       -81.03836
@@ -4326,6 +4362,10 @@
      [
       32.34688,
       -81.17269
+     ],
+     [
+      32.35212,
+      -81.17511
      ]
     ],
     "source": "shortest path along OpenStreetMap power=line ways between the endpoints"
@@ -4913,11 +4953,11 @@
    },
    "miles": null,
    "route": {
-    "miles": 13.41,
+    "miles": 14.08,
     "coords": [
      [
-      33.74091,
-      -82.20248
+      33.73629,
+      -82.2015
      ],
      [
       33.74202,
@@ -4972,8 +5012,8 @@
       -82.28572
      ],
      [
-      33.90188,
-      -82.29059
+      33.90654,
+      -82.2928
      ]
     ],
     "source": "shortest path along OpenStreetMap power=line ways between the endpoints"
@@ -5058,8 +5098,12 @@
    },
    "miles": 15.0,
    "route": {
-    "miles": 14.43,
+    "miles": 14.9,
     "coords": [
+     [
+      33.5626,
+      -82.05136
+     ],
      [
       33.56156,
       -82.04744
@@ -5105,8 +5149,8 @@
       -81.85966
      ],
      [
-      33.58294,
-      -81.80847
+      33.58344,
+      -81.80451
      ]
     ],
     "source": "shortest path along OpenStreetMap power=line ways between the endpoints"
@@ -5186,8 +5230,12 @@
    },
    "miles": 9.5,
    "route": {
-    "miles": 13.92,
+    "miles": 14.7,
     "coords": [
+     [
+      33.65678,
+      -80.7604
+     ],
      [
       33.65234,
       -80.75594
@@ -5209,16 +5257,8 @@
       -80.81484
      ],
      [
-      33.50177,
-      -80.80714
-     ],
-     [
-      33.50125,
-      -80.80574
-     ],
-     [
-      33.47354,
-      -80.78875
+      33.46848,
+      -80.78628
      ]
     ],
     "source": "shortest path along OpenStreetMap power=line ways between the endpoints"
@@ -5236,7 +5276,7 @@
    "issues": [
     {
      "level": "info",
-     "msg": "mapped route is 13.92 mi but the source states 9.5 mi"
+     "msg": "mapped route is 14.7 mi but the source states 9.5 mi"
     },
     {
      "level": "info",
@@ -8919,11 +8959,11 @@
    },
    "miles": 8.0,
    "route": {
-    "miles": 8.83,
+    "miles": 9.53,
     "coords": [
      [
-      32.04005,
-      -81.13848
+      32.04123,
+      -81.14446
      ],
      [
       32.03507,
@@ -8990,8 +9030,12 @@
       -81.05461
      ],
      [
-      32.06319,
-      -81.0523
+      32.06107,
+      -81.05311
+     ],
+     [
+      32.06683,
+      -81.04838
      ]
     ],
     "source": "shortest path along OpenStreetMap power=line ways between the endpoints"
@@ -14055,11 +14099,15 @@
    },
    "miles": 6.7,
    "route": {
-    "miles": 5.85,
+    "miles": 6.6,
     "coords": [
      [
-      32.10334,
-      -81.23025
+      32.10772,
+      -81.22691
+     ],
+     [
+      32.10208,
+      -81.23191
      ],
      [
       32.10105,
@@ -14088,6 +14136,10 @@
      [
       32.07867,
       -81.1854
+     ],
+     [
+      32.08351,
+      -81.18872
      ]
     ],
     "source": "shortest path along OpenStreetMap power=line ways between the endpoints"
@@ -14160,11 +14212,11 @@
    },
    "miles": 6.7,
    "route": {
-    "miles": 7.69,
+    "miles": 8.39,
     "coords": [
      [
-      32.24546,
-      -81.20452
+      32.2487,
+      -81.20947
      ],
      [
       32.2433,
@@ -14185,6 +14237,10 @@
      [
       32.34766,
       -81.17749
+     ],
+     [
+      32.35212,
+      -81.17511
      ]
     ],
     "source": "shortest path along OpenStreetMap power=line ways between the endpoints"
@@ -14792,11 +14848,11 @@
    },
    "miles": 0.94,
    "route": {
-    "miles": 10.23,
+    "miles": 10.95,
     "coords": [
      [
-      32.04005,
-      -81.13848
+      32.04123,
+      -81.14446
      ],
      [
       32.03507,
@@ -14883,12 +14939,16 @@
       -81.05453
      ],
      [
-      32.0649,
-      -81.05882
+      32.0646,
+      -81.05923
      ],
      [
       32.05897,
       -81.06131
+     ],
+     [
+      32.05467,
+      -81.06493
      ]
     ],
     "source": "shortest path along OpenStreetMap power=line ways between the endpoints"
@@ -14906,7 +14966,7 @@
    "issues": [
     {
      "level": "info",
-     "msg": "mapped route is 10.23 mi but the source states 0.94 mi"
+     "msg": "mapped route is 10.95 mi but the source states 0.94 mi"
     },
     {
      "level": "info",
@@ -16788,11 +16848,11 @@
    },
    "miles": 4.56,
    "route": {
-    "miles": 5.01,
+    "miles": 6.48,
     "coords": [
      [
-      32.04005,
-      -81.13848
+      32.04123,
+      -81.14446
      ],
      [
       32.03507,
@@ -16819,8 +16879,12 @@
       -81.08841
      ],
      [
-      32.0276,
-      -81.08494
+      32.02269,
+      -81.08618
+     ],
+     [
+      32.02269,
+      -81.08618
      ],
      [
       32.02842,
@@ -16839,8 +16903,8 @@
       -81.07483
      ],
      [
-      32.03487,
-      -81.07381
+      32.04038,
+      -81.07194
      ]
     ],
     "source": "shortest path along OpenStreetMap power=line ways between the endpoints"
@@ -16856,6 +16920,10 @@
     "item": "Teams # 20407"
    },
    "issues": [
+    {
+     "level": "info",
+     "msg": "mapped route is 6.48 mi but the source states 4.56 mi"
+    },
     {
      "level": "info",
      "msg": "endpoint 'TRUMAN PARKWAY' located with low confidence (town)"
@@ -16918,15 +16986,19 @@
    },
    "miles": 8.1,
    "route": {
-    "miles": 8.76,
+    "miles": 9.52,
     "coords": [
      [
-      32.11072,
-      -81.2323
+      32.10772,
+      -81.22691
      ],
      [
-      32.13325,
-      -81.31979
+      32.11191,
+      -81.23534
+     ],
+     [
+      32.13172,
+      -81.31324
      ],
      [
       32.14171,
@@ -16935,6 +17007,10 @@
      [
       32.14999,
       -81.36622
+     ],
+     [
+      32.15528,
+      -81.36838
      ]
     ],
     "source": "shortest path along OpenStreetMap power=line ways between the endpoints"
@@ -17007,35 +17083,23 @@
    },
    "miles": 8.0,
    "route": {
-    "miles": 7.08,
+    "miles": 7.73,
     "coords": [
      [
-      32.08201,
-      -81.19383
+      32.08351,
+      -81.18872
      ],
      [
       32.08217,
       -81.19541
      ],
      [
-      32.07318,
-      -81.1978
+      32.07452,
+      -81.19678
      ],
      [
       32.06593,
       -81.20652
-     ],
-     [
-      32.04687,
-      -81.21551
-     ],
-     [
-      32.04653,
-      -81.21664
-     ],
-     [
-      32.04562,
-      -81.21593
      ],
      [
       32.04471,
@@ -17056,6 +17120,10 @@
      [
       32.00552,
       -81.2476
+     ],
+     [
+      32.00679,
+      -81.25315
      ]
     ],
     "source": "shortest path along OpenStreetMap power=line ways between the endpoints"
@@ -20487,8 +20555,12 @@
    },
    "miles": 6.0,
    "route": {
-    "miles": 5.08,
+    "miles": 5.82,
     "coords": [
+     [
+      33.45203,
+      -82.08167
+     ],
      [
       33.44993,
       -82.07622
@@ -20526,8 +20598,12 @@
       -82.0105
      ],
      [
-      33.43337,
-      -82.00204
+      33.43384,
+      -82.00406
+     ],
+     [
+      33.43382,
+      -81.99529
      ]
     ],
     "source": "shortest path along OpenStreetMap power=line ways between the endpoints"
