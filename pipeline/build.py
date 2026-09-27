@@ -100,6 +100,18 @@ def locate(recs, osm, refs, grid, anchors=None, offline=False):
             rad = max(e["radiusMi"] for e in located)
             if len(located) < len(eps):
                 rad += (r["miles"] / 2) if r.get("miles") else DEFAULT_HALF_LINE_MI
+            elif len(located) >= 2 and r.get("miles"):
+                # A rebuild/reconductor often covers only part of the line between two stations; the
+                # filing rarely says which part. Widen the radius so the true midpoint (anywhere on the
+                # unstated section) still falls within it, rather than pinning it to the whole line's midpoint.
+                span = haversine_mi(located[0]["point"]["lat"], located[0]["point"]["lon"],
+                                     located[-1]["point"]["lat"], located[-1]["point"]["lon"])
+                gap = span - r["miles"]
+                if gap > 0:
+                    rad = max(rad, gap / 2)
+                    r["issues"].append({"level": "info", "msg": f"rebuilds {r['miles']} mi of a {span:.2f} mi station-to-station span; section not stated"})
+                    if span > r["miles"] * 10:
+                        r["issues"].append({"level": "warn", "msg": f"stated length ({r['miles']} mi) is far shorter than the {span:.2f} mi between its stations; check whether a station is placed correctly"})
             r["radiusMi"] = round(max(rad, RADIUS_OVERRIDES.get(r["uid"].rsplit(":", 1)[0] if r["state"] == "SC" else r["uid"], 0)), 2)
             order = ["none", "low", "ambiguous", "medium", "high"]
             r["locationConfidence"] = min((e["confidence"] for e in located), key=order.index)

@@ -88,7 +88,7 @@
   "projects": [
    {
     "id": "6852",
-    "name": "Urquhart – Toolebeck 115kV line: Rebuild",
+    "name": "Urquhart \u2013 Toolebeck 115kV line: Rebuild",
     "miles": 12.5,
     "cost": 15948620,
     "perMile": 1275890
@@ -102,21 +102,21 @@
    },
    {
     "id": "6810 U",
-    "name": "Cameron Jct – Elloree 46 kV Rebuild",
+    "name": "Cameron Jct \u2013 Elloree 46 kV Rebuild",
     "miles": 7.3,
     "cost": 8075000,
     "perMile": 1106164
    },
    {
     "id": "6810 O",
-    "name": "Urquhart – Aiken PSA 46 kV: Rebuild",
+    "name": "Urquhart \u2013 Aiken PSA 46 kV: Rebuild",
     "miles": 4.5,
     "cost": 3000000,
     "perMile": 666667
    },
    {
     "id": "6810 T",
-    "name": "Cameron Jct – Cameron – St Matthews 46 kV Rebuild",
+    "name": "Cameron Jct \u2013 Cameron \u2013 St Matthews 46 kV Rebuild",
     "miles": 9.8,
     "cost": 11700000,
     "perMile": 1193878
@@ -137,7 +137,7 @@
    },
    {
     "id": "6877 A",
-    "name": "Church Creek – Dawson 230 kV: Rebuild from Long Savannah to Dawson",
+    "name": "Church Creek \u2013 Dawson 230 kV: Rebuild from Long Savannah to Dawson",
     "miles": 13.6,
     "cost": 42375000,
     "perMile": 3115809
@@ -560,8 +560,8 @@
   }
  },
  "dataQuality": [
-  "Project ID '6809 M' is used by 2 different projects: St George - Sumter 230kV Tie: Rebuild Line from Santee Substation - Duke/Progress Energy Tie; Modoc – McCormick 115/46 kV Rebuild",
-  "Project ID '6367 D' (Riverport 115kV Tap: Construct Tap) is a prefix of '06367 D - G' (Jasper – Okatie 230 kV #2: Construct); matching on ID alone would merge them",
+  "Project ID '6809 M' is used by 2 different projects: St George - Sumter 230kV Tie: Rebuild Line from Santee Substation - Duke/Progress Energy Tie; Modoc \u2013 McCormick 115/46 kV Rebuild",
+  "Project ID '6367 D' (Riverport 115kV Tap: Construct Tap) is a prefix of '06367 D - G' (Jasper \u2013 Okatie 230 kV #2: Construct); matching on ID alone would merge them",
   "Starter workbook gives two coordinates for 'MCINTOSH' (0.41 mi apart); the first is used"
  ],
  "projects": [
@@ -604,7 +604,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2026-04-30",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 15775885,
@@ -700,7 +700,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2026-05-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 1150364,
@@ -792,7 +792,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2026-05-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 19418000,
@@ -854,7 +854,7 @@
    "utility": "DESC",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
-   "name": "Eastover – Sumter 115kV DEP Tie: Rebuild with 1272 ACSR",
+   "name": "Eastover \u2013 Sumter 115kV DEP Tie: Rebuild with 1272 ACSR",
    "projectId": "6846 A",
    "status": "In Progress",
    "zone": null,
@@ -888,7 +888,7 @@
     "lat": 33.887388,
     "lon": -80.508117
    },
-   "radiusMi": 6.0,
+   "radiusMi": 10.09,
    "locationConfidence": "low",
    "locationCompleteness": {
     "located": 2,
@@ -899,7 +899,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2026-05-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 1238443,
@@ -921,12 +921,12 @@
     {
      "edition": "2024-2028",
      "isd": "2026-05-31",
-     "name": "Eastover – Sumter 115kV DEP Tie: Rebuild with 1272 ACSR"
+     "name": "Eastover \u2013 Sumter 115kV DEP Tie: Rebuild with 1272 ACSR"
     },
     {
      "edition": "2025-2029",
      "isd": "2026-05-31",
-     "name": "Eastover – Sumter 115kV DEP Tie: Rebuild with 1272 ACSR"
+     "name": "Eastover \u2013 Sumter 115kV DEP Tie: Rebuild with 1272 ACSR"
     }
    ],
    "slipDays": 0,
@@ -952,6 +952,14 @@
     {
      "level": "info",
      "msg": "endpoint 'Eastover' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 1.0 mi of a 21.17 mi station-to-station span; section not stated"
+    },
+    {
+     "level": "warn",
+     "msg": "stated length (1.0 mi) is far shorter than the 21.17 mi between its stations; check whether a station is placed correctly"
     }
    ],
    "locationNote": null,
@@ -1010,7 +1018,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2026-06-30",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 13040765,
@@ -1077,7 +1085,7 @@
    "status": "In Progress",
    "zone": null,
    "zoneName": null,
-   "description": "Move Summerville – Boone Hill 115kV Transmission Line for SCDOT Road widening. Approximately 1.2 miles of Transmission line (23 Transmission Poles).",
+   "description": "Move Summerville \u2013 Boone Hill 115kV Transmission Line for SCDOT Road widening. Approximately 1.2 miles of Transmission line (23 Transmission Poles).",
    "endpoints": [
     {
      "name": "Summerville",
@@ -1117,7 +1125,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2026-07-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 12475000,
@@ -1155,6 +1163,10 @@
     {
      "level": "info",
      "msg": "endpoint 'Boone Hill' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 1.2 mi of a 1.93 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -1168,12 +1180,12 @@
    "utility": "DESC",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
-   "name": "Urquhart – Toolebeck 115kV line: Rebuild",
+   "name": "Urquhart \u2013 Toolebeck 115kV line: Rebuild",
    "projectId": "6852",
    "status": "In Progress",
    "zone": null,
    "zoneName": null,
-   "description": "Upgrade the 477 ACSR portions of the Urquhart – Toolebeck 115 kV line to 1272 ACSR. Replace existing structures with Single Pole Double Circuit Structures. Approximately 12.5 miles.",
+   "description": "Upgrade the 477 ACSR portions of the Urquhart \u2013 Toolebeck 115 kV line to 1272 ACSR. Replace existing structures with Single Pole Double Circuit Structures. Approximately 12.5 miles.",
    "endpoints": [
     {
      "name": "Urquhart",
@@ -1202,7 +1214,7 @@
     "lat": 33.484005,
     "lon": -81.789268
    },
-   "radiusMi": 0.5,
+   "radiusMi": 1.5,
    "locationConfidence": "high",
    "locationCompleteness": {
     "located": 2,
@@ -1213,7 +1225,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2026-08-12",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 15948620,
@@ -1294,12 +1306,12 @@
     {
      "edition": "2024-2028",
      "isd": "2026-08-12",
-     "name": "Urquhart – Toolebeck 115kV line: Rebuild"
+     "name": "Urquhart \u2013 Toolebeck 115kV line: Rebuild"
     },
     {
      "edition": "2025-2029",
      "isd": "2026-08-12",
-     "name": "Urquhart – Toolebeck 115kV line: Rebuild"
+     "name": "Urquhart \u2013 Toolebeck 115kV line: Rebuild"
     }
    ],
    "slipDays": 0,
@@ -1317,6 +1329,10 @@
     {
      "level": "info",
      "msg": "in-service date 2026-08-12 has passed; status in source is 'In Progress'"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 12.5 mi of a 15.49 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -1394,7 +1410,7 @@
    "status": "In Progress",
    "zone": null,
    "zoneName": null,
-   "description": "Construct Dawson 230kV substation. Fold in the existing Canadys – Church Creek and Canadys – Faber Place 230kV lines at the Dawson 230kV substation (phase 1). Rebuild Canadys – Dawson 230kV #1 and #2 with B1272 ACSR (phase 2).",
+   "description": "Construct Dawson 230kV substation. Fold in the existing Canadys \u2013 Church Creek and Canadys \u2013 Faber Place 230kV lines at the Dawson 230kV substation (phase 1). Rebuild Canadys \u2013 Dawson 230kV #1 and #2 with B1272 ACSR (phase 2).",
    "endpoints": [
     {
      "name": "Dawson",
@@ -1423,7 +1439,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2026-10-01",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 93603207,
@@ -1481,12 +1497,12 @@
    "utility": "DESC",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
-   "name": "Cainhoy - Hamlin 115kV: Rebuild Line and Cainhoy – Hamlin 115 kV #2: Construct New 115 kV Line",
+   "name": "Cainhoy - Hamlin 115kV: Rebuild Line and Cainhoy \u2013 Hamlin 115 kV #2: Construct New 115 kV Line",
    "projectId": "6341 A-F",
    "status": "In Progress",
    "zone": null,
    "zoneName": null,
-   "description": "Upgrade the 954 ACSR portion of the Cainhoy – Hamlin 115 kV line to B795 ACSR conductor, construct a new Cainhoy – Hamlin 115 kV #2 line, add terminals to Cainhoy and Hamlin sub to accommodate upgrades.",
+   "description": "Upgrade the 954 ACSR portion of the Cainhoy \u2013 Hamlin 115 kV line to B795 ACSR conductor, construct a new Cainhoy \u2013 Hamlin 115 kV #2 line, add terminals to Cainhoy and Hamlin sub to accommodate upgrades.",
    "endpoints": [
     {
      "name": "Cainhoy",
@@ -1526,7 +1542,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2026-12-02",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 40858628,
@@ -1548,12 +1564,12 @@
     {
      "edition": "2024-2028",
      "isd": "2025-12-01",
-     "name": "Cainhoy - Hamlin 115kV: Rebuild Line and Cainhoy – Hamlin 115 kV #2: Construct New 115 kV Line"
+     "name": "Cainhoy - Hamlin 115kV: Rebuild Line and Cainhoy \u2013 Hamlin 115 kV #2: Construct New 115 kV Line"
     },
     {
      "edition": "2025-2029",
      "isd": "2026-12-02",
-     "name": "Cainhoy - Hamlin 115kV: Rebuild Line and Cainhoy – Hamlin 115 kV #2: Construct New 115 kV Line"
+     "name": "Cainhoy - Hamlin 115kV: Rebuild Line and Cainhoy \u2013 Hamlin 115 kV #2: Construct New 115 kV Line"
     }
    ],
    "slipDays": 366,
@@ -1575,7 +1591,7 @@
    "utility": "DESC",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
-   "name": "Coit – Gills Creek 115kV: Construct",
+   "name": "Coit \u2013 Gills Creek 115kV: Construct",
    "projectId": "5392 A-C",
    "status": "In Progress",
    "zone": null,
@@ -1609,7 +1625,7 @@
     "lat": 34.068605,
     "lon": -80.378725
    },
-   "radiusMi": 6.0,
+   "radiusMi": 35.2,
    "locationConfidence": "low",
    "locationCompleteness": {
     "located": 2,
@@ -1620,7 +1636,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2026-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 5773202,
@@ -1642,12 +1658,12 @@
     {
      "edition": "2024-2028",
      "isd": "2024-12-31",
-     "name": "Coit – Gills Creek 115kV: Construct"
+     "name": "Coit \u2013 Gills Creek 115kV: Construct"
     },
     {
      "edition": "2025-2029",
      "isd": "2025-12-31",
-     "name": "Coit – Gills Creek 115kV: Construct"
+     "name": "Coit \u2013 Gills Creek 115kV: Construct"
     }
    ],
    "slipDays": 730,
@@ -1665,6 +1681,14 @@
     {
      "level": "info",
      "msg": "endpoint 'Gills Creek' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 1.25 mi of a 71.64 mi station-to-station span; section not stated"
+    },
+    {
+     "level": "warn",
+     "msg": "stated length (1.25 mi) is far shorter than the 71.64 mi between its stations; check whether a station is placed correctly"
     }
    ],
    "locationNote": null,
@@ -1678,12 +1702,12 @@
    "utility": "DESC",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
-   "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+   "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
    "projectId": "0139 M,N",
    "status": "In Progress",
    "zone": null,
    "zoneName": null,
-   "description": "Expand existing Okatie Transmission sub, add a 230-115 autobank and fold the Jasper – Yemassee 230 kV #1 line into the 230 kV side. Construct two additional 115 kV bus tie lines.",
+   "description": "Expand existing Okatie Transmission sub, add a 230-115 autobank and fold the Jasper \u2013 Yemassee 230 kV #1 line into the 230 kV side. Construct two additional 115 kV bus tie lines.",
    "endpoints": [
     {
      "name": "Okatie",
@@ -1712,7 +1736,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2026-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 11630257,
@@ -1734,12 +1758,12 @@
     {
      "edition": "2024-2028",
      "isd": "2024-12-31",
-     "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in"
+     "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in"
     },
     {
      "edition": "2025-2029",
      "isd": "2026-05-31",
-     "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in"
+     "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in"
     }
    ],
    "slipDays": 730,
@@ -1793,7 +1817,7 @@
    "utility": "DESC",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
-   "name": "Jasper – Okatie 230 kV #2: Construct",
+   "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
    "projectId": "06367 D - G",
    "status": "In Progress",
    "zone": null,
@@ -1838,7 +1862,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2026-12-01",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 19280474,
@@ -1911,12 +1935,12 @@
     {
      "edition": "2024-2028",
      "isd": "2025-12-31",
-     "name": "Jasper – Okatie 230 kV #2: Construct"
+     "name": "Jasper \u2013 Okatie 230 kV #2: Construct"
     },
     {
      "edition": "2025-2029",
      "isd": "2026-05-31",
-     "name": "Jasper – Okatie 230 kV #2: Construct"
+     "name": "Jasper \u2013 Okatie 230 kV #2: Construct"
     }
    ],
    "slipDays": 335,
@@ -2062,7 +2086,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2026-12-01",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 41389047,
@@ -2259,7 +2283,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2026-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 3950000,
@@ -2302,12 +2326,12 @@
    "utility": "DESC",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
-   "name": "Saluda Hydro – Bush River 115kV #1 and #2 Tie Lines Rebuild",
+   "name": "Saluda Hydro \u2013 Bush River 115kV #1 and #2 Tie Lines Rebuild",
    "projectId": "6870 A",
    "status": "In Progress",
    "zone": null,
    "zoneName": null,
-   "description": "Rebuild the existing Saluda Hydro – Bush River #1 and #2 Tie Lines to SPDC 1272.",
+   "description": "Rebuild the existing Saluda Hydro \u2013 Bush River #1 and #2 Tie Lines to SPDC 1272.",
    "endpoints": [
     {
      "name": "Saluda Hydro",
@@ -2347,7 +2371,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2026-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 20400000,
@@ -2369,7 +2393,7 @@
     {
      "edition": "2025-2029",
      "isd": "2026-12-31",
-     "name": "Saluda Hydro – Bush River 115kV #1 and #2 Tie Lines Rebuild"
+     "name": "Saluda Hydro \u2013 Bush River 115kV #1 and #2 Tie Lines Rebuild"
     }
    ],
    "slipDays": 0,
@@ -2400,12 +2424,12 @@
    "utility": "DESC",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
-   "name": "Church Creek – Faber Place – Charleston Transmission: Add 230kV Line",
+   "name": "Church Creek \u2013 Faber Place \u2013 Charleston Transmission: Add 230kV Line",
    "projectId": "6847",
    "status": "In Progress",
    "zone": null,
    "zoneName": null,
-   "description": "Construct a 230 kV transmission line from Church Creek to Charleston Transmission. The Church Creek – Faber Place 230kV and 115kV lines will be rebuilt, and a 230kV line will be added between Faber Place and Charleston Transmission. Add 230/115kV transformer at Charleston Transmission. Add/upgrade terminals and bus work at impacted substations.",
+   "description": "Construct a 230 kV transmission line from Church Creek to Charleston Transmission. The Church Creek \u2013 Faber Place 230kV and 115kV lines will be rebuilt, and a 230kV line will be added between Faber Place and Charleston Transmission. Add 230/115kV transformer at Charleston Transmission. Add/upgrade terminals and bus work at impacted substations.",
    "endpoints": [
     {
      "name": "Church Creek",
@@ -2445,7 +2469,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2027-05-01",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 22788174,
@@ -2467,7 +2491,7 @@
     {
      "edition": "2025-2029",
      "isd": "2027-05-01",
-     "name": "Church Creek – Faber Place – Charleston Transmission: Add 230kV Line"
+     "name": "Church Creek \u2013 Faber Place \u2013 Charleston Transmission: Add 230kV Line"
     }
    ],
    "slipDays": 0,
@@ -2494,12 +2518,12 @@
    "utility": "DESC",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
-   "name": "Yemassee– Ritter 230kV #1 & #2: Construct SPDC with B-1272",
+   "name": "Yemassee\u2013 Ritter 230kV #1 & #2: Construct SPDC with B-1272",
    "projectId": "6359",
    "status": "In Progress",
    "zone": null,
    "zoneName": null,
-   "description": "Construct Ritter – Yemassee 230kV #1 and #2 SPDC with B1272 ACSR on both sides. Convert the existing Ritter – Yemassee 230 kV to 115 kV operation. Convert and add terminals at Ritter and Yemassee. Add 230 kV bus tie at Ritter and upgrade the Yemassee 230 kV bus tie.",
+   "description": "Construct Ritter \u2013 Yemassee 230kV #1 and #2 SPDC with B1272 ACSR on both sides. Convert the existing Ritter \u2013 Yemassee 230 kV to 115 kV operation. Convert and add terminals at Ritter and Yemassee. Add 230 kV bus tie at Ritter and upgrade the Yemassee 230 kV bus tie.",
    "endpoints": [
     {
      "name": "Yemassee",
@@ -2539,7 +2563,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2027-06-01",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 39066742,
@@ -2561,12 +2585,12 @@
     {
      "edition": "2024-2028",
      "isd": "2026-06-01",
-     "name": "Yemassee– Ritter 230kV #1 & #2: Construct SPDC with B-1272"
+     "name": "Yemassee\u2013 Ritter 230kV #1 & #2: Construct SPDC with B-1272"
     },
     {
      "edition": "2025-2029",
      "isd": "2027-06-01",
-     "name": "Yemassee– Ritter 230kV #1 & #2: Construct SPDC with B-1272"
+     "name": "Yemassee\u2013 Ritter 230kV #1 & #2: Construct SPDC with B-1272"
     }
    ],
    "slipDays": 365,
@@ -2638,7 +2662,7 @@
    "window": {
     "start": null,
     "end": "2027-09-07",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 20350000,
@@ -2726,7 +2750,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2027-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 4569331,
@@ -2822,7 +2846,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2027-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 10534285,
@@ -2904,12 +2928,12 @@
    "utility": "DESC",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
-   "name": "Burton-St Helena 115kV: Rebuild Frogmore Distribution – St. Helena Section",
+   "name": "Burton-St Helena 115kV: Rebuild Frogmore Distribution \u2013 St. Helena Section",
    "projectId": "6808 L",
    "status": "In Progress",
    "zone": null,
    "zoneName": null,
-   "description": "Replace wooden structures with Self Supporting Steel Structures and restring with 1272 ACSR conductor for the Frogmore Transmission – St. Helena section.",
+   "description": "Replace wooden structures with Self Supporting Steel Structures and restring with 1272 ACSR conductor for the Frogmore Transmission \u2013 St. Helena section.",
    "endpoints": [
     {
      "name": "Burton",
@@ -2949,7 +2973,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2027-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 18129932,
@@ -3062,7 +3086,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2027-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 7540000,
@@ -3111,12 +3135,12 @@
    "utility": "DESC",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
-   "name": "Cameron Jct – Elloree 46 kV Rebuild",
+   "name": "Cameron Jct \u2013 Elloree 46 kV Rebuild",
    "projectId": "6810 U",
    "status": "Planned",
    "zone": null,
    "zoneName": null,
-   "description": "Rebuilding the Cameron Jct – Elloree 46 kV Line. 7.3 miles.",
+   "description": "Rebuilding the Cameron Jct \u2013 Elloree 46 kV Line. 7.3 miles.",
    "endpoints": [
     {
      "name": "Cameron Jct",
@@ -3156,7 +3180,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2027-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 8075000,
@@ -3178,12 +3202,12 @@
     {
      "edition": "2024-2028",
      "isd": "2026-12-31",
-     "name": "Cameron Jct – Elloree 46 kV Rebuild"
+     "name": "Cameron Jct \u2013 Elloree 46 kV Rebuild"
     },
     {
      "edition": "2025-2029",
      "isd": "2027-12-31",
-     "name": "Cameron Jct – Elloree 46 kV Rebuild"
+     "name": "Cameron Jct \u2013 Elloree 46 kV Rebuild"
     }
    ],
    "slipDays": 365,
@@ -3193,7 +3217,12 @@
     "page": 23,
     "item": "Project 23 of 54"
    },
-   "issues": [],
+   "issues": [
+    {
+     "level": "info",
+     "msg": "rebuilds 7.3 mi of a 7.75 mi station-to-station span; section not stated"
+    }
+   ],
    "locationNote": null,
    "environment": {
     "checked": false,
@@ -3239,7 +3268,7 @@
    "window": {
     "start": "2026-01-01",
     "end": "2028-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 3646027,
@@ -3282,7 +3311,7 @@
    "utility": "DESC",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
-   "name": "Elloree – Santee City 46 kV: Rebuild",
+   "name": "Elloree \u2013 Santee City 46 kV: Rebuild",
    "projectId": "6810 J",
    "status": "In Progress",
    "zone": null,
@@ -3324,7 +3353,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2027-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 10294609,
@@ -3346,12 +3375,12 @@
     {
      "edition": "2024-2028",
      "isd": "2027-12-31",
-     "name": "Elloree – Santee City 46 kV: Rebuild"
+     "name": "Elloree \u2013 Santee City 46 kV: Rebuild"
     },
     {
      "edition": "2025-2029",
      "isd": "2027-12-31",
-     "name": "Elloree – Santee City 46 kV: Rebuild"
+     "name": "Elloree \u2013 Santee City 46 kV: Rebuild"
     }
    ],
    "slipDays": 0,
@@ -3382,7 +3411,7 @@
    "utility": "DESC",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
-   "name": "Urquhart – Aiken PSA 46 kV: Rebuild",
+   "name": "Urquhart \u2013 Aiken PSA 46 kV: Rebuild",
    "projectId": "6810 O",
    "status": "Planned",
    "zone": null,
@@ -3427,7 +3456,7 @@
    "window": {
     "start": "2027-01-01",
     "end": "2027-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 3000000,
@@ -3449,12 +3478,12 @@
     {
      "edition": "2024-2028",
      "isd": "2027-12-31",
-     "name": "Urquhart – Aiken PSA 46 kV: Rebuild"
+     "name": "Urquhart \u2013 Aiken PSA 46 kV: Rebuild"
     },
     {
      "edition": "2025-2029",
      "isd": "2027-12-31",
-     "name": "Urquhart – Aiken PSA 46 kV: Rebuild"
+     "name": "Urquhart \u2013 Aiken PSA 46 kV: Rebuild"
     }
    ],
    "slipDays": 0,
@@ -3468,6 +3497,10 @@
     {
      "level": "info",
      "msg": "endpoint 'Aiken' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 4.5 mi of a 13.94 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -3549,7 +3582,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2027-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 22400000,
@@ -3598,7 +3631,7 @@
    "utility": "DESC",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
-   "name": "Adams Run – Red House Road 46 kV: Replace Dawhoo River Crossing and other Structures",
+   "name": "Adams Run \u2013 Red House Road 46 kV: Replace Dawhoo River Crossing and other Structures",
    "projectId": "6809 I2",
    "status": "Planned",
    "zone": null,
@@ -3643,7 +3676,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2027-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 11000000,
@@ -3686,7 +3719,7 @@
    "utility": "DESC",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
-   "name": "Lyles – Kilbourne Park 115kV: Replace Structure 67 – Kilbourne Park",
+   "name": "Lyles \u2013 Kilbourne Park 115kV: Replace Structure 67 \u2013 Kilbourne Park",
    "projectId": "6809 S",
    "status": "Planned",
    "zone": null,
@@ -3731,7 +3764,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2027-12-01",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 4770000,
@@ -3765,6 +3798,10 @@
     {
      "level": "info",
      "msg": "endpoint 'Kilbourne Park' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 2.85 mi of a 4.41 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -3783,7 +3820,7 @@
    "status": "In Progress",
    "zone": null,
    "zoneName": null,
-   "description": "Construct new 230-115 kV substation and fold in the Parr – Winnsboro 115 kV #1 and VCS1 – Killian 230 kV lines into the new substation.",
+   "description": "Construct new 230-115 kV substation and fold in the Parr \u2013 Winnsboro 115 kV #1 and VCS1 \u2013 Killian 230 kV lines into the new substation.",
    "endpoints": [
     {
      "name": "Winnsboro West",
@@ -3806,7 +3843,7 @@
    "window": {
     "start": null,
     "end": "2028-01-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 23272000,
@@ -3897,7 +3934,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2028-05-01",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 31100000,
@@ -3942,6 +3979,10 @@
     {
      "level": "info",
      "msg": "endpoint 'Summerville' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 10.0 mi of a 14.14 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -4000,7 +4041,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2028-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 11424330,
@@ -4054,12 +4095,12 @@
    "utility": "DESC",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
-   "name": "Jackson 115kV: Construct 115 – 12kV Distribution Substation",
+   "name": "Jackson 115kV: Construct 115 \u2013 12kV Distribution Substation",
    "projectId": "6854 C",
    "status": "Planned",
    "zone": null,
    "zoneName": null,
-   "description": "Construct 115 – 12kV distribution substation to replace Jackson 46kV Substation. Jackson 46kV has reverse power modifications for Aiken Schools #3936. Verify that Jackson 115-12kV will inherit this reverse power requirement.",
+   "description": "Construct 115 \u2013 12kV distribution substation to replace Jackson 46kV Substation. Jackson 46kV has reverse power modifications for Aiken Schools #3936. Verify that Jackson 115-12kV will inherit this reverse power requirement.",
    "endpoints": [
     {
      "name": "Jackson",
@@ -4088,7 +4129,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2028-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 3003760,
@@ -4131,7 +4172,7 @@
    "utility": "DESC",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
-   "name": "Harleyville 115KV Transmission Tap – Construct (1.4 miles)",
+   "name": "Harleyville 115KV Transmission Tap \u2013 Construct (1.4 miles)",
    "projectId": "06005 B",
    "status": "Planned",
    "zone": null,
@@ -4165,7 +4206,7 @@
    "window": {
     "start": "2026-01-01",
     "end": "2028-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 2750000,
@@ -4187,12 +4228,12 @@
     {
      "edition": "2024-2028",
      "isd": "2027-03-31",
-     "name": "Harleyville 115KV Transmission Tap – Construct (1.4 miles)"
+     "name": "Harleyville 115KV Transmission Tap \u2013 Construct (1.4 miles)"
     },
     {
      "edition": "2025-2029",
      "isd": "2027-03-31",
-     "name": "Harleyville 115KV Transmission Tap – Construct (1.4 miles)"
+     "name": "Harleyville 115KV Transmission Tap \u2013 Construct (1.4 miles)"
     }
    ],
    "slipDays": 641,
@@ -4219,7 +4260,7 @@
    "status": "Planned",
    "zone": null,
    "zoneName": null,
-   "description": "Rebuilding the 7.5 mile Orangeburg #1 – Cameron Jct. 46 kV Line. The line will be rebuilt on existing R/W using steel poles, 115 kV insulation, and 1272 ACSR Conductor",
+   "description": "Rebuilding the 7.5 mile Orangeburg #1 \u2013 Cameron Jct. 46 kV Line. The line will be rebuilt on existing R/W using steel poles, 115 kV insulation, and 1272 ACSR Conductor",
    "endpoints": [
     {
      "name": "Orangeburg",
@@ -4259,7 +4300,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2028-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 7912400,
@@ -4408,7 +4449,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2028-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 13285118,
@@ -4496,7 +4537,7 @@
    "window": {
     "start": "2026-01-01",
     "end": "2027-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 5560000,
@@ -4544,7 +4585,7 @@
    "status": "Planned",
    "zone": null,
    "zoneName": null,
-   "description": "Construct Millrace 115kV tap from the existing Dunbar Road – Lyles 115kV line. Due to added load on the Dunbar Road – Lyles 115kV line, rebuild with 1272 ACSR.",
+   "description": "Construct Millrace 115kV tap from the existing Dunbar Road \u2013 Lyles 115kV line. Due to added load on the Dunbar Road \u2013 Lyles 115kV line, rebuild with 1272 ACSR.",
    "endpoints": [
     {
      "name": "Millrace",
@@ -4573,7 +4614,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2028-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 3200000,
@@ -4667,7 +4708,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2028-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 11182924,
@@ -4721,7 +4762,7 @@
    "utility": "DESC",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
-   "name": "Cameron Jct – Cameron – St Matthews 46 kV Rebuild",
+   "name": "Cameron Jct \u2013 Cameron \u2013 St Matthews 46 kV Rebuild",
    "projectId": "6810 T",
    "status": "Planned",
    "zone": null,
@@ -4766,7 +4807,7 @@
    "window": {
     "start": "2026-01-01",
     "end": "2028-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 11700000,
@@ -4788,12 +4829,12 @@
     {
      "edition": "2024-2028",
      "isd": "2028-12-31",
-     "name": "Cameron Jct – Cameron – St Matthews 46 kV Rebuild"
+     "name": "Cameron Jct \u2013 Cameron \u2013 St Matthews 46 kV Rebuild"
     },
     {
      "edition": "2025-2029",
      "isd": "2028-12-31",
-     "name": "Cameron Jct – Cameron – St Matthews 46 kV Rebuild"
+     "name": "Cameron Jct \u2013 Cameron \u2013 St Matthews 46 kV Rebuild"
     }
    ],
    "slipDays": 0,
@@ -4820,12 +4861,12 @@
    "utility": "DESC",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
-   "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
+   "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
    "projectId": "6888",
    "status": "Planned",
    "zone": null,
    "zoneName": null,
-   "description": "Construct Deerfield Switching Station and Install a 9% series reactor on the Okatie – McIntosh 115kV Tie Line.",
+   "description": "Construct Deerfield Switching Station and Install a 9% series reactor on the Okatie \u2013 McIntosh 115kV Tie Line.",
    "endpoints": [
     {
      "name": "Okatie",
@@ -4865,7 +4906,7 @@
    "window": {
     "start": "2027-01-01",
     "end": "2028-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 5376418,
@@ -4958,7 +4999,7 @@
     {
      "edition": "2025-2029",
      "isd": "2028-12-31",
-     "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor"
+     "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor"
     }
    ],
    "slipDays": 0,
@@ -5108,7 +5149,7 @@
    "window": {
     "start": "2026-01-01",
     "end": "2028-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 4450000,
@@ -5156,7 +5197,7 @@
    "status": "Planned",
    "zone": null,
    "zoneName": null,
-   "description": "Rebuild Structures 83-108 on existing St. George – Holly Hill 115 kV transmission line. Total length, 3.4 miles. Replace flat switches at Don's Car Crushing with new flat switches. Distribution wants to be underbuilt when we rebuild.",
+   "description": "Rebuild Structures 83-108 on existing St. George \u2013 Holly Hill 115 kV transmission line. Total length, 3.4 miles. Replace flat switches at Don's Car Crushing with new flat switches. Distribution wants to be underbuilt when we rebuild.",
    "endpoints": [
     {
      "name": "St. George",
@@ -5185,7 +5226,7 @@
     "lat": 33.262617,
     "lon": -80.506713
    },
-   "radiusMi": 0.5,
+   "radiusMi": 4.89,
    "locationConfidence": "high",
    "locationCompleteness": {
     "located": 2,
@@ -5196,7 +5237,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2028-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 8125000,
@@ -5222,7 +5263,12 @@
     "page": 43,
     "item": "Project 43 of 54"
    },
-   "issues": [],
+   "issues": [
+    {
+     "level": "info",
+     "msg": "rebuilds 3.4 mi of a 13.17 mi station-to-station span; section not stated"
+    }
+   ],
    "locationNote": null,
    "environment": {
     "checked": false,
@@ -5279,7 +5325,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2029-06-01",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 38121795,
@@ -5324,6 +5370,10 @@
     {
      "level": "info",
      "msg": "endpoint 'Ritter' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 18.0 mi of a 18.97 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -5382,7 +5432,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2029-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 44517719,
@@ -5436,12 +5486,12 @@
    "utility": "DESC",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
-   "name": "Church Creek – Dawson 230 kV: Rebuild from Long Savannah to Dawson",
+   "name": "Church Creek \u2013 Dawson 230 kV: Rebuild from Long Savannah to Dawson",
    "projectId": "6877 A",
    "status": "Planned",
    "zone": null,
    "zoneName": null,
-   "description": "Rebuild Dawson – Long Savannah 230kV Line SPSC B1272 (Designed SPDC B1272). Approximately 13.6 miles. 6869C includes rebuild from Long Savannah – Church Creek 230kV (3.0 miles). For 8 miles (Dawson – Mateeba), include the rebuild of Dawson – Faber Place SPSC B1272 (Designed SPDC B1272)",
+   "description": "Rebuild Dawson \u2013 Long Savannah 230kV Line SPSC B1272 (Designed SPDC B1272). Approximately 13.6 miles. 6869C includes rebuild from Long Savannah \u2013 Church Creek 230kV (3.0 miles). For 8 miles (Dawson \u2013 Mateeba), include the rebuild of Dawson \u2013 Faber Place SPSC B1272 (Designed SPDC B1272)",
    "endpoints": [
     {
      "name": "Church Creek",
@@ -5470,7 +5520,7 @@
     "lat": 33.028577,
     "lon": -79.862814
    },
-   "radiusMi": 6.0,
+   "radiusMi": 11.42,
    "locationConfidence": "low",
    "locationCompleteness": {
     "located": 2,
@@ -5481,7 +5531,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2029-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 42375000,
@@ -5503,7 +5553,7 @@
     {
      "edition": "2025-2029",
      "isd": "2028-12-31",
-     "name": "Church Creek – Dawson 230 kV: Rebuild from Long Savannah to Dawson"
+     "name": "Church Creek \u2013 Dawson 230 kV: Rebuild from Long Savannah to Dawson"
     }
    ],
    "slipDays": 365,
@@ -5517,6 +5567,10 @@
     {
      "level": "info",
      "msg": "endpoint 'Dawson' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 13.6 mi of a 36.45 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -5535,7 +5589,7 @@
    "status": "Planned",
    "zone": null,
    "zoneName": null,
-   "description": "Rebuild Church Creek - Dawson 230kV line from Long Savannah to Church Creek. Include Long Savannah 115kV Tap SPDC with Church Creek - Dawson 230kV from Long Savannah to tap point with Church Creek - Ravenel (BEC) 115kV Line and SPSC from Tap Point to Church Creek. Long Savannah will be fed from Church Creek – Ravenel (BEC) 115 kV.",
+   "description": "Rebuild Church Creek - Dawson 230kV line from Long Savannah to Church Creek. Include Long Savannah 115kV Tap SPDC with Church Creek - Dawson 230kV from Long Savannah to tap point with Church Creek - Ravenel (BEC) 115kV Line and SPSC from Tap Point to Church Creek. Long Savannah will be fed from Church Creek \u2013 Ravenel (BEC) 115 kV.",
    "endpoints": [
     {
      "name": "Long Savannah",
@@ -5564,7 +5618,7 @@
    "window": {
     "start": "2028-01-01",
     "end": "2029-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 5100000,
@@ -5614,7 +5668,7 @@
    "utility": "DESC",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
-   "name": "Modoc – McCormick 115/46 kV Rebuild",
+   "name": "Modoc \u2013 McCormick 115/46 kV Rebuild",
    "projectId": "6809 M",
    "status": "Planned",
    "zone": null,
@@ -5659,7 +5713,7 @@
    "window": {
     "start": "2026-01-01",
     "end": "2029-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 19800000,
@@ -5895,7 +5949,7 @@
    "window": {
     "start": "2026-01-01",
     "end": "2029-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 18200000,
@@ -6083,7 +6137,7 @@
    "status": "Planned",
    "zone": null,
    "zoneName": null,
-   "description": "System Hardening project – Rebuilding the 46 kV line between North and Calhoun County. 9.5 miles",
+   "description": "System Hardening project \u2013 Rebuilding the 46 kV line between North and Calhoun County. 9.5 miles",
    "endpoints": [
     {
      "name": "Calhoun County",
@@ -6123,7 +6177,7 @@
    "window": {
     "start": "2027-01-01",
     "end": "2029-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 10200000,
@@ -6153,6 +6207,10 @@
     {
      "level": "info",
      "msg": "endpoint 'Calhoun County' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 9.5 mi of a 13.10 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -6200,7 +6258,7 @@
    "window": {
     "start": "2028-01-01",
     "end": "2030-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 22400000,
@@ -6299,7 +6357,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2030-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 18964478,
@@ -6398,7 +6456,7 @@
    "window": {
     "start": "2029-01-01",
     "end": "2031-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 9750000,
@@ -6486,7 +6544,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2032-12-31",
-    "basis": "first budget year with spend → in-service date"
+    "basis": "first budget year with spend \u2192 in-service date"
    },
    "cost": {
     "total": 18875000,
@@ -6574,7 +6632,7 @@
    "window": {
     "start": "2024-01-01",
     "end": "2026-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -6638,7 +6696,7 @@
    "window": {
     "start": "2024-01-01",
     "end": "2026-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -6716,7 +6774,7 @@
    "window": {
     "start": "2024-01-01",
     "end": "2026-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -6786,7 +6844,7 @@
    "window": {
     "start": "2024-06-01",
     "end": "2026-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -6856,7 +6914,7 @@
    "window": {
     "start": "2024-01-01",
     "end": "2026-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -6930,7 +6988,7 @@
    "window": {
     "start": "2024-12-01",
     "end": "2026-12-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -6995,7 +7053,7 @@
    "window": {
     "start": "2023-08-04",
     "end": "2026-12-31",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -7084,7 +7142,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2027-01-13",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -7160,7 +7218,7 @@
    "window": {
     "start": "2026-03-01",
     "end": "2027-03-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -7227,7 +7285,7 @@
    "window": {
     "start": "2025-10-01",
     "end": "2027-03-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -7301,7 +7359,7 @@
    "window": {
     "start": "2026-11-01",
     "end": "2028-11-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -7392,7 +7450,7 @@
    "window": {
     "start": "2025-10-01",
     "end": "2026-10-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -7451,7 +7509,7 @@
    "window": {
     "start": "2025-12-31",
     "end": "2027-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -7515,7 +7573,7 @@
    "window": {
     "start": "2025-12-01",
     "end": "2027-12-31",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -7589,7 +7647,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2028-05-15",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -7654,7 +7712,7 @@
    "window": {
     "start": "2026-11-01",
     "end": "2028-11-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -7744,7 +7802,7 @@
    "window": {
     "start": "2026-05-15",
     "end": "2028-12-31",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -7803,7 +7861,7 @@
    "window": {
     "start": "2027-06-01",
     "end": "2029-04-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -7873,7 +7931,7 @@
    "window": {
     "start": "2026-01-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -7938,7 +7996,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -8003,7 +8061,7 @@
    "window": {
     "start": "2027-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -8068,7 +8126,7 @@
    "window": {
     "start": "2026-10-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -8127,7 +8185,7 @@
    "window": {
     "start": "2027-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -8197,7 +8255,7 @@
    "window": {
     "start": "2028-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -8267,7 +8325,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -8332,7 +8390,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2031-12-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -8397,7 +8455,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2031-12-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -8473,7 +8531,7 @@
    "window": {
     "start": "2026-02-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -8588,7 +8646,7 @@
    "window": {
     "start": "2027-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -8728,7 +8786,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2026-03-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -8813,7 +8871,7 @@
    "window": {
     "start": "2021-06-01",
     "end": "2026-03-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -8891,7 +8949,7 @@
    "window": {
     "start": "2023-06-01",
     "end": "2026-04-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -8965,7 +9023,7 @@
     "lat": 33.363174,
     "lon": -84.5209
    },
-   "radiusMi": 6.0,
+   "radiusMi": 23.78,
    "locationConfidence": "low",
    "locationCompleteness": {
     "located": 2,
@@ -8976,7 +9034,7 @@
    "window": {
     "start": "2024-06-01",
     "end": "2026-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -9007,6 +9065,10 @@
     {
      "level": "info",
      "msg": "endpoint 'BUZZARD ROOST' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 7.2 mi of a 54.77 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -9054,7 +9116,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2026-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -9124,7 +9186,7 @@
    "window": {
     "start": "2025-12-15",
     "end": "2026-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -9205,7 +9267,7 @@
    "window": {
     "start": "2025-01-21",
     "end": "2026-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -9286,7 +9348,7 @@
    "window": {
     "start": "2024-01-01",
     "end": "2026-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -9326,12 +9388,12 @@
    "utility": "GPC",
    "owner": "Georgia Power",
    "state": "GA",
-   "name": "BRUNSWICK – MCMANUS 115kV LINES RE-TERMINATION",
+   "name": "BRUNSWICK \u2013 MCMANUS 115kV LINES RE-TERMINATION",
    "projectId": "TEAMS 21249",
    "status": "Planned",
    "zone": "218",
    "zoneName": "Southeast GA",
-   "description": "Re-terminate the Brunswick–McManus 115kV (Black or White) line to Bus 1.",
+   "description": "Re-terminate the Brunswick\u2013McManus 115kV (Black or White) line to Bus 1.",
    "endpoints": [
     {
      "name": "BRUNSWICK",
@@ -9371,7 +9433,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2026-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -9441,7 +9503,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2026-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -9526,7 +9588,7 @@
    "window": {
     "start": "2023-06-01",
     "end": "2026-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -9561,6 +9623,10 @@
     {
      "level": "info",
      "msg": "endpoint 'OOSTANAULA' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 7.4 mi of a 19.35 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -9616,7 +9682,7 @@
    "window": {
     "start": "2024-06-01",
     "end": "2026-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -9709,7 +9775,7 @@
    "window": {
     "start": "2022-09-01",
     "end": "2026-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -9787,7 +9853,7 @@
     "lat": 32.711458,
     "lon": -83.110334
    },
-   "radiusMi": 6.0,
+   "radiusMi": 13.85,
    "locationConfidence": "low",
    "locationCompleteness": {
     "located": 2,
@@ -9798,7 +9864,7 @@
    "window": {
     "start": "2023-10-01",
     "end": "2026-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -9825,6 +9891,10 @@
     {
      "level": "info",
      "msg": "endpoint 'N DUBLIN' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 6.0 mi of a 33.70 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -9872,7 +9942,7 @@
    "window": {
     "start": "2024-12-31",
     "end": "2026-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -9908,7 +9978,7 @@
    "utility": "GTC",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
-   "name": "GTC: CC – CORNISH MOUNTAIN - LAKE VARNER 230kV (NETWORK IMPROVEMENTS)",
+   "name": "GTC: CC \u2013 CORNISH MOUNTAIN - LAKE VARNER 230kV (NETWORK IMPROVEMENTS)",
    "projectId": "TEAMS 21701",
    "status": "Planned",
    "zone": "206",
@@ -9953,7 +10023,7 @@
    "window": {
     "start": "2025-03-01",
     "end": "2026-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -10031,7 +10101,7 @@
    "window": {
     "start": "2024-06-01",
     "end": "2026-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -10101,7 +10171,7 @@
    "window": {
     "start": "2023-06-01",
     "end": "2026-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -10171,7 +10241,7 @@
    "window": {
     "start": "2023-01-01",
     "end": "2026-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -10249,7 +10319,7 @@
    "window": {
     "start": "2023-06-01",
     "end": "2026-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -10323,7 +10393,7 @@
     "lat": 32.564087,
     "lon": -83.669987
    },
-   "radiusMi": 1.5,
+   "radiusMi": 3.08,
    "locationConfidence": "medium",
    "locationCompleteness": {
     "located": 2,
@@ -10334,7 +10404,7 @@
    "window": {
     "start": "2023-06-01",
     "end": "2026-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -10357,6 +10427,10 @@
     {
      "level": "info",
      "msg": "in-service date 2026-06-01 has passed; status in source is 'Planned'"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 1.99 mi of a 8.15 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -10404,7 +10478,7 @@
    "window": {
     "start": "2023-05-01",
     "end": "2026-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -10489,7 +10563,7 @@
    "window": {
     "start": "2023-06-01",
     "end": "2026-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -10707,7 +10781,7 @@
    "window": {
     "start": "2023-06-01",
     "end": "2026-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -10792,7 +10866,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2026-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -10877,7 +10951,7 @@
    "window": {
     "start": "2023-06-01",
     "end": "2026-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -10962,7 +11036,7 @@
    "window": {
     "start": "2024-05-15",
     "end": "2026-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -11036,7 +11110,7 @@
    "window": {
     "start": "2024-12-01",
     "end": "2026-12-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -11101,7 +11175,7 @@
     "lat": 32.942146,
     "lon": -83.074821
    },
-   "radiusMi": 0.5,
+   "radiusMi": 13.7,
    "locationConfidence": "high",
    "locationCompleteness": {
     "located": 2,
@@ -11112,7 +11186,7 @@
    "window": {
     "start": "2023-02-01",
     "end": "2026-12-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -11131,7 +11205,16 @@
     "page": 110,
     "item": "Teams # 20002"
    },
-   "issues": [],
+   "issues": [
+    {
+     "level": "info",
+     "msg": "rebuilds 1.87 mi of a 29.26 mi station-to-station span; section not stated"
+    },
+    {
+     "level": "warn",
+     "msg": "stated length (1.87 mi) is far shorter than the 29.26 mi between its stations; check whether a station is placed correctly"
+    }
+   ],
    "locationNote": null,
    "environment": {
     "checked": false,
@@ -11185,7 +11268,7 @@
    "window": {
     "start": "2023-06-01",
     "end": "2026-12-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -11255,7 +11338,7 @@
    "window": {
     "start": "2024-12-01",
     "end": "2026-12-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -11320,7 +11403,7 @@
    "window": {
     "start": "2023-11-09",
     "end": "2026-12-31",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -11379,7 +11462,7 @@
    "window": {
     "start": "2024-06-01",
     "end": "2026-12-31",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -11443,7 +11526,7 @@
    "window": {
     "start": "2023-04-30",
     "end": "2026-12-31",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -11524,7 +11607,7 @@
    "window": {
     "start": "2024-01-01",
     "end": "2026-12-31",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -11547,6 +11630,10 @@
     {
      "level": "info",
      "msg": "endpoint 'MOUNTAIN VIEW' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 1.7 mi of a 4.10 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -11605,7 +11692,7 @@
    "window": {
     "start": "2024-05-01",
     "end": "2027-05-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -11675,7 +11762,7 @@
     "lat": 33.533786,
     "lon": -84.61883
    },
-   "radiusMi": 0.5,
+   "radiusMi": 14.62,
    "locationConfidence": "high",
    "locationCompleteness": {
     "located": 2,
@@ -11686,7 +11773,7 @@
    "window": {
     "start": "2024-05-01",
     "end": "2027-05-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -11705,7 +11792,12 @@
     "page": 118,
     "item": "Teams # 19601"
    },
-   "issues": [],
+   "issues": [
+    {
+     "level": "info",
+     "msg": "rebuilds 5.1 mi of a 34.35 mi station-to-station span; section not stated"
+    }
+   ],
    "locationNote": null,
    "environment": {
     "checked": false,
@@ -11762,7 +11854,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2027-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -11789,6 +11881,10 @@
     {
      "level": "info",
      "msg": "endpoint 'ECHECONNEE' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 4.9 mi of a 6.82 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -11830,7 +11926,7 @@
    "window": {
     "start": "2024-06-01",
     "end": "2027-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -11902,7 +11998,7 @@
    "window": {
     "start": "2023-06-01",
     "end": "2027-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -11970,7 +12066,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2027-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -12034,7 +12130,7 @@
    "window": {
     "start": "2022-12-31",
     "end": "2027-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -12115,7 +12211,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2027-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -12138,6 +12234,10 @@
     {
      "level": "info",
      "msg": "endpoint 'SUMMER LAKE' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 2.5 mi of a 14.05 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -12179,7 +12279,7 @@
    "window": {
     "start": "2024-06-01",
     "end": "2027-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -12249,7 +12349,7 @@
     "lat": 34.21482,
     "lon": -84.373674
    },
-   "radiusMi": 6.0,
+   "radiusMi": 29.86,
    "locationConfidence": "low",
    "locationCompleteness": {
     "located": 2,
@@ -12260,7 +12360,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2027-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -12287,6 +12387,14 @@
     {
      "level": "info",
      "msg": "endpoint 'BUZZARD ROOST' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 5.0 mi of a 64.72 mi station-to-station span; section not stated"
+    },
+    {
+     "level": "warn",
+     "msg": "stated length (5.0 mi) is far shorter than the 64.72 mi between its stations; check whether a station is placed correctly"
     }
    ],
    "locationNote": null,
@@ -12345,7 +12453,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2027-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -12368,6 +12476,10 @@
     {
      "level": "info",
      "msg": "endpoint 'DOUGLASVILLE' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 2.5 mi of a 6.20 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -12426,7 +12538,7 @@
    "window": {
     "start": "2025-12-31",
     "end": "2027-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -12491,7 +12603,7 @@
     "lat": 31.571127,
     "lon": -83.719006
    },
-   "radiusMi": 0.5,
+   "radiusMi": 9.27,
    "locationConfidence": "high",
    "locationCompleteness": {
     "located": 2,
@@ -12502,7 +12614,7 @@
    "window": {
     "start": "2022-06-01",
     "end": "2027-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -12521,7 +12633,12 @@
     "page": 129,
     "item": "Teams # 19358"
    },
-   "issues": [],
+   "issues": [
+    {
+     "level": "info",
+     "msg": "rebuilds 27.0 mi of a 45.55 mi station-to-station span; section not stated"
+    }
+   ],
    "locationNote": null,
    "environment": {
     "checked": false,
@@ -12567,7 +12684,7 @@
    "window": {
     "start": "2023-06-01",
     "end": "2027-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -12645,7 +12762,7 @@
    "window": {
     "start": "2026-01-01",
     "end": "2027-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -12719,7 +12836,7 @@
    "window": {
     "start": "2026-02-01",
     "end": "2027-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -12792,7 +12909,7 @@
    "window": {
     "start": "2024-06-01",
     "end": "2027-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -12866,7 +12983,7 @@
    "window": {
     "start": "2023-01-09",
     "end": "2027-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -12936,7 +13053,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2027-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -13017,7 +13134,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2027-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -13102,7 +13219,7 @@
    "window": {
     "start": "2021-04-06",
     "end": "2027-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -13178,7 +13295,7 @@
    "window": {
     "start": "2024-06-01",
     "end": "2027-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -13243,7 +13360,7 @@
    "window": {
     "start": "2026-02-01",
     "end": "2027-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -13308,7 +13425,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2027-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -13384,7 +13501,7 @@
    "window": {
     "start": "2024-01-01",
     "end": "2027-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -13449,7 +13566,7 @@
     "lat": 33.587381,
     "lon": -82.786484
    },
-   "radiusMi": 0.5,
+   "radiusMi": 7.65,
    "locationConfidence": "high",
    "locationCompleteness": {
     "located": 2,
@@ -13460,7 +13577,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2027-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -13479,7 +13596,16 @@
     "page": 142,
     "item": "Teams # 20271"
    },
-   "issues": [],
+   "issues": [
+    {
+     "level": "info",
+     "msg": "rebuilds 1.6 mi of a 16.90 mi station-to-station span; section not stated"
+    },
+    {
+     "level": "warn",
+     "msg": "stated length (1.6 mi) is far shorter than the 16.90 mi between its stations; check whether a station is placed correctly"
+    }
+   ],
    "locationNote": null,
    "environment": {
     "checked": false,
@@ -13536,7 +13662,7 @@
    "window": {
     "start": "2026-01-01",
     "end": "2027-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -13595,7 +13721,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2027-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -13673,7 +13799,7 @@
    "window": {
     "start": "2022-02-15",
     "end": "2027-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -13743,7 +13869,7 @@
     "lat": 32.198418,
     "lon": -81.177728
    },
-   "radiusMi": 0.5,
+   "radiusMi": 2.2,
    "locationConfidence": "high",
    "locationCompleteness": {
     "located": 2,
@@ -13754,7 +13880,7 @@
    "window": {
     "start": "2024-06-01",
     "end": "2027-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -13773,7 +13899,12 @@
     "page": 146,
     "item": "Teams # 20785"
    },
-   "issues": [],
+   "issues": [
+    {
+     "level": "info",
+     "msg": "rebuilds 3.48 mi of a 7.88 mi station-to-station span; section not stated"
+    }
+   ],
    "locationNote": null,
    "environment": {
     "checked": true,
@@ -13885,7 +14016,7 @@
    "window": {
     "start": "2025-01-15",
     "end": "2027-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -13961,7 +14092,7 @@
    "window": {
     "start": "2021-06-01",
     "end": "2027-07-30",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -14020,7 +14151,7 @@
    "window": {
     "start": "2024-06-01",
     "end": "2027-09-15",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -14092,7 +14223,7 @@
    "window": {
     "start": "2023-10-01",
     "end": "2027-12-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -14177,7 +14308,7 @@
    "window": {
     "start": "2024-08-01",
     "end": "2027-12-31",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -14253,7 +14384,7 @@
    "window": {
     "start": "2025-12-31",
     "end": "2027-12-31",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -14329,7 +14460,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -14401,7 +14532,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -14486,7 +14617,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -14550,7 +14681,7 @@
    "window": {
     "start": "2026-01-01",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -14614,7 +14745,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -14684,7 +14815,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -14749,7 +14880,7 @@
     "lat": 33.391492,
     "lon": -84.924622
    },
-   "radiusMi": 6.0,
+   "radiusMi": 18.62,
    "locationConfidence": "low",
    "locationCompleteness": {
     "located": 2,
@@ -14760,7 +14891,7 @@
    "window": {
     "start": "2025-12-01",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -14783,6 +14914,10 @@
     {
      "level": "info",
      "msg": "endpoint 'CORN CRIB' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 14.1 mi of a 51.34 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -14832,7 +14967,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -14906,7 +15041,7 @@
     "lat": 31.944199,
     "lon": -83.165168
    },
-   "radiusMi": 6.0,
+   "radiusMi": 12.06,
    "locationConfidence": "low",
    "locationCompleteness": {
     "located": 2,
@@ -14917,7 +15052,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -14940,6 +15075,10 @@
     {
      "level": "info",
      "msg": "endpoint 'PITTS' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 9.1 mi of a 33.23 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -14995,7 +15134,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -15076,7 +15215,7 @@
    "window": {
     "start": "2024-12-31",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -15146,7 +15285,7 @@
    "window": {
     "start": "2024-11-15",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -15224,7 +15363,7 @@
    "window": {
     "start": "2025-12-01",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -15288,7 +15427,7 @@
    "window": {
     "start": "2025-12-01",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -15358,7 +15497,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -15423,7 +15562,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -15459,7 +15598,7 @@
    "status": "Planned",
    "zone": "208",
    "zoneName": null,
-   "description": "Convert Hampton – Ohara 115kV and Jonesboro – Ohara 115kV to create a new Jonesboro – Hampton 230kV line. Convert Hampton – South Griffin 115kV to 230kV operation. Loop in Jonesboro - Ohara 115kV through Bonanza so it is not radial. Install a new 230/115kV auto transformer at Jonesboro.",
+   "description": "Convert Hampton \u2013 Ohara 115kV and Jonesboro \u2013 Ohara 115kV to create a new Jonesboro \u2013 Hampton 230kV line. Convert Hampton \u2013 South Griffin 115kV to 230kV operation. Loop in Jonesboro - Ohara 115kV through Bonanza so it is not radial. Install a new 230/115kV auto transformer at Jonesboro.",
    "endpoints": [
     {
      "name": "HAMPTON",
@@ -15488,7 +15627,7 @@
    "window": {
     "start": "2025-12-15",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -15558,7 +15697,7 @@
     "lat": 33.712975,
     "lon": -84.256734
    },
-   "radiusMi": 6.0,
+   "radiusMi": 19.57,
    "locationConfidence": "low",
    "locationCompleteness": {
     "located": 2,
@@ -15569,7 +15708,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -15596,6 +15735,10 @@
     {
      "level": "info",
      "msg": "endpoint 'HILLS BRIDGE' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 6.0 mi of a 45.14 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -15643,7 +15786,7 @@
     "lat": 33.682287,
     "lon": -84.382159
    },
-   "radiusMi": 6.0,
+   "radiusMi": 19.64,
    "locationConfidence": "low",
    "locationCompleteness": {
     "located": 2,
@@ -15654,7 +15797,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -15677,6 +15820,10 @@
     {
      "level": "info",
      "msg": "endpoint 'HILLS BRIDGE' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 13.0 mi of a 52.27 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -15718,7 +15865,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -15796,7 +15943,7 @@
    "window": {
     "start": "2026-03-01",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -15874,7 +16021,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -15938,7 +16085,7 @@
    "window": {
     "start": "2025-12-01",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -16008,7 +16155,7 @@
     "lat": 30.860959,
     "lon": -84.316541
    },
-   "radiusMi": 6.0,
+   "radiusMi": 9.28,
    "locationConfidence": "low",
    "locationCompleteness": {
     "located": 2,
@@ -16019,7 +16166,7 @@
    "window": {
     "start": "2024-01-01",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -16042,6 +16189,10 @@
     {
      "level": "info",
      "msg": "endpoint 'BRUMBLEY CREEK' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 2.1 mi of a 20.66 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -16089,7 +16240,7 @@
    "window": {
     "start": "2027-06-01",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -16154,7 +16305,7 @@
    "window": {
     "start": "2026-02-01",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -16227,7 +16378,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -16301,7 +16452,7 @@
    "window": {
     "start": "2024-05-01",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -16366,7 +16517,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -16402,7 +16553,7 @@
    "status": "Planned",
    "zone": "219",
    "zoneName": "Savannah area",
-   "description": "Rebuild the entire Coleman - Dean Forest 115kV line, approximately 6.7 miles of 100C 477 Hawk with 200C 1351 ACSS Martin. At Chatham County, upgrade jumpers and bus. At Dean Forest, remove limiting elements by upgrading jumpers. Rebuild approximately 1.7 miles of the Coleman – Meldrim line section.",
+   "description": "Rebuild the entire Coleman - Dean Forest 115kV line, approximately 6.7 miles of 100C 477 Hawk with 200C 1351 ACSS Martin. At Chatham County, upgrade jumpers and bus. At Dean Forest, remove limiting elements by upgrading jumpers. Rebuild approximately 1.7 miles of the Coleman \u2013 Meldrim line section.",
    "endpoints": [
     {
      "name": "COLEMAN",
@@ -16442,7 +16593,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -16627,7 +16778,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -16681,7 +16832,12 @@
     "page": 183,
     "item": "Teams # 20065"
    },
-   "issues": [],
+   "issues": [
+    {
+     "level": "info",
+     "msg": "rebuilds 6.7 mi of a 7.42 mi station-to-station span; section not stated"
+    }
+   ],
    "locationNote": null,
    "environment": {
     "checked": true,
@@ -16787,7 +16943,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -16868,7 +17024,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2028-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -16938,7 +17094,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2028-09-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -17003,7 +17159,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2028-11-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -17081,7 +17237,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2028-12-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -17166,7 +17322,7 @@
    "window": {
     "start": "2025-11-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -17247,7 +17403,7 @@
    "window": {
     "start": "2024-12-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -17283,7 +17439,7 @@
    "utility": "GPC",
    "owner": "Georgia Power",
    "state": "GA",
-   "name": "BIG TAZEWELL – PLANT FARLEY (APC) 500kV LINE",
+   "name": "BIG TAZEWELL \u2013 PLANT FARLEY (APC) 500kV LINE",
    "projectId": "TEAMS 21063",
    "status": "Planned",
    "zone": "216",
@@ -17319,7 +17475,7 @@
    "window": {
     "start": "2024-12-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -17395,7 +17551,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -17473,7 +17629,7 @@
     "lat": 34.234432,
     "lon": -84.408203
    },
-   "radiusMi": 6.0,
+   "radiusMi": 30.58,
    "locationConfidence": "low",
    "locationCompleteness": {
     "located": 2,
@@ -17484,7 +17640,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -17511,6 +17667,14 @@
     {
      "level": "info",
      "msg": "endpoint 'FACTORY SHOALS' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 2.0 mi of a 63.16 mi station-to-station span; section not stated"
+    },
+    {
+     "level": "warn",
+     "msg": "stated length (2.0 mi) is far shorter than the 63.16 mi between its stations; check whether a station is placed correctly"
     }
    ],
    "locationNote": null,
@@ -17569,7 +17733,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -17650,7 +17814,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -17715,7 +17879,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -17788,7 +17952,7 @@
    "window": {
     "start": "2024-06-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -17869,7 +18033,7 @@
    "window": {
     "start": "2025-12-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -17945,7 +18109,7 @@
    "window": {
     "start": "2025-12-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -18018,7 +18182,7 @@
    "window": {
     "start": "2026-01-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -18099,7 +18263,7 @@
    "window": {
     "start": "2027-06-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -18164,7 +18328,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -18231,7 +18395,7 @@
    "window": {
     "start": "2024-12-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -18305,7 +18469,7 @@
     "lat": 34.23119,
     "lon": -84.435887
    },
-   "radiusMi": 6.0,
+   "radiusMi": 31.8,
    "locationConfidence": "low",
    "locationCompleteness": {
     "located": 2,
@@ -18316,7 +18480,7 @@
    "window": {
     "start": "2027-06-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -18343,6 +18507,14 @@
     {
      "level": "info",
      "msg": "endpoint 'THORNTON ROAD' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 1.0 mi of a 64.60 mi station-to-station span; section not stated"
+    },
+    {
+     "level": "warn",
+     "msg": "stated length (1.0 mi) is far shorter than the 64.60 mi between its stations; check whether a station is placed correctly"
     }
    ],
    "locationNote": null,
@@ -18401,7 +18573,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -18424,6 +18596,10 @@
     {
      "level": "info",
      "msg": "endpoint 'CLARKSBORO' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 14.0 mi of a 14.94 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -18479,7 +18655,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -18553,7 +18729,7 @@
     "lat": 34.382357,
     "lon": -84.256173
    },
-   "radiusMi": 0.5,
+   "radiusMi": 3.25,
    "locationConfidence": "high",
    "locationCompleteness": {
     "located": 2,
@@ -18564,7 +18740,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -18583,7 +18759,12 @@
     "page": 207,
     "item": "Teams # 21034"
    },
-   "issues": [],
+   "issues": [
+    {
+     "level": "info",
+     "msg": "rebuilds 7.5 mi of a 13.99 mi station-to-station span; section not stated"
+    }
+   ],
    "locationNote": null,
    "environment": {
     "checked": false,
@@ -18640,7 +18821,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -18713,7 +18894,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -18783,7 +18964,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -18859,7 +19040,7 @@
    "window": {
     "start": "2024-12-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -18924,7 +19105,7 @@
     "lat": 33.978442,
     "lon": -84.582576
    },
-   "radiusMi": 6.0,
+   "radiusMi": 24.91,
    "locationConfidence": "low",
    "locationCompleteness": {
     "located": 2,
@@ -18935,7 +19116,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -18962,6 +19143,14 @@
     {
      "level": "info",
      "msg": "endpoint 'POST RD' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 4.5 mi of a 54.31 mi station-to-station span; section not stated"
+    },
+    {
+     "level": "warn",
+     "msg": "stated length (4.5 mi) is far shorter than the 54.31 mi between its stations; check whether a station is placed correctly"
     }
    ],
    "locationNote": null,
@@ -19017,7 +19206,7 @@
    "window": {
     "start": "2026-06-02",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -19087,7 +19276,7 @@
     "lat": 34.074736,
     "lon": -83.771138
    },
-   "radiusMi": 6.0,
+   "radiusMi": 13.37,
    "locationConfidence": "low",
    "locationCompleteness": {
     "located": 2,
@@ -19098,7 +19287,7 @@
    "window": {
     "start": "2024-12-31",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -19121,6 +19310,10 @@
     {
      "level": "info",
      "msg": "endpoint 'SHOAL CREEK' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 3.05 mi of a 29.80 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -19179,7 +19372,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -19244,7 +19437,7 @@
     "lat": 31.936734,
     "lon": -83.847475
    },
-   "radiusMi": 6.0,
+   "radiusMi": 30.65,
    "locationConfidence": "low",
    "locationCompleteness": {
     "located": 2,
@@ -19255,7 +19448,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -19282,6 +19475,14 @@
     {
      "level": "info",
      "msg": "endpoint 'WESTOVER' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 2.92 mi of a 64.22 mi station-to-station span; section not stated"
+    },
+    {
+     "level": "warn",
+     "msg": "stated length (2.92 mi) is far shorter than the 64.22 mi between its stations; check whether a station is placed correctly"
     }
    ],
    "locationNote": null,
@@ -19340,7 +19541,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -19363,6 +19564,10 @@
     {
      "level": "info",
      "msg": "endpoint 'NORTH DRUID HILLS' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 3.9 mi of a 9.84 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -19421,7 +19626,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2029-05-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -19444,6 +19649,10 @@
     {
      "level": "info",
      "msg": "endpoint 'POSSUM BRANCH' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 11.0 mi of a 16.26 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -19513,7 +19722,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -19648,7 +19857,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -19698,7 +19907,12 @@
     "page": 220,
     "item": "Teams # 20784"
    },
-   "issues": [],
+   "issues": [
+    {
+     "level": "info",
+     "msg": "rebuilds 8.1 mi of a 8.91 mi station-to-station span; section not stated"
+    }
+   ],
    "locationNote": null,
    "environment": {
     "checked": true,
@@ -19820,7 +20034,7 @@
    "window": {
     "start": "2026-01-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -19997,7 +20211,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -20087,7 +20301,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -20160,7 +20374,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -20234,7 +20448,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2029-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -20304,7 +20518,7 @@
    "window": {
     "start": "2027-06-01",
     "end": "2029-12-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -20371,7 +20585,7 @@
    "window": {
     "start": "2024-12-01",
     "end": "2029-12-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -20456,7 +20670,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -20526,7 +20740,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -20602,7 +20816,7 @@
    "window": {
     "start": "2027-01-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -20683,7 +20897,7 @@
    "window": {
     "start": "2028-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -20706,6 +20920,14 @@
     {
      "level": "info",
      "msg": "endpoint 'BRANDON FARM RD' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 0.05 mi of a 1.85 mi station-to-station span; section not stated"
+    },
+    {
+     "level": "warn",
+     "msg": "stated length (0.05 mi) is far shorter than the 1.85 mi between its stations; check whether a station is placed correctly"
     }
    ],
    "locationNote": null,
@@ -20764,7 +20986,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -20849,7 +21071,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -20919,7 +21141,7 @@
     "lat": 34.499396,
     "lon": -84.458536
    },
-   "radiusMi": 6.0,
+   "radiusMi": 15.67,
    "locationConfidence": "low",
    "locationCompleteness": {
     "located": 2,
@@ -20930,7 +21152,7 @@
    "window": {
     "start": "2027-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -20957,6 +21179,14 @@
     {
      "level": "info",
      "msg": "endpoint 'TRIBUTARY' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 2.8 mi of a 34.14 mi station-to-station span; section not stated"
+    },
+    {
+     "level": "warn",
+     "msg": "stated length (2.8 mi) is far shorter than the 34.14 mi between its stations; check whether a station is placed correctly"
     }
    ],
    "locationNote": null,
@@ -21012,7 +21242,7 @@
    "window": {
     "start": "2026-01-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -21076,7 +21306,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -21154,7 +21384,7 @@
    "window": {
     "start": "2027-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -21239,7 +21469,7 @@
    "window": {
     "start": "2024-12-31",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -21320,7 +21550,7 @@
    "window": {
     "start": "2027-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -21343,6 +21573,10 @@
     {
      "level": "info",
      "msg": "endpoint 'TRIBUTARY' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 4.2 mi of a 10.69 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -21390,7 +21624,7 @@
    "window": {
     "start": "2027-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -21466,7 +21700,7 @@
    "window": {
     "start": "2023-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -21493,6 +21727,10 @@
     {
      "level": "info",
      "msg": "endpoint 'WELLSTON' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 1.5 mi of a 7.07 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -21551,7 +21789,7 @@
    "window": {
     "start": "2027-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -21629,7 +21867,7 @@
    "window": {
     "start": "2028-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -21710,7 +21948,7 @@
    "window": {
     "start": "2026-01-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -21741,12 +21979,12 @@
    "utility": "GTC",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
-   "name": "GTC: BUZZARD ROOST – ROCKHOUSE RD 230kV REBUILD",
+   "name": "GTC: BUZZARD ROOST \u2013 ROCKHOUSE RD 230kV REBUILD",
    "projectId": "TEAMS 21620",
    "status": "Planned",
    "zone": "201",
    "zoneName": null,
-   "description": "Rebuild the Buzzard Roost – Rockhouse Road 230kV line circuit 2, approximately 0.81 mile, with 200C 1351 ACSS conductor.",
+   "description": "Rebuild the Buzzard Roost \u2013 Rockhouse Road 230kV line circuit 2, approximately 0.81 mile, with 200C 1351 ACSS conductor.",
    "endpoints": [
     {
      "name": "BUZZARD ROOST",
@@ -21775,7 +22013,7 @@
     "lat": 34.224709,
     "lon": -84.406912
    },
-   "radiusMi": 6.0,
+   "radiusMi": 31.79,
    "locationConfidence": "low",
    "locationCompleteness": {
     "located": 2,
@@ -21786,7 +22024,7 @@
    "window": {
     "start": "2028-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -21813,6 +22051,14 @@
     {
      "level": "info",
      "msg": "endpoint 'ROCKHOUSE RD' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 0.81 mi of a 64.40 mi station-to-station span; section not stated"
+    },
+    {
+     "level": "warn",
+     "msg": "stated length (0.81 mi) is far shorter than the 64.40 mi between its stations; check whether a station is placed correctly"
     }
    ],
    "locationNote": null,
@@ -21860,7 +22106,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -21941,7 +22187,7 @@
    "window": {
     "start": "2027-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -21968,6 +22214,10 @@
     {
      "level": "info",
      "msg": "endpoint 'EAST VILLA RICA SS' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 8.2 mi of a 9.58 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -22015,7 +22265,7 @@
     "lat": 33.480125,
     "lon": -84.761906
    },
-   "radiusMi": 6.0,
+   "radiusMi": 12.33,
    "locationConfidence": "low",
    "locationCompleteness": {
     "located": 2,
@@ -22026,7 +22276,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -22049,6 +22299,10 @@
     {
      "level": "info",
      "msg": "endpoint 'DYER ROAD' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 9.2 mi of a 33.86 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -22096,7 +22350,7 @@
    "window": {
     "start": "2028-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -22161,7 +22415,7 @@
     "lat": 32.942146,
     "lon": -83.074821
    },
-   "radiusMi": 0.5,
+   "radiusMi": 9.39,
    "locationConfidence": "high",
    "locationCompleteness": {
     "located": 2,
@@ -22172,7 +22426,7 @@
    "window": {
     "start": "2023-12-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -22191,7 +22445,12 @@
     "page": 250,
     "item": "Teams # 20428"
    },
-   "issues": [],
+   "issues": [
+    {
+     "level": "info",
+     "msg": "rebuilds 10.49 mi of a 29.26 mi station-to-station span; section not stated"
+    }
+   ],
    "locationNote": null,
    "environment": {
     "checked": false,
@@ -22237,7 +22496,7 @@
     "lat": 34.389994,
     "lon": -83.631362
    },
-   "radiusMi": 6.0,
+   "radiusMi": 8.7,
    "locationConfidence": "low",
    "locationCompleteness": {
     "located": 2,
@@ -22248,7 +22507,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -22275,6 +22534,10 @@
     {
      "level": "info",
      "msg": "endpoint 'MIDWAY' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 6.0 mi of a 23.41 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -22344,7 +22607,7 @@
    "window": {
     "start": "2024-12-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -22371,6 +22634,10 @@
     {
      "level": "info",
      "msg": "endpoint 'MINK CREEK' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 20.0 mi of a 25.24 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -22418,7 +22685,7 @@
     "lat": 34.26504,
     "lon": -84.825561
    },
-   "radiusMi": 6.0,
+   "radiusMi": 30.12,
    "locationConfidence": "low",
    "locationCompleteness": {
     "located": 2,
@@ -22429,7 +22696,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -22456,6 +22723,10 @@
     {
      "level": "info",
      "msg": "endpoint 'CAVENDER DRIVE' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 7.0 mi of a 67.24 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -22503,7 +22774,7 @@
    "window": {
     "start": "2027-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -22581,7 +22852,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -22659,7 +22930,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -22740,7 +23011,7 @@
    "window": {
     "start": "2026-12-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -22821,7 +23092,7 @@
    "window": {
     "start": "2028-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -22895,7 +23166,7 @@
     "lat": 33.970013,
     "lon": -83.854395
    },
-   "radiusMi": 0.5,
+   "radiusMi": 5.46,
    "locationConfidence": "high",
    "locationCompleteness": {
     "located": 2,
@@ -22906,7 +23177,7 @@
    "window": {
     "start": "2026-10-15",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -22925,7 +23196,16 @@
     "page": 259,
     "item": "Teams # 10143"
    },
-   "issues": [],
+   "issues": [
+    {
+     "level": "info",
+     "msg": "rebuilds 1.2 mi of a 12.13 mi station-to-station span; section not stated"
+    },
+    {
+     "level": "warn",
+     "msg": "stated length (1.2 mi) is far shorter than the 12.13 mi between its stations; check whether a station is placed correctly"
+    }
+   ],
    "locationNote": null,
    "environment": {
     "checked": false,
@@ -22982,7 +23262,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -23058,7 +23338,7 @@
    "window": {
     "start": "2027-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -23128,7 +23408,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -23224,7 +23504,7 @@
    "window": {
     "start": "2025-12-31",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -23294,7 +23574,7 @@
    "window": {
     "start": "2029-06-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -23384,7 +23664,7 @@
    "window": {
     "start": "2026-01-01",
     "end": "2030-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -23457,7 +23737,7 @@
    "window": {
     "start": "2027-06-01",
     "end": "2030-12-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -23527,7 +23807,7 @@
    "window": {
     "start": "2023-06-01",
     "end": "2030-12-31",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -23592,7 +23872,7 @@
    "window": {
     "start": "2028-01-01",
     "end": "2030-12-31",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -23662,7 +23942,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2031-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -23727,7 +24007,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2031-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -23792,7 +24072,7 @@
    "window": {
     "start": "2025-06-01",
     "end": "2031-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -23868,7 +24148,7 @@
    "window": {
     "start": "2028-06-01",
     "end": "2031-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -24061,7 +24341,7 @@
    "window": {
     "start": "2025-12-31",
     "end": "2031-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -24137,7 +24417,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2031-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -24207,7 +24487,7 @@
     "lat": 34.19559,
     "lon": -84.334585
    },
-   "radiusMi": 0.5,
+   "radiusMi": 1.63,
    "locationConfidence": "high",
    "locationCompleteness": {
     "located": 2,
@@ -24218,7 +24498,7 @@
    "window": {
     "start": "2028-01-01",
     "end": "2031-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -24237,7 +24517,12 @@
     "page": 275,
     "item": "Teams # 19632"
    },
-   "issues": [],
+   "issues": [
+    {
+     "level": "info",
+     "msg": "rebuilds 3.3 mi of a 6.55 mi station-to-station span; section not stated"
+    }
+   ],
    "locationNote": null,
    "environment": {
     "checked": false,
@@ -24294,7 +24579,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2031-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -24364,7 +24649,7 @@
    "window": {
     "start": "2028-06-01",
     "end": "2031-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -24440,7 +24725,7 @@
    "window": {
     "start": "2028-06-01",
     "end": "2031-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -24463,6 +24748,10 @@
     {
      "level": "info",
      "msg": "endpoint 'PORTERDALE' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 2.76 mi of a 10.16 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -24521,7 +24810,7 @@
    "window": {
     "start": "2024-07-03",
     "end": "2031-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -24586,7 +24875,7 @@
    "window": {
     "start": "2025-01-01",
     "end": "2031-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -24656,7 +24945,7 @@
     "lat": 31.711355,
     "lon": -83.544926
    },
-   "radiusMi": 6.0,
+   "radiusMi": 10.62,
    "locationConfidence": "low",
    "locationCompleteness": {
     "located": 2,
@@ -24667,7 +24956,7 @@
    "window": {
     "start": "2027-06-01",
     "end": "2031-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -24690,6 +24979,10 @@
     {
      "level": "info",
      "msg": "endpoint 'PITTS' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 11.0 mi of a 32.24 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -24737,7 +25030,7 @@
     "lat": 33.262333,
     "lon": -84.875315
    },
-   "radiusMi": 6.0,
+   "radiusMi": 28.95,
    "locationConfidence": "low",
    "locationCompleteness": {
     "located": 2,
@@ -24748,7 +25041,7 @@
    "window": {
     "start": "2028-01-01",
     "end": "2031-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -24771,6 +25064,14 @@
     {
      "level": "info",
      "msg": "endpoint 'PITTMAN RD' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 4.3 mi of a 62.20 mi station-to-station span; section not stated"
+    },
+    {
+     "level": "warn",
+     "msg": "stated length (4.3 mi) is far shorter than the 62.20 mi between its stations; check whether a station is placed correctly"
     }
    ],
    "locationNote": null,
@@ -24818,7 +25119,7 @@
     "lat": 32.198418,
     "lon": -81.177728
    },
-   "radiusMi": 0.5,
+   "radiusMi": 2.42,
    "locationConfidence": "high",
    "locationCompleteness": {
     "located": 2,
@@ -24829,7 +25130,7 @@
    "window": {
     "start": "2027-06-01",
     "end": "2031-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -24848,7 +25149,12 @@
     "page": 283,
     "item": "Teams # 21297"
    },
-   "issues": [],
+   "issues": [
+    {
+     "level": "info",
+     "msg": "rebuilds 3.04 mi of a 7.88 mi station-to-station span; section not stated"
+    }
+   ],
    "locationNote": null,
    "environment": {
     "checked": true,
@@ -24971,7 +25277,7 @@
    "window": {
     "start": "2027-06-01",
     "end": "2031-12-31",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -24994,6 +25300,10 @@
     {
      "level": "info",
      "msg": "endpoint 'CONYERS' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 15.29 mi of a 15.89 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -25007,7 +25317,7 @@
    "utility": "GPC",
    "owner": "Georgia Power",
    "state": "GA",
-   "name": "ADAMSVILLE – EAST POINT 230kV UPGRADE AND LIMITING ELEMENTS REPLACEMENT",
+   "name": "ADAMSVILLE \u2013 EAST POINT 230kV UPGRADE AND LIMITING ELEMENTS REPLACEMENT",
    "projectId": "TEAMS 21598",
    "status": "Planned",
    "zone": "208",
@@ -25052,7 +25362,7 @@
    "window": {
     "start": "2029-06-01",
     "end": "2032-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -25093,7 +25403,7 @@
    "status": "Planned",
    "zone": "201",
    "zoneName": null,
-   "description": "Rebuild a portion of the Atkinson – Northside Dr. 115kV line, approximately 3.2 miles from Atkinson to Chattahoochee with 200C 1351 ACSS Martin.",
+   "description": "Rebuild a portion of the Atkinson \u2013 Northside Dr. 115kV line, approximately 3.2 miles from Atkinson to Chattahoochee with 200C 1351 ACSS Martin.",
    "endpoints": [
     {
      "name": "ATKINSON",
@@ -25133,7 +25443,7 @@
    "window": {
     "start": "2027-06-01",
     "end": "2032-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -25156,6 +25466,10 @@
     {
      "level": "info",
      "msg": "endpoint 'NORTHSIDE DRIVE' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 3.2 mi of a 4.40 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -25203,7 +25517,7 @@
     "lat": 33.480125,
     "lon": -84.761906
    },
-   "radiusMi": 6.0,
+   "radiusMi": 15.33,
    "locationConfidence": "low",
    "locationCompleteness": {
     "located": 2,
@@ -25214,7 +25528,7 @@
    "window": {
     "start": "2029-06-01",
     "end": "2032-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -25237,6 +25551,14 @@
     {
      "level": "info",
      "msg": "endpoint 'DYER ROAD' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 3.2 mi of a 33.86 mi station-to-station span; section not stated"
+    },
+    {
+     "level": "warn",
+     "msg": "stated length (3.2 mi) is far shorter than the 33.86 mi between its stations; check whether a station is placed correctly"
     }
    ],
    "locationNote": null,
@@ -25295,7 +25617,7 @@
    "window": {
     "start": "2029-06-01",
     "end": "2032-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -25322,6 +25644,10 @@
     {
      "level": "info",
      "msg": "endpoint 'ROME' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 4.9 mi of a 8.91 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -25380,7 +25706,7 @@
    "window": {
     "start": "2031-06-01",
     "end": "2033-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -25461,7 +25787,7 @@
    "window": {
     "start": "2026-06-01",
     "end": "2033-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -25542,7 +25868,7 @@
    "window": {
     "start": "2031-06-01",
     "end": "2033-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -25565,6 +25891,10 @@
     {
      "level": "info",
      "msg": "endpoint 'MOUNTAIN VIEW' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 2.4 mi of a 4.75 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -25623,7 +25953,7 @@
    "window": {
     "start": "2024-12-01",
     "end": "2033-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -25650,6 +25980,10 @@
     {
      "level": "info",
      "msg": "endpoint 'EAST WALTON' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 45.0 mi of a 56.60 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -25708,7 +26042,7 @@
    "window": {
     "start": "2028-06-01",
     "end": "2033-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -25789,7 +26123,7 @@
    "window": {
     "start": "2030-06-01",
     "end": "2033-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -25854,7 +26188,7 @@
     "lat": 34.047599,
     "lon": -83.735528
    },
-   "radiusMi": 6.0,
+   "radiusMi": 8.47,
    "locationConfidence": "low",
    "locationCompleteness": {
     "located": 2,
@@ -25865,7 +26199,7 @@
    "window": {
     "start": "2029-06-01",
     "end": "2033-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -25888,6 +26222,10 @@
     {
      "level": "info",
      "msg": "endpoint 'SHOAL CREEK' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 7.9 mi of a 24.85 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -25935,7 +26273,7 @@
     "lat": 34.074736,
     "lon": -83.771138
    },
-   "radiusMi": 6.0,
+   "radiusMi": 13.45,
    "locationConfidence": "low",
    "locationCompleteness": {
     "located": 2,
@@ -25946,7 +26284,7 @@
    "window": {
     "start": "2030-06-01",
     "end": "2033-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -25969,6 +26307,14 @@
     {
      "level": "info",
      "msg": "endpoint 'SHOAL CREEK' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 2.9 mi of a 29.80 mi station-to-station span; section not stated"
+    },
+    {
+     "level": "warn",
+     "msg": "stated length (2.9 mi) is far shorter than the 29.80 mi between its stations; check whether a station is placed correctly"
     }
    ],
    "locationNote": null,
@@ -26016,7 +26362,7 @@
    "window": {
     "start": "2030-06-01",
     "end": "2033-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -26107,7 +26453,7 @@
    "window": {
     "start": "2031-06-01",
     "end": "2033-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -26180,7 +26526,7 @@
    "window": {
     "start": "2029-12-31",
     "end": "2033-12-31",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -26261,7 +26607,7 @@
    "window": {
     "start": "2029-06-01",
     "end": "2034-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -26284,6 +26630,10 @@
     {
      "level": "info",
      "msg": "endpoint 'POWERS FERRY' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 5.17 mi of a 5.26 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -26342,7 +26692,7 @@
    "window": {
     "start": "2030-06-01",
     "end": "2034-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -26407,7 +26757,7 @@
     "lat": 34.290919,
     "lon": -84.456798
    },
-   "radiusMi": 0.5,
+   "radiusMi": 3.92,
    "locationConfidence": "high",
    "locationCompleteness": {
     "located": 2,
@@ -26418,7 +26768,7 @@
    "window": {
     "start": "2031-06-01",
     "end": "2034-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -26437,7 +26787,12 @@
     "page": 302,
     "item": "Teams # 21268"
    },
-   "issues": [],
+   "issues": [
+    {
+     "level": "info",
+     "msg": "rebuilds 8.1 mi of a 15.94 mi station-to-station span; section not stated"
+    }
+   ],
    "locationNote": null,
    "environment": {
     "checked": false,
@@ -26483,7 +26838,7 @@
    "window": {
     "start": "2032-06-01",
     "end": "2035-04-15",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -26585,7 +26940,7 @@
    "window": {
     "start": "2028-06-01",
     "end": "2035-05-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -26608,6 +26963,10 @@
     {
      "level": "info",
      "msg": "endpoint 'UNION CITY' located with low confidence (town)"
+    },
+    {
+     "level": "info",
+     "msg": "rebuilds 4.5 mi of a 7.66 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,
@@ -26666,7 +27025,7 @@
    "window": {
     "start": "2034-06-01",
     "end": "2035-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -26740,7 +27099,7 @@
     "lat": 33.640692,
     "lon": -84.39783
    },
-   "radiusMi": 1.5,
+   "radiusMi": 2.91,
    "locationConfidence": "medium",
    "locationCompleteness": {
     "located": 2,
@@ -26751,7 +27110,7 @@
    "window": {
     "start": "2030-06-01",
     "end": "2035-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -26770,7 +27129,12 @@
     "page": 306,
     "item": "Teams # 21303"
    },
-   "issues": [],
+   "issues": [
+    {
+     "level": "info",
+     "msg": "rebuilds 3.0 mi of a 8.83 mi station-to-station span; section not stated"
+    }
+   ],
    "locationNote": null,
    "environment": {
     "checked": false,
@@ -26816,7 +27180,7 @@
     "lat": 34.206115,
     "lon": -84.460295
    },
-   "radiusMi": 0.5,
+   "radiusMi": 3.11,
    "locationConfidence": "high",
    "locationCompleteness": {
     "located": 2,
@@ -26827,7 +27191,7 @@
    "window": {
     "start": "2033-06-01",
     "end": "2035-06-01",
-    "basis": "detail page Start Date → Need Date"
+    "basis": "detail page Start Date \u2192 Need Date"
    },
    "cost": {
     "total": null,
@@ -26846,7 +27210,12 @@
     "page": 307,
     "item": "Teams # 21269"
    },
-   "issues": [],
+   "issues": [
+    {
+     "level": "info",
+     "msg": "rebuilds 2.43 mi of a 8.65 mi station-to-station span; section not stated"
+    }
+   ],
    "locationNote": null,
    "environment": {
     "checked": false,
