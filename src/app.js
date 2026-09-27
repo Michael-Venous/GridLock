@@ -875,9 +875,10 @@ function foldSection(section, key, initiallyOpen = false) {
   const summary = h("summary");
   while (heading?.firstChild) summary.append(heading.firstChild);
   heading?.remove();
-  const stateKey = `${state.selectedPair}:${key}`;
-  fold.open = detailFolds.get(stateKey) ?? initiallyOpen;
-  fold.addEventListener("toggle", () => detailFolds.set(stateKey, fold.open));
+  // Open/closed is remembered per section, not per pair, so switching pairs keeps the same sections open.
+  fold.dataset.fold = key;
+  fold.open = detailFolds.get(key) ?? initiallyOpen;
+  fold.addEventListener("toggle", () => detailFolds.set(key, fold.open));
   fold.append(summary, section);
   return fold;
 }
@@ -991,14 +992,29 @@ function landing() {
   return box;
 }
 
+// The section at the top of the detail panel and how far into it the reader has scrolled.
+function detailAnchor(detail) {
+  const top = detail.getBoundingClientRect().top;
+  const fold = [...detail.querySelectorAll("[data-fold]")].find(f => f.getBoundingClientRect().bottom > top);
+  return {scrollTop: detail.scrollTop, key: fold?.dataset.fold, offset: fold ? fold.getBoundingClientRect().top - top : 0};
+}
+function restoreDetailAnchor(detail, anchor) {
+  const fold = anchor.key && detail.querySelector(`[data-fold="${anchor.key}"]`);
+  detail.scrollTop = fold ? detail.scrollTop + fold.getBoundingClientRect().top - detail.getBoundingClientRect().top - anchor.offset : anchor.scrollTop;
+}
+
 function renderDetail() {
-  const detail = $("detail"); detail.replaceChildren();
+  const detail = $("detail");
   const pair = state.allPairs.find(p => p.id === state.selectedPair);
   const project = state.projects.find(p => p.id === state.selectedProject);
   const key = pair ? `pair:${pair.id}` : project ? `project:${project.id}` : "none";
-  const changed = key !== lastDetailKey; lastDetailKey = key;
+  const changed = key !== lastDetailKey;
+  // Pair to pair, stay on the section being read instead of jumping back to the top.
+  const anchor = changed && pair && lastDetailKey?.startsWith("pair:") && detail.scrollTop > 0 ? detailAnchor(detail) : null;
+  detail.replaceChildren();
+  lastDetailKey = key;
   detail.classList.toggle("draw", changed && Boolean(pair));
-  if (changed) detail.scrollTop = 0;
+  if (changed && !anchor) detail.scrollTop = 0;
   detail.setAttribute("aria-label", pair ? `Selected pair: ${pair.a.projectId} and ${pair.b.projectId}` : project ? `Selected project: ${project.name}` : "How to use GridLock");
   if (pair || project) {
     const back = h("button", "button back-results", "← Back to results"); back.type = "button"; back.addEventListener("click", backToResults); detail.append(back);
@@ -1019,6 +1035,7 @@ function renderDetail() {
     if (project.endpoints.length) head.append(endpointChips(project));
     detail.append(head, projectBlock(project, true, false, true));
   } else detail.append(landing());
+  if (anchor) restoreDetailAnchor(detail, anchor);
 }
 
 // ---- Brief: plain text for pasting, and a printable one-page document ----
