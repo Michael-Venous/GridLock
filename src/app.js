@@ -694,18 +694,29 @@ function toConfirm(pair, compact = false) {
     }
   }
   if (pair.certainty === "sensitive") out.push(`The pair is inside ${MAX_MILES} mi only at best-estimate locations (±${pair.a.radiusMi} and ±${pair.b.radiusMi} mi).`);
-  out.push(compact ? "Confirm actual construction and outage months with both utilities." : `Planning windows are inferred (${pair.a.window?.basis ?? "unknown"}; ${pair.b.window?.basis ?? "unknown"}). Confirm construction and outage months.`);
+  // The panel shows these two caveats, true of every pair, under the timeline and in the cost scenario.
+  if (compact) return out;
+  out.push(windowBasis(pair));
   out.push("Proximity alone doesn't show that land, yard space or equipment can be shared. Confirm site access, ownership and each utility's contracting rules.");
+  return out;
+}
+
+function windowBasis(pair) {
+  return `Planning windows are inferred (${pair.a.window?.basis ?? "unknown"}; ${pair.b.window?.basis ?? "unknown"}). Confirm construction and outage months with both utilities.`;
+}
+
+// Sharing other than the staging yard the scenario models.
+function beyondYard(pair) {
+  const out = [];
+  if (pair.remainingDays > 0) out.push("Ask whether crane, mat and specialty-crew mobilizations could be coordinated.");
+  if (projectType(pair.a) === projectType(pair.b)) out.push(`Same kind of work (${projectType(pair.a).toLowerCase()}): joint procurement, shared spares or one specialist contractor.`);
+  if (!out.length) out.push("Crew and contractor scheduling between the two utilities; no site-level sharing is indicated.");
   return out;
 }
 
 function sharedResources(pair) {
   if (!pair.qualifies) return ["Verify precise locations and the center-distance rule before proposing shared resources."];
-  const out = [];
-  if (pair.remainingDays > 0) out.push("If a usable shared site is confirmed, compare one staging/laydown yard with two (see scenario).", "Ask whether crane, mat and specialty-crew mobilizations could be coordinated.");
-  if (projectType(pair.a) === projectType(pair.b)) out.push(`Same kind of work (${projectType(pair.a).toLowerCase()}): joint procurement, shared spares or one specialist contractor.`);
-  if (!out.length) out.push("Crew and contractor scheduling between the two utilities; no site-level sharing is indicated.");
-  return out;
+  return [...(pair.remainingDays > 0 ? ["If a usable shared site is confirmed, compare one staging/laydown yard with two (see scenario)."] : []), ...beyondYard(pair)];
 }
 
 function planningForumBlock(pair) {
@@ -795,7 +806,7 @@ function yardCard(pair) {
   update();
   const assumptions = h("details", "detail-fold scenario-assumptions");
   assumptions.append(h("summary", "", "Adjust assumptions"), form);
-  card.append(out, assumptions);
+  card.append(out, h("p", "", `Beyond the yard: ${beyondYard(pair).join(" ")}`), assumptions);
   const src = h("p", "muted-note"); src.append(document.createTextNode("Cost basis: "), link(YARD_BASIS.matsPerAcre.url, "MISO MTEP24 cost guide, p. 19 (mats)"), document.createTextNode(" · "), link(YARD_BASIS.roadPerMile.url, "p. 23 (access road)"), document.createTextNode(" · "), link(YARD_BASIS.landPerAcre.url, `USDA Land Values 2026, p. 15 (pasture: GA ${money(YARD_BASIS.landPerAcre.GA)}, SC ${money(YARD_BASIS.landPerAcre.SC)}/ac)`));
   card.append(src, h("p", "muted-note", "Proximity alone can't establish that land or equipment can be shared. This assumes a usable site between the projects, both schedules holding, and both utilities agreeing. It is a reason to make a call, not a budget."));
   return card;
@@ -933,13 +944,11 @@ function detailTabs(pair) {
   if (state.detailTab === "scenario") panel.append(yardCard(pair));
   else if (state.detailTab === "records") { panel.append(h("p", "section-note", "Published fields, location evidence and validation for each project.")); for (const p of [pair.a, pair.b]) panel.append(recordFold(p)); }
   else {
-    panel.append(compareTable(pair));
-    panel.append(
-      h("p", "pair-rationale", summaryRationale(pair)),
-      foldSection(listBox("Still to confirm", toConfirm(pair, true), "confirm"), "confirm", true),
-      foldSection(listBox("Possible shared resources", sharedResources(pair)), "resources"),
-      foldSection(groundBox(pair), "ground"));
-    const tl = h("section", "list-box"); tl.append(h("h3", "", "Planning windows"), timeline(pair.a, pair.b)); panel.append(foldSection(tl, "timeline"));
+    panel.append(compareTable(pair), h("p", "pair-rationale", summaryRationale(pair)));
+    const confirm = toConfirm(pair, true);
+    if (confirm.length) panel.append(foldSection(listBox("Still to confirm", confirm, "confirm"), "confirm", true));
+    panel.append(foldSection(groundBox(pair), "ground"));
+    const tl = h("section", "list-box"); tl.append(h("h3", "", "Planning windows"), timeline(pair.a, pair.b), h("p", "muted-note", windowBasis(pair))); panel.append(foldSection(tl, "timeline"));
     panel.append(foldSection(scoreBlock(pair), "score"), foldSection(planningForumBlock(pair), "forums"));
   }
   return [nav, panel];
