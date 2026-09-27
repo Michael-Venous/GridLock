@@ -1,4 +1,4 @@
-"""Claude on Amazon Bedrock (the Converse API), for the ingest agent.
+"""GPT-6 Sol on Amazon Bedrock (the Converse API), for the ingest agent.
 
 Credentials come from the standard AWS chain (AWS_PROFILE, SSO, environment); nothing is stored in the repo. The
 model and region can be changed with GRIDLOCK_BEDROCK_MODEL and AWS_REGION. Needs boto3 (requirements-agent.txt);
@@ -10,7 +10,7 @@ import sys
 
 # tried in order; an account that can't use one (no access, not offered in the region, a request shape it rejects)
 # moves on to the next
-MODELS = [os.environ["GRIDLOCK_BEDROCK_MODEL"]] if os.environ.get("GRIDLOCK_BEDROCK_MODEL") else ["us.anthropic.claude-opus-5-5", "us.anthropic.claude-opus-5"]
+MODELS = [os.environ["GRIDLOCK_BEDROCK_MODEL"]] if os.environ.get("GRIDLOCK_BEDROCK_MODEL") else ["us.openai.gpt-6-sol"]
 REGION = os.environ.get("AWS_REGION") or os.environ.get("AWS_DEFAULT_REGION") or "us-east-1"
 CACHE = {"cachePoint": {"type": "default"}}
 # turn endings whose tool calls can't be trusted (cut off, or not well formed), and endings that end the conversation
@@ -43,10 +43,17 @@ class Session:
             re.search(rf"{re.escape(self.model)}|model id|model identifier|tool_?choice", str(e), re.I))
 
     def converse(self, system, messages, tools=None, max_tokens=32000):
-        kw = {"system": [{"text": system}, CACHE], "messages": messages, "inferenceConfig": {"maxTokens": max_tokens}}
-        if tools:
-            kw["toolConfig"] = {"tools": [{"toolSpec": t} for t in tools] + [CACHE]}
         while True:
+            # Explicit Converse cache points are supported by our Claude path, not GPT-6.
+            # Preserve all other blocks, including reasoning signatures and tool results.
+            cache = [CACHE] if "anthropic." in self.model else []
+            clean_messages = [{**m, "content": [b for b in m["content"] if "cachePoint" not in b]}
+                              for m in messages] if not cache else messages
+            kw = {"system": [{"text": system}] + cache, "messages": clean_messages,
+                  "inferenceConfig": {"maxTokens": max_tokens}}
+            if tools:
+                kw["toolConfig"] = {"tools": [{"toolSpec": t} for t in tools] + cache}
+            # Use provider-default reasoning; do not send a provider-specific field.
             try:
                 resp = self.client.converse(modelId=self.model, **kw)
                 break

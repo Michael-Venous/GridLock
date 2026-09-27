@@ -49,7 +49,7 @@ class LocalServerTests(unittest.TestCase):
                              "Content-Type": "application/json"})
             if headers:
                 hdrs.update(headers)
-            payload = json.dumps(body).encode() if body is not None else None
+            payload = body if isinstance(body, bytes) else json.dumps(body).encode() if body is not None else None
             conn.request(method, path, payload, hdrs)
             response = conn.getresponse()
             raw = response.read()
@@ -79,6 +79,70 @@ class LocalServerTests(unittest.TestCase):
                 self.assertEqual(code, 404)
         code, _ = self.request("GET", "/", headers={"Host": "attacker.example"})
         self.assertEqual(code, 403)
+
+    def upload(self, pdf, spec, filename="plan.pdf", origin=None):
+        boundary = "gridlock-upload-test"
+        data = (f'--{boundary}\r\nContent-Disposition: form-data; name="spec"\r\n\r\n'.encode()
+                + json.dumps(spec).encode()
+                + f'\r\n--{boundary}\r\nContent-Disposition: form-data; name="file"; filename="{filename}"\r\nContent-Type: application/pdf\r\n\r\n'.encode()
+                + pdf + f'\r\n--{boundary}--\r\n'.encode())
+        headers = {"Content-Type": f"multipart/form-data; boundary={boundary}"}
+        if origin is not None:
+            headers["Origin"] = origin
+        return self.request("POST", "/api/ingest/uploads", data, headers)
+
+    def test_upload_preview_and_registration_keep_exact_bytes(self):
+        content = b"%PDF-1.4\npublic uploaded fixture\n"
+        digest = hashlib.sha256(content).hexdigest()
+        source_url = "https://example.org/plan.pdf"
+        seen = []
+
+        def execute(ident, argv):
+            seen.append(argv)
+            self.assertEqual(Path(argv[0]).read_bytes(), content)
+            saved = self.root / "data/build/ingest" / digest[:12] / "source.pdf"
+            saved.parent.mkdir(parents=True, exist_ok=True)
+            saved.write_bytes(content)
+            return {"sha256": digest, "url": source_url,
+                    "filing": {"url": source_url, "title": "Plan", "dateBasis": "published"},
+                    "shape": {"records": 1, "reviewRecords": [{"name": "Station"}]}}
+
+        with mock.patch.object(self.server.manager, "_execute", side_effect=execute):
+            code, job = self.upload(content, {"mode": "upload", "source": source_url}, "../../escape.pdf")
+            self.assertEqual(code, 202)
+            job = self.wait_job(job["id"])
+            self.assertEqual(job["status"], "succeeded", job)
+            self.assertEqual(job["preview"]["issues"], [])
+            self.assertEqual(Path(seen[0][0]).parent, self.root / "data/build/uploads")
+            self.assertFalse((self.root / "escape.pdf").exists())
+            code, _ = self.request("GET", "/data/build/uploads/" + Path(seen[0][0]).name)
+            self.assertEqual(code, 404)
+            code, _ = self.request("POST", f'/api/ingest/jobs/{job["id"]}/register', {})
+            self.assertEqual(code, 202)
+            self.assertEqual(self.wait_job(job["id"])["status"], "registered")
+            self.assertIn("--dry-run", seen[0])
+            self.assertNotIn("--dry-run", seen[1])
+            self.assertEqual(seen[1][seen[1].index("--url") + 1], source_url)
+
+    def test_upload_without_url_can_preview_but_cannot_register(self):
+        run = {"sha256": "a" * 64, "filing": {"title": "Plan", "dateBasis": "published"}, "shape": {"records": 1}}
+        with mock.patch.object(self.server.manager, "_execute", return_value=run):
+            code, job = self.upload(b"%PDF-1.4\nfixture", {"mode": "upload"})
+            self.assertEqual(code, 202)
+            job = self.wait_job(job["id"])
+            self.assertEqual(job["status"], "succeeded")
+            self.assertTrue(any("public source URL" in issue for issue in job["preview"]["issues"]))
+            code, _ = self.request("POST", f'/api/ingest/jobs/{job["id"]}/register', {})
+            self.assertEqual(code, 409)
+
+    def test_upload_rejects_non_pdf_private_urls_and_cross_origin(self):
+        self.assertEqual(self.upload(b"not a pdf", {"mode": "upload"})[0], 400)
+        self.assertEqual(self.upload(b"%PDF-1.4", {"mode": "upload", "source": "file:///etc/passwd"})[0], 400)
+        self.assertEqual(self.upload(b"%PDF-1.4", {"mode": "upload"}, origin="https://evil.example")[0], 403)
+        self.assertEqual(self.request("POST", "/api/ingest/jobs", {"mode": "upload"})[0], 400)
+        with mock.patch.object(local_server, "MAX_PDF_UPLOAD", 4):
+            self.assertEqual(self.upload(b"%PDF-1.4", {"mode": "upload"})[0], 413)
+        self.assertEqual(self.server.manager.jobs, {})
 
     def test_requires_local_origin_and_rejects_private_source_urls(self):
         spec = {"mode": "url", "source": "https://example.org/public-plan.pdf"}

@@ -28,6 +28,7 @@
       <span id="data-as-of" class="dataset-date" aria-label="Dataset date"></span>
       <button id="shortlist-export" class="button ghost" type="button" disabled>Shortlist briefs <span id="shortlist-count" class="count">0</span></button>
       <details id="results-export" class="action-menu"><summary class="button">Export results</summary><div class="action-menu-items"><button id="export" class="button" type="button">Download filtered pairs (CSV)</button></div></details>
+      <button id="open-ingest" class="button" type="button">Add public filing</button>
     </div>
   </header>
 
@@ -104,7 +105,7 @@
     <section class="doc-view view" id="view-method" hidden aria-label="Method and sources"></section>
     <section class="doc-view view ingest-view" id="view-ingest" hidden aria-label="Add a public filing">
       <div class="doc ingest-layout">
-        <button id="ingest-back" class="link-button" type="button">← Method and sources</button>
+        <button id="ingest-back" class="link-button" type="button">← Pairs</button>
         <div class="ingest-heading">
           <div>
             <p class="eyebrow">Source update</p>
@@ -114,16 +115,27 @@
           <div id="ingest-service" class="ingest-service" role="status">Checking local ingest service…</div>
         </div>
         <div class="ingest-columns">
-          <form id="ingest-form" class="ingest-form">
+          <form id="ingest-form" class="ingest-form" novalidate>
             <h2><span class="ingest-step">01</span> Choose a source</h2>
             <div class="ingest-mode" role="group" aria-label="How to locate the filing">
               <label><input type="radio" name="ingest-mode" value="url" checked> Public PDF link</label>
+              <label><input type="radio" name="ingest-mode" value="upload"> Upload PDF</label>
               <label><input type="radio" name="ingest-mode" value="find"> Find a utility's filing</label>
             </div>
             <label class="ingest-field" id="ingest-url-field">Public PDF or ZIP URL
               <input id="ingest-url" type="url" placeholder="https://…/transmission-plan.pdf" autocomplete="url" spellcheck="false">
               <small>Only publicly accessible filings are accepted. A ZIP may contain a PDF.</small>
             </label>
+            <div id="ingest-upload-fields" hidden>
+              <label class="ingest-field">Public filing PDF
+                <input id="ingest-file" type="file" accept=".pdf,application/pdf">
+                <small>Choose a downloaded public filing, up to 64 MB. It follows the same parsing and review process.</small>
+              </label>
+              <label class="ingest-field">Public source URL <span class="optional">optional for preview</span>
+                <input id="ingest-upload-url" type="url" placeholder="https://…/transmission-plan.pdf" spellcheck="false">
+                <small>Provide the original public link to register the filing and preserve its source.</small>
+              </label>
+            </div>
             <label class="ingest-field" id="ingest-find-field" hidden>Utility name
               <input id="ingest-find" type="text" placeholder="e.g. Santee Cooper" autocomplete="off">
               <small>The AI assistant searches the utility's public pages for a project list.</small>
@@ -134,7 +146,7 @@
                 <label class="ingest-field" id="ingest-company-field">Utility in this PDF <span class="optional">optional</span><input id="ingest-company" type="text" placeholder="Choose one utility in a joint filing"></label>
                 <label class="ingest-field">Filing date <span class="optional">if not printed</span><input id="ingest-date" type="date"></label>
                 <label class="ingest-field">Edition <span class="optional">if not detected</span><input id="ingest-edition" type="text" placeholder="2027–2031"></label>
-                <label class="ingest-field">PDF inside ZIP <span class="optional">if needed</span><input id="ingest-zip-member" type="text" placeholder="plan.pdf"></label>
+                <label class="ingest-field" id="ingest-zip-field">PDF inside ZIP <span class="optional">if needed</span><input id="ingest-zip-member" type="text" placeholder="plan.pdf"></label>
                 <label class="ingest-field ingest-full">Filing title <span class="optional">if not detected</span><input id="ingest-title" type="text" placeholder="Published document title"></label>
               </div>
             </details>

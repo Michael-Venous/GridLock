@@ -16,6 +16,8 @@ import subprocess
 import sys
 import threading
 import uuid
+from email import policy
+from email.parser import BytesParser
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -24,6 +26,7 @@ from urllib.parse import urlsplit
 ROOT = Path(__file__).resolve().parent
 RESULT_PREFIX = "GRIDLOCK_INGEST_RESULT "
 MAX_BODY = 16_384
+MAX_PDF_UPLOAD = 64 * 1024 * 1024
 MAX_LOG_LINES = 200
 ACTIVE = {"queued", "running", "registering", "rebuilding"}
 STATIC = {
@@ -87,10 +90,11 @@ def validate_spec(body):
     if set(body) - allowed:
         raise RequestError("Unknown ingest field")
     mode = body.get("mode")
-    if mode not in ("url", "find"):
-        raise RequestError("Choose a URL or company search")
-    source = _public_url(body.get("source")) if mode == "url" else _short_text(body.get("source"), "Company", 120)
-    if not source:
+    if mode not in ("url", "find", "upload"):
+        raise RequestError("Choose a URL, PDF upload, or company search")
+    source = (_public_url(body.get("source")) if mode == "url" or (mode == "upload" and body.get("source"))
+              else _short_text(body.get("source"), "Company", 120) if mode == "find" else None)
+    if not source and mode != "upload":
         raise RequestError("Enter a company name")
     company = _short_text(body.get("company"), "Company", 120)
     date = _short_text(body.get("date"), "Filing date", 10)
@@ -103,10 +107,43 @@ def validate_spec(body):
     edition = _short_text(body.get("edition"), "Edition", 80)
     title = _short_text(body.get("title"), "Title", 240)
     member = _short_text(body.get("zipMember"), "ZIP member", 500)
-    if mode == "find" and member:
+    if mode != "url" and member:
         raise RequestError("ZIP member can only be set for a supplied URL")
     return {"mode": mode, "source": source, "company": company, "date": date,
             "edition": edition, "title": title, "zipMember": member}
+
+
+def parse_upload(content_type, data):
+    """Read one bounded multipart PDF and metadata; never use a supplied filename as a path."""
+    if len(content_type) > 500 or "\r" in content_type or "\n" in content_type:
+        raise RequestError("Invalid upload content type")
+    message = BytesParser(policy=policy.default).parsebytes(
+        f"Content-Type: {content_type}\r\nMIME-Version: 1.0\r\n\r\n".encode() + data)
+    if not message.is_multipart() or message.defects:
+        raise RequestError("Invalid multipart upload")
+    parts = {}
+    for part in message.iter_parts():
+        name = part.get_param("name", header="content-disposition")
+        if name not in {"spec", "file"} or name in parts or part.is_multipart() or part.defects:
+            raise RequestError("Upload must contain one PDF and one metadata field")
+        parts[name] = part.get_payload(decode=True)
+    if set(parts) != {"spec", "file"} or any(v is None for v in parts.values()):
+        raise RequestError("Choose a PDF file")
+    if len(parts["spec"]) > MAX_BODY:
+        raise RequestError("Upload metadata is too large", 413)
+    pdf = parts["file"]
+    if not 0 < len(pdf) <= MAX_PDF_UPLOAD:
+        raise RequestError("PDF must be no larger than 64 MB", 413)
+    if not pdf.startswith(b"%PDF-"):
+        raise RequestError("The selected file is not a PDF")
+    try:
+        spec = json.loads(parts["spec"])
+    except (ValueError, UnicodeError):
+        raise RequestError("Invalid upload metadata") from None
+    spec = validate_spec(spec)
+    if spec["mode"] != "upload":
+        raise RequestError("Invalid upload mode")
+    return spec, pdf
 
 
 def _preview(run, duplicate=False):
@@ -144,7 +181,7 @@ def _preview(run, duplicate=False):
 
 def _ai_status():
     if importlib.util.find_spec("boto3") is None:
-        return False, "AI discovery and new-layout parsing need boto3 and AWS Bedrock access. URL previews using known parsers still work."
+        return False, "AI discovery and new-layout parsing need boto3 and AWS Bedrock access. URL and PDF previews using known parsers still work."
     if not shutil.which("bwrap"):
         return True, "AI discovery can be attempted; registering a generated parser also needs working bubblewrap."
     return True, "AWS access and bubblewrap isolation are checked when the workflow runs."
@@ -160,12 +197,19 @@ class IngestManager:
         ai, reason = _ai_status()
         return {"available": True, "aiAvailable": ai, "aiReason": reason}
 
-    def create(self, body):
+    def create(self, body, pdf=None):
         spec = validate_spec(body)
+        if (spec["mode"] == "upload") != (pdf is not None):
+            raise RequestError("PDF uploads must include a file")
         with self.lock:
             if any(j["status"] in ACTIVE for j in self.jobs.values()):
                 raise RequestError("Another filing is being processed. Wait for it to finish.", 409)
             ident = uuid.uuid4().hex
+            if pdf is not None:
+                path = self.root / "data" / "build" / "uploads" / f"{ident}.pdf"
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(pdf)
+                spec["uploadPath"] = str(path)
             job = {"id": ident, "status": "queued", "stage": "Waiting to preview",
                    "logs": [], "preview": None, "error": None, "spec": spec, "run": None,
                    "registeredRun": None}
@@ -299,12 +343,24 @@ class IngestManager:
             self._set(ident, status="running", stage="Downloading and checking the public filing")
             with self.lock:
                 spec = dict(self.jobs[ident]["spec"])
-            argv = ([spec["source"]] if spec["mode"] == "url" else ["--find", spec["source"]]) + self._flags(spec) + ["--dry-run"]
+            if spec["mode"] == "upload":
+                self._set(ident, stage="Reading and checking the uploaded PDF")
+                argv = [spec["uploadPath"]]
+                if spec["source"]:
+                    argv += ["--url", spec["source"]]
+            else:
+                argv = [spec["source"]] if spec["mode"] == "url" else ["--find", spec["source"]]
+            argv += self._flags(spec) + ["--dry-run"]
             run = self._execute(ident, argv)
             preview = _preview(run, duplicate=run is None)
             self._set(ident, status="succeeded", stage="Preview ready for review", preview=preview, run=run)
         except Exception as exc:
             self._set(ident, status="failed", stage="Preview failed", error=str(exc)[:500])
+        finally:
+            with self.lock:
+                upload = self.jobs[ident]["spec"].get("uploadPath")
+            if upload:
+                Path(upload).unlink(missing_ok=True)
 
     def _register_worker(self, ident, pdf):
         try:
@@ -419,14 +475,21 @@ class AppHandler(BaseHTTPRequestHandler):
         origin = self.headers.get("Origin")
         if origin not in {f"http://127.0.0.1:{self.server.server_port}", f"http://localhost:{self.server.server_port}"}:
             return self._json(403, {"error": "The request must come from this local app"})
-        if self.headers.get("Content-Type", "").split(";", 1)[0].strip().lower() != "application/json":
-            return self._json(415, {"error": "Expected application/json"})
         try:
-            size = int(self.headers.get("Content-Length", "0"))
-            if not 0 < size <= MAX_BODY:
-                raise RequestError("Invalid request size", 413)
-            body = json.loads(self.rfile.read(size))
             path = self._path()
+            content_type = self.headers.get("Content-Type", "")
+            upload = path == "/api/ingest/uploads"
+            expected = "multipart/form-data" if upload else "application/json"
+            if content_type.split(";", 1)[0].strip().lower() != expected:
+                raise RequestError(f"Expected {expected}", 415)
+            size = int(self.headers.get("Content-Length", "0"))
+            if not 0 < size <= (MAX_PDF_UPLOAD + MAX_BODY + 4096 if upload else MAX_BODY):
+                raise RequestError("Invalid request size", 413)
+            data = self.rfile.read(size)
+            if upload:
+                spec, pdf = parse_upload(content_type, data)
+                return self._json(202, self.server.manager.create(spec, pdf))
+            body = json.loads(data)
             if path == "/api/ingest/jobs":
                 return self._json(202, self.server.manager.create(body))
             match = re.fullmatch(r"/api/ingest/jobs/([0-9a-f]{32})/register", path)

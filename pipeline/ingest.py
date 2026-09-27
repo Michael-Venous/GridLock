@@ -732,7 +732,7 @@ def main(argv=None):
     ap.add_argument("--skip-plan", action="append", help="act as if this plan weren't registered (with --dry-run only)")
     ap.add_argument("--dry-run", action="store_true", help="route and parse only; register nothing")
     ap.add_argument("--no-build", action="store_true")
-    ap.add_argument("--model", help="Bedrock model id (default GRIDLOCK_BEDROCK_MODEL or Claude Opus 5.5)")
+    ap.add_argument("--model", help="Bedrock model id (default GRIDLOCK_BEDROCK_MODEL or GPT-6 Sol)")
     ap.add_argument("--max-turns", type=int, default=40)
     ap.add_argument("--reviewed-parser-sha256", help=argparse.SUPPRESS)
     ap.add_argument("--reviewed-records-sha256", help=argparse.SUPPRESS)

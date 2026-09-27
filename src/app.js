@@ -1348,13 +1348,7 @@ function renderMethod() {
   sec("Changes between filings",
     "Every filing we read is listed in data/filings.json. Each new edition is compared with the one before it from the same utility: projects are matched on their ID (DESC reuses IDs, so a DESC match also needs a similar name; an ID kept under a different name is reported as renamed; Santee Cooper publishes no IDs, so its projects are matched on their titles and its “Row” numbers are only positions in the list), then we list what was added, dropped, rescheduled, renamed or re-costed. Georgia says why each project left its plan (Table 3 cancelled, Table 4 completed); the South Carolina lists don't, so a dropped project only says whether its date had already passed.",
     "Pairs are recomputed with the same 25-mile rule before and after each filing, keeping every project's current location, so a pair appears or disappears only because a project was added, dropped or rescheduled. A pair whose in-service gap moves by 30 days or more is listed as a timing change.");
-  const ingestAction = h("p");
-  const ingestButton = h("button", "button", "Preview a public filing");
-  ingestButton.id = "open-ingest";
-  ingestButton.type = "button";
-  ingestButton.addEventListener("click", () => { setView("ingest"); ingestView.open(); });
-  ingestAction.append(ingestButton);
-  sec("Adding the next public filing", "Run the local ingest server and use the importer to inspect a public PDF or have the AI assistant find a utility's list. Preview parses a working copy and reports its project count and validation results. After checking the PDF, explicitly register and rebuild the local dataset. The Changes tab then compares the new edition with its predecessor. This regional demo maps and ranks Georgia–South Carolina work; other states remain outside the matching area. An agent-generated parser and uncertain locations still need human review. A static file server can show this site but cannot run ingestion.", ingestAction);
+  sec("Adding the next public filing", "From Pairs, choose Add public filing. Run the local ingest server and use the importer to inspect a public PDF or have the AI assistant find a utility's list. Preview parses a working copy and reports its project count and validation results. After checking the PDF, explicitly register and rebuild the local dataset. The Changes tab then compares the new edition with its predecessor. This regional demo maps and ranks Georgia–South Carolina work; other states remain outside the matching area. An agent-generated parser and uncertain locations still need human review. A static file server can show this site but cannot run ingestion.");
   sec("Local coordinate edits", "In a project record, Modify coordinates accepts a named endpoint's latitude, longitude, uncertainty radius and a source note. The browser saves the edit locally and recalculates pairs. It does not change the published dataset or the historical Changes tab. An edited project loses precomputed route and ground screening until its location is reviewed in a rebuilt dataset.");
   const envList = h("ul", "src-list"); (d.environmentSources ?? []).forEach(s => { const li = h("li"); li.append(link(s.url, s.title)); envList.append(li); });
   sec("Ground near mapped endpoints (mapped conditions)",
@@ -1374,6 +1368,7 @@ function setView(name) {
   document.querySelectorAll(".doc-view").forEach(v => { v.scrollTop = 0; });
   $("results-export").hidden = name !== "explore";
   $("shortlist-export").hidden = name !== "explore";
+  $("open-ingest").hidden = name !== "explore";
   document.querySelectorAll(".action-menu[open]").forEach(menu => { menu.open = false; });
   if (name === "explore") map?.resize();
   if (name === "changes") changesView?.open();
@@ -1411,6 +1406,7 @@ $("sort").addEventListener("change", event => { state.sort = event.target.value;
 $("shortlist-only").addEventListener("change", event => { state.shortlistOnly = event.target.checked; applyFilters(); });
 $("shortlist-export").addEventListener("click", () => { const pairs = state.allPairs.filter(p => state.shortlist.has(p.id)); if (pairs.length) openBriefs(pairs); });
 $("export").addEventListener("click", () => { exportCsv(); $("results-export").open = false; });
+$("open-ingest").addEventListener("click", () => { setView("ingest"); ingestView.open(); });
 document.addEventListener("click", event => {
   document.querySelectorAll(".action-menu[open]").forEach(menu => { if (!menu.contains(event.target)) menu.open = false; });
 });
@@ -1440,7 +1436,7 @@ function clearOfLegend() {
 }
 $("fit-all").addEventListener("click", () => map?.fitBounds(placedBounds(), { padding: clearOfLegend() }));
 document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => setView(t.dataset.view)));
-const ingestView = createIngestView({ onBack: () => { setView("method"); $("open-ingest")?.focus(); } });
+const ingestView = createIngestView({ onBack: () => { setView("explore"); $("open-ingest").focus(); } });
 
 // The landing names each plan's edition once the change log arrives; until then (or without it) the source titles do.
 const editionsLoaded = loadChangeLog().then(log => { filings = log.filings ?? []; }, () => { /* the Changes tab reports the error */ });

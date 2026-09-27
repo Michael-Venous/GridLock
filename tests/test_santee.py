@@ -118,14 +118,24 @@ class ParseTests(unittest.TestCase):
         self.assertTrue(any("TBD" in i["msg"] for i in tbd["issues"]))
 
 
-@unittest.skipUnless((RAW / "santee_2026-2030.pdf").exists(), "SCRTP decks not downloaded (run pipeline/fetch.py)")
+PUBLISHED_DATES = {"2024-2028": "2024-02-28", "2025-2029": "2025-03-05", "2026-2030": "2026-03-11"}
+
+
+def published_filing(edition):
+    date = PUBLISHED_DATES[edition]
+    return {"edition": edition, "file": f"santee_{edition}.pdf", "date": date,
+            "url": f"https://www.scrtp.com/assets/pdfs/meeting-archives/scrtp-meeting-{date}-presentation.pdf"}
+
+
+@unittest.skipUnless(all((RAW / f"santee_{ed}.pdf").exists() for ed in PUBLISHED_DATES),
+                         "SCRTP regression PDFs not downloaded")
 class PublishedDeckTests(unittest.TestCase):
     def test_each_edition_reads_completely(self):
-        counts = {ed: len(parse_santee.parse(ed)[0]) for ed in ("2024-2028", "2025-2029", "2026-2030")}
+        counts = {ed: len(parse_santee.parse(ed, published_filing(ed))[0]) for ed in ("2024-2028", "2025-2029", "2026-2030")}
         self.assertEqual(counts, {"2024-2028": 24, "2025-2029": 17, "2026-2030": 12})
 
     def test_2026_list_conflicts_with_two_project_slides(self):
-        recs, notes = parse_santee.parse("2026-2030")
+        recs, notes = parse_santee.parse("2026-2030", published_filing("2026-2030"))
         self.assertEqual(notes, [])
         conflicts = {r["name"]: r["isd"] for r in recs if any("the project's own slide" in i["msg"] for i in r["issues"])}
         self.assertEqual(conflicts, {"Reconductor Purrysburg - Mcintosh 230 kV tie lines": "2026-05-01", "Cross - Jefferies #2 230 kV Line": "2030-06-01"})

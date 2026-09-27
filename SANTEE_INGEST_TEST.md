@@ -1,14 +1,16 @@
-# Temporary Santee Cooper import test
+# Santee Cooper parser-generation demo
 
-This branch temporarily unregisters Santee Cooper's shared parser and its three historical filings. DESC and Georgia remain active. The generated app data has 309 projects. The original 321-project dataset and Santee history are on `main`.
+All Santee Cooper filings and parser registrations are removed for the demo. DESC has three filing editions and Georgia ITS has two: **five filings from two plan sources, 309 projects**. Importing Santee adds the third plan source, not a fourth company. Georgia ITS is a joint plan for Georgia Power, Georgia Transmission Corporation, MEAG Power, and Dalton Utilities.
 
-In the local importer (**Method → Preview a public filing**), enter:
+From **Pairs → Add public filing**, enter:
 
 - Public PDF URL: https://www.scrtp.com/assets/pdfs/meeting-archives/scrtp-meeting-2026-03-11-presentation.pdf
 - Utility in this PDF: `Santee Cooper`
 - Filing date: `2026-03-11`
 - Edition: `2026-2030`
 
-Preview should find 12 Santee projects through AI parser generation. Check the extracted records and the two conflicting-date notices against the PDF before registering. Registration is a separate action that rebuilds the local data. With only one Santee edition re-added, Changes has no Santee before/after comparison; restoring its older editions is required for that history.
+Alternatively, choose **Upload PDF**, select the downloaded presentation, and enter the same public URL to enable registration. Start a fresh preview. With no registered Santee parser, the agent identifies the filing and generates a parser. Expect approximately 12 projects, but review the actual extracted records and date conflicts against the PDF. Register and rebuild only after review. With one Santee edition, there is no Santee historical comparison in Changes yet.
 
-This branch is for the import demo. Its baseline-specific matching and published-deck tests expect the full dataset on `main` and therefore fail here by design. Switch back to `main` for the complete dataset and the passing baseline checks. A local pre-test backup is at `/home/mike/Documents/code/gridlock-ingest-test-backup-2026-09-27/`.
+The default agent model is `us.openai.gpt-6-sol` through Bedrock Converse, using provider-default reasoning. Explicit Claude cache points are omitted for OpenAI requests. Restart the local ingestion server to load this change; an explicit `GRIDLOCK_BEDROCK_MODEL` override takes precedence. Live GPT-6 access still needs verification with active AWS credentials.
+
+To repeat the demo, run `python3 scripts/demo_reset.py reset` from the repository root. It backs up the current registry and generated data under `data/build/demo-resets/`, unregisters **all** Santee filings and parsers, and rebuilds offline. `python3 scripts/demo_reset.py restore` restores the latest reset backup. Raw PDFs and parser source files remain for recovery, but the importer only selects registered parsers; it cannot reuse the unregistered built-in parser. The build still imports that module for source-quality notes.

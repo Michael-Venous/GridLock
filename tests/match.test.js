@@ -154,7 +154,8 @@ test("real data: every project cites a source page and every located project has
 test("real data: every project names one of the registered plans", () => {
   const data = JSON.parse(readFileSync(new URL("../data/projects.json", import.meta.url)));
   const ids = data.plans.map(p => p.id);
-  for (const id of ["desc", "santee", "ga"]) assert.ok(ids.includes(id), id);
+  const registry = JSON.parse(readFileSync(new URL("../data/filings.json", import.meta.url)));
+  assert.deepEqual([...ids].sort(), [...new Set(registry.filings.map(f => f.plan))].sort());
   for (const p of data.projects) assert.ok(ids.includes(p.plan), p.id);
   for (const plan of data.plans) assert.equal(plan.projects, data.projects.filter(p => p.plan === plan.id).length, plan.id);
 });

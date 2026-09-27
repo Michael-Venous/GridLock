@@ -480,8 +480,8 @@ class FinderGuardTests(unittest.TestCase):
         self.assertIn("check it first", self.results(s, 1)[0])
         self.assertEqual([r.split(":")[0] for r in self.results(s, 2)], ["bad tool call"] * 3)
         self.assertIn("cut off", self.results(s, 3)[0])
-        # one moving cache point, on the newest turn
-        self.assertEqual(sum(1 for m in s.client.calls[-1][1]["messages"] for b in m["content"] if "cachePoint" in b), 1)
+        # Non-Anthropic requests omit Claude-specific cache points.
+        self.assertEqual(sum(1 for m in s.client.calls[-1][1]["messages"] for b in m["content"] if "cachePoint" in b), 0)
 
     def test_a_tool_that_fails_is_reported_and_giving_up_ends_the_search(self):
         def broken(url, zip_member=None, allow=None, checked=None):

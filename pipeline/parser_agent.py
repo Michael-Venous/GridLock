@@ -1,4 +1,4 @@
-"""The ingest agent: Claude on Amazon Bedrock identifies a PDF and, when no registered parser reads it, writes one.
+"""The ingest agent: a model on Amazon Bedrock identifies a PDF and, when no registered parser reads it, writes one.
 
 identify() says whose project list a PDF is. write_parser() is a tool-use loop: the model reads pages, searches the
 text, runs draft parsers in the sandbox and sees what the checks in generated_parser.py make of the output, and ends

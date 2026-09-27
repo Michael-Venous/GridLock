@@ -4,21 +4,27 @@ const el = id => document.getElementById(id);
 const POLL_MS = 1400;
 
 export function ingestPayload(fields) {
-  const mode = fields.mode === "find" ? "find" : "url";
+  const mode = ["find", "upload"].includes(fields.mode) ? fields.mode : "url";
   const source = String(fields.source ?? "").trim();
-  if (!source) throw new Error(mode === "find" ? "Enter a utility name to search for its filing." : "Enter a public PDF or ZIP URL.");
-  if (mode === "url") {
+  if (!source && mode !== "upload") throw new Error(mode === "find" ? "Enter a utility name to search for its filing." : "Enter a public PDF or ZIP URL.");
+  if (mode === "url" || (mode === "upload" && source)) {
     let url;
     try { url = new URL(source); } catch { throw new Error("Enter a complete public URL beginning with http:// or https://."); }
     if (!["http:", "https:"].includes(url.protocol)) throw new Error("Enter a public HTTP or HTTPS URL.");
   }
   const payload = { mode, source };
-  if (mode === "url" && fields.company?.trim()) payload.company = fields.company.trim();
+  if (mode !== "find" && fields.company?.trim()) payload.company = fields.company.trim();
   for (const key of ["date", "edition", "title", ...(mode === "url" ? ["zipMember"] : [])]) {
     const entry = String(fields[key] ?? "").trim();
     if (entry) payload[key] = entry;
   }
   return payload;
+}
+
+export function validatePdfUpload(file) {
+  if (!file) throw new Error("Choose a PDF file to upload.");
+  if (!file.name.toLowerCase().endsWith(".pdf")) throw new Error("Choose a PDF file.");
+  if (!file.size || file.size > 64 * 1024 * 1024) throw new Error("PDF must be nonempty and no larger than 64 MB.");
 }
 
 export function previewFacts(preview) {
@@ -47,7 +53,7 @@ export function previewSamples(preview) {
 }
 
 async function api(path, options) {
-  const response = await fetch(path, { ...options, headers: options?.body ? { "Content-Type": "application/json" } : undefined });
+  const response = await fetch(path, { ...options, headers: options?.body && !(options.body instanceof FormData) ? { "Content-Type": "application/json" } : undefined });
   let body;
   try { body = await response.json(); } catch { throw new Error(`Local ingest service returned HTTP ${response.status} without JSON.`); }
   if (!response.ok) throw new Error(body.error || body.message || `HTTP ${response.status}`);
@@ -66,11 +72,12 @@ export function createIngestView({ onBack }) {
   const rebuildButton = el("ingest-rebuild");
   const controls = [...form.querySelectorAll("input")];
   let available = false, aiAvailable = false, currentJob = null, previewKey = null, pollTimer = null, polling = false;
+  let previewFile = null;
 
   function payloadFromForm() {
     const mode = form.querySelector('input[name="ingest-mode"]:checked').value;
     return ingestPayload({
-      mode, source: mode === "find" ? value("ingest-find") : value("ingest-url"),
+      mode, source: mode === "find" ? value("ingest-find") : mode === "upload" ? value("ingest-upload-url") : value("ingest-url"),
       company: value("ingest-company"), date: value("ingest-date"), edition: value("ingest-edition"),
       title: value("ingest-title"), zipMember: value("ingest-zip-member"),
     });
@@ -87,14 +94,17 @@ export function createIngestView({ onBack }) {
     registerButton.disabled = on;
   }
   function switchMode() {
-    const find = form.querySelector('input[name="ingest-mode"]:checked').value === "find";
+    const mode = form.querySelector('input[name="ingest-mode"]:checked').value;
+    const find = mode === "find";
     el("ingest-find-field").hidden = !find;
-    el("ingest-url-field").hidden = find;
+    el("ingest-url-field").hidden = mode !== "url";
+    el("ingest-upload-fields").hidden = mode !== "upload";
+    el("ingest-zip-field").hidden = mode !== "url";
     el("ingest-company-field").hidden = find;
     showError("");
   }
   function clearPreview() {
-    currentJob = null; previewKey = null;
+    currentJob = null; previewKey = null; previewFile = null;
     el("ingest-preview-result").hidden = true;
     el("ingest-preview-result").replaceChildren();
     el("ingest-log-wrap").hidden = true;
@@ -250,16 +260,25 @@ export function createIngestView({ onBack }) {
   });
   form.addEventListener("submit", async event => {
     event.preventDefault();
-    let payload;
-    try { payload = payloadFromForm(); } catch (error) { showError(error.message); return; }
+    let payload, file;
+    try {
+      payload = payloadFromForm();
+      if (payload.mode === "upload") { file = el("ingest-file").files[0]; validatePdfUpload(file); }
+    } catch (error) { showError(error.message); return; }
     if (!available) { showError("Start the local ingest service before previewing."); return; }
     if (payload.mode === "find" && !aiAvailable) { showError("AI discovery is unavailable on this server."); return; }
     if (pollTimer) clearTimeout(pollTimer);
     clearPreview(); showError(""); busy(true); setProgress("Starting preview…", "working");
     try {
-      const job = await api("/api/ingest/jobs", { method: "POST", body: JSON.stringify(payload) });
+      let body = JSON.stringify(payload), endpoint = "/api/ingest/jobs";
+      if (file) {
+        body = new FormData(); body.append("spec", JSON.stringify(payload)); body.append("file", file);
+        endpoint = "/api/ingest/uploads";
+        setProgress("Uploading PDF and starting preview…", "working");
+      }
+      const job = await api(endpoint, { method: "POST", body });
       if (!job.id) throw new Error("The ingest service did not return a job ID.");
-      currentJob = job.id; previewKey = JSON.stringify(payload);
+      currentJob = job.id; previewKey = JSON.stringify(payload); previewFile = file ?? null;
       renderJob(job);
       poll();
     } catch (error) { setProgress(`Preview could not start: ${error.message}`, "error"); busy(false); }
@@ -268,6 +287,7 @@ export function createIngestView({ onBack }) {
     if (!currentJob || !previewKey) return;
     try {
       if (JSON.stringify(payloadFromForm()) !== previewKey) throw new Error("Source details changed. Preview again before registering.");
+      if (previewFile && el("ingest-file").files[0] !== previewFile) throw new Error("PDF changed. Preview again before registering.");
       registerButton.disabled = true; setProgress("Starting registration and rebuild…", "working");
       const job = await api(`/api/ingest/jobs/${encodeURIComponent(currentJob)}/register`, { method: "POST", body: "{}" });
       renderJob(job); poll();
