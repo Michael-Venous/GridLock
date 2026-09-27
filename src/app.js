@@ -71,7 +71,7 @@ function geometryFeatures(project) {
   // A tap placed on its host line draws nothing: those stations are the host line's, not the project's.
   if (!project.hostLine && project.route?.coords?.length > 1) line(project.route.coords, "route-inferred");
   else if (!project.hostLine && stations.length > 1) line(stations, "stations");
-  for (const e of project.endpoints) if (e.point) out.push(pointFeature(e.point, { kind: "endpoint", side: s, title: `${e.name} · ${e.method} · ${e.confidence}` }));
+  for (const e of project.endpoints) if (e.point) out.push(pointFeature(e.point, { kind: "endpoint", side: s, town: e.method === "town", title: `${e.name} · ${e.method} · ${e.confidence}` }));
   return out;
 }
 
@@ -301,9 +301,18 @@ function backToResults() {
   if (window.matchMedia("(max-width: 1100px)").matches) window.scrollTo({top: 0, behavior: "instant"});
   requestAnimationFrame(() => map?.resize());
 }
+// Keeps the selected row in view when the pick came from the map or a link; scrolls only the list, not the page.
+function scrollToPairRow(id) {
+  const list = $("match-list");
+  const row = [...list.querySelectorAll(".pair-row")].find(n => n.dataset.pairId === id);
+  if (!row || !list.clientHeight) return;
+  const top = row.getBoundingClientRect().top - list.getBoundingClientRect().top + list.scrollTop;
+  if (top < list.scrollTop || top + row.offsetHeight > list.scrollTop + list.clientHeight)
+    list.scrollTo({top: Math.max(0, top - (list.clientHeight - row.offsetHeight) / 2), behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth"});
+}
 function selectPair(pair) {
   if (!pair) return;
-  rememberResults(); state.selectedPair = pair.id; applyFilters(); focusPair(pair); revealDetails();
+  rememberResults(); state.selectedPair = pair.id; applyFilters(); focusPair(pair); revealDetails(); scrollToPairRow(pair.id);
 }
 function selectProject(project) {
   if (!project) return;
@@ -494,7 +503,7 @@ function addLayers() {
       "circle-stroke-opacity": ["case", ["==", focus, "faded"], 0.35, 1],
     } });
   // Stations draw above project dots: a project centered on the selected one's station would otherwise hide it.
-  map.addLayer({ id: "endpoints", type: "circle", source: "geometry", filter: kind("endpoint"), paint: { "circle-radius": 3.5, "circle-color": "#fff", "circle-stroke-color": bySide, "circle-stroke-width": 1.5 } });
+  map.addLayer({ id: "endpoints", type: "circle", source: "geometry", filter: kind("endpoint"), paint: { "circle-radius": 3.5, "circle-color": "#fff", "circle-stroke-color": bySide, "circle-stroke-width": 1.5, "circle-opacity": ["case", ["get", "town"], 0.5, 1], "circle-stroke-opacity": ["case", ["get", "town"], 0.5, 1] } });
   map.addLayer({ id: "project-hit", type: "circle", source: "projects", layout: { "circle-sort-key": ["get", "order"] }, paint: { "circle-radius": 12, "circle-color": "#000", "circle-opacity": 0 } });
   map.addLayer({ id: "project-labels", type: "symbol", source: "projects", filter: ["==", focus, "chosen"],
     layout: { "text-field": ["get", "label"], "text-font": ["Noto Sans Bold"], "text-size": 12, "text-anchor": "left", "text-offset": [1.35, 0], "text-allow-overlap": true, "text-ignore-placement": true },
@@ -843,13 +852,27 @@ function recordFold(project) {
   return fold;
 }
 
+// Endpoint names as map shortcuts; the fold below keeps coordinates and evidence.
+function endpointChips(p) {
+  const box = h("div", "endpoint-chips");
+  for (const e of p.endpoints) {
+    if (!e.point) { const miss = h("span", "endpoint-missing", e.name); miss.title = "Not located"; box.append(miss); continue; }
+    const go = h("button", `endpoint-chip ${side(p)}${e.method === "town" ? " town" : ""}`, e.name); go.type = "button";
+    go.title = `Show ${e.name} on the map${e.method === "town" ? " (town estimate, station not located)" : ""}`;
+    go.addEventListener("click", () => focusEndpoint(e));
+    box.append(go);
+  }
+  return box;
+}
+
 function spanHead(pair) {
   const head = h("header", "span-head");
   const row = h("div", "span-row");
   const end = p => { const e = h("div", `span-end ${side(p)}`); e.append(h("span", "", sideName(p)), h("strong", "", p.projectId)); return e; };
   const line = h("div", "span-line"); line.append(h("i"), h("b", "", `${pair.miles.toFixed(2)} mi`));
   row.append(end(pair.a), line, end(pair.b));
-  const names = h("div", "span-names"); names.append(h("p", "", pair.a.name), h("p", "", pair.b.name));
+  const names = h("div", "span-names");
+  for (const p of [pair.a, pair.b]) { const col = h("div"); col.append(h("p", "", p.name), endpointChips(p)); names.append(col); }
   head.append(row, names, h("p", "point-basis", `Distance uses project dots: ${sideName(pair.a)} ${pointKind(pair.a).toLowerCase()} · ${sideName(pair.b)} ${pointKind(pair.b).toLowerCase()}. These dots may not be construction sites.`));
   if (!pair.qualifies) head.append(h("p", "notice", `Does not qualify: centers are over ${MAX_MILES} mi apart, but location uncertainty could bring them under.`));
   const actions = h("div", "detail-actions");
@@ -954,6 +977,7 @@ function renderDetail() {
       lead = `No project across the river within ${MAX_MILES} miles.${n ? ` The nearest is ${n.p.projectId}, ${n.p.name}, ${n.miles.toFixed(1)} mi away.` : ""}`;
     } else lead = `${count} ${count === 1 ? "pair" : "pairs"} with the other state under the current filters. Pick one in the list to compare.`;
     head.append(h("p", "lead", lead));
+    if (project.endpoints.length) head.append(endpointChips(project));
     detail.append(head, projectBlock(project, true, false, true));
   } else detail.append(landing());
 }
@@ -1222,7 +1246,7 @@ try {
   new ResizeObserver(() => requestAnimationFrame(() => map?.resize())).observe($("map"));
   renderQuality(); renderMethod();
   restoreViewUrl(); syncControls();
-  if (state.selectedPair) { focusPair(state.allPairs.find(p => p.id === state.selectedPair)); revealDetails(); }
+  if (state.selectedPair) { focusPair(state.allPairs.find(p => p.id === state.selectedPair)); revealDetails(); scrollToPairRow(state.selectedPair); }
   else if (state.selectedProject) revealDetails();
-  window.addEventListener("hashchange", () => { restoreViewUrl(); syncControls(); if (state.selectedPair || state.selectedProject) revealDetails(); });
+  window.addEventListener("hashchange", () => { restoreViewUrl(); syncControls(); if (state.selectedPair || state.selectedProject) revealDetails(); if (state.selectedPair) scrollToPairRow(state.selectedPair); });
 } catch (error) { $("match-list").textContent = `Could not load project data: ${error.message}. Run the local server described in README.md.`; console.error(error); }

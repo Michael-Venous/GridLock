@@ -200,7 +200,18 @@ input[type="range"], input[type="checkbox"] { accent-color: var(--ink); }
 .span-line::after { right: 0; }
 .span-line b { position: relative; align-self: flex-start; margin-top: 1px; font-family: var(--mono); font-size: 13px; font-weight: 600; line-height: 1; white-space: nowrap; }
 .span-names { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 8px; color: var(--ink-2); font-size: 13px; line-height: 1.4; }
-.span-names p:last-child { text-align: right; }
+.span-names > div:last-child { text-align: right; }
+.span-names > div:last-child .endpoint-chips { justify-content: flex-end; }
+.endpoint-chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.project-head .endpoint-chips { margin-top: 10px; }
+.endpoint-chip, .endpoint-missing { padding: 2px 7px; border: 1px solid var(--rule); border-radius: 999px; background: var(--paper); color: var(--ink); font: inherit; font-size: 12px; line-height: 1.4; }
+.endpoint-chip { cursor: pointer; }
+.endpoint-chip::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 5px; border: 1.5px solid currentColor; border-radius: 50%; vertical-align: 0; }
+.endpoint-chip.desc::before { color: var(--desc-text); }
+.endpoint-chip.gpc::before { color: var(--gpc-text); }
+.endpoint-chip.town::before { border-style: dashed; }
+.endpoint-chip:hover { border-color: var(--ink-3); }
+.endpoint-missing { border-style: dashed; color: var(--ink-3); }
 .notice { margin-top: 12px; padding: 8px 10px; border-left: 3px solid var(--warn-rule); background: var(--warn-soft); color: var(--warn); font-size: 13px; }
 .detail-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
 .action-menu { position: relative; }
