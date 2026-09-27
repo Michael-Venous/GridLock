@@ -324,6 +324,9 @@ input[type="range"], input[type="checkbox"] { accent-color: var(--ink); }
 .scenario-form select { padding-right: 26px; }
 .scenario-form input:focus { border-color: var(--ink); outline: 0; box-shadow: 0 0 0 1px var(--ink); }
 .scenario-form .hint { display: block; margin-top: 3px; color: var(--ink-3); font-size: 11px; font-weight: 400; }
+.location-editor .scenario-form label:nth-child(3) { grid-column: auto; }
+.location-editor .scenario-form label:first-child,
+.location-editor .scenario-form label:last-of-type { grid-column: 1 / -1; }
 
 .project-head { padding: 18px 18px 14px; border-bottom: 1px solid var(--rule); }
 .project-head h2 { margin: 3px 0 8px; font-size: 18px; font-weight: 600; line-height: 1.3; }

@@ -4,6 +4,12 @@ import { createChangesView } from "./changes-view.js";
 import { matchesProject, withinDistance, encodeView, decodeView } from "./view-state.js";
 import { briefMapSvg } from "./brief-map.js";
 import { PLANNING_FORUMS, PLANNING_TRANSITION } from "./planning-forums.js";
+import { applyLocationEdits, validateLocation } from "./location-edits.js";
+
+const LOCATION_KEY = "gridlock.location-edits.v1";
+let locationEdits = {};
+try { locationEdits = JSON.parse(localStorage.getItem(LOCATION_KEY) ?? "{}"); } catch { /* no saved edits */ }
+if (!locationEdits || typeof locationEdits !== "object" || Array.isArray(locationEdits)) locationEdits = {};
 
 const $ = id => document.getElementById(id);
 const state = {
@@ -599,6 +605,7 @@ const located = p => p.endpoints.filter(e => e.point);
 const DESCRIBED = "Station named in filing description";
 const describedNames = p => p.describedStations.map(d => d.name).join(", ");
 function pointKind(p) {
+  if (p.userLocation) return "User supplied endpoints · calculated comparison point";
   const sites = located(p);
   if (p.locatedBy === "description") return "Near stations named in filing description";
   if (!sites.length) return "Not located";
@@ -607,6 +614,7 @@ function pointKind(p) {
   return p.endpoints.length > 1 ? "Single mapped endpoint" : "Mapped endpoint";
 }
 function centerMethod(p) {
+  if (p.userLocation) return "Calculated from mapped endpoints including browser edits; user supplied locations are not independently verified";
   const n = located(p).length, total = p.endpoints.length;
   if (p.locatedBy === "description") return `${p.endpoints.length ? `${p.endpoints.map(e => e.name).join(", ")} could not be located. ` : ""}Placed among the existing stations the filing's description names (${describedNames(p)}); an estimate, not the worksite`;
   if (!n) return "Not located";
@@ -630,6 +638,44 @@ const sitePlaced = e => e.point && ["high", "medium"].includes(e.confidence) && 
 // Street View links (map_action=pano) open a black "no imagery" screen at most stations, which sit back from the road; a pin keeps Street View one drag of the pegman away.
 const mapPinUrl = pt => `https://www.google.com/maps/search/?api=1&query=${pt.lat.toFixed(5)},${pt.lon.toFixed(5)}`;
 
+function locationEditor(p) {
+  const box = h("details", "detail-fold location-editor");
+  box.append(h("summary", "", p.userLocation ? "Edit your locations" : "Know this location? Add coordinates"));
+  box.append(h("p", "muted-note", "Enter coordinates for a named endpoint. Saved only in this browser; shared links do not include these edits. Matches update immediately. Changes history remains based on published data."));
+  const form = h("form", "scenario-form");
+  const targetLabel = h("label", "", "Named location"), target = h("select");
+  p.endpoints.forEach((e, i) => { const o = h("option", "", e.name); o.value = String(i); target.append(o); });
+  targetLabel.append(target); form.append(targetLabel);
+  const input = (label, type, attrs = {}) => { const l = h("label", "", label), el = h("input"); Object.assign(el, { type, required: true, ...attrs }); l.append(el); form.append(l); return el; };
+  const lat = input("Latitude", "number", { min: -90, max: 90, step: "any" });
+  const lon = input("Longitude", "number", { min: -180, max: 180, step: "any" });
+  const radius = input("Location uncertainty (miles)", "number", { min: 0.01, max: 100, step: "any" });
+  const note = input("How do you know? Source or explanation", "text", { maxLength: 1000 });
+  const populate = () => { const e = p.endpoints[Number(target.value)]; lat.value = e.point?.lat ?? ""; lon.value = e.point?.lon ?? ""; radius.value = e.radiusMi ?? 0.5; note.value = locationEdits[p.id]?.[target.value]?.note ?? ""; };
+  target.addEventListener("change", populate); populate();
+  const save = h("button", "button", "Save location"), reset = h("button", "button", "Restore published locations");
+  save.type = "submit"; reset.type = "button"; reset.disabled = !p.userLocation;
+  const message = h("p", "muted-note"); message.setAttribute("role", "status");
+  const refresh = () => {
+    let stored = true;
+    try { localStorage.setItem(LOCATION_KEY, JSON.stringify(locationEdits)); } catch { stored = false; }
+    state.projects = applyLocationEdits(state.data.projects, locationEdits);
+    state.sameStations = sameStationProjects(state.projects);
+    state.allPairs = matchProjects(state.projects, MAX_MILES, { includePossible: true, asOf: state.asOf });
+    state.selectedPair = null; state.selectedProject = p.id;
+    applyFilters(); renderQuality();
+    $("session-notice").textContent = `${stored ? "Locations saved in this browser." : "Browser storage unavailable; edits last for this visit only."} Matches recalculated. Shared links and Changes history use published locations.`;
+  };
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+    const v = { lat: Number(lat.value), lon: Number(lon.value), radiusMi: Number(radius.value), note: note.value.trim(), name: p.endpoints[Number(target.value)].name };
+    if (!validateLocation(v)) { message.textContent = "Enter valid coordinates, a positive uncertainty radius, and a source note."; return; }
+    locationEdits[p.id] = { ...locationEdits[p.id], [target.value]: v }; refresh();
+  });
+  reset.addEventListener("click", () => { delete locationEdits[p.id]; refresh(); });
+  form.append(save, reset); box.append(form, message); return box;
+}
+
 function projectBlock(p, full = false, heading = true, foldEvidence = false) {
   const block = h("section", "project-block");
   if (heading) block.append(h("span", `utility-label ${side(p)}`, `${sideName(p)}, ${p.state}${p.zoneName ? `, ${p.zoneName}` : ""}`), h("h3", "", p.name));
@@ -647,6 +693,7 @@ function projectBlock(p, full = false, heading = true, foldEvidence = false) {
   const src = h("div", "source-line"); src.append(document.createTextNode("Source: "), sourceLink(p), document.createTextNode(` (${p.source.item})`));
   block.append(src);
   if (full) {
+    if (p.endpoints.length) block.append(locationEditor(p));
     if (p.description) block.append(h("p", "desc-text", p.description));
     const endpoints = h("div", "endpoint-box"); endpoints.append(h("h4", "", "Endpoints and how each was located"));
     for (const e of p.endpoints) {
@@ -793,16 +840,16 @@ function yardCard(pair) {
     i.addEventListener("input", () => { const v = Number(i.value); if (!Number.isFinite(v) || v < 0) return; state.yard[key] = key === "leaseRate" ? v / 100 : v; update(); });
     l.append(i); if (hint) l.append(h("span", "hint", hint)); form.append(l); return i;
   };
-  field("Yard size (acres)", "acres", { min: 0, step: 0.5 }, "assumption");
-  field("Months shared", "months", { min: 0, step: 1 }, "default: overlap still ahead");
+  field("Yard size (acres)", "acres", { min: 0, step: 0.5 }, "Example size; enter your expected yard area");
+  field("Months shared", "months", { min: 0, step: 1 }, "Starts with planning overlap; enter expected shared use");
   const sl = h("label", "", "Yard surface"); const sel = h("select");
   [["mats", `Timber mats, floodplain (${money(YARD_BASIS.matsPerAcre.value)}/ac, MISO)`], ["custom", "Other surface: enter $/acre"]].forEach(([v, t]) => { const o = h("option", "", t); o.value = v; sel.append(o); });
   sel.value = state.yard.surface; sl.append(sel); form.append(sl);
   const custom = field("Surface cost ($/acre)", "surfacePerAcre", { min: 0, step: 1000 }, "your assumption (e.g. a gravel pad)");
   const toggle = () => { custom.closest("label").hidden = state.yard.surface === "mats"; };
   sel.addEventListener("change", () => { state.yard.surface = sel.value; toggle(); update(); }); toggle();
-  field("Lease (% of land value per year)", "leaseRate", { min: 0, max: 100, step: 1 }, "assumption");
-  field("Shared access road (miles)", "roadMiles", { min: 0, step: 0.05 }, "assumption");
+  field("Lease (% of land value per year)", "leaseRate", { min: 0, max: 100, step: 1 }, "Example rate; adjust for your expected lease");
+  field("Shared access road (miles)", "roadMiles", { min: 0, step: 0.05 }, "Example length; enter the access road needed");
   function update() {
     const sc = yardScenario(pair, yardInputs());
     out.replaceChildren(sideBySide(pair, sc), h("div", "cost-big", sc.active ? `${money(sc.low)} – ${money(sc.high)}` : "$0"), h("p", "cost-caption", sc.active ? "illustrative avoided cost if sharing is feasible" : sc.reason));
@@ -816,9 +863,9 @@ function yardCard(pair) {
     if (!sc.active) out.append(h("p", "", `Scenario unavailable: ${sc.reason}`));
   }
   update();
-  const assumptions = h("details", "detail-fold scenario-assumptions");
-  assumptions.append(h("summary", "", "Adjust assumptions"), form);
-  card.append(out, h("p", "", `Beyond the yard: ${beyondYard(pair).join(" ")}`), assumptions);
+  const assumptions = h("section", "scenario-assumptions");
+  assumptions.append(h("h4", "", "Enter your planning inputs"), h("p", "muted-note", "Start here: replace the example values with your expected yard needs. Size, lease rate and road length are not supplied by the project filings. Months start from inferred planning overlap. MISO and USDA provide reference rates, which may differ from local costs. Results update as you edit."), form);
+  card.append(assumptions, h("h4", "", "Scenario based on the inputs above"), out, h("p", "", `Beyond the yard: ${beyondYard(pair).join(" ")}`));
   const src = h("p", "muted-note"); src.append(document.createTextNode("Cost basis: "), link(YARD_BASIS.matsPerAcre.url, "MISO MTEP24 cost guide, p. 19 (mats)"), document.createTextNode(" · "), link(YARD_BASIS.roadPerMile.url, "p. 23 (access road)"), document.createTextNode(" · "), link(YARD_BASIS.landPerAcre.url, `USDA Land Values 2026, p. 15 (pasture: GA ${money(YARD_BASIS.landPerAcre.GA)}, SC ${money(YARD_BASIS.landPerAcre.SC)}/ac)`));
   card.append(src, h("p", "muted-note", "Proximity alone can't establish that land or equipment can be shared. This assumes a usable site between the projects, both schedules holding, and both utilities agreeing. It is a reason to make a call, not a budget."));
   return card;
@@ -1276,7 +1323,7 @@ try {
   const response = await fetch("data/projects.json");
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
   state.data = await response.json();
-  state.projects = state.data.projects;
+  state.projects = applyLocationEdits(state.data.projects, locationEdits);
   state.sameStations = sameStationProjects(state.projects);
   state.asOf = state.data.generated;
   if (!/^\d{4}-\d{2}-\d{2}$/.test(state.asOf ?? "")) throw new Error("Dataset is missing a valid as-of date");
