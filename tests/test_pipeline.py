@@ -56,6 +56,20 @@ class StationExtractionTests(unittest.TestCase):
         self.assertEqual(norm_name("O'Hara Substation"), norm_name("OHARA"))
         self.assertEqual(norm_name("Saluda Hydroelectric Plant"), norm_name("Saluda Hydro"))
 
+    def test_a_parser_can_name_the_stations_and_overrides_still_win(self):
+        rec = record("Reconductor Purrysburg - Mcintosh 230 kV tie lines", uid="SCPSA:RECONDUCTOR-PURRYSBURG-MCINTOSH-TIE-LINES", state="SC")
+        rec["endpoint_names"] = ["Purrysburg", "McIntosh"]
+        self.assertEqual(geocode.endpoint_names(rec), ["Purrysburg", "McIntosh"])
+        ov = {"endpoints": {"SCPSA:RECONDUCTOR-PURRYSBURG-MCINTOSH-TIE-LINES": ["McIntosh"]}, "points": {}}
+        with patch.object(geocode, "OVERRIDES", ov):
+            self.assertEqual(geocode.endpoint_names(rec), ["McIntosh"])
+
+    def test_override_keys(self):
+        from common import override_key
+        self.assertEqual(override_key({"uid": "DESC:6809M:19"}), "DESC:6809M")
+        self.assertEqual(override_key({"uid": "GA:21275"}), "GA:21275")
+        self.assertEqual(override_key({"uid": "SCPSA:BLUFFTON-IMPROVEMENTS"}), "SCPSA:BLUFFTON-IMPROVEMENTS")
+
     def test_fuzzy_matching_cannot_swap_directions(self):
         osm = geocode.OSMIndex.__new__(geocode.OSMIndex)
         osm.items = [{"norm": "west villa rica", "name": "West Villa Rica Substation", "lat": 33, "lon": -84}]
@@ -80,6 +94,29 @@ class GeocodingEvidenceTests(unittest.TestCase):
         with patch.object(geocode, "OVERRIDES", ov):
             eps = geocode.geocode_project(record("Example"), Mock(), {}, allow_network=False)
         self.assertEqual((eps[0]["confidence"], eps[0]["radiusMi"]), ("medium", 2))
+
+    def test_a_station_of_the_other_south_carolina_utility_is_kept_at_medium_confidence(self):
+        osm = osm_items(("Bluffton Substation", 32.235, -80.8534))
+        osm.items[0]["operator"] = "South Carolina Electric & Gas"
+        rec = record("Bluffton Station Improvements", uid="SCPSA:BLUFFTON-IMPROVEMENTS", state="SC")
+        rec.update(utility="SCPSA", endpoint_names=["Bluffton"])
+        (ep,) = geocode.geocode_project(rec, osm, {}, allow_network=False)
+        self.assertEqual((ep["method"], ep["confidence"], ep["radiusMi"]), ("osm-exact", "medium", 1.5))
+        self.assertIn("another utility's station", ep["evidence"])
+        rec.update(utility="DESC", uid="DESC:1:1")   # DESC's own station stays high
+        (ep,) = geocode.geocode_project(rec, osm, {}, allow_network=False)
+        self.assertEqual(ep["confidence"], "high")
+        refs = {"SC:bluffton": {"lat": 32.235, "lon": -80.8534, "utility": "DESC"}}   # the sponsor's workbook: DESC stations
+        rec.update(utility="SCPSA", uid="SCPSA:BLUFFTON-IMPROVEMENTS")
+        (ep,) = geocode.geocode_project(rec, osm, refs, allow_network=False)
+        self.assertEqual((ep["method"], ep["confidence"]), ("reference", "medium"))
+        self.assertIn("DESC's station of this name", ep["evidence"])
+
+    def test_a_tie_to_a_georgia_plant_is_not_an_owner_mismatch(self):
+        rec = {"state": "SC", "utility": "SCPSA"}
+        self.assertIsNone(geocode.other_sc_owner(rec, {"operator": "Georgia Power"}))
+        self.assertIsNone(geocode.other_sc_owner(rec, {"operator": ""}))
+        self.assertEqual(geocode.other_sc_owner(rec, {"operator": "Duke Energy Progress"}), "Duke Energy Progress")
 
     def test_invalid_manual_uncertainty_is_rejected(self):
         ov = {"endpoints": {}, "points": {"GA:example": {"lat": 33, "lon": -84, "why": "test", "confidence": "certain", "radiusMi": -1}}}
@@ -203,6 +240,11 @@ class IdentityTests(unittest.TestCase):
         self.assertEqual([r["app_id"] for r in recs], ["DESC-6809M-19", "DESC-6809M-48", "DESC-6888", "GA-99999"])
         self.assertEqual(recs[0]["legacy_id"], "DESC-6809M")
         self.assertNotIn("legacy_id", recs[2])
+
+    def test_santee_cooper_ids_come_from_the_title_key(self):
+        recs = [record(uid="SCPSA:BLUFFTON-IMPROVEMENTS", state="SC"), record(uid="DESC:6888:41", state="SC")]
+        build.assign_app_ids(recs)
+        self.assertEqual([r["app_id"] for r in recs], ["SCPSA-BLUFFTON-IMPROVEMENTS", "DESC-6888"])
 
     def test_unresolvable_duplicate_records_fail_the_build(self):
         with self.assertRaises(ValueError):

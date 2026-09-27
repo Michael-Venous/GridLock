@@ -2,7 +2,7 @@
 const normalized = value => String(value ?? '').toLowerCase().replace(/[^a-z0-9]/g, '');
 export function matchesProject(project, query) {
   const q = normalized(query);
-  return !q || [project.id, project.projectId, project.name, project.utility, ...(project.endpoints ?? []).map(e => e.name)].some(value => normalized(value).includes(q));
+  return !q || [project.id, project.projectId, project.name, project.utility, project.owner, ...(project.endpoints ?? []).map(e => e.name)].some(value => normalized(value).includes(q));
 }
 export function withinDistance(pair, distance) {
   const minDistance = pair.qualifies ? pair.miles : Math.max(0, pair.miles - (pair.a.radiusMi ?? 0) - (pair.b.radiusMi ?? 0));
@@ -14,6 +14,7 @@ export function encodeView(state, defaults) {
   if (state.distance !== defaults.distance) p.set('distance', state.distance);
   if (state.year !== defaults.year) p.set('year', state.year);
   if (state.gap !== defaults.gap) p.set('timing', state.gap);
+  if (state.scUtility && state.scUtility !== defaults.scUtility) p.set('sc', state.scUtility);
   if (!state.hidePast) p.set('past', '1');
   if (state.includePossible) p.set('possible', '1');
   if (state.sort !== 'score') p.set('sort', state.sort);
@@ -33,6 +34,7 @@ export function decodeView(hash, {defaults, minYear, maxYear, sortKeys}) {
     search: (p.get('q') ?? '').trim().toLowerCase().slice(0, 200),
     distance: bounded('distance', 1, 25, defaults.distance), year: bounded('year', minYear, maxYear, defaults.year),
     gap: ['all','ahead','overlap','365','730'].includes(p.get('timing')) ? p.get('timing') : defaults.gap,
+    scUtility: ['DESC','SCPSA'].includes(p.get('sc')) ? p.get('sc') : defaults.scUtility,
     hidePast: p.get('past') !== '1', includePossible: p.get('possible') === '1',
     sort: sortKeys.includes(p.get('sort')) ? p.get('sort') : 'score',
     selectedProject: p.get('project'), selectedPair: p.get('pair'),

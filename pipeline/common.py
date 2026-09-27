@@ -122,6 +122,12 @@ def norm_name(s):
     return re.sub(r"\s+", " ", s).strip()
 
 
+def override_key(rec):
+    """A project's key in overrides.json: DESC:<Project ID> for DESC (its uid adds the item number, since DESC
+    reuses IDs), GA:<TEAMS> for Georgia, SCPSA:<title key> for Santee Cooper."""
+    return rec["uid"].rsplit(":", 1)[0] if rec["uid"].startswith("DESC:") else rec["uid"]
+
+
 def dump(obj, path):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(obj, indent=1, default=str))

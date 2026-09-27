@@ -19,7 +19,7 @@ import time
 import urllib.parse
 import urllib.request
 
-from common import CACHE, ROOT, haversine_mi, load, norm_name, xy_mi
+from common import CACHE, ROOT, haversine_mi, load, norm_name, override_key, xy_mi
 
 OVERRIDES = load(ROOT / "data" / "overrides.json")
 RADIUS = {"manual": 0.5, "reference": 0.5, "osm-exact": 0.5, "osm-partial": 1.5, "town": 6.0}
@@ -81,9 +81,11 @@ def on_state_side(state, lat, lon):
 
 
 def endpoint_names(rec):
-    ov = OVERRIDES["endpoints"].get(rec["uid"].rsplit(":", 1)[0] if rec["state"] == "SC" else rec["uid"])
+    ov = OVERRIDES["endpoints"].get(override_key(rec))
     if ov is not None:
         return ov
+    if rec.get("endpoint_names") is not None:   # a parser that knows its filing's title format names the stations
+        return list(rec["endpoint_names"])
     name = rec["name"]
     if rec["state"] != "SC":
         name = re.sub(r"^(SAV|GTC|MEAG|DU|SPC|GRID)\s*[:\-]\s*", "", name, flags=re.I)
@@ -106,6 +108,21 @@ def endpoint_names(rec):
         if len(part) > 1:
             parts.append(part)
     return parts[:3]
+
+
+# A South Carolina town can have a DESC and a Santee Cooper station of the same name (Bluffton has both). A station
+# OSM tags with another South Carolina owner is kept, but at medium confidence, since it may be that owner's yard.
+SC_OWNERS = {"DESC": re.compile(r"dominion|sce&g|south carolina (?:electric|gas|generating)|scana", re.I),
+             "SCPSA": re.compile(r"santee cooper|public service authority|scpsa", re.I)}
+SC_UTILITY = re.compile(r"dominion|sce&g|south carolina|scana|santee|public service authority|duke|progress", re.I)
+
+
+def other_sc_owner(rec, cand):
+    """The OSM operator tag when it names a different South Carolina utility than the project's, else None."""
+    own, op = SC_OWNERS.get(rec.get("utility")), cand.get("operator") or ""
+    if rec["state"] != "SC" or not own or not op or own.search(op) or not SC_UTILITY.search(op):
+        return None
+    return op
 
 
 def compatible_directions(a, b):
@@ -273,7 +290,13 @@ def geocode_project(rec, osm, reference_points, anchor=None, allow_network=True)
         if sp and anchor and haversine_mi(sp["lat"], sp["lon"], anchor["lat"], anchor["lon"]) > FAR_MI:
             sp = None   # same name, different place (e.g. the Augusta-area Goshen vs Goshen (SAV))
         if sp:
-            resolved.append({"name": n, "cands": [[sp]], "method": "reference", "evidence": "Projects_Overlaps.xlsx (reference dataset)"})
+            ref = {"name": n, "cands": [[sp]], "method": "reference", "evidence": "Projects_Overlaps.xlsx (reference dataset)"}
+            owner = sp.get("utility")
+            if rec["state"] == "SC" and owner and rec.get("utility") and owner != rec["utility"]:
+                # the workbook's South Carolina stations are DESC's; another owner's station of the same name may differ
+                ref.update(confidence="medium", radiusMi=RADIUS["osm-partial"],
+                           evidence=f"Projects_Overlaps.xlsx (reference dataset) gives this point for {owner}'s station of this name; it may be another utility's station")
+            resolved.append(ref)
             continue
         cands, method = osm.find(n, rec["state"])
         if cands:
@@ -331,8 +354,14 @@ def geocode_project(rec, osm, reference_points, anchor=None, allow_network=True)
         g = r["cands"][choice[i]]
         c = g[0]
         conf, method = r.get("confidence", CONF[r["method"]]), r["method"]
+        radius = r.get("radiusMi", RADIUS[method])
         note = r["evidence"] or ("Nominatim: " + c["label"] if method == "town" else
                                 f"OSM {', '.join(sorted({x['osm'] + ' ' + repr(x['name']) for x in g})[:2])}")
+        other = other_sc_owner(rec, c) if method.startswith("osm") else None
+        if other:
+            conf = "medium" if conf == "high" else conf
+            radius = max(radius, RADIUS["osm-partial"])
+            note += f"; OSM tags its operator {other!r}, so it may be another utility's station of the same name"
         if len(r["cands"]) > 1:
             alts = [x[0] for k, x in enumerate(r["cands"]) if k != choice[i]]
             far = max(haversine_mi(c["lat"], c["lon"], a["lat"], a["lon"]) for a in alts)
@@ -341,5 +370,5 @@ def geocode_project(rec, osm, reference_points, anchor=None, allow_network=True)
             note += f"; {len(r['cands'])} places share this name (next one {far:.0f} mi away)" + (
                 "; picked the one nearest the other endpoint(s)" + (" and the planning zone" if anchor else "") if disambiguated else "")
         endpoints.append({"name": r["name"], "point": {"lat": round(c["lat"], 6), "lon": round(c["lon"], 6)}, "method": method,
-                          "confidence": conf, "radiusMi": r.get("radiusMi", RADIUS[method]), "evidence": note})
+                          "confidence": conf, "radiusMi": radius, "evidence": note})
     return endpoints

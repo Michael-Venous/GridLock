@@ -3,11 +3,13 @@
 Filings (data/filings.json) are replayed in date order. Before each new edition, the state is the latest
 edition of each utility; after it, the new edition replaces its utility's old one. The difference is an event:
 projects added, dropped (with the reason the filing gives, if any), rescheduled, renamed or re-costed, and
-qualifying pairs (the challenge's rule: centers under 25 miles) that appeared, went away or changed timing.
+qualifying pairs (the challenge's rule: centers under 25 miles between a South Carolina project and a Georgia
+one) that appeared, went away or changed timing.
 
 Projects are matched across editions on their ID. DESC reuses IDs, so a DESC match also needs a similar name;
 an ID kept with a different name, and nothing else carrying it, is reported as renamed. Georgia's TEAMS
-numbers are unique, so a Georgia match is on the number alone.
+numbers are unique, so a Georgia match is on the number alone. Santee Cooper publishes no IDs, so its projects
+are keyed by title: a retitled project shows as dropped and added.
 """
 import datetime as dt
 import difflib
@@ -69,11 +71,12 @@ def points(r):
 
 
 def app_id(r):
-    return f"DESC-{r['key']}" if r["state"] == "SC" else f"GA-{r['key']}"
+    """The app's id for a record: DESC-<ID>, SCPSA-<title key> or GA-<TEAMS>."""
+    return f"{r['uid'].split(':')[0]}-{r['key']}"
 
 
 def brief(r):
-    return {"lineage": r["lineage"], "key": r["key"], "projectId": r["project_id"], "name": r["name"], "state": r["state"], "utility": r["utility"],
+    return {"lineage": r["lineage"], "uid": r["uid"], "key": r["key"], "projectId": r["project_id"], "name": r["name"], "state": r["state"], "utility": r["utility"],
             "isd": r["isd"], "center": r.get("center"), "radiusMi": r.get("radiusMi"), "points": points(r), "source": r["source"]}
 
 
@@ -148,7 +151,12 @@ def qualifying(desc, ga):
 
 
 def pair_side(r):
-    return {"key": r["key"], "projectId": r["project_id"], "name": r["name"], "isd": r["isd"], "center": r["center"]}
+    return {"key": r["key"], "appId": app_id(r), "utility": r["utility"], "projectId": r["project_id"], "name": r["name"], "isd": r["isd"], "center": r["center"]}
+
+
+def label(c):
+    """A project as the change log names it: its printed ID, or for Santee Cooper (no IDs) its row in the list."""
+    return f"Santee Cooper {c['projectId'].lower()}" if c.get("utility") == "SCPSA" else c["projectId"]
 
 
 def pair_changes(before, after, changed_projects):
@@ -160,7 +168,7 @@ def pair_changes(before, after, changed_projects):
                  "points": points(p["desc"]) + points(p["ga"])}
         if not q:
             src = [x for x in (why.get(p["desc"]["lineage"]), why.get(p["ga"]["lineage"])) if x and x["kind"] == "added"]
-            entry["reason"] = f"{src[0]['projectId']} is new" if src else "a project's date or location changed"
+            entry["reason"] = f"{label(src[0])} is new" if src else "a project's date or location changed"
             out.append({"kind": "new", **entry})
         elif q["gap"] is not None and p["gap"] is not None and abs(q["gap"] - p["gap"]) >= TIMING_DAYS:
             out.append({"kind": "timing", **entry, "oldGapDays": q["gap"]})
@@ -170,27 +178,32 @@ def pair_changes(before, after, changed_projects):
         entry = {"desc": pair_side(q["desc"]), "ga": pair_side(q["ga"]), "miles": round(q["miles"], 2), "gapDays": q["gap"],
                  "points": points(q["desc"]) + points(q["ga"])}
         gone = [x for x in (why.get(q["desc"]["lineage"]), why.get(q["ga"]["lineage"])) if x and x["kind"] == "removed"]
-        entry["reason"] = f"{gone[0]['projectId']} was dropped" if gone else "a project's name, date or location changed"
+        entry["reason"] = f"{label(gone[0])} was dropped" if gone else "a project's name, date or location changed"
         out.append({"kind": "gone", **entry})
     return out
 
 
 def events(filings, editions, removed_tables):
     """editions: {filing id: located records}; removed_tables: {filing id: Table 3/4 dict} (Georgia only)."""
-    for st in ("SC", "GA"):
-        assign_lineage([editions[f["id"]] for f in filings if f["state"] == st], st)
-    state, out = {}, []
+    by_utility = {}
     for f in filings:
-        prev = state.get(f["state"])
-        before = dict(state)
-        state[f["state"]] = f
+        by_utility.setdefault(f["utility"], []).append(f)
+    for fs in by_utility.values():
+        assign_lineage([editions[f["id"]] for f in fs], fs[0]["state"])
+    latest, out = {}, []
+    # every project in the latest edition of each of a state's utilities
+    side = lambda snapshot, st: [r for f in snapshot.values() if f["state"] == st for r in editions[f["id"]]]
+    for f in filings:
+        prev = latest.get(f["utility"])
+        before = dict(latest)
+        latest[f["utility"]] = f
         if not prev:
             continue
         changed = project_changes(editions[prev["id"]], editions[f["id"]], f["state"], f, removed_tables.get(f["id"], {}))
-        pairs = {}
-        if before.get("SC") and before.get("GA"):
-            b = qualifying(editions[before["SC"]["id"]], editions[before["GA"]["id"]])
-            a = qualifying(editions[state["SC"]["id"]], editions[state["GA"]["id"]])
+        pairs = []
+        if side(before, "SC") and side(before, "GA"):
+            b = qualifying(side(before, "SC"), side(before, "GA"))
+            a = qualifying(side(latest, "SC"), side(latest, "GA"))
             pairs = pair_changes(b, a, changed)
         counts = {"added": sum(1 for c in changed if c["kind"] == "added"), "removed": sum(1 for c in changed if c["kind"] == "removed"),
                   "rescheduled": sum(1 for c in changed if c["kind"] == "changed" and "date" in c["what"]),

@@ -47,9 +47,11 @@ test("rings close, and day shifts read in months", () => {
   assert.equal(daysLabel(10), "10 d later");
 });
 
-test("the shipped change log has the three known filings and consistent counts", () => {
+test("the shipped change log has the five known new editions and consistent counts", () => {
   const log = JSON.parse(readFileSync(new URL("../data/changes.json", import.meta.url)));
-  assert.deepEqual(log.events.map(e => e.id), ["desc-2026-2030", "ga-2026-2035", "desc-2025-2029"]);
+  // Each utility's first edition is a baseline; Santee Cooper's lists are compared with Santee Cooper's.
+  assert.deepEqual(log.events.map(e => e.id), ["desc-2026-2030", "santee-2026-2030", "ga-2026-2035", "santee-2025-2029", "desc-2025-2029"]);
+  for (const e of log.events) assert.equal(e.previous.id.split("-")[0], e.id.split("-")[0], e.id);
   for (const e of log.events) {
     const c = countByKind(changeItems(e));
     assert.equal(c.added, e.counts.added, e.id);

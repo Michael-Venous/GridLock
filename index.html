@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#ffffff">
-  <meta name="description" content="Finds planned DESC and Georgia ITS transmission projects within 25 miles of each other across the Savannah River, from public filings.">
+  <meta name="description" content="Finds planned South Carolina (DESC, Santee Cooper) and Georgia ITS transmission projects within 25 miles of each other across the Savannah River, from public filings.">
   <title>Gridlock | Savannah River coordination</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,6 +45,7 @@
             <label class="range">In service by <strong id="year-value">2035</strong><input id="year" type="range" min="2025" max="2035" value="2035" title="Both projects must have a target year on or before this year."></label>
             <label class="range">Max distance <strong id="distance-value">25 mi</strong><input id="distance" type="range" min="1" max="25" value="25"></label>
             <label class="select">Timing<select id="gap"><option value="all">Any timing</option><option value="ahead">Planning overlap after data date</option><option value="overlap">Planning overlap, any time</option><option value="365">In service within 1 year</option><option value="730">In service within 2 years</option></select></label>
+            <label class="select">South Carolina utility<select id="sc-utility"><option value="all">DESC and Santee Cooper</option><option value="DESC">DESC only</option><option value="SCPSA">Santee Cooper only</option></select></label>
             <label class="select">Ground at the sites<select id="ground"><option value="all">Any</option><option value="flood">Flood area mapped at a site</option><option value="habitat">Critical habitat mapped at a site</option><option value="protected">Protected land mapped at a site</option><option value="clear">Checked, none of those mapped</option><option value="unchecked">Not checked (no station-level location)</option></select></label>
             <label class="check"><input id="hide-past" type="checkbox" checked> Hide pairs where both target dates have passed</label>
             <label class="check"><input id="possible" type="checkbox"> Include pairs that could qualify within location uncertainty</label>
@@ -77,7 +78,7 @@
         </div>
         <div class="map-controls" role="group" aria-label="Map view"><button id="zoom-in" type="button" aria-label="Zoom in" title="Zoom in">+</button><button id="zoom-out" type="button" aria-label="Zoom out" title="Zoom out">−</button><button id="fit" type="button" aria-label="Fit the border region" title="Fit the border region"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"/></svg></button><button id="fit-all" type="button" aria-label="Show both states" title="Show both states"><svg aria-hidden="true" viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.5"/><path d="M8 1v3M8 12v3M1 8h3M12 8h3"/></svg></button></div>
         <div class="map-legend">
-          <span><i class="dot desc"></i>DESC, South Carolina<b id="desc-count">0</b></span>
+          <span><i class="dot desc"></i>DESC and Santee Cooper, SC<b id="desc-count">0</b></span>
           <span><i class="dot gpc"></i>Georgia ITS<b id="gpc-count">0</b></span>
           <span><i class="swatch link"></i>Qualifying pair, straight link</span>
           <span data-kind="route-inferred" hidden><i class="swatch route dashed"></i>Traced on OSM lines, circuit unverified</span>
@@ -95,7 +96,7 @@
         <div id="changes-map" role="region" aria-label="Map of changes in the selected filing"></div>
         <div id="draw-bar" class="draw-bar" hidden></div>
         <div class="map-legend changes-legend">
-          <span><i class="dot desc"></i>DESC change</span>
+          <span><i class="dot desc"></i>South Carolina change</span>
           <span><i class="dot gpc"></i>Georgia ITS change</span>
           <span><i class="dot hollow"></i>Dropped project</span>
           <span><i class="swatch link"></i>Pair appeared or changed</span>

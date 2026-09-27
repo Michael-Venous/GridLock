@@ -16,7 +16,8 @@ import environment
 import fetch
 import parse_desc
 import parse_ga
-from common import ROOT, dump, filings, haversine_mi, load, midpoint, norm_name
+import parse_santee
+from common import ROOT, dump, filings, haversine_mi, load, midpoint, norm_name, override_key
 from geocode import DESC_RADIUS_MIN, OSMIndex, described_stations, geocode_project
 from lines import Grid
 
@@ -32,8 +33,8 @@ HOST_LINE = _ov.get("host_line", {})   # projects placed on the line they tap: i
 
 
 def ov_key(r):
-    """The key a project goes by in overrides.json: DESC:<ProjectID without spaces> or GA:<TEAMS>."""
-    return r["uid"].rsplit(":", 1)[0] if r["state"] == "SC" else r["uid"]
+    """The key a project goes by in overrides.json: DESC:<ProjectID without spaces>, GA:<TEAMS> or SCPSA:<title key>."""
+    return override_key(r)
 
 
 def reference_points():
@@ -48,7 +49,7 @@ def reference_points():
                 d = haversine_mi(pts[k]["lat"], pts[k]["lon"], e["point"]["lat"], e["point"]["lon"])
                 issues.append(f"Starter workbook gives two coordinates for {e['name']!r} ({d:.2f} mi apart); the first is used")
                 continue
-            pts.setdefault(k, dict(e["point"]))
+            pts.setdefault(k, {**e["point"], "utility": p["utility"]})
     return pts, issues
 
 
@@ -245,7 +246,7 @@ def assign_app_ids(recs):
     records with a reused printed ID remain separately selectable. legacyId is
     only present on changed records; ambiguous old saved links must not guess.
     """
-    legacy = ["DESC-" + r["key"] if r["state"] == "SC" else r["uid"].replace(":", "-") for r in recs]
+    legacy = ["DESC-" + r["key"] if r["uid"].startswith("DESC:") else r["uid"].replace(":", "-") for r in recs]
     counts = Counter(legacy)
     for r, old in zip(recs, legacy):
         r["app_id"] = r["uid"].replace(":", "-") if counts[old] > 1 else old
@@ -283,45 +284,52 @@ def main():
     if not offline:
         fetch.main()
     registry = filings()
-    cur_desc, cur_ga = filings("desc")[-1], filings("ga")[-1]
+    cur_desc, cur_santee, cur_ga = filings("desc")[-1], filings("santee")[-1], filings("ga")[-1]
     desc_eds = parse_desc.main()
+    santee_eds = parse_santee.main()
     ga_eds = parse_ga.main()
     desc = desc_eds[cur_desc["edition"]]
+    santee, santee_notes = santee_eds[cur_santee["edition"]]
     ga, removed = ga_eds[cur_ga["edition"]]
     slip_history(desc, {k: v for k, v in sorted(desc_eds.items()) if k != cur_desc["edition"]})
+    # Santee Cooper publishes no IDs; its projects are keyed by title, so a matching key is a matching title
+    slip_history(santee, {k: v[0] for k, v in sorted(santee_eds.items()) if k != cur_santee["edition"]}, need_name=False)
     slip_history(ga, {k: v[0] for k, v in sorted(ga_eds.items()) if k != cur_ga["edition"]}, need_name=False)
-    dq_global = id_collisions(desc)
+    dq_global = id_collisions(desc) + santee_notes
 
     osm, grid = OSMIndex(), Grid()
     refs, ref_issues = reference_points()
     dq_global += ref_issues
     locate(desc, osm, refs, grid, offline=offline)
+    locate(santee, osm, refs, grid, offline=offline)
     locate(ga, osm, refs, grid, offline=offline)
     anchors = zone_anchors(ga)
     locate(ga, osm, refs, grid, anchors=anchors, offline=offline)   # second pass: zone-aware disambiguation
     unplace_zone_outliers(ga)
 
-    for r in desc + ga:
+    for r in desc + santee + ga:
         if r["isd"] and dt.date.fromisoformat(r["isd"]) < TODAY:
-            r["issues"].append({"level": "info", "msg": f"in-service date {r['isd']} has passed; status in source is {r['status']!r}"})
+            said = f"status in source is {r['status']!r}" if r["status"] else "the source gives no status"
+            r["issues"].append({"level": "info", "msg": f"in-service date {r['isd']} has passed; {said}"})
         for e in r["endpoints"]:
             if not e["point"]:
                 r["issues"].append({"level": "warn", "msg": f"endpoint {e['name']!r} could not be located"})
             elif e["confidence"] in ("ambiguous", "low"):
                 r["issues"].append({"level": "info", "msg": f"endpoint {e['name']!r} located with {e['confidence']} confidence ({e['method']})"})
 
-    assign_app_ids(desc + ga)
-    environment.check(desc + ga, offline=offline)
+    assign_app_ids(desc + santee + ga)
+    environment.check(desc + santee + ga, offline=offline)
     environment.regional_layers(offline=offline)
 
     # Older editions, for the change log: reuse each project's current location, place only the ones that are gone.
-    editions = {f["id"]: (desc_eds[f["edition"]] if f["parser"] == "desc" else ga_eds[f["edition"]][0]) for f in registry}
-    for st, parser in (("SC", "desc"), ("GA", "ga")):
+    parsed = {"desc": desc_eds, "santee": {k: v[0] for k, v in santee_eds.items()}, "ga": {k: v[0] for k, v in ga_eds.items()}}
+    editions = {f["id"]: parsed[f["parser"]][f["edition"]] for f in registry}
+    for st, parser in (("SC", "desc"), ("SC", "santee"), ("GA", "ga")):
         changes.assign_lineage([editions[f["id"]] for f in filings(parser)], st)
-    here = {r["lineage"]: r for r in desc + ga}
+    here = {r["lineage"]: r for r in desc + santee + ga}
     for f in registry:
         recs = editions[f["id"]]
-        if recs is desc or recs is ga:
+        if recs is desc or recs is santee or recs is ga:
             continue
         gone = []
         for r in recs:
@@ -334,16 +342,17 @@ def main():
         locate(gone, osm, refs, None, anchors=anchors if f["parser"] == "ga" else None, offline=offline)
         if f["parser"] == "ga":
             unplace_zone_outliers(gone)
-    changes.write(registry, editions, {f["id"]: ga_eds[f["edition"]][1] for f in filings("ga")}, {to_app(r)["id"] for r in desc + ga})
+    changes.write(registry, editions, {f["id"]: ga_eds[f["edition"]][1] for f in filings("ga")}, {to_app(r)["id"] for r in desc + santee + ga})
 
-    projects = [to_app(r) for r in desc + ga]
+    projects = [to_app(r) for r in desc + santee + ga]
     out = {
         "generated": TODAY.isoformat(),
         "sources": [
             {"id": "desc", "title": cur_desc["title"], "url": cur_desc["url"], "projects": len(desc)},
+            {"id": "santee", "title": cur_santee["title"], "url": cur_santee["url"], "projects": len(santee)},
             {"id": "ga", "title": cur_ga["title"], "url": cur_ga["url"], "projects": len(ga)},
             *[{"id": f["id"], "title": f"{f['title']} (earlier edition: schedule history and the change log)", "url": f["url"]}
-              for f in registry if f not in (cur_desc, cur_ga)],
+              for f in registry if f not in (cur_desc, cur_santee, cur_ga)],
             {"id": "osm", "title": "OpenStreetMap substations, plants and power lines (Overpass, 2026-09-26)", "url": "https://www.openstreetmap.org/copyright"},
         ],
         "environmentSources": environment.SOURCES,

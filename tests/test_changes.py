@@ -64,6 +64,24 @@ class Events(unittest.TestCase):
         self.assertEqual(ev["counts"]["pairsNew"], 1)
         self.assertNotIn("1", {p["desc"]["key"] for p in ev["pairs"]})   # Columbia is over 25 mi from everything
 
+    def test_a_second_south_carolina_utility_does_not_replace_desc(self):
+        filings = self.filings + [
+            {"id": "s1", "state": "SC", "utility": "Santee Cooper", "title": "S1", "date": "2026-03-11", "dateBasis": "x", "url": "u4"},
+            {"id": "d2", "state": "SC", "utility": "DESC", "title": "D2", "date": "2026-04-28", "dateBasis": "x", "url": "u5"},
+        ]
+        santee = rec("SC", "PURRYSBURG-IMPROVEMENTS", "Purrysburg Station Improvements", isd="2027-06-01", center=OKATIE)
+        santee.update(uid="SCPSA:PURRYSBURG-IMPROVEMENTS", utility="SCPSA", project_id="Row 6")
+        editions = dict(self.editions, s1=[santee], d2=self.editions["d1"])
+        evs = {e["id"]: e for e in changes.events(filings, editions, self.removed)}
+        self.assertNotIn("s1", evs)             # Santee Cooper's first edition is its baseline
+        self.assertEqual(evs["d2"]["counts"]["added"], 0)   # DESC compared with DESC, not with Santee Cooper
+        self.assertEqual(evs["d2"]["counts"]["removed"], 0)
+
+    def test_pair_sides_carry_the_app_id(self):
+        (ev,) = changes.events(self.filings, self.editions, self.removed)
+        pair = next(p for p in ev["pairs"] if p["kind"] == "new")
+        self.assertEqual((pair["desc"]["appId"], pair["ga"]["appId"]), ("DESC-6888", "GA-300"))
+
     def test_desc_drop_after_its_date_says_so(self):
         old = [rec("SC", "5", "Old Tap", isd="2025-04-30")]
         changes.assign_lineage([old], "SC")

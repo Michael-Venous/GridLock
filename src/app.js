@@ -8,10 +8,10 @@ import { PLANNING_FORUMS, PLANNING_TRANSITION } from "./planning-forums.js";
 const $ = id => document.getElementById(id);
 const state = {
   data: null, projects: [], allPairs: [], pairs: [], selectedProject: null, selectedPair: null, search: "", distance: 25, year: 2035,
-  gap: "all", ground: "all", hidePast: true, includePossible: false, shortlistOnly: false, sort: "score", asOf: null, detailTab: "summary",
+  gap: "all", ground: "all", scUtility: "all", hidePast: true, includePossible: false, shortlistOnly: false, sort: "score", asOf: null, detailTab: "summary",
   shortlist: new Set(), yard: { acres: 5, months: null, leaseRate: 0.10, surface: "mats", surfacePerAcre: YARD_BASIS.matsPerAcre.value, roadMiles: 0.25 },
 };
-const FILTER_DEFAULTS = { search: "", distance: 25, year: 2035, gap: "all", ground: "all", hidePast: true, includePossible: false, shortlistOnly: false };
+const FILTER_DEFAULTS = { search: "", distance: 25, year: 2035, gap: "all", ground: "all", scUtility: "all", hidePast: true, includePossible: false, shortlistOnly: false };
 const SHORTLIST_KEY = "gridlock.shortlist";
 const LAYERS_KEY = "gridlock.layers";
 function loadShortlist() { try { return new Set(JSON.parse(localStorage.getItem(SHORTLIST_KEY) ?? "[]")); } catch { return new Set(); } }
@@ -85,9 +85,13 @@ function h(tag, className = "", text = "") {
 }
 function link(href, text) { const a = h("a", "", text); a.href = href; a.target = "_blank"; a.rel = "noopener noreferrer"; return a; }
 const side = project => project.state === "SC" ? "desc" : "gpc";
-// The plan a project would pair with; names it outright since many projects sit far from the river.
-const otherPlan = project => project.state === "SC" ? "Georgia ITS" : "DESC";
-const sideName = project => project.state === "SC" ? "DESC" : project.utility === "SAV" ? "GPC · Savannah" : project.utility;
+// The plans a project would pair with; names them outright since many projects sit far from the river.
+const otherPlan = project => project.state === "SC" ? "Georgia ITS" : "South Carolina";
+const UTILITY_NAMES = { SCPSA: "Santee Cooper", SAV: "GPC · Savannah" };
+const sideName = project => UTILITY_NAMES[project.utility] ?? project.utility;
+// South Carolina's two listing utilities, for the filter.
+const SC_UTILITIES = { DESC: "DESC", SCPSA: "Santee Cooper" };
+const byScUtility = (project, choice = state.scUtility) => choice === "all" || project.state !== "SC" || project.utility === choice;
 function projectLabel(project) { return `${project.projectId} · ${project.name}`; }
 // Other projects in the same state with the same named end stations (separate filings on one line), which otherwise
 // read as duplicate pairs in the list.
@@ -125,6 +129,7 @@ const GROUND_LABELS = { flood: "Flood area mapped at a site", habitat: "Critical
 function filterPairs(f) {
   return state.allPairs.filter(pair =>
     (f.includePossible || pair.qualifies) && bySelectedYear(pair.a, f.year) && bySelectedYear(pair.b, f.year) && withinDistance(pair, f.distance) &&
+    byScUtility(pair.a, f.scUtility) &&
     (!f.hidePast || !pair.bothPast) &&
     (f.gap === "all" || (f.gap === "ahead" ? pair.remainingDays > 0 : f.gap === "overlap" ? pair.overlapDays > 0 : pair.gapDays !== null && pair.gapDays <= Number(f.gap))) &&
     groundMatches(pair, f.ground) &&
@@ -140,6 +145,7 @@ function activeFilters() {
   if (state.distance < FILTER_DEFAULTS.distance) out.push({ key: "distance", label: `Within ${state.distance} mi` });
   if (state.gap !== "all") out.push({ key: "gap", label: GAP_LABELS[state.gap] });
   if (state.ground !== "all") out.push({ key: "ground", label: GROUND_LABELS[state.ground] });
+  if (state.scUtility !== "all") out.push({ key: "scUtility", label: `South Carolina: ${SC_UTILITIES[state.scUtility]} only` });
   if (!state.hidePast) out.push({ key: "hidePast", label: "Including pairs already past both dates" });
   if (state.includePossible) out.push({ key: "includePossible", label: "Including possible (non-qualifying) pairs" });
   if (state.shortlistOnly) out.push({ key: "shortlistOnly", label: "Shortlist only" });
@@ -155,7 +161,7 @@ function clearFilter(key) {
 
 function syncControls() {
   $("search").value = state.search; $("distance").value = String(state.distance); $("year").value = String(state.year);
-  $("gap").value = state.gap; $("ground").value = state.ground; $("hide-past").checked = state.hidePast; $("possible").checked = state.includePossible;
+  $("gap").value = state.gap; $("ground").value = state.ground; $("sc-utility").value = state.scUtility; $("hide-past").checked = state.hidePast; $("possible").checked = state.includePossible;
   $("shortlist-only").checked = state.shortlistOnly; $("sort").value = state.sort;
   applyFilters();
 }
@@ -520,8 +526,10 @@ function renderMap() {
   const project = state.projects.find(p => p.id === state.selectedProject);
   const activeIds = new Set(state.pairs.flatMap(p => [p.a.id, p.b.id]));
   const focusIds = new Set(pair ? [pair.a.id, pair.b.id] : project ? [project.id] : []);
-  const visibleProjects = state.projects.filter(p => p.center && bySelectedYear(p));
+  const visibleProjects = state.projects.filter(p => p.center && bySelectedYear(p) && byScUtility(p));
   $("desc-count").textContent = String(visibleProjects.filter(p => p.state === "SC").length);
+  const scLabel = $("desc-count").previousSibling;   // the legend text before the count names the South Carolina utilities shown
+  if (scLabel?.nodeType === Node.TEXT_NODE) scLabel.textContent = state.scUtility === "all" ? "DESC and Santee Cooper, SC" : `${SC_UTILITIES[state.scUtility]}, SC`;
   $("gpc-count").textContent = String(visibleProjects.filter(p => p.state === "GA").length);
   if (!mapReady) return;
   const geometry = (pair ? [pair.a, pair.b] : project ? [project] : []).flatMap(geometryFeatures);
@@ -612,8 +620,10 @@ function sourceLink(p) { return link(pdfLink(p.source), sourceLabel(p.source)); 
 function targetDate(p) { return `${formatDate(p.inServiceDate)}${p.issues.some(i => /date/.test(i.msg) && /repaired|impossible|last day/.test(i.msg)) || (p.inServiceRaw && !p.inServiceRaw.includes(p.inServiceDate?.slice(0, 4))) ? ` (printed “${p.inServiceRaw}”)` : ""}`; }
 function statusText(p) {
   const passed = datePassed(p.inServiceDate);
+  if (!p.status) return passed ? "The filing gives no status, and the target date has passed. Current status not confirmed." : "The filing gives no status.";
   return passed ? `Filing says “${p.status}”, but the target date has passed. Current status not confirmed.` : `“${p.status}” in the filing. Not independently confirmed.`;
 }
+const statusShort = p => `${p.status ? `“${p.status}” in filing` : "No status in filing"}${datePassed(p.inServiceDate) ? "; date passed, unconfirmed" : ""}`;
 
 // Only station-level placements get imagery links; a town guess would open an unrelated street.
 const sitePlaced = e => e.point && ["high", "medium"].includes(e.confidence) && e.method !== "town";
@@ -628,7 +638,7 @@ function projectBlock(p, full = false, heading = true, foldEvidence = false) {
   block.append(infoRow("Target in service (published)", targetDate(p)));
   const st = infoRow("Current status", statusText(p)); if (datePassed(p.inServiceDate)) st.classList.add("warn-row"); block.append(st);
   if (p.window?.start) block.append(infoRow("Planning window", `${formatDate(p.window.start)} → ${formatDate(p.window.end)} (${p.window.basis})`));
-  block.append(infoRow("Cost", p.cost?.total ? `${money(p.cost.total)} (DESC estimate)` : p.state === "GA" ? "Redacted in the public filing" : "—"));
+  block.append(infoRow("Cost", p.cost?.total ? `${money(p.cost.total)} (DESC estimate)` : p.state === "GA" ? "Redacted in the public filing" : p.utility === "SCPSA" ? "Not published in Santee Cooper's list" : "—"));
   if (p.miles || p.route) block.append(infoRow("Length", `${p.miles ? `${p.miles} mi stated` : "not stated"}${p.route ? ` · ${p.route.miles} mi inferred OSM path (circuit unverified)` : ""}`));
   if (p.slipDays) block.append(infoRow("Schedule history", `${p.slipDays > 0 ? "slipped" : "advanced"} ${Math.abs(Math.round(p.slipDays / 30.44))} months since ${p.history[0].edition}`));
   else if (p.change && p.state === "GA") block.append(infoRow("Change vs last plan", p.change));
@@ -688,7 +698,7 @@ function summaryRationale(pair) {
 function toConfirm(pair, compact = false) {
   const out = [];
   for (const p of [pair.a, pair.b]) {
-    if (datePassed(p.inServiceDate)) out.push(`${sideName(p)} ${p.projectId}: target date ${formatDate(p.inServiceDate)} has passed while the filing still says “${p.status}”. Is it built, delayed or dropped?`);
+    if (datePassed(p.inServiceDate)) out.push(`${sideName(p)} ${p.projectId}: target date ${formatDate(p.inServiceDate)} has passed while the filing still ${p.status ? `says “${p.status}”` : "lists it"}. Is it built, delayed or dropped?`);
     if (p.slipDays > 0) out.push(`${sideName(p)} ${p.projectId} has slipped ${Math.round(p.slipDays / 30.44)} months since ${p.history[0].edition}. Is the current date firm?`);
     if (p.locatedBy === "description") out.push(`${sideName(p)} ${p.projectId}: placed only near the stations its description names (${describedNames(p)}). Where is the project's own station?`);
     for (const e of p.endpoints) {
@@ -802,7 +812,7 @@ function yardCard(pair) {
     const ground = groundCostNote(pair);
     if (ground) ul.append(h("li", "", ground));
     const est = savingsEstimate(pair, { benchmarkPerMile: state.data.costBenchmark.perMile });
-    if (est && sc.active) ul.append(h("li", "", `For scale: the smaller project costs about ${money(Math.min(est.costA, est.costB))}${est.aEstimated || est.bEstimated ? " (Georgia side estimated from DESC's median $/mi)" : " (published)"}; the high end is ${((sc.high / Math.min(est.costA, est.costB)) * 100).toFixed(1)}% of it.`));
+    if (est && sc.active) ul.append(h("li", "", `For scale: the smaller project costs about ${money(Math.min(est.costA, est.costB))}${est.aEstimated || est.bEstimated ? ` (${[est.aEstimated && sideName(pair.a), est.bEstimated && sideName(pair.b)].filter(Boolean).join(" and ")} estimated from DESC's median $/mi)` : " (published)"}; the high end is ${((sc.high / Math.min(est.costA, est.costB)) * 100).toFixed(1)}% of it.`));
     out.append(ul);
     if (!sc.active) out.append(h("p", "", `Scenario unavailable: ${sc.reason}`));
   }
@@ -821,7 +831,7 @@ function compareTable(pair) {
   const rows = [
     ["Type", p => projectType(p)],
     ["Target in service", p => targetDate(p)],
-    ["Status", p => datePassed(p.inServiceDate) ? `“${p.status}” in filing; date passed, unconfirmed` : `“${p.status}” in filing`],
+    ["Status", p => statusShort(p)],
     ["Planning window", p => p.window?.start ? `${formatDate(p.window.start)} → ${formatDate(p.window.end)}` : "unknown"],
     ["Location", p => `${p.locationConfidence}, ±${p.radiusMi} mi · ${centerMethod(p).split(" (")[0].split(";")[0]}`],
     ["Source", p => sourceLink(p)],
@@ -973,7 +983,7 @@ function scoreBlock(pair) {
 function landing() {
   const box = h("div", "landing");
   box.append(h("h2", "", "Savannah River transmission coordination"),
-    h("p", "lead", `Every planned project in DESC’s 2026–2030 list and Georgia ITS’s 2026–2035 plan, each DESC project paired with each Georgia project when their centers are under ${MAX_MILES} miles apart.`),
+    h("p", "lead", `Every planned project in the South Carolina lists published through SCRTP (DESC’s and Santee Cooper’s 2026–2030 lists) and Georgia ITS’s 2026–2035 plan, each South Carolina project paired with each Georgia project when their centers are under ${MAX_MILES} miles apart.`),
     overviewStats());
   const steps = h("ol", "guide-steps");
   [["Find", "Pairs are ranked geography first, timing second. Change the sort or open Filters to explore."], ["Check", "Every number links to the filing page it came from, and every location states its method and confidence."], ["Call", "Shortlist a pair and export a coordination brief with evidence, shared resources, a cost scenario and questions."]]
@@ -1005,7 +1015,7 @@ function renderDetail() {
     else if (!state.allPairs.some(p => p.qualifies && (p.a.id === project.id || p.b.id === project.id))) {
       const n = nearestPartner(project);
       lead = `No ${otherPlan(project)} project within ${MAX_MILES} miles.${n ? ` The nearest is ${n.p.projectId}, ${n.p.name}, ${n.miles.toFixed(1)} mi away.` : ""}`;
-    } else lead = `${count} ${count === 1 ? "pair" : "pairs"} with the other state under the current filters. Pick one in the list to compare.`;
+    } else lead = `${count} ${count === 1 ? "pair" : "pairs"} with ${otherPlan(project)} under the current filters. Pick one in the list to compare.`;
     head.append(h("p", "lead", lead));
     if (project.endpoints.length) head.append(endpointChips(project));
     detail.append(head, projectBlock(project, true, false, true));
@@ -1048,8 +1058,8 @@ function briefHtml(pair) {
   ${briefMapSvg(pair)}
   <table class="cmp"><tr><th></th><th>${esc(sideName(a))}</th><th>${esc(sideName(b))}</th></tr>
   ${row("Project", p => `${esc(p.projectId)} · ${esc(p.name)}`)}${row("Type", p => esc(projectType(p)))}${row("Target in service", p => esc(targetDate(p)))}
-  ${row("Status", p => esc(datePassed(p.inServiceDate) ? `“${p.status}” in filing; date passed, unconfirmed` : `“${p.status}” in filing`))}
-  ${row("Planning window", p => p.window?.start ? `${esc(p.window.start)} → ${esc(p.window.end)}` : "unknown")}${row("Cost", p => p.cost?.total ? money(p.cost.total) : "redacted")}
+  ${row("Status", p => esc(statusShort(p)))}
+  ${row("Planning window", p => p.window?.start ? `${esc(p.window.start)} → ${esc(p.window.end)}` : "unknown")}${row("Cost", p => p.cost?.total ? money(p.cost.total) : p.state === "GA" ? "redacted" : "not published")}
   ${row("Location", p => `${esc(p.locationConfidence)}, ±${p.radiusMi} mi · ${esc(centerMethod(p))}`)}${row("Endpoints", eps)}${row("Source", src)}</table>
   <div class="cols"><div><h2>${pair.qualifies ? "Why it qualifies" : "Why it might qualify"}</h2><ul>${li(whyQualifies(pair))}</ul><h2>Possible shared resources</h2><ul>${li(sharedResources(pair))}</ul>
   <h2>Staging-yard scenario${sc.active ? `: ${money(sc.low)} – ${money(sc.high)}` : " unavailable"}</h2>${sc.active ? `<p>Illustrative avoided cost; sharing feasibility unconfirmed.</p><ul>${scenarioLines(pair, sc).map(([k, v, why]) => `<li><b>${k}:</b> ${esc(v)} <i>(${esc(why)})</i></li>`).join("")}<li>Combined yard assumed 1.0–1.5× one yard. Proximity does not prove land or equipment can be shared.</li></ul>` : `<p>${esc(sc.reason)}</p>`}</div>
@@ -1118,8 +1128,8 @@ function renderQuality() {
   const t0 = h("table", "dq-table"); t0.innerHTML = "<thead><tr><th>Sample ID</th><th>Project</th><th>Sample date</th><th>Status in the current filing</th></tr></thead>";
   const b0 = h("tbody"); d.starterStatus.forEach(s => { const tr = h("tr"); [s.id, s.name, s.starterDate, s.status].forEach((x, i) => tr.append(h("td", i === 2 ? "nowrap" : "", x ?? ""))); b0.append(tr); }); t0.append(b0); sample.append(t0);
   sample.append(h("p", "muted-note", "Both Augusta-area sample pairs are gone: DESC's Hooks–Thurmond rebuild is no longer listed and Georgia Power cancelled Evans Primary–Thurmond Dam #5 and #6 (Table 3). The McIntosh–Purrysburg reactors are complete (Table 4)."));
-  const santee = h("p", "muted-note", "Santee Cooper, not DESC, owns the South Carolina side of that tie. Its reconductor of the Purrysburg–McIntosh 230 kV tie lines (committed; in service December 2026 on slide 51, 5/1/2026 in the tables on slides 24 and 50) is not in DESC's list, so it is shown here for context and not paired. Source: ");
-  santee.append(link("https://www.scrtp.com/assets/pdfs/meeting-archives/scrtp-meeting-2026-03-11-presentation.pdf", "SCRTP stakeholder meeting, March 11, 2026"), ".");
+  const santee = h("p", "muted-note", "Santee Cooper, not DESC, owns the South Carolina side of that tie. Its reconductor of the Purrysburg–McIntosh 230 kV tie lines is row 1 of Santee Cooper's 2026–2030 list and is paired like any other project; its date conflict (5/1/2026 in the list, December 2026 on slide 51) is flagged on the project. Source: ");
+  santee.append(link("https://www.scrtp.com/assets/pdfs/meeting-archives/scrtp-meeting-2026-03-11-presentation.pdf#page=50", "SCRTP stakeholder meeting, March 11, 2026"), ".");
   sample.append(santee);
 
   wrap.append(h("h2", "", "List-level problems"));
@@ -1158,10 +1168,13 @@ function renderMethod() {
   wrap.append(h("h1", "", "How Gridlock decides"));
   const sec = (title, ...paras) => { wrap.append(h("h2", "", title)); paras.forEach(p => wrap.append(typeof p === "string" ? h("p", "", p) : p)); };
   const srcList = h("ul", "src-list"); d.sources.forEach(s => { const li = h("li"); li.append(link(s.url, s.title), document.createTextNode(s.projects ? ` — ${s.projects} projects` : "")); srcList.append(li); });
-  sec("Sources", `Dataset as of ${formatDate(d.generated)}. The first two links are the current public filings; earlier editions support schedule history and the change log.`, srcList, "The challenge zip's DESC list (2024–2028) and Georgia plan (2025 IRP) are superseded; both newer editions are public and are used here.");
-  sec("The qualifying rule (unchanged from the challenge)", `A DESC project and a Georgia project form a pair when their centers are less than ${MAX_MILES} miles apart by great-circle (haversine) distance. A project's center is the midpoint of its located endpoints, or the single located endpoint. The time gap is the absolute difference between in-service dates. Our tests reproduce the sponsor's six example rows to the hundredth of a mile and the day.`);
+  const sertp = h("p", "", "Checked September 27, 2026 for a newer source, as the brief asks: SERTP's ");
+  sertp.append(link("https://www.southeasternrtp.com/docs/general/2026/2026_SERTP_Preliminary_Expansion_Plan_Report_(Non-CEII).pdf", "2026 preliminary expansion plan"), document.createTextNode(" (June 12, 426 projects) lists no DESC or Santee Cooper projects, and its "),
+    link("https://www.southeasternrtp.com/docs/general/2026/2026_SERTP_3rd_Quarter_Meeting_Presentation.pdf", "September 22 meeting"), document.createTextNode(" still treats SCRTP as a separate region. The SCRTP lists used here are the newest for both South Carolina utilities."));
+  sec("Sources", `Dataset as of ${formatDate(d.generated)}. The first three links are the current public filings; earlier editions support schedule history and the change log.`, srcList, "The challenge zip's DESC list (2024–2028) and Georgia plan (2025 IRP) are superseded; both newer editions are public and are used here. Santee Cooper, which publishes its list through SCRTP alongside DESC, is on the South Carolina side too: its list is a slide in the first SCRTP stakeholder meeting of each year.", sertp);
+  sec("The qualifying rule (unchanged from the challenge)", `A South Carolina project (DESC or Santee Cooper) and a Georgia project form a pair when their centers are less than ${MAX_MILES} miles apart by great-circle (haversine) distance. A project's center is the midpoint of its located endpoints, or the single located endpoint. The time gap is the absolute difference between in-service dates. Our tests reproduce the sponsor's six example rows to the hundredth of a mile and the day.`);
   sec("What we add on top (ranking only — never changes which pairs qualify)",
-    "Planning windows: DESC's first budget year with spend through its in-service date; Georgia's detail-page Start Date through Need Date. Overlap still ahead of the data date counts; overlap already in the past does not.",
+    "Planning windows: DESC's first budget year with spend through its in-service date; Georgia's detail-page Start Date through Need Date. Santee Cooper publishes only in-service dates, so its projects have no window and are timed by the in-service gap alone. Overlap still ahead of the data date counts; overlap already in the past does not.",
     "Certainty: each location carries an uncertainty radius. A pair is robust if it stays under 25 miles at the edges of both radii, sensitive if it only does at the best estimate, and possible (shown only on request) if it could qualify.",
     `Score = proximity (${WEIGHTS.proximity}) + timing (${WEIGHTS.timing}), × 0.85 when location-sensitive — the challenge's own two signals, geography primary and timing a strong secondary one, filling the full 100. Distance sets most of the order; timing reorders pairs at similar distances. To explore alternatives, sort by distance, by closest in-service dates, or by build overlap still ahead.`);
   sec("How locations are found", "In order of trust: hand-sited points with a written reason (data/overrides.json); coordinates from the sponsor's starter workbook; OpenStreetMap substations and plants by exact then partial name, restricted to the right state; and last, a town, road or creek that carries the station's exact name (±6 mi), searched near whatever else locates the project. A project none of whose own stations can be placed, often because they are new, is placed among the existing stations its filing description names, each matched to exactly one OSM station in the planning zone; its radius covers all of them. When a name fits several places (there are two Goshens 87 miles apart), the one nearest the project's other endpoint and its planning zone wins. Matches far from the rest of the project are rejected rather than kept.");
@@ -1170,9 +1183,9 @@ function renderMethod() {
     "For a pair overlapping planning windows, we model what one shared staging/laydown yard would avoid compared with two separate yards. One yard = surface (acres × $/acre) + land lease (acres × land value × lease rate × months) + a short access road (miles × $/mile). A combined yard is assumed to be 1.0–1.5× the size of one project's yard, so sharing avoids 0.5–1.0 of a yard. With no build overlap after the data date, the saving is $0.",
     "Cited unit costs:", basis,
     "Yard size, months, lease rate, road length and any non-mat surface cost are assumptions, marked as such and editable in the panel. Proximity alone can't establish that land or equipment can be shared; the scenario is a reason to make the call, not a budget.",
-    `For scale, the panel compares the result with the smaller project's cost. DESC publishes costs; Georgia's are redacted, so for a Georgia line with a stated length we apply DESC's own median of ${money(bm.perMile)} per mile (${bm.n} line projects).`);
+    `For scale, the panel compares the result with the smaller project's cost. DESC publishes costs; Georgia's are redacted and Santee Cooper's list gives none, so for a line with a stated length we apply DESC's own median of ${money(bm.perMile)} per mile (${bm.n} line projects).`);
   sec("Changes between filings",
-    "Every filing we read is listed in data/filings.json. Each new edition is compared with the one before it: projects are matched on their ID (DESC reuses IDs, so a DESC match also needs a similar name; an ID kept under a different name is reported as renamed), then we list what was added, dropped, rescheduled, renamed or re-costed. Georgia says why each project left its plan (Table 3 cancelled, Table 4 completed); DESC doesn't, so a dropped DESC project only says whether its date had already passed.",
+    "Every filing we read is listed in data/filings.json. Each new edition is compared with the one before it from the same utility: projects are matched on their ID (DESC reuses IDs, so a DESC match also needs a similar name; an ID kept under a different name is reported as renamed; Santee Cooper publishes no IDs, so its projects are matched on their titles and its “Row” numbers are only positions in the list), then we list what was added, dropped, rescheduled, renamed or re-costed. Georgia says why each project left its plan (Table 3 cancelled, Table 4 completed); the South Carolina lists don't, so a dropped project only says whether its date had already passed.",
     "Pairs are recomputed with the same 25-mile rule before and after each filing, keeping every project's current location, so a pair appears or disappears only because a project was added, dropped or rescheduled. A pair whose in-service gap moves by 30 days or more is listed as a timing change.");
   sec("Adding the next public filing", "Add its public URL, edition, date and parser information to data/filings.json, then run python3 pipeline/build.py. Review parser validation and any uncertain locations before publishing the rebuilt data/projects.json and data/changes.json. If a utility changes its document format, its parser may need an update. The Changes tab then shows additions and revisions against the prior edition. This is a reviewed data update, not an upload of arbitrary points.");
   const envList = h("ul", "src-list"); (d.environmentSources ?? []).forEach(s => { const li = h("li"); li.append(link(s.url, s.title)); envList.append(li); });
@@ -1199,8 +1212,8 @@ function setView(name) {
 }
 
 function exportCsv() {
-  const header = ["as_of", "rank", "qualifies", "score", "certainty", "desc_project", "desc_id", "desc_type", "desc_status", "ga_project", "ga_teams", "ga_type", "ga_status", "distance_miles", "desc_point_type", "ga_point_type", "in_service_gap_days", "build_overlap_days", "overlap_days_ahead", "in_service_desc", "in_service_ga", "ground_desc", "ground_ga", "source_desc", "source_ga"];
-  const lines = [header, ...state.pairs.map((p, i) => [state.asOf, i + 1, p.qualifies, p.score.total, p.certainty, p.a.name, p.a.projectId, projectType(p.a), p.a.status, p.b.name, p.b.projectId, projectType(p.b), p.b.status, p.miles.toFixed(3), pointKind(p.a), pointKind(p.b), p.gapDays ?? "", p.overlapDays ?? "", p.remainingDays ?? "", p.a.inServiceDate ?? "", p.b.inServiceDate ?? "", groundShort(p.a), groundShort(p.b), pdfLink(p.a.source), pdfLink(p.b.source)])];
+  const header = ["as_of", "rank", "qualifies", "score", "certainty", "sc_utility", "sc_project", "sc_id", "sc_type", "sc_status", "ga_utility", "ga_project", "ga_teams", "ga_type", "ga_status", "distance_miles", "sc_point_type", "ga_point_type", "in_service_gap_days", "build_overlap_days", "overlap_days_ahead", "in_service_sc", "in_service_ga", "ground_sc", "ground_ga", "source_sc", "source_ga"];
+  const lines = [header, ...state.pairs.map((p, i) => [state.asOf, i + 1, p.qualifies, p.score.total, p.certainty, sideName(p.a), p.a.name, p.a.projectId, projectType(p.a), p.a.status ?? "", sideName(p.b), p.b.name, p.b.projectId, projectType(p.b), p.b.status ?? "", p.miles.toFixed(3), pointKind(p.a), pointKind(p.b), p.gapDays ?? "", p.overlapDays ?? "", p.remainingDays ?? "", p.a.inServiceDate ?? "", p.b.inServiceDate ?? "", groundShort(p.a), groundShort(p.b), pdfLink(p.a.source), pdfLink(p.b.source)])];
   const csv = lines.map(row => row.map(value => `"${String(value).replaceAll('"', '""')}"`).join(",")).join("\r\n");
   const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" })); a.download = "gridlock-opportunities.csv"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }
@@ -1211,6 +1224,7 @@ $("distance").addEventListener("input", event => { state.distance = Number(event
 $("year").addEventListener("input", event => { state.year = Number(event.target.value); applyFilters(); });
 $("gap").addEventListener("change", event => { state.gap = event.target.value; applyFilters(); });
 $("ground").addEventListener("change", event => { state.ground = event.target.value; applyFilters(); });
+$("sc-utility").addEventListener("change", event => { state.scUtility = event.target.value; applyFilters(); });
 function openLayersPanel() { $("layers-panel").hidden = false; $("layers-toggle").setAttribute("aria-expanded", "true"); }
 $("layers-toggle").addEventListener("click", () => { const open = $("layers-panel").hidden; $("layers-panel").hidden = !open; $("layers-toggle").setAttribute("aria-expanded", String(open)); });
 $("satellite-toggle").addEventListener("click", () => { satelliteOn = !satelliteOn; saveSatellite(); syncSatellite(); });

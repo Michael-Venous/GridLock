@@ -73,7 +73,7 @@ export function briefMapSvg(pair) {
   out += '<path d="M440 62 V42 M436 47 l4 -6 4 6" fill="none" stroke="#29434e" stroke-width="1.3"/>' + text(440, 38, 'N', 9, 'text-anchor="middle"');
   rows.forEach((r, i) => {
     const y = 37 + i * 28;
-    const utility = r.project.utility === 'SAV' ? 'GPC (Sav)' : r.project.utility ?? r.project.state ?? 'Project';
+    const utility = r.project.utility === 'SAV' ? 'GPC (Sav)' : r.project.utility === 'SCPSA' ? 'Santee Coop' : r.project.utility ?? r.project.state ?? 'Project';
     out += text(476, y, `${r.letter}  ${short(utility, 11)} · ${short(r.project.projectId ?? r.project.id, 19)}`, 11, `font-weight="700" style="fill:${r.color}"`);
     out += text(476, y + 12, `${r.project.center.lat.toFixed(4)}, ${r.project.center.lon.toFixed(4)} · ±${r.radius} mi`, 9);
   });

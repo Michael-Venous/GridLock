@@ -164,3 +164,17 @@ test("zero or invalid sharing months cannot produce positive shared-yard savings
   assert.equal(scenarioAvailability({ ...pair, remainingDays: 0, overlapDays: 365 }).available, false);
   assert.equal(yardScenario({ ...pair, remainingDays: 1 }).active, true);
 });
+
+test("an unpublished build window says so instead of claiming no overlap remains", () => {
+  const unknown = scenarioAvailability({ qualifies: true, remainingDays: null, overlapDays: null });
+  assert.equal(unknown.available, false);
+  assert.match(unknown.reason, /build window isn't published/);
+  assert.match(scenarioAvailability({ qualifies: true, remainingDays: 0, overlapDays: 0 }).reason, /No overlapping planning window remains/);
+});
+
+test("Santee Cooper projects pair with Georgia like DESC's, and never with each other", () => {
+  const sc = { id: "SCPSA-X", state: "SC", utility: "SCPSA", center: { lat: 32.35, lon: -81.17 } };
+  const desc = { id: "DESC-Y", state: "SC", utility: "DESC", center: { lat: 32.35, lon: -81.17 } };
+  const ga = { id: "GA-1", state: "GA", utility: "SAV", center: { lat: 32.36, lon: -81.18 } };
+  assert.deepEqual(matchProjects([sc, desc, ga]).map(p => p.id).sort(), ["DESC-Y__GA-1", "SCPSA-X__GA-1"]);
+});

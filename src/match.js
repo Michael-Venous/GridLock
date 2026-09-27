@@ -147,11 +147,13 @@ export const YARD_BASIS = {
 
 // Shared eligibility for the on-screen scenario and every exported representation.
 export function scenarioAvailability(pair, { months = null } = {}) {
+  const known = pair.remainingDays != null || pair.overlapDays != null;
   const remainingDays = pair.remainingDays ?? pair.overlapDays ?? 0;
   const duration = months ?? (remainingDays > 0 ? Math.max(1, Math.round(remainingDays / 30.44)) : 0);
   let reason = null;
   if (pair.qualifies !== true) reason = "Only modeled for pairs that meet the center-distance qualification rule.";
-  else if (!(remainingDays > 0)) reason = "No overlapping planning window remains; no shared-yard savings are modeled.";
+  else if (!(remainingDays > 0)) reason = known ? "No overlapping planning window remains; no shared-yard savings are modeled."
+    : "A project's build window isn't published (Santee Cooper lists in-service dates only), so no shared months can be modeled.";
   else if (!Number.isFinite(duration) || duration <= 0) reason = "Enter a positive number of shared months to model a shared yard.";
   return { available: reason === null, reason, months: duration, remainingDays };
 }

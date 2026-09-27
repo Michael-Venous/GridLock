@@ -29,7 +29,7 @@ export function createChangesView(ctx) {
   }
 
   const event = () => view.data.events.find(e => e.id === view.event);
-  const shortTitle = e => e.state === "SC" ? `DESC list ${editionOf(e.id)}` : `Georgia plan ${editionOf(e.id)}`;
+  const shortTitle = e => e.state === "SC" ? `${e.utility} list ${editionOf(e.id)}` : `Georgia plan ${editionOf(e.id)}`;
   const editionOf = id => id.split("-").slice(1).join("–");
   const saveArea = () => writeStore(AREA_KEY, { area: view.area, bufferMi: view.bufferMi });
 
@@ -82,7 +82,7 @@ export function createChangesView(ctx) {
     }
     box.append(list);
     const oldest = view.data.filings[0];
-    box.append(h("p", "muted-note", `Dates are GA PSC filing dates for Georgia and the PDF's own date for DESC. The log starts with ${oldest.title} (${formatDate(oldest.date)}).`));
+    box.append(h("p", "muted-note", `Dates are GA PSC filing dates for Georgia, the PDF's own date for DESC and the SCRTP meeting date for Santee Cooper. The log starts with ${oldest.title} (${formatDate(oldest.date)}).`));
     return box;
   }
 
@@ -127,7 +127,8 @@ export function createChangesView(ctx) {
     return box;
   }
 
-  function sideName(c) { return c.state === "SC" ? "DESC" : c.utility === "SAV" ? "GPC · Savannah" : c.utility; }
+  const NAMES = { SCPSA: "Santee Cooper", SAV: "GPC · Savannah" };
+  function sideName(c) { return NAMES[c.utility] ?? c.utility ?? (c.state === "SC" ? "DESC" : "GA"); }
 
   function projectRow(c, kinds) {
     const li = h("li", `change-row ${c.state === "SC" ? "desc" : "gpc"}`);
@@ -154,11 +155,11 @@ export function createChangesView(ctx) {
     const li = h("li", "change-row pair");
     const kind = { new: "pairNew", gone: "pairGone", timing: "pairTiming" }[p.kind];
     const tags = h("span", "change-tags"); tags.append(h("span", `ctag ${kind}`, KIND_TAG[kind]));
-    const title = h("span", "change-title"); title.append(h("b", "", `DESC ${p.desc.projectId} × ${p.ga.projectId}`), document.createTextNode(` ${p.desc.name} × ${p.ga.name}`));
+    const title = h("span", "change-title"); title.append(h("b", "", `${sideName({ state: "SC", ...p.desc })} ${p.desc.projectId} × ${p.ga.projectId}`), document.createTextNode(` ${p.desc.name} × ${p.ga.name}`));
     li.append(tags, title);
     const gap = p.gapDays == null ? "in-service dates unknown" : `in service ${p.gapDays} days apart`;
     li.append(h("span", "change-fact", p.kind === "timing" ? `${p.miles.toFixed(1)} mi apart; in-service gap ${p.oldGapDays} → ${p.gapDays} days` : `${p.miles.toFixed(1)} mi apart, ${gap}. ${p.reason[0].toUpperCase()}${p.reason.slice(1)}.`));
-    const id = `DESC-${p.desc.key}__GA-${p.ga.key}`;
+    const id = `${p.desc.appId ?? `DESC-${p.desc.key}`}__${p.ga.appId ?? `GA-${p.ga.key}`}`;
     if (p.kind !== "gone" && pairExists(id)) { const links = h("span", "change-links"); const b = h("button", "link-button", "Open pair"); b.type = "button"; b.addEventListener("click", () => openPair(id)); links.append(b); li.append(links); }
     li.addEventListener("mouseenter", () => highlight(p.points)); li.addEventListener("mouseleave", () => highlight(null));
     return li;
@@ -228,7 +229,7 @@ export function createChangesView(ctx) {
       if (i.type === "pair") {
         if (!c.desc.center || !c.ga.center) continue;
         feats.push({ type: "Feature", geometry: { type: "LineString", coordinates: [[c.desc.center.lon, c.desc.center.lat], [c.ga.center.lon, c.ga.center.lat]] },
-          properties: { type: "pair", kind: i.kinds[0], inside, title: `${KIND_TAG[i.kinds[0]]}: DESC ${c.desc.projectId} × ${c.ga.projectId}, ${c.miles.toFixed(1)} mi` } });
+          properties: { type: "pair", kind: i.kinds[0], inside, title: `${KIND_TAG[i.kinds[0]]}: ${sideName({ state: "SC", ...c.desc })} ${c.desc.projectId} × ${c.ga.projectId}, ${c.miles.toFixed(1)} mi` } });
       } else if (c.center) {
         feats.push({ type: "Feature", geometry: { type: "Point", coordinates: [c.center.lon, c.center.lat] },
           properties: { type: "project", kind: i.kinds[0], side: c.state === "SC" ? "desc" : "gpc", inside, title: `${i.kinds.map(k => KIND_TAG[k]).join(", ")}: ${c.projectId} ${c.name}` } });

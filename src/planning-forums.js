@@ -6,7 +6,7 @@ export const PLANNING_FORUMS = {
     shortName: 'SCRTP',
     url: 'https://www.scrtp.com/',
     contactUrl: 'https://www.scrtp.com/contact-us.html',
-    description: 'Start with the SCRTP contact page for questions about the DESC planning record.',
+    description: 'Start with the SCRTP contact page for questions about the DESC or Santee Cooper planning record.',
   },
   GA: {
     name: 'Southeastern Regional Transmission Planning (SERTP)',
@@ -18,8 +18,8 @@ export const PLANNING_FORUMS = {
 };
 
 export const PLANNING_TRANSITION = {
-  checkedOn: '2026-09-26',
-  text: 'DESC and Santee Cooper plan to join SERTP when DESC’s Order 1920 compliance filing becomes effective. The public notices still describe a planned transition; confirm the current forum when raising a pair.',
+  checkedOn: '2026-09-27',
+  text: 'DESC and Santee Cooper plan to join SERTP when DESC’s Order 1920 compliance filing becomes effective. SERTP’s 2026 plans (June 12 preliminary report, September 22 meeting) don’t list their projects yet and still treat SCRTP as a separate region; confirm the current forum when raising a pair.',
   sourceUrl: 'https://www.southeasternrtp.com/',
   sourceLabel: 'SERTP transition notice',
   additionalSourceUrl: 'https://www.scrtp.com/',

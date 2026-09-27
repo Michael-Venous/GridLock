@@ -18,6 +18,12 @@ test('URL round trip restores decision but excludes local shortlist',()=>{
   const restored=decodeView(hash,config);for(const k of ['distance','year','gap','includePossible','hidePast','sort','selectedProject','selectedPair','detailTab']) assert.deepEqual(restored[k],s[k]);
   assert.equal(restored.search,'wagener');assert.equal(restored.shortlistOnly,false);
 });
+test('South Carolina utility filter survives the share link and rejects unknown values',()=>{
+  const d={...defaults,scUtility:'all'};
+  const hash=encodeView({...d,scUtility:'SCPSA',sort:'score',detailTab:'summary'},d);assert.equal(decodeView(hash,{...config,defaults:d}).scUtility,'SCPSA');
+  assert.equal(decodeView('#sc=bogus',{...config,defaults:d}).scUtility,'all');
+  assert.ok(matchesProject({name:'Bluffton Station Improvements',projectId:'Row 2',utility:'SCPSA',owner:'Santee Cooper',endpoints:[]},'santee'));
+});
 test('invalid incoming URL values use safe defaults',()=>{
   const s=decodeView('#distance=NaN&year=1900&timing=bogus&sort=invalid&detail=bad',config);
   assert.equal(s.distance,25);assert.equal(s.year,2035);assert.equal(s.gap,'all');assert.equal(s.sort,'score');assert.equal(s.detailTab,'summary');
