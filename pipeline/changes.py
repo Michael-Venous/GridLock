@@ -238,7 +238,12 @@ def events(filings, editions, removed_tables, plans, app_ids=None):
 
 def write(filings, editions, removed_tables, plans, app_ids):
     evs = events(filings, editions, removed_tables, plans, app_ids)
-    out = {"generated": None, "filings": [{k: f[k] for k in ("id", "plan", "utility", "state", "edition", "title", "date", "dateBasis", "url")} for f in filings],
+    first = {}
+    for f in filings:
+        first.setdefault(f["plan"], f)
+    baselines = {f["id"]: [dict(brief(r), appId=app_ids.get((r["plan"], r["lineage"])))
+                           for r in editions[f["id"]]] for f in first.values()}
+    out = {"baselines": baselines, "generated": None, "filings": [{k: f[k] for k in ("id", "plan", "utility", "state", "edition", "title", "date", "dateBasis", "url")} for f in filings],
            "events": evs[::-1]}
     dump(out, ROOT / "data" / "changes.json")
     for ev in evs:

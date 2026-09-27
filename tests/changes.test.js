@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { pointInPolygon, milesToPolygon, inArea, changeItems, itemsIn, countByKind, boundsRing, closeRing, daysLabel, pairAppId, currentEdition, dateBasisText } from "../src/changes.js";
+import { filingEntries, pointInPolygon, milesToPolygon, inArea, changeItems, itemsIn, countByKind, boundsRing, closeRing, daysLabel, pairAppId, currentEdition, dateBasisText } from "../src/changes.js";
 
 const box = boundsRing([[-81.3, 32.0], [-80.8, 32.4]]);   // around Savannah and Okatie
 
@@ -108,4 +108,16 @@ test("the shipped change log tracks registered editions with consistent counts",
   // Georgia says why every project left its plan: Table 3 (cancelled) or Table 4 (completed).
   const ga = log.events.find(e => e.id === "ga-2026-2035");
   assert.ok(ga.projects.filter(p => p.kind === "removed").every(p => /Table [34]/.test(p.reason)));
+});
+
+test("filings include a new utility baseline without inventing changes", () => {
+  const initial = { id: "santee-2026-2030", plan: "santee", date: "2026-03-11" };
+  const event = { id: "desc-2026-2030", date: "2026-04-28", projects: [], pairs: [] };
+  const log = { filings: [initial, event], events: [event], baselines: { [initial.id]: [{ name: "Baseline station", center: { lat: 33, lon: -81 }, points: [[-81, 33]] }] } };
+  const entries = filingEntries(log);
+  assert.equal(entries[0], event);
+  assert.equal(entries[1].baseline, true);
+  assert.equal(entries[1].baselineProjects[0].name, "Baseline station");
+  assert.deepEqual(changeItems(entries[1]), []);
+  assert.equal(log.events.length, 1);
 });

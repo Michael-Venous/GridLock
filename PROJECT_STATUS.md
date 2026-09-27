@@ -14,6 +14,10 @@ The agent default is now `us.openai.gpt-6-sol` through Converse, using provider-
 
 Added **Pairs → Add public filing → Upload PDF**. Uploads up to 64 MB use the same preview/parser/validation and reviewed-byte registration flow as URLs. A public source URL remains required for registration; preview works without one. Upload filenames never become filesystem paths, temporary upload copies are removed after parsing, and uploaded files are not exposed by static routes. Review verification: 171 Python tests completed successfully (one skipped), all seven JavaScript test files passed, and diff checks passed. The upload NetworkError was traced to an old running backend rejecting multipart requests. After restarting the server, an actual DESC PDF upload reached preview and correctly detected duplicate registration. No Santee filing was registered.
 
+## Local model-access fallback — 2026-09-27
+
+After the earlier minimal GPT-6 Sol invocation succeeded, a later call failed with AWS private marketplace eligibility AccessDeniedException. The denial was reproduced; a live `us.anthropic.claude-opus-5` invocation succeeded using the same credentials. The local server was restarted with `GRIDLOCK_BEDROCK_MODEL=us.anthropic.claude-opus-5`. The repository default is now also Claude Opus 5, as requested. No Santee filing was registered. Live calls succeeded for Claude Opus 5, Sonnet 5, Sonnet 4.6, and Haiku 4.5; Opus 5.5 was denied by private marketplace eligibility. Catalog listings alone do not establish invocation access. These were minimal invocation checks; the earlier full Santee extraction used Opus 5.
+
 ## Current build
 
 - The active dataset contains **309 projects**: 54 DESC and 255 Georgia ITS. **284** have comparison points and **25** are unplaced. There are **72** qualifying cross-state pairs and **45** with future planning overlap. Five historical filings are registered. Santee's three filing entries and parser registration remain absent, as requested for the team's own import demo. The saved full dataset had 321 projects and 95 pairs. Counts verified from the current generated data on 2026-09-27.
@@ -43,6 +47,38 @@ Added **Pairs → Add public filing → Upload PDF**. Uploads up to 64 MB use th
 2. Run a full browser and printable-brief regression, then deploy an HTTPS demo with working map tiles and confirm judge access.
 3. Preview the 2026–2030 Santee public filing in **Pairs → Add public filing**, inspect its extracted records against the PDF, then decide whether to register it. Keep README, Method, and demo claims aligned with each reviewed snapshot.
 
+## Joint-deck identity correction — 2026-09-27
+
+The unidentified Santee upload was attributed to the SCRTP meeting organizer. Identification previously exposed only two nonempty lines per slide, omitting utility labels on section dividers. The index now includes eight lines; the prompt distinguishes separate utility presentations from integrated joint plans, and validation rejects regional stakeholder organizers as project owners. Ambiguous multi-utility previews direct the user to choose a utility in Document details. Live Opus 5 identification of the real PDF returned separate DESC/Santee lists without a focus, and Santee Cooper (existing plan santee), pages 50–68, with a Santee focus. No filing was registered during verification. The ingest regression suite passed 37 tests. Earlier previews created with the incorrect SCRTP identity must be discarded and repeated.
+
+Import usability follow-up: moved Utility to import out of collapsed document options so multi-utility PDF selection is visible before preview. The upload payload already forwards company correctly; the reported stop occurs when no focus is supplied. Santee remains unregistered.
+
+## Filing visibility and project navigation — 2026-09-27
+
+The Changes filing selector now includes all registered filings, labeling initial editions as baselines with no previous edition rather than inventing change events. This makes the registered Santee edition visible. Selecting a located project from search or opening it from Changes now flies to its comparison point; unplaced projects remain selectable without a map move. JavaScript tests (all seven files), syntax checks, and diff checks passed.
+
+## Quick importer robustness check and node zoom — 2026-09-27
+
+Full Python run exercised 172 tests: the only failure was a stale assertion for the revised multi-utility guidance, now updated; its 31-test suite passed on rerun (one skipped). All seven JavaScript test files passed. Guards cover upload limits, public-address validation, same-origin posts, reviewed PDF/parser/record integrity, single active job, and failed rebuild retry. Remaining demo risks: active job IDs are not persisted across refresh; polling stops on a transient error; AI readiness does not preflight credentials/model access; parser generation lacks a total wall-time limit. No live data was changed by this check. Changes project rows and map dots now zoom to their points; the Columbia Canal row was verified in the browser.
+
+Baseline-map follow-up: change-log output now includes actual first-edition project snapshots, separate from change events. Baseline selections render project rows and map dots and fit their locations; they do not label baseline projects as additions. Offline rebuild: 321 total, 294 mapped; Santee baseline 12 projects, 10 mapped. JavaScript suite and 14 Python change-log tests passed.
+
 ## Importer recovery fixes (side review) — 2026-09-27
 
 Scoped changes in local_server.py and src/ingest-view.js preserve the searched utility during reviewed registration, reject missing/invalid subprocess result messages, restore the active preview reference and form from tab session storage after refresh, and retry interrupted polling with capped backoff. A missing job after server restart clears the stale reference and requests a fresh preview. Recovery never automatically submits an import; the server still validates reviewed artifacts. Upload bytes remain on the server, not in browser storage. Tests: all nine isolated local-server tests and all seven JavaScript test files passed, including new discovery-registration, missing-result, refresh, retry, and expired-job cases. Live server and dataset were not changed; restart the backend to load its fixes. Server restart still loses in-memory jobs, and AWS readiness/preflight and total execution deadlines remain follow-ups.
+
+## Fast fresh-import demo setup — 2026-09-27
+
+Reset now backs up the current dataset and restores a hash-checked clean baseline when build inputs match; the first preparation or changed build inputs rebuilds offline. Santee filing/parser registrations are absent, geographic caches retained, and the command prints the public URL and utility fields. Identified PDF page text is now preloaded into parser generation to reduce tool round trips. Default switched to Claude Sonnet 5 at user request; no live benchmark was run and no three-minute guarantee is claimed. Clear an explicit old model override and restart the server to use the new default.
+
+Model selection update: reverted the default to Claude Opus 5 at the user’s request after the slow Sonnet attempt. Clean-snapshot reset, retained geographic caches, and identified-page preloading remain enabled. Existing model calls keep their original model; subsequent ingest subprocesses use the new default unless an environment override is set.
+
+## Preset-parser demo baseline — 2026-09-27 (supersedes fresh-parser setup)
+
+At user request, demo_reset now restores Santee 2024–2028 and 2025–2029 with their shared built-in parse_santee parser; newer Santee filings are removed. Baseline metadata is bundled in scripts/demo_santee_baseline.json. Geographic caches and hash-verified snapshot reset remain. Prepared baseline and verified repeat snapshot reset. The actual 2026-03-11 public URL dry-run matched the preset parser and returned 12 records with 12 service dates, without AI or registration. Eight Santee tests and all seven JavaScript test files passed. Refresh the UI, preview the new URL with Santee selected, register/rebuild, then reload; Changes will compare to 2025–2029.
+
+Edition-detection fix: recognized-parser previews now search project-list headings throughout the PDF, rather than stopping at page 30. Conflicting heading editions require an explicit choice. Verified the exact Santee public URL without --edition: 12 records extracted, nothing registered.
+
+Second demo setup added: `python3 scripts/demo_reset.py reset-ai` removes all Santee filings/parser registrations for fresh Opus 5 generation. Existing `reset` retains the older editions and preset parser. Both modes use distinct registry-keyed snapshots and preserve geographic caches. Scratch-directory checks verified each registry state and snapshot reuse without changing the current live baseline.
+
+Branding update: visible app name, browser title, coordination briefs, export filenames, server messages and current demo documentation now use Seamline. Existing storage keys, environment variables, repository paths and internal ingest protocol identifiers remain compatible.

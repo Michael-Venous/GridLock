@@ -523,6 +523,21 @@ class BedrockTests(unittest.TestCase):
         with self.assertRaises(ex.ValidationException):
             session([ex.ValidationException("messages.1: roles must alternate")]).converse("sys", [])
 
+    def test_joint_meeting_uses_section_owners_not_cover_publisher(self):
+        pages = ["South Carolina Regional Transmission Planning\nStakeholder Meeting",
+                 "Transmission Expansion Plans\n2026-2030\nDESC – Presenter",
+                 "Transmission Expansion Plans\n2026-2030\nSantee Cooper"]
+        bad = dict(IDENTITY, company="South Carolina Regional Transmission Planning", short_name="SCRTP")
+        good = dict(IDENTITY, company="Santee Cooper", other_companies=["DESC"])
+        s = session([reply(("identify", bad)), reply(("identify", good))])
+        out = parser_agent.identify(pages, {}, {}, s, log=lambda *a: None)
+        self.assertEqual(out["company"], "Santee Cooper")
+        self.assertEqual(out["other_companies"], ["DESC"])
+        evidence = s.client.calls[0][1]["messages"][0]["content"][0]["text"]
+        self.assertIn("Santee Cooper", evidence)
+        self.assertIn("DESC – Presenter", parser_agent.page_index(pages))
+        self.assertEqual(len(s.client.calls), 2)
+
     def test_identify_rejects_values_of_the_wrong_type(self):
         bad = dict(IDENTITY, public="false", aliases="Acme Electric")
         s = session([reply(("identify", bad)), reply(("identify", IDENTITY))])

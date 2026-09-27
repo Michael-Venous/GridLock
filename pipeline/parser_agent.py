@@ -129,11 +129,11 @@ def stop_problem(resp):
     return None
 
 
-def page_index(pages, width=110):
-    """First two non-empty lines of every page, so the model sees the document's shape."""
+def page_index(pages, width=180):
+    """First eight non-empty lines, including presenter/utility labels below section headings."""
     out = []
     for i, p in enumerate(pages, 1):
-        lines = [re.sub(r"\s+", " ", ln).strip() for ln in p.splitlines() if ln.strip()][:2]
+        lines = [re.sub(r"\s+", " ", ln).strip() for ln in p.splitlines() if ln.strip()][:8]
         out.append(f"p{i}: " + " | ".join(ln[:width] for ln in lines))
     return "\n".join(out)
 
@@ -165,9 +165,27 @@ def identify(pages, meta, plans, session, log=print, company=None):
                  f"answer every field about {company}'s own list (list_pages are its pages) and name the others in other_companies. "
                  f"If it holds no list of {company}'s projects, is_project_list is false.")
     system = ("You identify documents for GridLock, which reads utilities' public lists of planned transmission projects. "
+              "The cover title may name a meeting organizer or publisher, not a project owner. "
+              "A stakeholder deck with separate utility presentations is NOT a joint project list: use the utility named on "
+              "the relevant section divider, restrict list_pages to its section, and list other project-owning utilities "
+              "in other_companies. Without a requested company, report the separate lists so the user can choose; "
+              "never merge them under the meeting organizer. A genuine integrated joint plan is different from "
+              "separate presentations at one meeting. Check section dividers throughout the page index. "
               "Answer only from the document. A 'PUBLIC DISCLOSURE' or redacted edition is public even if it carries a CEII banner template.")
     # fields of the wrong type are asked again, never guessed: a "false" string for public would pass the CEII gate
-    out = session.force_tool(system, text, IDENTIFY, check=lambda o: input_problems(IDENTIFY, o))
+    def check_identity(out):
+        issues = input_problems(IDENTIFY, out)
+        if issues:
+            return issues
+        # Regional stakeholder meetings publish utility sections; their forum is not a utility.
+        cover = " ".join(pages[:3]).lower()
+        owner = " ".join(str(out.get(k, "")) for k in ("company", "owner", "short_name")).lower()
+        if out["is_project_list"] and "stakeholder" in cover and re.search(r"regional transmission planning|\bscrtp\b|\bsertp\b", owner):
+            issues.append("The regional stakeholder meeting organizer is not the project owner. Identify the utility "
+                          "on the project section divider; report separately owned lists in other_companies. "
+                          "If ownership cannot be established, set is_project_list false and explain why.")
+        return issues
+    out = session.force_tool(system, text, IDENTIFY, check=check_identity)
     out = {k: html.unescape(v) if isinstance(v, str) else [html.unescape(x) for x in v] if isinstance(v, list) else v for k, v in out.items()}
     others = ", ".join(out.get("other_companies") or [])
     log(f"identified: {out.get('company')!r}, {out.get('title')!r}, edition {out.get('edition')!r}; project list: {out.get('is_project_list')}"
@@ -273,6 +291,15 @@ def write_parser(pages, identity, plan_name, session, signature_problems, max_tu
               "section by its headings or labels, not by page numbers.\n" if identity.get("other_companies") else "") +
              f"\nPage index:\n{clip(page_index(pages), 30000)}\n\nFirst pages:\n" +
              clip("\n".join(f"=== page {i} ===\n{p}" for i, p in enumerate(pages[:2], 1)), 15000))
+    # Supply bounded source text now instead of spending turns fetching known pages.
+    page_numbers = set()
+    for lo, hi in re.findall(r"(\d+)(?:\s*[-–]\s*(\d+))?", identity.get("list_pages", "")):
+        first_page = max(1, int(lo))
+        last_page = min(len(pages), int(hi or lo))
+        page_numbers.update(range(first_page, min(last_page, first_page + 39) + 1))
+    if page_numbers:
+        excerpt = "\n".join(f"=== page {i} ===\n{pages[i - 1]}" for i in sorted(page_numbers)[:40])
+        first += "\n\nIdentified project pages (already read; request more only if needed):\n" + clip(excerpt, 60000)
     if start:
         first += (f"\n\nGridLock's registered parser for this layout fails on this edition:\n{start[1]}\n\nIts code:\n```python\n{start[0]}\n```\n\n"
                   f"Repair it so it reads this edition and still reads the earlier ones ({', '.join(l for l, _ in others)}); run_parser and "

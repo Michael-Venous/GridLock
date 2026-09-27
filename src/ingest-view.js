@@ -156,7 +156,7 @@ export function createIngestView({ onBack }) {
     if (preview?.recordsAvailable && currentJob) {
       const p = document.createElement("p"), a = document.createElement("a");
       a.href = `/api/ingest/jobs/${encodeURIComponent(currentJob)}/records`;
-      a.download = "gridlock-ingest-preview.json";
+      a.download = "seamline-ingest-preview.json";
       a.textContent = "Download all extracted records (JSON)";
       p.append(a); container.append(p);
     }

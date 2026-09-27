@@ -338,14 +338,17 @@ def main():
     if "santee" in cur:
         dq_global += parse_santee.LIST_NOTES.get(cur["santee"]["id"], [])
 
+    print("Loading cached map data and transmission network…", flush=True)
     osm, grid = OSMIndex(), Grid()
     refs, ref_issues = reference_points()
     dq_global += ref_issues
     anchors, zones = {}, {}   # {plan: {zone: point}} and {plan: its planning zones}, for plans whose filings print zones
     for p, rs in current.items():
         rs = on_map(rs)
+        print(f"Locating {len(rs)} {plans[p]['name']} projects and tracing routes…", flush=True)
         locate(rs, osm, refs, grid, offline=offline)
         if any(r.get("zone") for r in rs):
+            print(f"Refining {plans[p]['name']} locations using planning zones…", flush=True)
             zones[p] = planning_zones(rs)
             anchors[p] = zone_anchors(rs, zones[p])
             locate(rs, osm, refs, grid, anchors=anchors[p], offline=offline)   # second pass: zone-aware disambiguation
@@ -364,6 +367,7 @@ def main():
                 r["issues"].append({"level": "info", "msg": f"endpoint {e['name']!r} located with {e['confidence']} confidence ({e['method']})"})
 
     assign_app_ids(recs)
+    print("Checking ground layers against project locations…", flush=True)
     environment.check(recs, offline=offline)
     environment.regional_layers(offline=offline)
 
@@ -373,6 +377,7 @@ def main():
     here = {(r["plan"], r["lineage"]): r for r in recs}
     earlier = [f for f in fs if f["id"] != cur[f["plan"]]["id"]]
     for f in earlier:
+        print(f"Preparing historical locations for {f['id']}…", flush=True)
         gone = []
         for r in editions[f["id"]]:
             c = here.get((r["plan"], r["lineage"]))

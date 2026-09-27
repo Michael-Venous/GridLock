@@ -1,4 +1,4 @@
-/* Gridlock
+/* Seamline
    Type: Barlow, drafted lettering for labels and prose; Barlow Semi Condensed for headings.
    Plex Mono is the third voice, reserved for surveyed values only — distances, dates, dollars,
    project IDs, counts. If it's a measurement, it's set in mono; if it's a word, it isn't.
@@ -526,6 +526,7 @@ input[type="range"], input[type="checkbox"] { accent-color: var(--ink); }
 .ctag { padding: 0 6px; border-radius: 3px; background: var(--ground); color: var(--ink-2); font-size: 11px; font-weight: 600; line-height: 18px; }
 .ctag.added, .ctag.pairNew { background: var(--good-soft); color: var(--good); }
 .ctag.removed, .ctag.pairGone { background: var(--warn-soft); color: var(--warn); }
+.change-title.link-button { text-align: left; font: inherit; color: inherit; }
 .change-title b { font-weight: 600; }
 .change-fact { color: var(--ink-2); }
 .change-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 2px; font-size: 12px; }

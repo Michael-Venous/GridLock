@@ -101,3 +101,10 @@ export function daysLabel(days) {
   const span = m >= 1 ? `${m} mo` : `${Math.abs(days)} d`;
   return days > 0 ? `${span} later` : days < 0 ? `${span} earlier` : "same day";
 }
+
+// Include initial filings without pretending their projects are changes.
+export function filingEntries(log) {
+  const events = new Map(log.events.map(e => [e.id, e]));
+  return log.filings.map(f => events.get(f.id) ?? { ...f, baseline: true, baselineProjects: log.baselines?.[f.id] ?? [], projects: [], pairs: [] })
+    .sort((a, b) => (b.date ?? "").localeCompare(a.date ?? "") || b.id.localeCompare(a.id));
+}

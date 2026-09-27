@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#ffffff">
   <meta name="description" content="Finds planned transmission projects from different utilities that sit within 25 miles of each other, from public filings.">
-  <title>Gridlock | Transmission coordination</title>
+  <title>Seamline | Transmission coordination</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
@@ -17,7 +17,7 @@
   <button id="skip-details" class="skip-link" type="button" disabled>Skip to details</button>
   <div id="session-notice" class="session-notice" role="status"></div>
   <header class="topbar">
-    <div class="brand"><span class="brand-icon" aria-hidden="true"></span><strong>Gridlock</strong><span class="brand-scope">Transmission coordination</span></div>
+    <div class="brand"><span class="brand-icon" aria-hidden="true"></span><strong>Seamline</strong><span class="brand-scope">Transmission coordination</span></div>
     <nav class="tabs" aria-label="Views">
       <button type="button" class="tab active" data-view="explore" aria-current="page">Pairs</button>
       <button type="button" class="tab" data-view="changes">Changes</button>
@@ -110,7 +110,7 @@
           <div>
             <p class="eyebrow">Source update</p>
             <h1>Add a public filing</h1>
-            <p class="doc-lead">Preview what Gridlock can read, check the evidence, then choose whether to register the filing and rebuild the local dataset. This regional map ranks Georgia–South Carolina work.</p>
+            <p class="doc-lead">Preview what Seamline can read, check the evidence, then choose whether to register the filing and rebuild the local dataset. This regional map ranks Georgia–South Carolina work.</p>
           </div>
           <div id="ingest-service" class="ingest-service" role="status">Checking local ingest service…</div>
         </div>
@@ -140,10 +140,13 @@
               <input id="ingest-find" type="text" placeholder="e.g. Santee Cooper" autocomplete="off">
               <small>The AI assistant searches the utility's public pages for a project list.</small>
             </label>
+            <label class="ingest-field" id="ingest-company-field">Utility to import
+              <input id="ingest-company" type="text" placeholder="e.g. Santee Cooper">
+              <small>Required when a PDF contains separate utility lists. Leave blank only when the document contains a single utility list.</small>
+            </label>
             <details class="ingest-options">
               <summary>Document details and parsing options</summary>
               <div class="ingest-option-grid">
-                <label class="ingest-field" id="ingest-company-field">Utility in this PDF <span class="optional">optional</span><input id="ingest-company" type="text" placeholder="Choose one utility in a joint filing"></label>
                 <label class="ingest-field">Filing date <span class="optional">if not printed</span><input id="ingest-date" type="date"></label>
                 <label class="ingest-field">Edition <span class="optional">if not detected</span><input id="ingest-edition" type="text" placeholder="2027–2031"></label>
                 <label class="ingest-field" id="ingest-zip-field">PDF inside ZIP <span class="optional">if needed</span><input id="ingest-zip-member" type="text" placeholder="plan.pdf"></label>
@@ -173,7 +176,7 @@
             <div id="ingest-complete" class="ingest-complete" hidden>
               <strong>Local dataset rebuilt.</strong>
               <p>Reload to explore the updated projects and Changes view.</p>
-              <button id="ingest-reload" class="button" type="button">Reload Gridlock</button>
+              <button id="ingest-reload" class="button" type="button">Reload Seamline</button>
             </div>
           </section>
         </div>

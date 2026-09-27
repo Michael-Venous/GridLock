@@ -104,6 +104,13 @@ def edition_of(pages, source, since):
     for a, b in re.findall(r"(20\d\d)\s*[-–_]\s*(20\d\d)", source):
         if ok(a, b):
             return f"{a}-{b}"
+    # Project-list headings can occur late in a joint stakeholder presentation.
+    headings = Counter((a, b) for p in pages for a, b in re.findall(
+        r"(?:Transmission\s+Projects|Ten[- ]Year\s+Plan)\s*[:(]?\s*(20\d\d)\s*[-–—]\s*(20\d\d)", p, re.I) if ok(a, b))
+    if len(headings) == 1:
+        return "-".join(next(iter(headings)))
+    if len(headings) > 1:
+        return None  # Conflicting project-list editions require an explicit choice.
     seen = Counter((a, b) for p in pages[:30] for a, b in re.findall(r"\b(20\d\d)\s*[-–]\s*(20\d\d)\b", p) if ok(a, b))
     if seen:
         return "-".join(seen.most_common(1)[0][0])
@@ -471,7 +478,8 @@ def _ingest(args, run, state):
             raise SystemExit(f"Not a list of {whose}planned transmission projects: {identity['reason']}")
         if identity.get("other_companies") and not focus:
             raise SystemExit(f"It lists the projects of {identity['company']} and also of {', '.join(identity['other_companies'])}; "
-                             "pass --company NAME to choose whose list to read.")
+                             "enter the utility in the Utility to import field, then preview again "
+                             "(CLI: --company NAME).")
         if not identity["public"]:
             raise SystemExit("The agent reads this as confidential (CEII) content; GridLock uses public data only.")
         names = [identity["company"], identity["owner"], identity["short_name"], *identity["aliases"], *identity.get("members", [])]

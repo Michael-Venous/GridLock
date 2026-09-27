@@ -374,7 +374,7 @@ class SeveralCompaniesTests(unittest.TestCase):
             self.assertEqual(asked, [company])
 
     def test_a_document_with_several_utilities_lists_needs_a_company(self):
-        with self.assertRaisesRegex(SystemExit, "also of Beta Electric; pass --company"):
+        with self.assertRaisesRegex(SystemExit, "also of Beta Electric;.*Utility to import.*--company"):
             self.ingest_as()
 
     def test_the_named_company_must_be_whose_list_was_read(self):
@@ -435,3 +435,13 @@ class FinderTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+class LateEditionTests(unittest.TestCase):
+    def test_project_heading_after_page_thirty(self):
+        import ingest
+        pages = ["Stakeholder meeting March 11 2026"] + ["Forecast 2026-2035"] * 48 + ["Transmission Projects 2026-2030"]
+        self.assertEqual(ingest.edition_of(pages, "meeting-2026-03-11.pdf", 2026), "2026-2030")
+
+    def test_conflicting_project_headings_need_explicit_edition(self):
+        import ingest
+        self.assertIsNone(ingest.edition_of(["Transmission Projects 2025-2029", "Transmission Projects 2026-2030"], "meeting.pdf", 2026))

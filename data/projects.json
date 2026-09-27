@@ -15,6 +15,19 @@
    }
   },
   {
+   "id": "santee",
+   "name": "Santee Cooper",
+   "owner": "South Carolina Public Service Authority",
+   "state": "SC",
+   "kind": "builtin",
+   "projects": 17,
+   "edition": "2025-2029",
+   "source": {
+    "title": "Santee Cooper Transmission Projects 2025-2029, SCRTP stakeholder meeting presentation March 5, 2025 (slide 50)",
+    "url": "https://www.scrtp.com/assets/pdfs/meeting-archives/scrtp-meeting-2025-03-05-presentation.pdf"
+   }
+  },
+  {
    "id": "ga",
    "name": "Georgia ITS",
    "owner": "Georgia Integrated Transmission System",
@@ -36,10 +49,21 @@
    "projects": 54
   },
   {
+   "id": "santee",
+   "title": "Santee Cooper Transmission Projects 2025-2029, SCRTP stakeholder meeting presentation March 5, 2025 (slide 50)",
+   "url": "https://www.scrtp.com/assets/pdfs/meeting-archives/scrtp-meeting-2025-03-05-presentation.pdf",
+   "projects": 17
+  },
+  {
    "id": "ga",
    "title": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
    "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
    "projects": 255
+  },
+  {
+   "id": "santee-2024-2028",
+   "title": "Santee Cooper Transmission Projects 2024-2028, SCRTP stakeholder meeting presentation February 28, 2024 (slide 47) (earlier edition: schedule history and the change log)",
+   "url": "https://www.scrtp.com/assets/pdfs/meeting-archives/scrtp-meeting-2024-02-28-presentation.pdf"
   },
   {
    "id": "desc-2024-2028",
@@ -7119,6 +7143,1628 @@
     {
      "level": "error",
      "msg": "malformed money ['25,000']"
+    }
+   ],
+   "locationNote": null,
+   "hostLine": false,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
+  },
+  {
+   "id": "SCPSA-CONWAY",
+   "utility": "SCPSA",
+   "plan": "santee",
+   "owner": "Santee Cooper",
+   "state": "SC",
+   "name": "Conway 230 kV Switching Station",
+   "projectId": "Row 1",
+   "status": "In Progress",
+   "zone": null,
+   "zoneName": null,
+   "description": "Fold the Hemingway-Red Bluff 230 kV Line into the new Conway 230 kV Switching Station. Construct a 230 kV line approximately 34 miles in length from the Marion 230-115-69kV Substation to the Conway 230 kV Switching Station. Rebuild the existing Marion-Conway 115 kV Line for 230/115 kV double-circuit using bundled 1272 ACSR for the 230 kV line and single 795 ACSR for the 115 kV line.",
+   "endpoints": [
+    {
+     "name": "Conway",
+     "point": {
+      "lat": 33.814642,
+      "lon": -79.080565
+     },
+     "method": "osm-exact",
+     "confidence": "high",
+     "radiusMi": 0.5,
+     "evidence": "OSM way/184856193 'Conway Substation'"
+    }
+   ],
+   "describedStations": [
+    {
+     "name": "Hemingway",
+     "point": {
+      "lat": 33.749717,
+      "lon": -79.426551
+     },
+     "evidence": "Named in the filing description (\u201cFold the Hemingway-Red Bluff 230 kV Line into the new Conway 230 kV Switching Station.\u201d), matched to OSM way/1078768235 'Hemingway Substation'"
+    },
+    {
+     "name": "Red Bluff",
+     "point": {
+      "lat": 33.929956,
+      "lon": -78.852708
+     },
+     "evidence": "Named in the filing description (\u201cFold the Hemingway-Red Bluff 230 kV Line into the new Conway 230 kV Switching Station.\u201d), matched to OSM way/184856199 'Red Bluff Substation'"
+    },
+    {
+     "name": "Conway",
+     "point": {
+      "lat": 33.814642,
+      "lon": -79.080565
+     },
+     "evidence": "Named in the filing description (\u201cFold the Hemingway-Red Bluff 230 kV Line into the new Conway 230 kV Switching Station.\u201d), matched to OSM way/184856193 'Conway Substation'"
+    }
+   ],
+   "locatedBy": "endpoints",
+   "center": {
+    "lat": 33.814642,
+    "lon": -79.080565
+   },
+   "radiusMi": 0.5,
+   "locationConfidence": "high",
+   "locationCompleteness": {
+    "located": 1,
+    "total": 1
+   },
+   "inServiceDate": "2025-12-01",
+   "inServiceRaw": "12/1/2025",
+   "window": {
+    "start": null,
+    "end": "2025-12-01",
+    "basis": "in-service date only; Santee Cooper publishes no start date"
+   },
+   "cost": {
+    "total": null,
+    "by_year": {},
+    "basis": "not published in Santee Cooper's list"
+   },
+   "miles": null,
+   "route": null,
+   "change": null,
+   "slipYears": null,
+   "history": [
+    {
+     "edition": "2024-2028",
+     "isd": "2025-12-01",
+     "name": "Conway 230 kV Switching Station"
+    }
+   ],
+   "slipDays": 0,
+   "source": {
+    "doc": "Santee Cooper list 2025-2029 (SCRTP meeting 2025-03-05)",
+    "url": "https://www.scrtp.com/assets/pdfs/meeting-archives/scrtp-meeting-2025-03-05-presentation.pdf",
+    "page": 51,
+    "item": "row 1 of 17 on slide 50"
+   },
+   "issues": [
+    {
+     "level": "info",
+     "msg": "in-service date 2025-12-01 has passed; status in source is 'In Progress'"
+    }
+   ],
+   "locationNote": null,
+   "hostLine": false,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
+  },
+  {
+   "id": "SCPSA-MARION-CONWAY-LINE",
+   "utility": "SCPSA",
+   "plan": "santee",
+   "owner": "Santee Cooper",
+   "state": "SC",
+   "name": "Marion-Conway 230 kV Line",
+   "projectId": "Row 2",
+   "status": "In Progress",
+   "zone": null,
+   "zoneName": null,
+   "description": "Fold the Hemingway-Red Bluff 230 kV Line into the new Conway 230 kV Switching Station. Construct a 230 kV line approximately 34 miles in length from the Marion 230-115-69kV Substation to the Conway 230 kV Switching Station. Rebuild the existing Marion-Conway 115 kV Line for 230/115 kV double-circuit using bundled 1272 ACSR for the 230 kV line and single 795 ACSR for the 115 kV line.",
+   "endpoints": [
+    {
+     "name": "Marion",
+     "point": {
+      "lat": 34.156552,
+      "lon": -79.413262
+     },
+     "method": "osm-partial",
+     "confidence": "medium",
+     "radiusMi": 1.5,
+     "evidence": "OSM way/1036975685 'South Marion Substation'; 2 places share this name (next one 4 mi away); picked the one nearest the other endpoint(s) and the planning zone"
+    },
+    {
+     "name": "Conway",
+     "point": {
+      "lat": 33.814642,
+      "lon": -79.080565
+     },
+     "method": "osm-exact",
+     "confidence": "high",
+     "radiusMi": 0.5,
+     "evidence": "OSM way/184856193 'Conway Substation'"
+    }
+   ],
+   "describedStations": [
+    {
+     "name": "Hemingway",
+     "point": {
+      "lat": 33.749717,
+      "lon": -79.426551
+     },
+     "evidence": "Named in the filing description (\u201cFold the Hemingway-Red Bluff 230 kV Line into the new Conway 230 kV Switching Station.\u201d), matched to OSM way/1078768235 'Hemingway Substation'"
+    },
+    {
+     "name": "Red Bluff",
+     "point": {
+      "lat": 33.929956,
+      "lon": -78.852708
+     },
+     "evidence": "Named in the filing description (\u201cFold the Hemingway-Red Bluff 230 kV Line into the new Conway 230 kV Switching Station.\u201d), matched to OSM way/184856199 'Red Bluff Substation'"
+    },
+    {
+     "name": "Conway",
+     "point": {
+      "lat": 33.814642,
+      "lon": -79.080565
+     },
+     "evidence": "Named in the filing description (\u201cFold the Hemingway-Red Bluff 230 kV Line into the new Conway 230 kV Switching Station.\u201d), matched to OSM way/184856193 'Conway Substation'"
+    }
+   ],
+   "locatedBy": "endpoints",
+   "center": {
+    "lat": 33.985597,
+    "lon": -79.246914
+   },
+   "radiusMi": 1.5,
+   "locationConfidence": "medium",
+   "locationCompleteness": {
+    "located": 2,
+    "total": 2
+   },
+   "inServiceDate": "2025-12-01",
+   "inServiceRaw": "12/1/2025",
+   "window": {
+    "start": null,
+    "end": "2025-12-01",
+    "basis": "in-service date only; Santee Cooper publishes no start date"
+   },
+   "cost": {
+    "total": null,
+    "by_year": {},
+    "basis": "not published in Santee Cooper's list"
+   },
+   "miles": 34.0,
+   "route": null,
+   "change": null,
+   "slipYears": null,
+   "history": [
+    {
+     "edition": "2024-2028",
+     "isd": "2025-12-01",
+     "name": "Marion-Conway 230 kV Line"
+    }
+   ],
+   "slipDays": 0,
+   "source": {
+    "doc": "Santee Cooper list 2025-2029 (SCRTP meeting 2025-03-05)",
+    "url": "https://www.scrtp.com/assets/pdfs/meeting-archives/scrtp-meeting-2025-03-05-presentation.pdf",
+    "page": 51,
+    "item": "row 2 of 17 on slide 50"
+   },
+   "issues": [
+    {
+     "level": "info",
+     "msg": "in-service date 2025-12-01 has passed; status in source is 'In Progress'"
+    }
+   ],
+   "locationNote": null,
+   "hostLine": false,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
+  },
+  {
+   "id": "SCPSA-UPGRADE-PURRYSBURG-TRANSFORMER",
+   "utility": "SCPSA",
+   "plan": "santee",
+   "owner": "Santee Cooper",
+   "state": "SC",
+   "name": "Upgrade Purrysburg 230-115 kV Transformer",
+   "projectId": "Row 3",
+   "status": null,
+   "zone": null,
+   "zoneName": null,
+   "description": "",
+   "endpoints": [
+    {
+     "name": "Purrysburg",
+     "point": null,
+     "method": null,
+     "confidence": "none",
+     "radiusMi": null,
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
+    }
+   ],
+   "describedStations": [],
+   "locatedBy": null,
+   "center": null,
+   "radiusMi": null,
+   "locationConfidence": "none",
+   "locationCompleteness": {
+    "located": 0,
+    "total": 1
+   },
+   "inServiceDate": "2025-12-01",
+   "inServiceRaw": "12/1/2025",
+   "window": {
+    "start": null,
+    "end": "2025-12-01",
+    "basis": "in-service date only; Santee Cooper publishes no start date"
+   },
+   "cost": {
+    "total": null,
+    "by_year": {},
+    "basis": "not published in Santee Cooper's list"
+   },
+   "miles": null,
+   "route": null,
+   "change": null,
+   "slipYears": null,
+   "history": [
+    {
+     "edition": "2024-2028",
+     "isd": "2025-12-01",
+     "name": "Upgrade Purrysburg 230-115 kV Transformer"
+    }
+   ],
+   "slipDays": 0,
+   "source": {
+    "doc": "Santee Cooper list 2025-2029 (SCRTP meeting 2025-03-05)",
+    "url": "https://www.scrtp.com/assets/pdfs/meeting-archives/scrtp-meeting-2025-03-05-presentation.pdf",
+    "page": 50,
+    "item": "row 3 of 17 on slide 50"
+   },
+   "issues": [
+    {
+     "level": "info",
+     "msg": "no project slide in the deck: description, need and status not published"
+    },
+    {
+     "level": "info",
+     "msg": "in-service date 2025-12-01 has passed; the source gives no status"
+    },
+    {
+     "level": "warn",
+     "msg": "endpoint 'Purrysburg' could not be located"
+    }
+   ],
+   "locationNote": null,
+   "hostLine": false,
+   "environment": {
+    "checked": false,
+    "reason": "not placed on the map, so its distance to other utilities' projects can't be measured"
+   }
+  },
+  {
+   "id": "SCPSA-CAROLINA-FOREST-ADD-TRANSFORMER",
+   "utility": "SCPSA",
+   "plan": "santee",
+   "owner": "Santee Cooper",
+   "state": "SC",
+   "name": "Carolina Forest 230-115 kV Substation: Add Transformer",
+   "projectId": "Row 4",
+   "status": null,
+   "zone": null,
+   "zoneName": null,
+   "description": "",
+   "endpoints": [
+    {
+     "name": "Carolina Forest",
+     "point": {
+      "lat": 33.781251,
+      "lon": -78.886965
+     },
+     "method": "osm-exact",
+     "confidence": "high",
+     "radiusMi": 0.5,
+     "evidence": "OSM way/605922392 'Carolina Forest Substation'"
+    }
+   ],
+   "describedStations": [],
+   "locatedBy": "endpoints",
+   "center": {
+    "lat": 33.781251,
+    "lon": -78.886965
+   },
+   "radiusMi": 0.5,
+   "locationConfidence": "high",
+   "locationCompleteness": {
+    "located": 1,
+    "total": 1
+   },
+   "inServiceDate": "2025-12-01",
+   "inServiceRaw": "12/1/2025",
+   "window": {
+    "start": null,
+    "end": "2025-12-01",
+    "basis": "in-service date only; Santee Cooper publishes no start date"
+   },
+   "cost": {
+    "total": null,
+    "by_year": {},
+    "basis": "not published in Santee Cooper's list"
+   },
+   "miles": null,
+   "route": null,
+   "change": null,
+   "slipYears": null,
+   "history": [
+    {
+     "edition": "2024-2028",
+     "isd": "2025-12-01",
+     "name": "Carolina Forest 230-115 kV Substation: Add Transformer"
+    }
+   ],
+   "slipDays": 0,
+   "source": {
+    "doc": "Santee Cooper list 2025-2029 (SCRTP meeting 2025-03-05)",
+    "url": "https://www.scrtp.com/assets/pdfs/meeting-archives/scrtp-meeting-2025-03-05-presentation.pdf",
+    "page": 50,
+    "item": "row 4 of 17 on slide 50"
+   },
+   "issues": [
+    {
+     "level": "info",
+     "msg": "no project slide in the deck: description, need and status not published"
+    },
+    {
+     "level": "info",
+     "msg": "in-service date 2025-12-01 has passed; the source gives no status"
+    }
+   ],
+   "locationNote": null,
+   "hostLine": false,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
+  },
+  {
+   "id": "SCPSA-CONWAY-PERRY-ROAD-LINE",
+   "utility": "SCPSA",
+   "plan": "santee",
+   "owner": "Santee Cooper",
+   "state": "SC",
+   "name": "Conway - Perry Road 230 kV Line",
+   "projectId": "Row 5",
+   "status": "In Progress",
+   "zone": null,
+   "zoneName": null,
+   "description": "Construct a new 230 kV line between the Conway 230 kV Switching Station and the Perry Road 230-115 kV Substation using bundled 1272 ACSR conductor.",
+   "endpoints": [
+    {
+     "name": "Conway",
+     "point": {
+      "lat": 33.814642,
+      "lon": -79.080565
+     },
+     "method": "osm-exact",
+     "confidence": "high",
+     "radiusMi": 0.5,
+     "evidence": "OSM way/184856193 'Conway Substation'"
+    },
+    {
+     "name": "Perry Road",
+     "point": {
+      "lat": 33.525944,
+      "lon": -79.331042
+     },
+     "method": "town",
+     "confidence": "low",
+     "radiusMi": 6.0,
+     "evidence": "Nominatim: highway/residential: Perry Road, Georgetown County, South Carolina, 29440, United States"
+    }
+   ],
+   "describedStations": [
+    {
+     "name": "Conway",
+     "point": {
+      "lat": 33.814642,
+      "lon": -79.080565
+     },
+     "evidence": "Named in the filing description (\u201cConstruct a new 230 kV line between the Conway 230 kV Switching Station and the Perry Road 230-115 kV Substation using bundled 1272 ACSR conductor.\u201d), matched to OSM way/184856193 'Conway Substation'"
+    }
+   ],
+   "locatedBy": "endpoints",
+   "center": {
+    "lat": 33.670293,
+    "lon": -79.205804
+   },
+   "radiusMi": 6.0,
+   "locationConfidence": "low",
+   "locationCompleteness": {
+    "located": 2,
+    "total": 2
+   },
+   "inServiceDate": "2025-12-01",
+   "inServiceRaw": "12/1/2025",
+   "window": {
+    "start": null,
+    "end": "2025-12-01",
+    "basis": "in-service date only; Santee Cooper publishes no start date"
+   },
+   "cost": {
+    "total": null,
+    "by_year": {},
+    "basis": "not published in Santee Cooper's list"
+   },
+   "miles": null,
+   "route": null,
+   "change": null,
+   "slipYears": null,
+   "history": [
+    {
+     "edition": "2024-2028",
+     "isd": "2025-12-01",
+     "name": "Conway - Perry Road 230 kV Line"
+    }
+   ],
+   "slipDays": 0,
+   "source": {
+    "doc": "Santee Cooper list 2025-2029 (SCRTP meeting 2025-03-05)",
+    "url": "https://www.scrtp.com/assets/pdfs/meeting-archives/scrtp-meeting-2025-03-05-presentation.pdf",
+    "page": 53,
+    "item": "row 5 of 17 on slide 50"
+   },
+   "issues": [
+    {
+     "level": "info",
+     "msg": "in-service date 2025-12-01 has passed; status in source is 'In Progress'"
+    },
+    {
+     "level": "info",
+     "msg": "endpoint 'Perry Road' located with low confidence (town)"
+    }
+   ],
+   "locationNote": null,
+   "hostLine": false,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
+  },
+  {
+   "id": "SCPSA-INSTALL-2ND-WASSAMASSAW-XFMR-AT-WASSAMASSAW",
+   "utility": "SCPSA",
+   "plan": "santee",
+   "owner": "Santee Cooper",
+   "state": "SC",
+   "name": "Install 2nd Wassamassaw xfmr at Wassamassaw",
+   "projectId": "Row 6",
+   "status": null,
+   "zone": null,
+   "zoneName": null,
+   "description": "",
+   "endpoints": [
+    {
+     "name": "Wassamassaw",
+     "point": null,
+     "method": null,
+     "confidence": "none",
+     "radiusMi": null,
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
+    }
+   ],
+   "describedStations": [],
+   "locatedBy": null,
+   "center": null,
+   "radiusMi": null,
+   "locationConfidence": "none",
+   "locationCompleteness": {
+    "located": 0,
+    "total": 1
+   },
+   "inServiceDate": "2026-09-01",
+   "inServiceRaw": "9/1/2026",
+   "window": {
+    "start": null,
+    "end": "2026-09-01",
+    "basis": "in-service date only; Santee Cooper publishes no start date"
+   },
+   "cost": {
+    "total": null,
+    "by_year": {},
+    "basis": "not published in Santee Cooper's list"
+   },
+   "miles": null,
+   "route": null,
+   "change": null,
+   "slipYears": null,
+   "history": [
+    {
+     "edition": "2024-2028",
+     "isd": "2026-05-30",
+     "name": "Install 2nd Wassamassaw xfmr at Wassamassaw"
+    }
+   ],
+   "slipDays": 94,
+   "source": {
+    "doc": "Santee Cooper list 2025-2029 (SCRTP meeting 2025-03-05)",
+    "url": "https://www.scrtp.com/assets/pdfs/meeting-archives/scrtp-meeting-2025-03-05-presentation.pdf",
+    "page": 50,
+    "item": "row 6 of 17 on slide 50"
+   },
+   "issues": [
+    {
+     "level": "info",
+     "msg": "no project slide in the deck: description, need and status not published"
+    },
+    {
+     "level": "info",
+     "msg": "in-service date 2026-09-01 has passed; the source gives no status"
+    },
+    {
+     "level": "warn",
+     "msg": "endpoint 'Wassamassaw' could not be located"
+    }
+   ],
+   "locationNote": null,
+   "hostLine": false,
+   "environment": {
+    "checked": false,
+    "reason": "not placed on the map, so its distance to other utilities' projects can't be measured"
+   }
+  },
+  {
+   "id": "SCPSA-REPLACE-BLUFFTON-PURRYSBURG-LIMITING-ELEMENTS",
+   "utility": "SCPSA",
+   "plan": "santee",
+   "owner": "Santee Cooper",
+   "state": "SC",
+   "name": "Replace Bluffton-Purrysburg 230 kV limiting Elements",
+   "projectId": "Row 7",
+   "status": null,
+   "zone": null,
+   "zoneName": null,
+   "description": "",
+   "endpoints": [
+    {
+     "name": "Bluffton",
+     "point": {
+      "lat": 32.235027,
+      "lon": -80.853384
+     },
+     "method": "reference",
+     "confidence": "medium",
+     "radiusMi": 1.5,
+     "evidence": "Projects_Overlaps.xlsx (reference dataset) gives this point for DESC's station of this name; it may be another utility's station"
+    },
+    {
+     "name": "Purrysburg",
+     "point": null,
+     "method": null,
+     "confidence": "none",
+     "radiusMi": null,
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
+    }
+   ],
+   "describedStations": [],
+   "locatedBy": "endpoints",
+   "center": {
+    "lat": 32.235027,
+    "lon": -80.853384
+   },
+   "radiusMi": 11.5,
+   "locationConfidence": "low",
+   "locationCompleteness": {
+    "located": 1,
+    "total": 2
+   },
+   "inServiceDate": "2026-11-01",
+   "inServiceRaw": "11/1/2026",
+   "window": {
+    "start": null,
+    "end": "2026-11-01",
+    "basis": "in-service date only; Santee Cooper publishes no start date"
+   },
+   "cost": {
+    "total": null,
+    "by_year": {},
+    "basis": "not published in Santee Cooper's list"
+   },
+   "miles": null,
+   "route": null,
+   "change": null,
+   "slipYears": null,
+   "history": [
+    {
+     "edition": "2024-2028",
+     "isd": "2026-03-01",
+     "name": "Replace Bluffton-Purrysburg 230 kV limiting Elements"
+    }
+   ],
+   "slipDays": 245,
+   "source": {
+    "doc": "Santee Cooper list 2025-2029 (SCRTP meeting 2025-03-05)",
+    "url": "https://www.scrtp.com/assets/pdfs/meeting-archives/scrtp-meeting-2025-03-05-presentation.pdf",
+    "page": 50,
+    "item": "row 7 of 17 on slide 50"
+   },
+   "issues": [
+    {
+     "level": "info",
+     "msg": "no project slide in the deck: description, need and status not published"
+    },
+    {
+     "level": "warn",
+     "msg": "endpoint 'Purrysburg' could not be located"
+    }
+   ],
+   "locationNote": null,
+   "hostLine": false,
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "Bluffton",
+      "radiusMi": 0.25,
+      "wetlands": {
+       "share": 0.01,
+       "waterShare": 0.088,
+       "types": {
+        "Freshwater Pond": 0.088,
+        "Freshwater Forested/Shrub Wetland": 0.01
+       },
+       "atStation": []
+      },
+      "flood": {
+       "zone": "X",
+       "subtype": "AREA OF MINIMAL FLOOD HAZARD",
+       "sfha": false,
+       "mapped": true,
+       "sfhaShare": 0.0
+      },
+      "habitat": [],
+      "protected": []
+     }
+    ],
+    "route": null
+   }
+  },
+  {
+   "id": "SCPSA-INDIAN-FIELD-WASSAMASSAW-LINE",
+   "utility": "SCPSA",
+   "plan": "santee",
+   "owner": "Santee Cooper",
+   "state": "SC",
+   "name": "Indian Field-Wassamassaw 230 kV Line",
+   "projectId": "Row 8",
+   "status": "Planned",
+   "zone": null,
+   "zoneName": null,
+   "description": "Construct a 230 kV transmission line from the proposed Indian Field 230-115 kV Substation to the Wassamassaw 230- 115 kV Substation. Design and construct with bundled 1272 ACSR conductor rated for 2,400 Ampere continuous operation at 230kV.",
+   "endpoints": [
+    {
+     "name": "Indian Field",
+     "point": null,
+     "method": null,
+     "confidence": "none",
+     "radiusMi": null,
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
+    },
+    {
+     "name": "Wassamassaw",
+     "point": null,
+     "method": null,
+     "confidence": "none",
+     "radiusMi": null,
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
+    }
+   ],
+   "describedStations": [],
+   "locatedBy": null,
+   "center": null,
+   "radiusMi": null,
+   "locationConfidence": "none",
+   "locationCompleteness": {
+    "located": 0,
+    "total": 2
+   },
+   "inServiceDate": "2026-11-01",
+   "inServiceRaw": "11/1/2026",
+   "window": {
+    "start": null,
+    "end": "2026-11-01",
+    "basis": "in-service date only; Santee Cooper publishes no start date"
+   },
+   "cost": {
+    "total": null,
+    "by_year": {},
+    "basis": "not published in Santee Cooper's list"
+   },
+   "miles": null,
+   "route": null,
+   "change": null,
+   "slipYears": null,
+   "history": [
+    {
+     "edition": "2024-2028",
+     "isd": "2026-06-30",
+     "name": "Indian Field-Wassamassaw 230 kV Line"
+    }
+   ],
+   "slipDays": 124,
+   "source": {
+    "doc": "Santee Cooper list 2025-2029 (SCRTP meeting 2025-03-05)",
+    "url": "https://www.scrtp.com/assets/pdfs/meeting-archives/scrtp-meeting-2025-03-05-presentation.pdf",
+    "page": 59,
+    "item": "row 8 of 17 on slide 50"
+   },
+   "issues": [
+    {
+     "level": "warn",
+     "msg": "endpoint 'Indian Field' could not be located"
+    },
+    {
+     "level": "warn",
+     "msg": "endpoint 'Wassamassaw' could not be located"
+    }
+   ],
+   "locationNote": null,
+   "hostLine": false,
+   "environment": {
+    "checked": false,
+    "reason": "not placed on the map, so its distance to other utilities' projects can't be measured"
+   }
+  },
+  {
+   "id": "SCPSA-INDIAN-FIELD",
+   "utility": "SCPSA",
+   "plan": "santee",
+   "owner": "Santee Cooper",
+   "state": "SC",
+   "name": "Indian Field 230-115 kV Substation",
+   "projectId": "Row 9",
+   "status": "Planned",
+   "zone": null,
+   "zoneName": null,
+   "description": "Fold in the existing Harleyville \u2013 St. George 115 kV line into the new Indian Field 230-115 kV substation. The existing Byrds Tap 115 kV line will be terminated on the 115 kV bus #1 at the new Indian Field 230-115kV substation. A new 115 kV transmission line will be built as a 230/115 kV double circuit line for future 230 kV projects from St. George 115 kV Switching Station to the new Indian Field 230-115kV substation.",
+   "endpoints": [
+    {
+     "name": "Indian Field",
+     "point": null,
+     "method": null,
+     "confidence": "none",
+     "radiusMi": null,
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
+    }
+   ],
+   "describedStations": [
+    {
+     "name": "Harleyville",
+     "point": {
+      "lat": 33.209907,
+      "lon": -80.451166
+     },
+     "evidence": "Named in the filing description (\u201cFold in the existing Harleyville \u2013 St.\u201d), matched to OSM way/1075801506 'Harleyville Substation'"
+    },
+    {
+     "name": "St. George",
+     "point": {
+      "lat": 33.199388,
+      "lon": -80.592009
+     },
+     "evidence": "Named in the filing description (\u201cFold in the existing Harleyville \u2013 St. George 115 kV line into the new Indian Field 230-115 kV substation.\u201d), matched to OSM way/1069480257 'Saint George Switching Station'"
+    }
+   ],
+   "locatedBy": "description",
+   "center": {
+    "lat": 33.204648,
+    "lon": -80.521588
+   },
+   "radiusMi": 5.09,
+   "locationConfidence": "low",
+   "locationCompleteness": {
+    "located": 0,
+    "total": 1
+   },
+   "inServiceDate": "2026-12-01",
+   "inServiceRaw": "12/1/2026",
+   "window": {
+    "start": null,
+    "end": "2026-12-01",
+    "basis": "in-service date only; Santee Cooper publishes no start date"
+   },
+   "cost": {
+    "total": null,
+    "by_year": {},
+    "basis": "not published in Santee Cooper's list"
+   },
+   "miles": null,
+   "route": null,
+   "change": null,
+   "slipYears": null,
+   "history": [
+    {
+     "edition": "2024-2028",
+     "isd": "2026-06-30",
+     "name": "Indian Field 230-115 kV Substation"
+    }
+   ],
+   "slipDays": 154,
+   "source": {
+    "doc": "Santee Cooper list 2025-2029 (SCRTP meeting 2025-03-05)",
+    "url": "https://www.scrtp.com/assets/pdfs/meeting-archives/scrtp-meeting-2025-03-05-presentation.pdf",
+    "page": 57,
+    "item": "row 9 of 17 on slide 50"
+   },
+   "issues": [
+    {
+     "level": "warn",
+     "msg": "endpoint 'Indian Field' could not be located"
+    }
+   ],
+   "locationNote": null,
+   "hostLine": false,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
+  },
+  {
+   "id": "SCPSA-UPGRADE-BATESBURG-TRANSFORMER",
+   "utility": "SCPSA",
+   "plan": "santee",
+   "owner": "Santee Cooper",
+   "state": "SC",
+   "name": "Upgrade Batesburg 230-115 kV transformer",
+   "projectId": "Row 10",
+   "status": null,
+   "zone": null,
+   "zoneName": null,
+   "description": "",
+   "endpoints": [
+    {
+     "name": "Batesburg",
+     "point": {
+      "lat": 33.913487,
+      "lon": -81.564435
+     },
+     "method": "osm-exact",
+     "confidence": "high",
+     "radiusMi": 0.5,
+     "evidence": "OSM way/178951280 'Batesburg Substation'"
+    }
+   ],
+   "describedStations": [],
+   "locatedBy": "endpoints",
+   "center": {
+    "lat": 33.913487,
+    "lon": -81.564435
+   },
+   "radiusMi": 0.5,
+   "locationConfidence": "high",
+   "locationCompleteness": {
+    "located": 1,
+    "total": 1
+   },
+   "inServiceDate": "2026-12-01",
+   "inServiceRaw": "12/1/2026",
+   "window": {
+    "start": null,
+    "end": "2026-12-01",
+    "basis": "in-service date only; Santee Cooper publishes no start date"
+   },
+   "cost": {
+    "total": null,
+    "by_year": {},
+    "basis": "not published in Santee Cooper's list"
+   },
+   "miles": null,
+   "route": null,
+   "change": null,
+   "slipYears": null,
+   "history": [
+    {
+     "edition": "2024-2028",
+     "isd": "2026-12-01",
+     "name": "Upgrade Batesburg 230-115 kV transformer"
+    }
+   ],
+   "slipDays": 0,
+   "source": {
+    "doc": "Santee Cooper list 2025-2029 (SCRTP meeting 2025-03-05)",
+    "url": "https://www.scrtp.com/assets/pdfs/meeting-archives/scrtp-meeting-2025-03-05-presentation.pdf",
+    "page": 50,
+    "item": "row 10 of 17 on slide 50"
+   },
+   "issues": [
+    {
+     "level": "info",
+     "msg": "no project slide in the deck: description, need and status not published"
+    }
+   ],
+   "locationNote": null,
+   "hostLine": false,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
+  },
+  {
+   "id": "SCPSA-VARNVILLE-TO-NIXVILLE-REBUILD-TO",
+   "utility": "SCPSA",
+   "plan": "santee",
+   "owner": "Santee Cooper",
+   "state": "SC",
+   "name": "Varnville to Nixville tap 69 kV Rebuild to 115 kV",
+   "projectId": "Row 11",
+   "status": null,
+   "zone": null,
+   "zoneName": null,
+   "description": "",
+   "endpoints": [
+    {
+     "name": "Varnville",
+     "point": {
+      "lat": 32.850471,
+      "lon": -81.079224
+     },
+     "method": "town",
+     "confidence": "low",
+     "radiusMi": 6.0,
+     "evidence": "Nominatim: boundary/administrative: Varnville, Hampton County, South Carolina, United States"
+    },
+    {
+     "name": "Nixville",
+     "point": {
+      "lat": 32.74297,
+      "lon": -81.150732
+     },
+     "method": "osm-exact",
+     "confidence": "high",
+     "radiusMi": 0.5,
+     "evidence": "OSM way/1064022711 'Nixville Substation'"
+    }
+   ],
+   "describedStations": [],
+   "locatedBy": "endpoints",
+   "center": {
+    "lat": 32.79672,
+    "lon": -81.114978
+   },
+   "radiusMi": 6.0,
+   "locationConfidence": "low",
+   "locationCompleteness": {
+    "located": 2,
+    "total": 2
+   },
+   "inServiceDate": "2026-12-01",
+   "inServiceRaw": "12/1/2026",
+   "window": {
+    "start": null,
+    "end": "2026-12-01",
+    "basis": "in-service date only; Santee Cooper publishes no start date"
+   },
+   "cost": {
+    "total": null,
+    "by_year": {},
+    "basis": "not published in Santee Cooper's list"
+   },
+   "miles": null,
+   "route": null,
+   "change": null,
+   "slipYears": null,
+   "history": [
+    {
+     "edition": "2024-2028",
+     "isd": "2026-12-01",
+     "name": "Varnville to Nixville tap 69 kV Rebuild to 115 kV"
+    }
+   ],
+   "slipDays": 0,
+   "source": {
+    "doc": "Santee Cooper list 2025-2029 (SCRTP meeting 2025-03-05)",
+    "url": "https://www.scrtp.com/assets/pdfs/meeting-archives/scrtp-meeting-2025-03-05-presentation.pdf",
+    "page": 50,
+    "item": "row 11 of 17 on slide 50"
+   },
+   "issues": [
+    {
+     "level": "info",
+     "msg": "no project slide in the deck: description, need and status not published"
+    },
+    {
+     "level": "info",
+     "msg": "endpoint 'Varnville' located with low confidence (town)"
+    }
+   ],
+   "locationNote": null,
+   "hostLine": false,
+   "environment": {
+    "checked": true,
+    "sites": [
+     {
+      "name": "Nixville",
+      "radiusMi": 0.25,
+      "wetlands": null,
+      "flood": null,
+      "habitat": null,
+      "protected": null
+     }
+    ],
+    "route": null,
+    "missing": [
+     "flood",
+     "habitat_fws",
+     "habitat_fws_proposed",
+     "habitat_nmfs",
+     "habitat_nmfs_rivers",
+     "protected",
+     "wetlands"
+    ]
+   }
+  },
+  {
+   "id": "SCPSA-CROSS-WASSAMASSAW-LINE",
+   "utility": "SCPSA",
+   "plan": "santee",
+   "owner": "Santee Cooper",
+   "state": "SC",
+   "name": "Cross - Wassamassaw 230 kV #2 Line",
+   "projectId": "Row 12",
+   "status": "Planned",
+   "zone": null,
+   "zoneName": null,
+   "description": "Construct a second 230 kV transmission line, approximately 18.3 miles in length, from the Cross 230 kV Switchyard to the Wassamassaw 230-115 kV Substation along existing transmission right-of-way and using pre-existing double-circuit structures where possible",
+   "endpoints": [
+    {
+     "name": "Cross",
+     "point": {
+      "lat": 33.366659,
+      "lon": -80.11499
+     },
+     "method": "osm-exact",
+     "confidence": "high",
+     "radiusMi": 0.5,
+     "evidence": "OSM way/184789473 'Cross Substation'"
+    },
+    {
+     "name": "Wassamassaw",
+     "point": null,
+     "method": null,
+     "confidence": "none",
+     "radiusMi": null,
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
+    }
+   ],
+   "describedStations": [
+    {
+     "name": "Cross",
+     "point": {
+      "lat": 33.366659,
+      "lon": -80.11499
+     },
+     "evidence": "Named in the filing description (\u201c3 miles in length, from the Cross 230 kV Switchyard to the Wassamassaw 230-115 kV Substation along existing transmission right-of-way and using pre-existing double-circuit structures where possible\u201d), matched to OSM way/184789473 'Cross Substation'"
+    }
+   ],
+   "locatedBy": "endpoints",
+   "center": {
+    "lat": 33.366659,
+    "lon": -80.11499
+   },
+   "radiusMi": 9.65,
+   "locationConfidence": "low",
+   "locationCompleteness": {
+    "located": 1,
+    "total": 2
+   },
+   "inServiceDate": "2027-06-01",
+   "inServiceRaw": "6/1/2027",
+   "window": {
+    "start": null,
+    "end": "2027-06-01",
+    "basis": "in-service date only; Santee Cooper publishes no start date"
+   },
+   "cost": {
+    "total": null,
+    "by_year": {},
+    "basis": "not published in Santee Cooper's list"
+   },
+   "miles": 18.3,
+   "route": null,
+   "change": null,
+   "slipYears": null,
+   "history": [
+    {
+     "edition": "2024-2028",
+     "isd": "2026-06-01",
+     "name": "Cross - Wassamassaw 230 kV #2 Line"
+    }
+   ],
+   "slipDays": 365,
+   "source": {
+    "doc": "Santee Cooper list 2025-2029 (SCRTP meeting 2025-03-05)",
+    "url": "https://www.scrtp.com/assets/pdfs/meeting-archives/scrtp-meeting-2025-03-05-presentation.pdf",
+    "page": 55,
+    "item": "row 12 of 17 on slide 50"
+   },
+   "issues": [
+    {
+     "level": "warn",
+     "msg": "endpoint 'Wassamassaw' could not be located"
+    }
+   ],
+   "locationNote": null,
+   "hostLine": false,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
+  },
+  {
+   "id": "SCPSA-PURRYSBURG-IMPROVEMENTS",
+   "utility": "SCPSA",
+   "plan": "santee",
+   "owner": "Santee Cooper",
+   "state": "SC",
+   "name": "Purrysburg Station Improvements",
+   "projectId": "Row 13",
+   "status": null,
+   "zone": null,
+   "zoneName": null,
+   "description": "",
+   "endpoints": [
+    {
+     "name": "Purrysburg",
+     "point": null,
+     "method": null,
+     "confidence": "none",
+     "radiusMi": null,
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
+    }
+   ],
+   "describedStations": [],
+   "locatedBy": null,
+   "center": null,
+   "radiusMi": null,
+   "locationConfidence": "none",
+   "locationCompleteness": {
+    "located": 0,
+    "total": 1
+   },
+   "inServiceDate": "2027-06-01",
+   "inServiceRaw": "6/1/2027",
+   "window": {
+    "start": null,
+    "end": "2027-06-01",
+    "basis": "in-service date only; Santee Cooper publishes no start date"
+   },
+   "cost": {
+    "total": null,
+    "by_year": {},
+    "basis": "not published in Santee Cooper's list"
+   },
+   "miles": null,
+   "route": null,
+   "change": null,
+   "slipYears": null,
+   "history": [
+    {
+     "edition": "2024-2028",
+     "isd": "2026-09-01",
+     "name": "Purrysburg Station Improvements"
+    }
+   ],
+   "slipDays": 273,
+   "source": {
+    "doc": "Santee Cooper list 2025-2029 (SCRTP meeting 2025-03-05)",
+    "url": "https://www.scrtp.com/assets/pdfs/meeting-archives/scrtp-meeting-2025-03-05-presentation.pdf",
+    "page": 50,
+    "item": "row 13 of 17 on slide 50"
+   },
+   "issues": [
+    {
+     "level": "info",
+     "msg": "no project slide in the deck: description, need and status not published"
+    },
+    {
+     "level": "warn",
+     "msg": "endpoint 'Purrysburg' could not be located"
+    }
+   ],
+   "locationNote": null,
+   "hostLine": false,
+   "environment": {
+    "checked": false,
+    "reason": "not placed on the map, so its distance to other utilities' projects can't be measured"
+   }
+  },
+  {
+   "id": "SCPSA-VARNVILLE",
+   "utility": "SCPSA",
+   "plan": "santee",
+   "owner": "Santee Cooper",
+   "state": "SC",
+   "name": "Varnville 230-115 kV substation",
+   "projectId": "Row 14",
+   "status": "Planned",
+   "zone": null,
+   "zoneName": null,
+   "description": "Construct a new Varnville 230-115 kV substation on existing Santee Cooper transmission property and property acquired adjacent to the existing Varnville 230-115-69 kV Substation.",
+   "endpoints": [
+    {
+     "name": "Varnville",
+     "point": {
+      "lat": 32.850471,
+      "lon": -81.079224
+     },
+     "method": "town",
+     "confidence": "low",
+     "radiusMi": 6.0,
+     "evidence": "Nominatim: boundary/administrative: Varnville, Hampton County, South Carolina, United States"
+    }
+   ],
+   "describedStations": [],
+   "locatedBy": "endpoints",
+   "center": {
+    "lat": 32.850471,
+    "lon": -81.079224
+   },
+   "radiusMi": 6.0,
+   "locationConfidence": "low",
+   "locationCompleteness": {
+    "located": 1,
+    "total": 1
+   },
+   "inServiceDate": "2028-09-30",
+   "inServiceRaw": "9/30/2028",
+   "window": {
+    "start": null,
+    "end": "2028-09-30",
+    "basis": "in-service date only; Santee Cooper publishes no start date"
+   },
+   "cost": {
+    "total": null,
+    "by_year": {},
+    "basis": "not published in Santee Cooper's list"
+   },
+   "miles": null,
+   "route": null,
+   "change": null,
+   "slipYears": null,
+   "history": [
+    {
+     "edition": "2024-2028",
+     "isd": "2027-06-30",
+     "name": "Varnville 230-115 kV substation"
+    }
+   ],
+   "slipDays": 458,
+   "source": {
+    "doc": "Santee Cooper list 2025-2029 (SCRTP meeting 2025-03-05)",
+    "url": "https://www.scrtp.com/assets/pdfs/meeting-archives/scrtp-meeting-2025-03-05-presentation.pdf",
+    "page": 63,
+    "item": "row 14 of 17 on slide 50"
+   },
+   "issues": [
+    {
+     "level": "info",
+     "msg": "endpoint 'Varnville' located with low confidence (town)"
+    }
+   ],
+   "locationNote": null,
+   "hostLine": false,
+   "environment": {
+    "checked": false,
+    "reason": "no endpoint is placed at a station, so the ground can't be checked"
+   }
+  },
+  {
+   "id": "SCPSA-VARNVILLE-INDIAN-FIELD-LINE",
+   "utility": "SCPSA",
+   "plan": "santee",
+   "owner": "Santee Cooper",
+   "state": "SC",
+   "name": "Varnville - Indian Field 230 kV line",
+   "projectId": "Row 15",
+   "status": "Planned",
+   "zone": null,
+   "zoneName": null,
+   "description": "Construct a 230 kV transmission line (approximately 38 miles) from the Varnville 230-115 kV Substation to the proposed Indian Field 230-115 kV Substation. Rebuild the existing Bells Crossroads \u2013 Varnville 115 kV Line for 230/115 kV double- circuit on the existing right-of-way. Rebuild the St. George \u2013 Bells Crossroads (via Smoaks) 115 kV Line #2 for 230/115 kV double-circuit on the existing right-of-way until the 230 kV line reaches just outside of St George 115 kV Switching Station.",
+   "endpoints": [
+    {
+     "name": "Varnville",
+     "point": {
+      "lat": 32.850471,
+      "lon": -81.079224
+     },
+     "method": "town",
+     "confidence": "low",
+     "radiusMi": 6.0,
+     "evidence": "Nominatim: boundary/administrative: Varnville, Hampton County, South Carolina, United States"
+    },
+    {
+     "name": "Indian Field",
+     "point": null,
+     "method": null,
+     "confidence": "none",
+     "radiusMi": null,
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
+    }
+   ],
+   "describedStations": [
+    {
+     "name": "St. George",
+     "point": {
+      "lat": 33.199388,
+      "lon": -80.592009
+     },
+     "evidence": "Named in the filing description (\u201cRebuild the St. George \u2013 Bells Crossroads (via Smoaks) 115 kV Line #2 for 230/115 kV double-circuit on the existing right-of-way until the 230 kV line reaches just outside of St George 115 kV Switching Station.\u201d), matched to OSM way/1069480257 'Saint George Switching Station'"
+    },
+    {
+     "name": "Smoaks",
+     "point": {
+      "lat": 33.089598,
+      "lon": -80.816349
+     },
+     "evidence": "Named in the filing description (\u201cGeorge \u2013 Bells Crossroads (via Smoaks) 115 kV Line #2 for 230/115 kV double-circuit on the existing right-of-way until the 230 kV line reaches just outside of St George 115 kV Switching Station.\u201d), matched to OSM way/1075801517 'Smoaks Substation'"
+    }
+   ],
+   "locatedBy": "endpoints",
+   "center": {
+    "lat": 32.850471,
+    "lon": -81.079224
+   },
+   "radiusMi": 25.0,
+   "locationConfidence": "low",
+   "locationCompleteness": {
+    "located": 1,
+    "total": 2
+   },
+   "inServiceDate": "2028-11-01",
+   "inServiceRaw": "11/1/2028",
+   "window": {
+    "start": null,
+    "end": "2028-11-01",
+    "basis": "in-service date only; Santee Cooper publishes no start date"
+   },
+   "cost": {
+    "total": null,
+    "by_year": {},
+    "basis": "not published in Santee Cooper's list"
+   },
+   "miles": 38.0,
+   "route": null,
+   "change": null,
+   "slipYears": null,
+   "history": [
+    {
+     "edition": "2024-2028",
+     "isd": "2027-12-01",
+     "name": "Varnville - Indian Field 230 kV line"
+    }
+   ],
+   "slipDays": 336,
+   "source": {
+    "doc": "Santee Cooper list 2025-2029 (SCRTP meeting 2025-03-05)",
+    "url": "https://www.scrtp.com/assets/pdfs/meeting-archives/scrtp-meeting-2025-03-05-presentation.pdf",
+    "page": 65,
+    "item": "row 15 of 17 on slide 50"
+   },
+   "issues": [
+    {
+     "level": "info",
+     "msg": "endpoint 'Varnville' located with low confidence (town)"
+    },
+    {
+     "level": "warn",
+     "msg": "endpoint 'Indian Field' could not be located"
+    }
+   ],
+   "locationNote": null,
+   "hostLine": false,
+   "environment": {
+    "checked": false,
+    "reason": "no endpoint is placed at a station, so the ground can't be checked"
+   }
+  },
+  {
+   "id": "SCPSA-MARION-RED-BLUFF-LINE",
+   "utility": "SCPSA",
+   "plan": "santee",
+   "owner": "Santee Cooper",
+   "state": "SC",
+   "name": "Marion - Red Bluff 230 kV line",
+   "projectId": "Row 16",
+   "status": "Planned",
+   "zone": null,
+   "zoneName": null,
+   "description": "Construct a new 230 kV transmission line from the Marion 230-115/230-69/115-69 kV Substation to the Red Bluff 230- 115 kV Substation with bundled 1272 ACSR conductor rated for 2400 Ampere minimum continuous operation at 230 kV. Existing right-of-way will be used where possible, but new right-of-way will need to be obtained.",
+   "endpoints": [
+    {
+     "name": "Marion",
+     "point": {
+      "lat": 34.194307,
+      "lon": -79.349403
+     },
+     "method": "osm-partial",
+     "confidence": "medium",
+     "radiusMi": 1.5,
+     "evidence": "OSM way/1082130512 'East Marion Substation'; 2 places share this name (next one 4 mi away); picked the one nearest the other endpoint(s) and the planning zone"
+    },
+    {
+     "name": "Red Bluff",
+     "point": {
+      "lat": 33.929956,
+      "lon": -78.852708
+     },
+     "method": "osm-exact",
+     "confidence": "high",
+     "radiusMi": 0.5,
+     "evidence": "OSM way/184856199 'Red Bluff Substation'"
+    }
+   ],
+   "describedStations": [
+    {
+     "name": "Red Bluff",
+     "point": {
+      "lat": 33.929956,
+      "lon": -78.852708
+     },
+     "evidence": "Named in the filing description (\u201cConstruct a new 230 kV transmission line from the Marion 230-115/230-69/115-69 kV Substation to the Red Bluff 230- 115 kV Substation with bundled 1272 ACSR conductor rated for 2400 Ampere minimum continuous operation at 230 kV.\u201d), matched to OSM way/184856199 'Red Bluff Substation'"
+    }
+   ],
+   "locatedBy": "endpoints",
+   "center": {
+    "lat": 34.062131,
+    "lon": -79.101056
+   },
+   "radiusMi": 1.5,
+   "locationConfidence": "medium",
+   "locationCompleteness": {
+    "located": 2,
+    "total": 2
+   },
+   "inServiceDate": "2028-11-01",
+   "inServiceRaw": "11/1/2028",
+   "window": {
+    "start": null,
+    "end": "2028-11-01",
+    "basis": "in-service date only; Santee Cooper publishes no start date"
+   },
+   "cost": {
+    "total": null,
+    "by_year": {},
+    "basis": "not published in Santee Cooper's list"
+   },
+   "miles": null,
+   "route": null,
+   "change": null,
+   "slipYears": null,
+   "history": [
+    {
+     "edition": "2024-2028",
+     "isd": "2028-06-01",
+     "name": "Marion - Red Bluff 230 kV line"
+    }
+   ],
+   "slipDays": 153,
+   "source": {
+    "doc": "Santee Cooper list 2025-2029 (SCRTP meeting 2025-03-05)",
+    "url": "https://www.scrtp.com/assets/pdfs/meeting-archives/scrtp-meeting-2025-03-05-presentation.pdf",
+    "page": 67,
+    "item": "row 16 of 17 on slide 50"
+   },
+   "issues": [],
+   "locationNote": null,
+   "hostLine": false,
+   "environment": {
+    "checked": false,
+    "reason": "not near any project in the other state"
+   }
+  },
+  {
+   "id": "SCPSA-REBUILD-KINGSTREE-HEMINGWAY-LINE-AS-A-DOUBLE-CIRCUIT-LINE",
+   "utility": "SCPSA",
+   "plan": "santee",
+   "owner": "Santee Cooper",
+   "state": "SC",
+   "name": "Rebuild Kingstree-Hemingway 115 kV Line as a Double Circuit 230/115 kV Line",
+   "projectId": "Row 17",
+   "status": "Planned",
+   "zone": null,
+   "zoneName": null,
+   "description": "Construct a second 230 kV line, approximately 22 miles, from the Kingstree 230 kV Switching Station to the Hemingway 230-115 kV Substation by rebuilding the existing Kingstree \u2013 Hemingway 115 kV line for double circuit 230/115 kV construction.",
+   "endpoints": [
+    {
+     "name": "Kingstree",
+     "point": {
+      "lat": 33.668163,
+      "lon": -79.800444
+     },
+     "method": "osm-exact",
+     "confidence": "medium",
+     "radiusMi": 1.5,
+     "evidence": "OSM way/184709523 'Kingstree Substation'; OSM tags its operator 'Duke Energy Progress', so it may be another utility's station of the same name; 2 places share this name (next one 1 mi away); picked the one nearest the other endpoint(s) and the planning zone"
+    },
+    {
+     "name": "Hemingway",
+     "point": {
+      "lat": 33.749717,
+      "lon": -79.426551
+     },
+     "method": "osm-exact",
+     "confidence": "medium",
+     "radiusMi": 1.5,
+     "evidence": "OSM way/1078768235 'Hemingway Substation'; OSM tags its operator 'Santee Electric Cooperative', so it may be another utility's station of the same name"
+    }
+   ],
+   "describedStations": [
+    {
+     "name": "Hemingway",
+     "point": {
+      "lat": 33.749717,
+      "lon": -79.426551
+     },
+     "evidence": "Named in the filing description (\u201cConstruct a second 230 kV line, approximately 22 miles, from the Kingstree 230 kV Switching Station to the Hemingway 230-115 kV Substation by rebuilding the existing Kingstree \u2013 Hemingway 115 kV line for double circuit 230/115 kV construction.\u201d), matched to OSM way/1078768235 'Hemingway Substation'"
+    }
+   ],
+   "locatedBy": "endpoints",
+   "center": {
+    "lat": 33.70894,
+    "lon": -79.613497
+   },
+   "radiusMi": 1.5,
+   "locationConfidence": "medium",
+   "locationCompleteness": {
+    "located": 2,
+    "total": 2
+   },
+   "inServiceDate": "2029-06-01",
+   "inServiceRaw": "6/1/2029",
+   "window": {
+    "start": null,
+    "end": "2029-06-01",
+    "basis": "in-service date only; Santee Cooper publishes no start date"
+   },
+   "cost": {
+    "total": null,
+    "by_year": {},
+    "basis": "not published in Santee Cooper's list"
+   },
+   "miles": 22.0,
+   "route": null,
+   "change": null,
+   "slipYears": null,
+   "history": [
+    {
+     "edition": "2024-2028",
+     "isd": "2027-06-01",
+     "name": "Rebuild Kingstree-Hemingway 115 kV Line as a Double Circuit 230/115 kV Line"
+    }
+   ],
+   "slipDays": 731,
+   "source": {
+    "doc": "Santee Cooper list 2025-2029 (SCRTP meeting 2025-03-05)",
+    "url": "https://www.scrtp.com/assets/pdfs/meeting-archives/scrtp-meeting-2025-03-05-presentation.pdf",
+    "page": 61,
+    "item": "row 17 of 17 on slide 50"
+   },
+   "issues": [
+    {
+     "level": "info",
+     "msg": "rebuilds 22.0 mi of a 22.22 mi station-to-station span; section not stated"
     }
    ],
    "locationNote": null,

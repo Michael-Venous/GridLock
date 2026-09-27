@@ -7,7 +7,8 @@
   },
   "parsers": {
     "desc": {"plan": "desc", "kind": "builtin", "module": "parse_desc", "signature": ["Dominion Energy South Carolina", "Planned Transmission Projects \\$2M and above", "Project \\d+ of \\d+"]},
-    "ga": {"plan": "ga", "kind": "builtin", "module": "parse_ga", "signature": ["Georgia ITS", "Ten[- ]Year Plan", "Teams # \\d+"]}
+    "ga": {"plan": "ga", "kind": "builtin", "module": "parse_ga", "signature": ["Georgia ITS", "Ten[- ]Year Plan", "Teams # \\d+"]},
+    "santee": {"plan": "santee", "kind": "builtin", "module": "parse_santee", "signature": ["Santee Cooper", "Transmission Projects\\s+20\\d{2}\\s*-\\s*20\\d{2}", "Project Title\\s+In-service Date"]}
   },
   "watch": {
     "desc": {"page": "https://www.scrtp.com/", "pattern": "assets/pdfs/home/(\\d{4}-\\d{4})-2million-and-above-project-descriptions\\.pdf"},
@@ -15,6 +16,13 @@
     "ga": {"dockets": ["56002"], "search": "Transmission", "note": "Georgia's annual transmission update has been filed in the IRP docket; a new IRP opens a new docket, which has to be added here."}
   },
   "filings": [
+    {
+      "id": "santee-2024-2028", "plan": "santee", "utility": "Santee Cooper", "state": "SC", "edition": "2024-2028", "parser": "santee",
+      "title": "Santee Cooper Transmission Projects 2024-2028, SCRTP stakeholder meeting presentation February 28, 2024 (slide 47)",
+      "date": "2024-02-28", "dateBasis": "SCRTP meeting date",
+      "url": "https://www.scrtp.com/assets/pdfs/meeting-archives/scrtp-meeting-2024-02-28-presentation.pdf",
+      "file": "santee_2024-2028.pdf"
+    },
     {
       "id": "desc-2024-2028", "plan": "desc", "utility": "DESC", "state": "SC", "edition": "2024-2028", "parser": "desc",
       "title": "DESC Planned Transmission Projects $2M and above, 2024-2028",
@@ -37,6 +45,13 @@
       "date": "2025-03-03", "dateBasis": "PDF creation date",
       "url": "https://www.scrtp.com/assets/pdfs/home/2025-2029-2million-and-above-project-descriptions.pdf",
       "file": "desc_2025-2029.pdf"
+    },
+    {
+      "id": "santee-2025-2029", "plan": "santee", "utility": "Santee Cooper", "state": "SC", "edition": "2025-2029", "parser": "santee",
+      "title": "Santee Cooper Transmission Projects 2025-2029, SCRTP stakeholder meeting presentation March 5, 2025 (slide 50)",
+      "date": "2025-03-05", "dateBasis": "SCRTP meeting date",
+      "url": "https://www.scrtp.com/assets/pdfs/meeting-archives/scrtp-meeting-2025-03-05-presentation.pdf",
+      "file": "santee_2025-2029.pdf"
     },
     {
       "id": "ga-2026-2035", "plan": "ga", "utility": "Georgia ITS", "state": "GA", "edition": "2026-2035", "parser": "ga",

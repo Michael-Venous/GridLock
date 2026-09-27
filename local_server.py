@@ -1,4 +1,4 @@
-"""Loopback-only GridLock app server with a reviewed public-filing ingest workflow.
+"""Loopback-only Seamline app server with a reviewed public-filing ingest workflow.
 
 Run ``python3 local_server.py --port 8765`` from the repository. The static route
 allowlist deliberately excludes data/raw, data/build, parsers, and Git metadata.
@@ -424,7 +424,7 @@ class AppServer(ThreadingHTTPServer):
 
 
 class AppHandler(BaseHTTPRequestHandler):
-    server_version = "GridLockLocal/1"
+    server_version = "SeamlineLocal/1"
 
     def _allowed_host(self):
         return self.headers.get("Host") in {f"127.0.0.1:{self.server.server_port}", f"localhost:{self.server.server_port}"}
@@ -446,7 +446,7 @@ class AppHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         if not self._allowed_host():
-            self._json(403, {"error": "Use the local GridLock address"})
+            self._json(403, {"error": "Use the local Seamline address"})
             return
         path = self._path()
         try:
@@ -479,7 +479,7 @@ class AppHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         if not self._allowed_host():
-            return self._json(403, {"error": "Use the local GridLock address"})
+            return self._json(403, {"error": "Use the local Seamline address"})
         origin = self.headers.get("Origin")
         if origin not in {f"http://127.0.0.1:{self.server.server_port}", f"http://localhost:{self.server.server_port}"}:
             return self._json(403, {"error": "The request must come from this local app"})
@@ -529,8 +529,8 @@ def main(argv=None):
     try:
         server = AppServer(("127.0.0.1", args.port))
     except OSError as exc:
-        raise SystemExit(f"Cannot start GridLock on port {args.port}: {exc}") from None
-    print(f"GridLock: http://127.0.0.1:{args.port}/", flush=True)
+        raise SystemExit(f"Cannot start Seamline on port {args.port}: {exc}") from None
+    print(f"Seamline: http://127.0.0.1:{args.port}/", flush=True)
     try:
         server.serve_forever()
     except KeyboardInterrupt:

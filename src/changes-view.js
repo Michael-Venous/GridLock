@@ -1,9 +1,9 @@
 // The Changes tab: what each new filing changed, on a map, filtered to an area the planner draws.
-import { KINDS, itemsIn, changeItems, countByKind, inArea, boundsRing, closeRing, daysLabel, pairAppId, dateBasisText } from "./changes.js";
+import { filingEntries, KINDS, itemsIn, changeItems, countByKind, inArea, boundsRing, closeRing, daysLabel, pairAppId, dateBasisText } from "./changes.js";
 import { planOf } from "./match.js";
 
 const AREA_KEY = "gridlock.area";
-const KIND_TAG = { added: "New", removed: "Dropped", date: "Rescheduled", cost: "Re-costed", name: "Renamed", pairNew: "New pair", pairGone: "Pair gone", pairTiming: "Timing changed" };
+const KIND_TAG = { baseline: "Baseline", added: "New", removed: "Dropped", date: "Rescheduled", cost: "Re-costed", name: "Renamed", pairNew: "New pair", pairGone: "Pair gone", pairTiming: "Timing changed" };
 const readStore = (key, fallback) => { try { return JSON.parse(localStorage.getItem(key) ?? "null") ?? fallback; } catch { return fallback; } };
 const writeStore = (key, value) => { try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* storage unavailable: lasts for this visit */ } };
 
@@ -19,7 +19,7 @@ export function createChangesView(ctx) {
     if (!view.data) {
       side.replaceChildren(h("p", "muted-note", "Loading the change log…"));
       try {
-        view.data = await loadLog(); view.event = view.data.events[0]?.id ?? null;
+        view.data = await loadLog(); view.data = { ...view.data, events: filingEntries(view.data) }; view.event = view.data.events[0]?.id ?? null;
       } catch (error) { side.replaceChildren(h("p", "muted-note", `Could not load the change log: ${error.message}.`)); return; }
     }
     initMap();
@@ -27,6 +27,7 @@ export function createChangesView(ctx) {
     view.map?.resize();
   }
 
+  const mapItems = e => e.baseline ? (e.baselineProjects ?? []).map(p => ({ type: "project", kinds: ["baseline"], change: p, points: p.points })) : changeItems(e);
   const event = () => view.data.events.find(e => e.id === view.event);
   const shortTitle = e => ({ desc: "DESC list", ga: "Georgia plan" })[planOf(e)] ?? `${planName(planOf(e))} list`;
   const editionOf = id => (view.data.filings.find(f => f.id === id)?.edition ?? id.split("-").slice(1).join("-")).replaceAll("-", "–");
@@ -76,8 +77,8 @@ export function createChangesView(ctx) {
       const n = itemsIn(e, view.area, view.bufferMi).length;
       const b = h("button", `event-card ${sideOf(e)}${e.id === view.event ? " active" : ""}`);
       b.type = "button"; b.setAttribute("role", "option"); b.setAttribute("aria-selected", String(e.id === view.event));
-      b.append(h("strong", "", eventTitle(e)), h("span", "event-date", `${formatDate(e.date)} · replaced the ${editionOf(e.previous.id)} ${planOf(e) === "ga" ? "plan" : "list"}`),
-        h("span", "event-count", `${n} ${n === 1 ? "change" : "changes"}${view.area ? " in your area" : ""}`));
+      b.append(h("strong", "", eventTitle(e)), h("span", "event-date", e.baseline ? `${formatDate(e.date)} · Initial baseline` : `${formatDate(e.date)} · replaced the ${editionOf(e.previous.id)} ${planOf(e) === "ga" ? "plan" : "list"}`),
+        h("span", "event-count", e.baseline ? "No previous edition to compare" : `${n} ${n === 1 ? "change" : "changes"}${view.area ? " in your area" : ""}`));
       b.dataset.event = e.id;
       b.addEventListener("click", () => { view.event = e.id; view.kinds = null; render(); fitEvent(); });
       list.append(b);
@@ -92,12 +93,22 @@ export function createChangesView(ctx) {
     side.querySelectorAll(".event-card").forEach(b => {
       const e = view.data.events.find(x => x.id === b.dataset.event);
       const n = itemsIn(e, view.area, view.bufferMi).length;
-      b.querySelector(".event-count").textContent = `${n} ${n === 1 ? "change" : "changes"}${view.area ? " in your area" : ""}`;
+      b.querySelector(".event-count").textContent = e.baseline ? "No previous edition to compare" : `${n} ${n === 1 ? "change" : "changes"}${view.area ? " in your area" : ""}`;
     });
   }
 
   function detailBlock(e) {
     const box = h("section", "event-detail");
+    if (e.baseline) {
+      box.append(h("h2", "", eventTitle(e)), h("p", "muted-note", "Initial baseline. This filing is registered, but there is no earlier edition for this utility to compare. Its current projects are available in Pairs. Import an older edition to see changes."), link(e.url, e.title));
+      const rows = e.baselineProjects ?? [];
+      const located = rows.filter(p => p.center).length;
+      box.append(h("p", "muted-note", `${rows.length} baseline projects · ${located} mapped · ${rows.length - located} without a mapped location.`));
+      const list = h("ul", "change-list");
+      rows.filter(p => inArea(p.points, view.area, view.bufferMi)).forEach(p => list.append(projectRow(p, ["baseline"])));
+      box.append(list);
+      return box;
+    }
     const all = itemsIn(e, view.area, view.bufferMi);
     const counts = countByKind(all);
     const head = h("div", "event-head");
@@ -133,8 +144,14 @@ export function createChangesView(ctx) {
     const li = h("li", `change-row ${sideOf(c)}`);
     const tags = h("span", "change-tags"); kinds.forEach(k => tags.append(h("span", `ctag ${k}`, KIND_TAG[k])));
     const title = h("span", "change-title"); title.append(h("b", "", `${sideName(c)} ${c.projectId}`), document.createTextNode(` ${c.name}`));
-    li.append(tags, title);
+    const zoom = h("button", "link-button change-title");
+    zoom.type = "button"; zoom.setAttribute("aria-label", `Zoom to ${c.projectId} ${c.name}`);
+    zoom.append(...title.childNodes);
+    zoom.addEventListener("click", () => focusPoints(c.points));
+    li.addEventListener("click", ev => { if (!ev.target.closest("button, a")) focusPoints(c.points); });
+    li.append(tags, zoom);
     const facts = [];
+    if (kinds.includes("baseline")) facts.push(`In service ${formatDate(c.isd)}${c.center ? "" : " · Location not mapped"}`);
     if (c.kind === "added") facts.push(`In service ${formatDate(c.isd)}`);
     if (c.kind === "removed") facts.push(`Was due ${formatDate(c.isd)}. ${c.reason}`);
     if (kinds.includes("date")) facts.push(`In service ${formatDate(c.oldIsd)} → ${formatDate(c.isd)} (${daysLabel(c.days)})`);
@@ -203,7 +220,12 @@ export function createChangesView(ctx) {
       if (f) tip.setLngLat(ev.lngLat).setText(f.properties.title).addTo(map); else tip.remove();
     });
     map.on("click", ev => {
-      if (!view.drawing) return;
+      if (!view.drawing) {
+        if (!view.mapReady) return;
+        const hit = map.queryRenderedFeatures(ev.point, { layers: ["change-pts"] })[0];
+        if (hit) focusPoints([hit.geometry.coordinates]);
+        return;
+      }
       const pt = [ev.lngLat.lng, ev.lngLat.lat];
       const first = view.drawing[0];
       if (first && view.drawing.length >= 3) {
@@ -222,7 +244,7 @@ export function createChangesView(ctx) {
     map.getSource("area").setData({ type: "FeatureCollection", features: view.area ? [{ type: "Feature", geometry: { type: "Polygon", coordinates: [view.area] }, properties: {} }] : [] });
     const e = event();
     const feats = [];
-    if (e) for (const i of changeItems(e)) {
+    if (e) for (const i of mapItems(e)) {
       const inside = inArea(i.points, view.area, view.bufferMi) && (!view.kinds || i.kinds.some(k => view.kinds.includes(k)));
       const c = i.change;
       if (i.type === "pair") {
@@ -242,9 +264,18 @@ export function createChangesView(ctx) {
     view.map.getSource("hl").setData({ type: "FeatureCollection", features: (points ?? []).slice(-1).map(p => ({ type: "Feature", geometry: { type: "Point", coordinates: p }, properties: {} })) });
   }
 
+  function focusPoints(points) {
+    if (!view.mapReady || !points?.length) return;
+    const lons = points.map(p => p[0]), lats = points.map(p => p[1]);
+    highlight(points);
+    view.map.fitBounds([[Math.min(...lons), Math.min(...lats)], [Math.max(...lons), Math.max(...lats)]], {
+      padding: 60, maxZoom: 12, duration: matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 700,
+    });
+  }
+
   function fitEvent() {
     if (!view.mapReady) return;
-    const pts = view.area ?? itemsIn(event(), null).flatMap(i => i.points);
+    const pts = view.area ?? (event() ? mapItems(event()).flatMap(i => i.points) : []);
     if (!pts.length) return;
     const lons = pts.map(p => p[0]), lats = pts.map(p => p[1]);
     view.map.fitBounds([[Math.min(...lons), Math.min(...lats)], [Math.max(...lons), Math.max(...lats)]], { padding: 40, maxZoom: 11, duration: 0 });

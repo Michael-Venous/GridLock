@@ -1,4 +1,4 @@
-"""GPT-6 Sol on Amazon Bedrock (the Converse API), for the ingest agent.
+"""Claude Opus 5 on Amazon Bedrock (the Converse API), for the ingest agent.
 
 Credentials come from the standard AWS chain (AWS_PROFILE, SSO, environment); nothing is stored in the repo. The
 model and region can be changed with GRIDLOCK_BEDROCK_MODEL and AWS_REGION. Needs boto3 (requirements-agent.txt);
@@ -10,7 +10,7 @@ import sys
 
 # tried in order; an account that can't use one (no access, not offered in the region, a request shape it rejects)
 # moves on to the next
-MODELS = [os.environ["GRIDLOCK_BEDROCK_MODEL"]] if os.environ.get("GRIDLOCK_BEDROCK_MODEL") else ["us.openai.gpt-6-sol"]
+MODELS = [os.environ["GRIDLOCK_BEDROCK_MODEL"]] if os.environ.get("GRIDLOCK_BEDROCK_MODEL") else ["us.anthropic.claude-opus-5"]
 REGION = os.environ.get("AWS_REGION") or os.environ.get("AWS_DEFAULT_REGION") or "us-east-1"
 CACHE = {"cachePoint": {"type": "default"}}
 # turn endings whose tool calls can't be trusted (cut off, or not well formed), and endings that end the conversation

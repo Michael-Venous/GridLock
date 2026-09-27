@@ -43,7 +43,7 @@ const BASEMAP = "https://tiles.openfreemap.org/styles/positron";
 const SATELLITE_TILES = "https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}";
 const FALLBACK_STYLE = { version: 8, glyphs: "https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf", sources: {}, layers: [{ id: "background", type: "background", paint: { "background-color": "#e5ecec" } }] };
 const MILES_PER_DEGREE = 69.09;
-let map = null, mapReady = false, styleFailed = false, pendingFocus = null, changesView = null;
+let map = null, mapReady = false, styleFailed = false, pendingFocus = null, pendingProjectFocus = null, changesView = null;
 
 // Ground layers. Around checked sites we draw the cached outlines behind each result (data/env/); zoomed in close,
 // the full federal maps take over as live images, drawn in the agencies' own colors.
@@ -374,7 +374,7 @@ function selectPair(pair) {
 function selectProject(project) {
   if (!project) return;
   rememberResults(); state.selectedProject = project.id; state.selectedPair = null;
-  applyFilters(); revealDetails();
+  applyFilters(); focusProject(project); revealDetails();
 }
 function writeViewUrl() {
   if (!state.data) return;
@@ -414,6 +414,7 @@ function initMap() {
     syncSatellite();
     renderMap();
     if (pendingFocus) { focusPair(pendingFocus); pendingFocus = null; }
+    if (pendingProjectFocus) { focusProject(pendingProjectFocus); pendingProjectFocus = null; }
   });
   const tip = new maplibregl.Popup({ closeButton: false, closeOnClick: false, className: "map-tip", offset: 12, maxWidth: "280px" });
   let hovered = null;
@@ -572,7 +573,7 @@ const legendCounts = new Map();
 function addPlanLegends() {
   const row = (plan, text) => { const r = h("span", "plan-row"); r.append(h("i", `dot ${plan.side}`), document.createTextNode(text)); return r; };
   document.querySelector(".map-panel .map-legend").prepend(...plans.map(plan => { const r = row(plan, planLabel(plan)), count = h("b", "", "0"); r.append(count); legendCounts.set(plan.id, count); return r; }));
-  document.querySelector(".changes-legend").prepend(...plans.map(plan => row(plan, `${plan.name} change`)));
+  document.querySelector(".changes-legend").prepend(...plans.map(plan => row(plan, `${plan.name} project`)));
 }
 
 function renderMap() {
@@ -607,7 +608,15 @@ function focusEndpoint(e) {
   map.flyTo({ center: lngLat(e.point), zoom: sitePlaced(e) ? 15 : 12, duration: reducedMotion() ? 0 : 900 });
 }
 
+function focusProject(project) {
+  if (!project.center || !Number.isFinite(project.center.lat) || !Number.isFinite(project.center.lon)) return;
+  pendingFocus = null;
+  if (!mapReady) { pendingProjectFocus = project; return; }
+  map.flyTo({ center: lngLat(project.center), zoom: (project.radiusMi ?? 0) > 2 ? 10 : 12, duration: reducedMotion() ? 0 : 700 });
+}
+
 function focusPair(pair) {
+  pendingProjectFocus = null;
   if (!mapReady) { pendingFocus = pair; return; }
   const lats = [pair.a.center.lat, pair.b.center.lat], lons = [pair.a.center.lon, pair.b.center.lon];
   const pad = 0.04 + Math.max(pair.a.radiusMi ?? 0, pair.b.radiusMi ?? 0) / MILES_PER_DEGREE;
@@ -1134,7 +1143,7 @@ function renderDetail() {
   lastDetailKey = key;
   detail.classList.toggle("draw", changed && Boolean(pair));
   if (changed && !anchor) detail.scrollTop = 0;
-  detail.setAttribute("aria-label", pair ? `Selected pair: ${pair.a.projectId} and ${pair.b.projectId}` : project ? `Selected project: ${project.name}` : "How to use GridLock");
+  detail.setAttribute("aria-label", pair ? `Selected pair: ${pair.a.projectId} and ${pair.b.projectId}` : project ? `Selected project: ${project.name}` : "How to use Seamline");
   if (pair || project) {
     const back = h("button", "button back-results", "← Back to results"); back.type = "button"; back.addEventListener("click", backToResults); detail.append(back);
   } else $("view-explore").classList.remove("show-detail");
@@ -1162,7 +1171,7 @@ function briefText(pair) {
   const sc = yardScenario(pair, yardInputs());
   const bullets = xs => xs.map(x => `  - ${x}`);
   return [
-    `Gridlock coordination brief · ${state.asOf}`, "",
+    `Seamline coordination brief · ${state.asOf}`, "",
     `${pair.a.name} (${sideName(pair.a)} ${pair.a.projectId}, ${projectType(pair.a)})`, `  × ${pair.b.name} (${sideName(pair.b)} ${pair.b.projectId}, ${projectType(pair.b)})`, "",
     `Distance: ${pair.miles.toFixed(2)} mi center to center (${pair.certainty}) · In-service gap: ${pair.gapDays ?? "unknown"} days (${pair.a.inServiceDate} vs ${pair.b.inServiceDate})`,
     "", pair.qualifies ? "Why it qualifies:" : "Does not qualify at current locations - why it might qualify:", ...bullets(whyQualifies(pair)),
@@ -1187,7 +1196,7 @@ function briefHtml(pair) {
   const src = p => `<a href="${esc(pdfLink(p.source))}">${esc(sourceLabel(p.source))}</a>`;
   const eps = p => p.endpoints.map(e => `${esc(e.name)}: ${e.point ? `${e.point.lat.toFixed(4)}, ${e.point.lon.toFixed(4)} · ${esc(e.method)}, ${esc(e.confidence)} ±${e.radiusMi} mi` : "not located"}${sitePlaced(e) ? ` · <a href="${esc(mapPinUrl(e.point))}">Google Maps</a>` : ""}`).join("<br>");
   return `<section class="page">
-  <header><div><p class="eyebrow">Gridlock coordination brief · ${esc(state.asOf)}</p><h1>${esc(a.name)} <span>×</span> ${esc(b.name)}</h1></div>
+  <header><div><p class="eyebrow">Seamline coordination brief · ${esc(state.asOf)}</p><h1>${esc(a.name)} <span>×</span> ${esc(b.name)}</h1></div>
   <div class="figs"><div><b>${pair.miles.toFixed(2)} mi</b>center to center</div><div><b>${pair.gapDays ?? "?"} days</b>in-service gap</div><div><b>${esc(pair.certainty)}</b>location</div></div></header>
   ${!pair.qualifies ? `<p class="qualification-notice">Does not qualify at current locations: outside the ${MAX_MILES}-mile rule.</p>` : ""}
   ${briefMapSvg(pair, { colors: [a, b].map(p => PRINT_COLORS[side(p)]) })}
@@ -1209,7 +1218,7 @@ function briefHtml(pair) {
 function openBriefs(pairs) {
   const w = window.open("", "_blank");
   if (!w) { $("session-notice").textContent = "The brief window was blocked. Allow pop-ups for this site and try again."; return; }
-  w.document.write(`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Gridlock brief${pairs.length > 1 ? "s" : ""}</title><style>
+  w.document.write(`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Seamline brief${pairs.length > 1 ? "s" : ""}</title><style>
   body { margin: 0; background: #e9eef0; color: #22343c; font: 11px/1.45 "IBM Plex Sans", Arial, sans-serif; }
   .bar { position: sticky; top: 0; display: flex; gap: 10px; align-items: center; padding: 10px 16px; background: #183541; color: #fff; }
   .bar button { font: inherit; font-weight: 700; padding: 6px 12px; border: 0; border-radius: 4px; background: #fff; color: #183541; cursor: pointer; }
@@ -1326,7 +1335,7 @@ function renderMethod() {
   const v = $("view-method"); v.replaceChildren();
   const d = state.data, bm = d.costBenchmark;
   const wrap = h("div", "doc");
-  wrap.append(h("h1", "", "How Gridlock decides"));
+  wrap.append(h("h1", "", "How Seamline decides"));
   const sec = (title, ...paras) => { wrap.append(h("h2", "", title)); paras.forEach(p => wrap.append(typeof p === "string" ? h("p", "", p) : p)); };
   const srcList = h("ul", "src-list"); d.sources.forEach(s => { const li = h("li"); li.append(link(s.url, s.title), document.createTextNode(s.projects ? ` — ${s.projects} projects` : "")); srcList.append(li); });
   const sertp = h("p", "", "Checked September 27, 2026 for a newer source, as the brief asks: SERTP's ");
@@ -1379,7 +1388,7 @@ function exportCsv() {
   const header = ["as_of", "rank", "qualifies", "score", "certainty", "a_plan", "a_project", "a_id", "a_type", "a_status", "b_plan", "b_project", "b_id", "b_type", "b_status", "distance_miles", "a_point_type", "b_point_type", "in_service_gap_days", "build_overlap_days", "overlap_days_ahead", "in_service_a", "in_service_b", "ground_a", "ground_b", "source_a", "source_b"];
   const lines = [header, ...state.pairs.map((p, i) => [state.asOf, i + 1, p.qualifies, p.score.total, p.certainty, planInfo(planOf(p.a)).name, p.a.name, p.a.projectId, projectType(p.a), p.a.status ?? "", planInfo(planOf(p.b)).name, p.b.name, p.b.projectId, projectType(p.b), p.b.status ?? "", p.miles.toFixed(3), pointKind(p.a), pointKind(p.b), p.gapDays ?? "", p.overlapDays ?? "", p.remainingDays ?? "", p.a.inServiceDate ?? "", p.b.inServiceDate ?? "", groundShort(p.a), groundShort(p.b), pdfLink(p.a.source), pdfLink(p.b.source)])];
   const csv = lines.map(row => row.map(value => `"${String(value).replaceAll('"', '""')}"`).join(",")).join("\r\n");
-  const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" })); a.download = "gridlock-opportunities.csv"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" })); a.download = "seamline-opportunities.csv"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }
 
 $("skip-details").addEventListener("click", revealDetails);
@@ -1466,7 +1475,7 @@ try {
   changesView = createChangesView({
     h, link, formatDate, money, colors: COLORS, basemap: BASEMAP, fallbackStyle: FALLBACK_STYLE, side, sideName, planName: id => planInfo(id).name, loadLog: loadChangeLog,
     pairExists: id => state.allPairs.some(p => p.id === id && p.qualifies),
-    openProject: id => { state.selectedProject = id; state.selectedPair = null; setView("explore"); applyFilters(); },
+    openProject: id => { setView("explore"); selectProject(state.projects.find(p => p.id === id)); },
     openPair: id => {
       const pair = state.allPairs.find(p => p.id === id);
       if (!pair) return;
