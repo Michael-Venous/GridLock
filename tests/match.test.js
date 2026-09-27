@@ -155,7 +155,7 @@ test("real data: every project cites a source page and every located project has
 });
 
 test("geography outweighs timing in the score, as the challenge asks", () => {
-  assert.ok(WEIGHTS.proximity + WEIGHTS.shared + WEIGHTS.corridor > WEIGHTS.timing);
+  assert.equal(WEIGHTS.proximity + WEIGHTS.timing, 100, "shared/corridor are a bonus on top of 100, not part of the core split");
   assert.ok(WEIGHTS.proximity > WEIGHTS.timing);
   const base = { shared: [], approachMiles: null, certainty: "robust" };
   const nearNoOverlap = scorePair({ ...base, miles: 2, remainingDays: 0, overlapDays: 0, gapDays: 1000 });

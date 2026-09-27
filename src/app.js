@@ -846,13 +846,21 @@ function scoreBlock(pair) {
   const score = h("section", "list-box score-block");
   const head = h("h3", "", "Ranking score "); head.append(h("span", "", `${pair.score.total} of 100, geography first`)); score.append(head);
   const parts = h("div", "score-parts");
-  [["Proximity", pair.score.parts.proximity, WEIGHTS.proximity], ["Confirmed site", pair.score.parts.shared, WEIGHTS.shared], ["Verified routes", pair.score.parts.corridor, WEIGHTS.corridor], ["Timing", pair.score.parts.timing, WEIGHTS.timing]].forEach(([k, v, max]) => {
+  [["Proximity", pair.score.parts.proximity, WEIGHTS.proximity], ["Timing", pair.score.parts.timing, WEIGHTS.timing]].forEach(([k, v, max]) => {
     const row = h("div", "score-part"); const bar = h("i", ""); bar.style.width = `${(v / max) * 100}%`; const track = h("span", "score-track"); track.append(bar);
     row.append(h("span", "", k), track, h("b", "", `${v}/${max}`)); parts.append(row);
   });
   if (pair.score.parts.confidence < 1) parts.append(h("p", "muted-note", "× 0.85 because location uncertainty could move this pair past 25 miles."));
   score.append(parts);
+  const bonus = h("div", "score-bonus");
+  bonus.append(h("h4", "", "Confirmed-evidence bonus, on top of 100"));
+  [["Confirmed site", pair.score.parts.shared, WEIGHTS.shared], ["Verified route", pair.score.parts.corridor, WEIGHTS.corridor]].forEach(([k, v, max]) => {
+    const row = h("div", "score-part"); const bar = h("i", ""); bar.style.width = `${(v / max) * 100}%`; const track = h("span", "score-track"); track.append(bar);
+    row.append(h("span", "", k), track, h("b", "", `+${v}/${max}`)); bonus.append(row);
+  });
+  score.append(bonus);
   for (const note of pair.score.notes ?? []) score.append(h("p", "muted-note", note));
+  if (!pair.score.parts.shared && !pair.score.parts.corridor) score.append(h("p", "muted-note", "No project in the current dataset has this kind of sourced evidence, for any pair — it isn't specific to this one."));
   return score;
 }
 
@@ -1002,6 +1010,9 @@ function renderQuality() {
   const t0 = h("table", "dq-table"); t0.innerHTML = "<thead><tr><th>Sample ID</th><th>Project</th><th>Sample date</th><th>Status in the current filing</th></tr></thead>";
   const b0 = h("tbody"); d.starterStatus.forEach(s => { const tr = h("tr"); [s.id, s.name, s.starterDate, s.status].forEach((x, i) => tr.append(h("td", i === 2 ? "nowrap" : "", x ?? ""))); b0.append(tr); }); t0.append(b0); wrap.append(t0);
   wrap.append(h("p", "muted-note", "Both Augusta-area sample pairs are gone: DESC's Hooks–Thurmond rebuild is no longer listed and Georgia Power cancelled Evans Primary–Thurmond Dam #5 and #6 (Table 3). The McIntosh–Purrysburg reactors are complete (Table 4)."));
+  const santee = h("p", "muted-note", "Santee Cooper, not DESC, owns the South Carolina side of that tie. Its reconductor of the Purrysburg–McIntosh 230 kV tie lines (committed; in service December 2026 on slide 51, 5/1/2026 in the tables on slides 24 and 50) is not in DESC's list, so it is shown here for context and not paired. Source: ");
+  santee.append(link("https://www.scrtp.com/assets/pdfs/meeting-archives/scrtp-meeting-2026-03-11-presentation.pdf", "SCRTP stakeholder meeting, March 11, 2026"), ".");
+  wrap.append(santee);
 
   wrap.append(h("h2", "", "List-level problems"));
   const ul = h("ul", "issue-list"); d.dataQuality.forEach(msg => ul.append(h("li", "issue warn", msg))); wrap.append(ul);
@@ -1043,8 +1054,8 @@ function renderMethod() {
   sec("What we add on top (ranking only — never changes which pairs qualify)",
     "Planning windows: DESC's first budget year with spend through its in-service date; Georgia's detail-page Start Date through Need Date. Overlap still ahead of the data date counts; overlap already in the past does not.",
     "Certainty: each location carries an uncertainty radius. A pair is robust if it stays under 25 miles at the edges of both radii, sensitive if it only does at the best estimate, and possible (shown only on request) if it could qualify.",
-    "Shared worksite: both records need explicit source-backed worksite confirmation. Nearby network endpoints alone earn no shared-site points. Line proximity scores require verified circuit evidence on both routes; inferred OSM paths do not earn a bonus.",
-    `Score = proximity (${WEIGHTS.proximity}) + confirmed worksite (${WEIGHTS.shared}) + verified route proximity (${WEIGHTS.corridor}) + timing (${WEIGHTS.timing}), × 0.85 when location-sensitive. The challenge makes geography the primary signal and timing a strong secondary one, so the geographic parts add up to ${WEIGHTS.proximity + WEIGHTS.shared + WEIGHTS.corridor} of 100. In practice distance sets most of the order and timing reorders pairs at similar distances. To explore alternatives, sort by distance, by closest in-service dates, or by build overlap still ahead.`);
+    `Score = proximity (${WEIGHTS.proximity}) + timing (${WEIGHTS.timing}), × 0.85 when location-sensitive — the challenge's own two signals, geography primary and timing a strong secondary one, filling the full 100. Distance sets most of the order; timing reorders pairs at similar distances. To explore alternatives, sort by distance, by closest in-service dates, or by build overlap still ahead.`,
+    `Confirmed-evidence bonus, on top of the 100 (rare): +${WEIGHTS.shared} if both records carry an explicit, source-backed confirmation that they name the same worksite — not just nearby or identically-named endpoints, which earn nothing here. +${WEIGHTS.corridor} if both have a verified circuit route (not an inferred OSM path) passing close together. No record in the current dataset has this kind of sourced evidence, so the bonus is 0 for every pair today; it exists for whenever one is curated with a real citation.`);
   sec("How locations are found", "In order of trust: hand-sited points with a written reason (data/overrides.json); coordinates from the sponsor's starter workbook; OpenStreetMap substations and plants by exact then partial name, restricted to the right state; and last, a town-level match (±6 mi). When a name fits several places (there are two Goshens 87 miles apart), the one nearest the project's other endpoint and its planning zone wins. Matches far from the rest of the project are rejected rather than kept.");
   const basis = h("ul", "src-list"); [YARD_BASIS.matsPerAcre, YARD_BASIS.roadPerMile, YARD_BASIS.landPerAcre].forEach(b => { const li = h("li"); li.append(link(b.url, b.source)); basis.append(li); });
   sec("Impact scenario (bonus): one shared staging yard",
@@ -1127,7 +1138,7 @@ try {
   state.shortlist = new Set([...saved].filter(id => state.allPairs.some(p => p.id === id)));
   if (saved.size !== state.shortlist.size) { saveShortlist(); $("session-notice").textContent = "Some saved pairs changed or were ambiguous in this data edition and were removed. Please review your shortlist."; }
   for (const [key, s] of Object.entries(SORTS)) { const o = h("option", "", s.label); o.value = key; $("sort").append(o); }
-  $("sort-hint").textContent = `Score: geography ${WEIGHTS.proximity + WEIGHTS.shared + WEIGHTS.corridor} pts (distance ${WEIGHTS.proximity}, confirmed worksite ${WEIGHTS.shared}, verified routes ${WEIGHTS.corridor}) + timing ${WEIGHTS.timing}. Distance sets most of the order.`;
+  $("sort-hint").textContent = `Score: distance ${WEIGHTS.proximity} pts + timing ${WEIGHTS.timing} pts, plus a rare +${WEIGHTS.shared + WEIGHTS.corridor} bonus for a sourced confirmed worksite or route. Distance sets most of the order.`;
   const issueTotal = state.projects.reduce((n, p) => n + p.issues.filter(i => i.level !== "info").length, 0);
   $("issue-count").textContent = String(issueTotal);
   initMap();

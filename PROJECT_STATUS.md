@@ -11,7 +11,7 @@ Last reviewed: 2026-09-26. The goal is a GridLock entry for the Sperry Tech chal
 
 ## Evidence and limits
 
-- The qualifying distance remains center-to-center, under 25 miles. A score only ranks qualifying leads; proximity is primary and timing secondary. Nearby endpoints and estimated OSM routes are explicitly unverified. None of the current records has source-backed evidence of a shared worksite or construction corridor, so the corresponding score bonuses are zero.
+- The qualifying distance remains center-to-center, under 25 miles. A score only ranks qualifying leads; the 100-point core is proximity (primary) and timing (secondary). Nearby endpoints and estimated OSM routes are explicitly unverified. A confirmed shared worksite or verified construction corridor adds a bonus on top of the 100, so it doesn't sit inside the main scale as a permanent, misleading zero; none of the current records has that source-backed evidence, so the bonus is zero for every pair today.
 - 163 endpoints use town-level estimates. 13 projects have estimated OSM route geometry, but none is a verified construction corridor. Locations, plans, target dates and cost savings require utility confirmation before action. Passed target dates are marked as status-unconfirmed.
 - The cost scenario is an editable illustration, not an estimate of actual savings. It is suppressed when the projects do not qualify or when their planning windows do not overlap ahead. Ground layers are screening context, not field surveys or permit decisions. No CEII or non-public data is used.
 

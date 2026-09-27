@@ -271,6 +271,8 @@ input[type="range"], input[type="checkbox"] { accent-color: var(--ink); }
 .score-part b { font-family: var(--mono); color: var(--ink); font-weight: 500; text-align: right; }
 .score-track { height: 6px; overflow: hidden; border-radius: 3px; background: var(--ground); }
 .score-track i { display: block; height: 100%; background: var(--ink); }
+.score-bonus { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--rule-soft); }
+.score-bonus h4 { margin: 0 0 7px; color: var(--ink-2); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .3px; }
 
 .cost-card { padding-top: 16px; }
 .cost-card > p { color: var(--ink-2); font-size: 13px; }

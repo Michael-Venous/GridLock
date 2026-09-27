@@ -113,10 +113,12 @@ export function closestApproachMiles(a, b) {
   return best;
 }
 
-// Ranking score, 0-100. The challenge makes geography the primary signal and timing a strong secondary one,
-// so the geographic parts (proximity 40 + confirmed worksite 20 + verified corridor 10) outweigh timing (30).
-// Every part is shown to the user; none of it changes which pairs qualify.
-export const WEIGHTS = { proximity: 40, timing: 30, shared: 20, corridor: 10 };
+// Ranking score. The challenge makes geography the primary signal and timing a strong secondary one, so the
+// core 100 points split proximity 60 / timing 40. Confirmed site and verified corridor are a separate bonus
+// on top, never baked into the 100: they require a sourced citation naming a shared worksite or a verified
+// route (see hasEvidence above), which nothing in this dataset has, so they'd otherwise sit at a permanent,
+// misleading 0 inside the main scale rather than reading as the rare, real bonus they're meant to be.
+export const WEIGHTS = { proximity: 60, timing: 40, shared: 20, corridor: 10 };
 export function scorePair(pair) {
   const proximity = WEIGHTS.proximity * Math.max(0, 1 - pair.miles / MAX_MILES);
   let timing = 0;
@@ -126,7 +128,7 @@ export function scorePair(pair) {
   const shared = pair.shared?.length ? WEIGHTS.shared : 0;
   const corridor = pair.corridorVerified && Number.isFinite(pair.approachMiles) ? WEIGHTS.corridor * Math.max(0, 1 - pair.approachMiles / 5) : 0;
   const confidence = pair.certainty === "robust" ? 1 : 0.85;
-  const total = Math.round((proximity + timing + shared + corridor) * confidence);
+  const total = Math.round((proximity + timing) * confidence) + shared + corridor;
   const notes = [];
   if (!shared) notes.push(pair.nearbyEndpoints?.length ? "Nearby network endpoints need worksite confirmation; no shared-worksite bonus awarded." : "No confirmed common worksite; no shared-worksite bonus awarded.");
   if (!pair.corridorVerified) notes.push("Construction corridors are unverified or unavailable; no corridor bonus awarded.");
