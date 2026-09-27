@@ -448,7 +448,6 @@ function addLayers() {
   map.addLayer({ id: "links-possible", type: "line", source: "links", filter: ["get", "possible"],
     paint: { ...linkPaint, "line-dasharray": [2, 2], "line-opacity": ["case", hover, 1, ["==", linkState, "selected"], 1, ["==", linkState, "dim"], 0.1, 0.4] } });
   map.addLayer({ id: "links-hit", type: "line", source: "links", paint: { "line-color": "#000", "line-width": 14, "line-opacity": 0 } });
-  map.addLayer({ id: "endpoints", type: "circle", source: "geometry", filter: kind("endpoint"), paint: { "circle-radius": 3.5, "circle-color": "#fff", "circle-stroke-color": bySide, "circle-stroke-width": 1.5 } });
   const focus = ["get", "focus"];
   map.addLayer({ id: "project-halo", type: "circle", source: "projects", filter: ["any", ["==", focus, "chosen"], ["get", "matched"]],
     paint: { "circle-radius": 14, "circle-color": bySide, "circle-opacity": ["case", ["==", focus, "chosen"], 0.2, hover, 0.2, 0], "circle-stroke-color": bySide, "circle-stroke-width": ["case", ["==", focus, "chosen"], 2.5, hover, 2, 0] } });
@@ -461,6 +460,8 @@ function addLayers() {
       "circle-opacity": ["case", ["==", focus, "faded"], 0.35, ["get", "matched"], 1, ["case", hover, 1, 0.55]],
       "circle-stroke-opacity": ["case", ["==", focus, "faded"], 0.35, 1],
     } });
+  // Stations draw above project dots: a project centered on the selected one's station would otherwise hide it.
+  map.addLayer({ id: "endpoints", type: "circle", source: "geometry", filter: kind("endpoint"), paint: { "circle-radius": 3.5, "circle-color": "#fff", "circle-stroke-color": bySide, "circle-stroke-width": 1.5 } });
   map.addLayer({ id: "project-hit", type: "circle", source: "projects", layout: { "circle-sort-key": ["get", "order"] }, paint: { "circle-radius": 12, "circle-color": "#000", "circle-opacity": 0 } });
   map.addLayer({ id: "project-labels", type: "symbol", source: "projects", filter: ["==", focus, "chosen"],
     layout: { "text-field": ["get", "label"], "text-font": ["Noto Sans Bold"], "text-size": 12, "text-anchor": "left", "text-offset": [1.35, 0], "text-allow-overlap": true, "text-ignore-placement": true },
