@@ -10,6 +10,7 @@ export function createChangesView(ctx) {
   const { h, link, formatDate, money, colors, basemap, fallbackStyle, openProject, openPair, pairExists } = ctx;
   const saved = readStore(AREA_KEY, {});
   const view = { data: null, event: null, area: saved.area ?? null, bufferMi: saved.bufferMi ?? 0, kinds: null, drawing: null, map: null, mapReady: false };
+  let areaOpen = Boolean(saved.area);
   const side = document.getElementById("changes-side");
   const drawBar = document.getElementById("draw-bar");
 
@@ -36,9 +37,11 @@ export function createChangesView(ctx) {
   function render() {
     side.replaceChildren();
     side.append(h("h1", "", "What changed between filings"),
-      h("p", "doc-lead", "Each new edition is compared with the one before it: projects added, dropped, rescheduled or re-costed, and qualifying pairs that appeared, went away or changed timing. Draw your area to see only what touches it."));
-    side.append(h("p", "muted-note", `Dataset as of ${formatDate(view.data.generated)}. To incorporate a new public filing, add it to data/filings.json, rebuild, and review the new edition here. For example, select the DESC 2026–2030 list below to inspect its changes from 2025–2029.`));
-    side.append(areaBlock(), eventsBlock());
+      h("p", "doc-lead", "Each new edition is compared with the one before it: projects added, dropped, rescheduled or re-costed, and qualifying pairs that appeared, went away or changed timing. Select a filing to review its changes."));
+    const area = h("details", "area-disclosure"); area.open = areaOpen || Boolean(view.drawing);
+    area.append(h("summary", "", `Filter to an area${view.area ? " · active" : ""}`), areaBlock());
+    area.addEventListener("toggle", () => { areaOpen = area.open; });
+    side.append(eventsBlock(), area);
     const e = event();
     if (e) side.append(detailBlock(e));
     renderMap();

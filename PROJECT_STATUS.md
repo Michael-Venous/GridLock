@@ -20,6 +20,13 @@ Last reviewed: 2026-09-26. The goal is a GridLock entry for the Sperry Tech chal
 - `npm test` passes five JavaScript test files. `python3 -m unittest discover -s tests -v` passes 31 Python cases. Syntax and Git whitespace checks pass.
 - The consolidated app loads the 309-project dataset and ranked list in a local browser. Rebuild reproducibility and full interaction/print regression should be repeated before deployment.
 
+## UI review follow-through
+
+- Consolidated pair sharing under Share pair, clarified the filtered-pairs CSV export, and hid pair exports on other views. Pair summaries now avoid repeating the detailed distance and timing explanations retained in briefs.
+- Cost scenarios lead with their result and collapse editable assumptions. Changes leads with filings and places area filtering in a disclosure. Removed developer rebuild instructions from that planner view, the Data quality navigation badge, and the always-expanded sponsor sample audit.
+- Verified disclosure controls, sharing-menu keyboard behavior, export visibility, and recalculation after changing and restoring a cost assumption in the browser. JavaScript tests (five files), Python tests (31 cases), syntax checks and whitespace checks passed.
+- Scoring changes were explicitly deferred. The latest 60-point proximity / 40-point timing base and separate confirmed-site / verified-route bonuses are implemented, but all 72 qualifying pairs receive zero bonus: no project has a reviewed worksite record or verified route. The build currently has no persistent reviewed-worksite import path. Keep evidence gates; consider one sourced shared-site example with persistent overrides, and defer verified-route expansion for the demo.
+
 ## Next actions
 
 1. Verify stations, project scope and construction windows for the highest-ranked pairs with the public filings and utility teams. Improve the 32 unplaced projects and the town-level endpoints without treating guessed routes as verified corridors.

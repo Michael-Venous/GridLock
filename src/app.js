@@ -597,7 +597,12 @@ function whyQualifies(pair) {
   return out;
 }
 
-function toConfirm(pair) {
+function summaryRationale(pair) {
+  const scope = pair.shared.length ? "Both sources confirm work at a common site." : pair.nearbyEndpoints?.length ? "Nearby network endpoints are a lead to investigate; a shared worksite is unconfirmed." : "Site-level sharing is unconfirmed.";
+  return `${pair.qualifies ? "Meets the under-25-mile center-distance rule." : "Outside the center-distance rule; precise locations could change qualification."} ${scope}`;
+}
+
+function toConfirm(pair, compact = false) {
   const out = [];
   for (const p of [pair.a, pair.b]) {
     if (datePassed(p.inServiceDate)) out.push(`${sideName(p)} ${p.projectId}: target date ${formatDate(p.inServiceDate)} has passed while the filing still says “${p.status}”. Is it built, delayed or dropped?`);
@@ -608,7 +613,7 @@ function toConfirm(pair) {
     }
   }
   if (pair.certainty === "sensitive") out.push(`The pair is inside ${MAX_MILES} mi only at best-estimate locations (±${pair.a.radiusMi} and ±${pair.b.radiusMi} mi).`);
-  out.push(`Planning windows are inferred (${pair.a.window?.basis ?? "unknown"}; ${pair.b.window?.basis ?? "unknown"}). Confirm construction and outage months.`);
+  out.push(compact ? "Confirm actual construction and outage months with both utilities." : `Planning windows are inferred (${pair.a.window?.basis ?? "unknown"}; ${pair.b.window?.basis ?? "unknown"}). Confirm construction and outage months.`);
   out.push("Proximity alone doesn't show that land, yard space or equipment can be shared. Confirm site access, ownership and each utility's contracting rules.");
   return out;
 }
@@ -709,7 +714,9 @@ function yardCard(pair) {
     if (!sc.active) out.append(h("p", "", `Scenario unavailable: ${sc.reason}`));
   }
   update();
-  card.append(form, out);
+  const assumptions = h("details", "detail-fold scenario-assumptions");
+  assumptions.append(h("summary", "", "Adjust assumptions"), form);
+  card.append(out, assumptions);
   const src = h("p", "muted-note"); src.append(document.createTextNode("Cost basis: "), link(YARD_BASIS.matsPerAcre.url, "MISO MTEP24 cost guide, p. 19 (mats)"), document.createTextNode(" · "), link(YARD_BASIS.roadPerMile.url, "p. 23 (access road)"), document.createTextNode(" · "), link(YARD_BASIS.landPerAcre.url, `USDA Land Values 2026, p. 15 (pasture: GA ${money(YARD_BASIS.landPerAcre.GA)}, SC ${money(YARD_BASIS.landPerAcre.SC)}/ac)`));
   card.append(src, h("p", "muted-note", "Proximity alone can't establish that land or equipment can be shared. This assumes a usable site between the projects, both schedules holding, and both utilities agreeing. It is a reason to make a call, not a budget."));
   return card;
@@ -797,10 +804,13 @@ function spanHead(pair) {
   const on = state.shortlist.has(pair.id);
   const star = h("button", `button${on ? " on" : ""}`, on ? "★ Shortlisted" : "☆ Shortlist"); star.type = "button"; star.dataset.action = "shortlist"; star.setAttribute("aria-pressed", String(on)); star.addEventListener("click", () => toggleShortlist(pair));
   const brief = h("button", "button", "Open brief"); brief.type = "button"; brief.addEventListener("click", () => openBriefs([pair]));
-  const copy = h("button", "button", "Copy as text"); copy.type = "button"; copy.addEventListener("click", async () => { try { await navigator.clipboard.writeText(briefText(pair)); copy.textContent = "Copied"; } catch { copy.textContent = "Copy failed"; } });
+  const copy = h("button", "button", "Copy brief text"); copy.type = "button"; copy.addEventListener("click", async () => { try { await navigator.clipboard.writeText(briefText(pair)); copy.textContent = "Copied"; } catch { copy.textContent = "Copy failed"; } });
   const share = h("button", "button", "Copy link"); share.type = "button";
   share.addEventListener("click", async () => { writeViewUrl(); try { await navigator.clipboard.writeText(location.href); share.textContent = "Link copied"; } catch { share.textContent = "Use address bar link"; } });
-  actions.append(star, brief, copy, share); head.append(actions);
+  const sharing = h("details", "action-menu");
+  sharing.append(h("summary", "button", "Share pair"));
+  const options = h("div", "action-menu-items"); options.append(copy, share); sharing.append(options);
+  actions.append(star, brief, sharing); head.append(actions);
   return head;
 }
 
@@ -832,8 +842,8 @@ function detailTabs(pair) {
   else {
     panel.append(compareTable(pair));
     panel.append(
-      foldSection(listBox(pair.qualifies ? "Why it qualifies" : "Why it might qualify", whyQualifies(pair)), "why", true),
-      foldSection(listBox("Still to confirm", toConfirm(pair), "confirm"), "confirm", true),
+      h("p", "pair-rationale", summaryRationale(pair)),
+      foldSection(listBox("Still to confirm", toConfirm(pair, true), "confirm"), "confirm", true),
       foldSection(listBox("Possible shared resources", sharedResources(pair)), "resources"),
       foldSection(groundBox(pair), "ground"));
     const tl = h("section", "list-box"); tl.append(h("h3", "", "Planning windows"), timeline(pair.a, pair.b)); panel.append(foldSection(tl, "timeline"));
@@ -1006,13 +1016,14 @@ function renderQuality() {
   const sum = h("div", "stat-row"); [[counts.error, "errors"], [counts.warn, "warnings"], [counts.info, "notes"], [state.projects.filter(p => !p.center).length, "projects not located"]].forEach(([n, l]) => { const c = h("div", "stat"); c.append(h("strong", "", String(n)), h("span", "", l)); sum.append(c); });
   wrap.append(sum);
 
-  wrap.append(h("h2", "", "The sponsor's sample, checked against the current data edition"));
+  const sample = h("details", "dq-more");
+  sample.append(h("summary", "", "Original sponsor sample: comparison with current filings"));
   const t0 = h("table", "dq-table"); t0.innerHTML = "<thead><tr><th>Sample ID</th><th>Project</th><th>Sample date</th><th>Status in the current filing</th></tr></thead>";
-  const b0 = h("tbody"); d.starterStatus.forEach(s => { const tr = h("tr"); [s.id, s.name, s.starterDate, s.status].forEach((x, i) => tr.append(h("td", i === 2 ? "nowrap" : "", x ?? ""))); b0.append(tr); }); t0.append(b0); wrap.append(t0);
-  wrap.append(h("p", "muted-note", "Both Augusta-area sample pairs are gone: DESC's Hooks–Thurmond rebuild is no longer listed and Georgia Power cancelled Evans Primary–Thurmond Dam #5 and #6 (Table 3). The McIntosh–Purrysburg reactors are complete (Table 4)."));
+  const b0 = h("tbody"); d.starterStatus.forEach(s => { const tr = h("tr"); [s.id, s.name, s.starterDate, s.status].forEach((x, i) => tr.append(h("td", i === 2 ? "nowrap" : "", x ?? ""))); b0.append(tr); }); t0.append(b0); sample.append(t0);
+  sample.append(h("p", "muted-note", "Both Augusta-area sample pairs are gone: DESC's Hooks–Thurmond rebuild is no longer listed and Georgia Power cancelled Evans Primary–Thurmond Dam #5 and #6 (Table 3). The McIntosh–Purrysburg reactors are complete (Table 4)."));
   const santee = h("p", "muted-note", "Santee Cooper, not DESC, owns the South Carolina side of that tie. Its reconductor of the Purrysburg–McIntosh 230 kV tie lines (committed; in service December 2026 on slide 51, 5/1/2026 in the tables on slides 24 and 50) is not in DESC's list, so it is shown here for context and not paired. Source: ");
   santee.append(link("https://www.scrtp.com/assets/pdfs/meeting-archives/scrtp-meeting-2026-03-11-presentation.pdf", "SCRTP stakeholder meeting, March 11, 2026"), ".");
-  wrap.append(santee);
+  sample.append(santee);
 
   wrap.append(h("h2", "", "List-level problems"));
   const ul = h("ul", "issue-list"); d.dataQuality.forEach(msg => ul.append(h("li", "issue warn", msg))); wrap.append(ul);
@@ -1039,6 +1050,7 @@ function renderQuality() {
   wrap.append(more);
   const passed = all.filter(i => /has passed/.test(i.msg)).length;
   wrap.append(h("p", "muted-note", `${passed} further notes flag in-service dates that have already passed while the filing still lists the project as planned or in progress.`));
+  wrap.append(sample);
   v.append(wrap);
 }
 
@@ -1083,6 +1095,9 @@ function setView(name) {
   document.querySelectorAll(".view").forEach(v => { v.hidden = v.id !== `view-${name}`; });
   window.scrollTo(0, 0);
   document.querySelectorAll(".doc-view").forEach(v => { v.scrollTop = 0; });
+  $("results-export").hidden = name !== "explore";
+  $("shortlist-export").hidden = name !== "explore";
+  document.querySelectorAll(".action-menu[open]").forEach(menu => { menu.open = false; });
   if (name === "explore") map?.resize();
   if (name === "changes") changesView?.open();
 }
@@ -1114,7 +1129,14 @@ $("clear-selection").addEventListener("click", () => { state.selectedProject = n
 $("sort").addEventListener("change", event => { state.sort = event.target.value; applyFilters(); });
 $("shortlist-only").addEventListener("change", event => { state.shortlistOnly = event.target.checked; applyFilters(); });
 $("shortlist-export").addEventListener("click", () => { const pairs = state.allPairs.filter(p => state.shortlist.has(p.id)); if (pairs.length) openBriefs(pairs); });
-$("export").addEventListener("click", exportCsv);
+$("export").addEventListener("click", () => { exportCsv(); $("results-export").open = false; });
+document.addEventListener("click", event => {
+  document.querySelectorAll(".action-menu[open]").forEach(menu => { if (!menu.contains(event.target)) menu.open = false; });
+});
+document.addEventListener("keydown", event => {
+  if (event.key !== "Escape") return;
+  document.querySelectorAll(".action-menu[open]").forEach(menu => { menu.open = false; menu.querySelector("summary").focus(); });
+});
 $("filter-toggle").addEventListener("click", () => { const open = $("filters").hidden; $("filters").hidden = !open; $("filter-toggle").setAttribute("aria-expanded", String(open)); });
 $("zoom-in").addEventListener("click", () => map?.zoomIn());
 $("zoom-out").addEventListener("click", () => map?.zoomOut());
@@ -1139,8 +1161,6 @@ try {
   if (saved.size !== state.shortlist.size) { saveShortlist(); $("session-notice").textContent = "Some saved pairs changed or were ambiguous in this data edition and were removed. Please review your shortlist."; }
   for (const [key, s] of Object.entries(SORTS)) { const o = h("option", "", s.label); o.value = key; $("sort").append(o); }
   $("sort-hint").textContent = `Score: distance ${WEIGHTS.proximity} pts + timing ${WEIGHTS.timing} pts, plus a rare +${WEIGHTS.shared + WEIGHTS.corridor} bonus for a sourced confirmed worksite or route. Distance sets most of the order.`;
-  const issueTotal = state.projects.reduce((n, p) => n + p.issues.filter(i => i.level !== "info").length, 0);
-  $("issue-count").textContent = String(issueTotal);
   initMap();
   syncEnvLayers();
   changesView = createChangesView({

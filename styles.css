@@ -202,6 +202,17 @@ input[type="range"], input[type="checkbox"] { accent-color: var(--ink); }
 .span-names p:last-child { text-align: right; }
 .notice { margin-top: 12px; padding: 8px 10px; border-left: 3px solid var(--warn-rule); background: var(--warn-soft); color: var(--warn); font-size: 13px; }
 .detail-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.action-menu { position: relative; }
+.action-menu > summary { cursor: pointer; list-style: none; }
+.action-menu > summary::-webkit-details-marker { display: none; }
+.action-menu > summary::after { content: "▾"; margin-left: 4px; }
+.action-menu-items { position: absolute; right: 0; top: calc(100% + 5px); z-index: 8; display: grid; gap: 4px; min-width: 170px; padding: 6px; border: 1px solid var(--rule); border-radius: var(--radius); background: var(--paper); box-shadow: 0 4px 12px rgb(16 34 42 / .12); }
+.action-menu-items .button { width: 100%; border-color: transparent; justify-content: flex-start; }
+.pair-rationale { margin: 12px 0; font-size: 13px; line-height: 1.5; color: var(--ink-2); }
+.scenario-assumptions { margin-top: 14px; }
+.area-disclosure { margin-top: 18px; padding: 12px 0; border-block: 1px solid var(--rule); }
+.area-disclosure > summary { cursor: pointer; font-weight: 600; }
+.area-disclosure .area-block { padding-top: 12px; }
 .draw .span-line i { animation: span-draw .55s cubic-bezier(.3, .7, .2, 1) both; }
 .draw .span-line b { animation: fade-in .3s .35s both; }
 @keyframes span-draw { from { transform: scaleX(0); } }

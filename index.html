@@ -21,13 +21,13 @@
     <nav class="tabs" aria-label="Views">
       <button type="button" class="tab active" data-view="explore" aria-current="page">Pairs</button>
       <button type="button" class="tab" data-view="changes">Changes</button>
-      <button type="button" class="tab" data-view="quality">Data quality <span id="issue-count" class="tab-count"></span></button>
+      <button type="button" class="tab" data-view="quality">Data quality</button>
       <button type="button" class="tab" data-view="method">Method</button>
     </nav>
     <div class="top-actions">
       <span id="data-as-of" class="dataset-date" aria-label="Dataset date"></span>
       <button id="shortlist-export" class="button ghost" type="button" disabled>Shortlist briefs <span id="shortlist-count" class="count">0</span></button>
-      <button id="export" class="button primary" type="button">Export CSV</button>
+      <details id="results-export" class="action-menu"><summary class="button">Export results</summary><div class="action-menu-items"><button id="export" class="button" type="button">Download filtered pairs (CSV)</button></div></details>
     </div>
   </header>
 
