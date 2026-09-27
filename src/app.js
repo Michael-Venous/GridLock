@@ -640,7 +640,7 @@ const mapPinUrl = pt => `https://www.google.com/maps/search/?api=1&query=${pt.la
 
 function locationEditor(p) {
   const box = h("details", "detail-fold location-editor");
-  box.append(h("summary", "", p.userLocation ? "Edit your locations" : "Know this location? Add coordinates"));
+  box.append(h("summary", "", "Modify coordinates"));
   box.append(h("p", "muted-note", "Enter coordinates for a named endpoint. Saved only in this browser; shared links do not include these edits. Matches update immediately. Changes history remains based on published data."));
   const form = h("form", "scenario-form");
   const targetLabel = h("label", "", "Named location"), target = h("select");
@@ -693,7 +693,6 @@ function projectBlock(p, full = false, heading = true, foldEvidence = false) {
   const src = h("div", "source-line"); src.append(document.createTextNode("Source: "), sourceLink(p), document.createTextNode(` (${p.source.item})`));
   block.append(src);
   if (full) {
-    if (p.endpoints.length) block.append(locationEditor(p));
     if (p.description) block.append(h("p", "desc-text", p.description));
     const endpoints = h("div", "endpoint-box"); endpoints.append(h("h4", "", "Endpoints and how each was located"));
     for (const e of p.endpoints) {
@@ -722,6 +721,7 @@ function projectBlock(p, full = false, heading = true, foldEvidence = false) {
       evidence.append(h("summary", "", "Location evidence and validation"), endpoints, h("h4", "", "Validation"), issuesList(p));
       block.append(evidence);
     } else block.append(endpoints, h("h4", "", "Validation"), issuesList(p));
+    if (p.endpoints.length) block.append(locationEditor(p));
   }
   return block;
 }
@@ -830,9 +830,14 @@ function sideBySide(pair, sc) {
 
 function yardCard(pair) {
   const card = h("section", "cost-card");
-  card.append(h("h3", "", "One shared staging yard instead of two"));
+  card.append(h("h3", "", "Shared staging yard"));
   if (!pair.qualifies) { card.append(h("p", "", "Only modeled for qualifying pairs.")); return card; }
-  card.append(h("p", "scenario-caution", `${certaintyText[pair.certainty]} Construction timing is inferred; a usable shared yard, access and agreement have not been confirmed. This is an illustrative avoided-cost scenario, not verified savings.`));
+  if (!(pair.remainingDays > 0)) {
+    const empty = h("div", "scenario-empty");
+    empty.append(h("h4", "", "No shared-yard scenario available"), h("p", "", "These planning windows have no overlap after the data date. Confirm construction timing with both utilities before estimating shared-yard savings."), infoRow(sideName(pair.a), windowText(pair.a)), infoRow(sideName(pair.b), windowText(pair.b)));
+    card.append(empty); return card;
+  }
+  card.append(h("p", "scenario-caution", "Compare two separate yards with one shared site for storing materials and equipment. Site access and actual construction timing still need confirmation."));
   const out = h("div", "scenario-out");
   const form = h("div", "scenario-form");
   const field = (label, key, attrs, hint) => {
@@ -840,34 +845,43 @@ function yardCard(pair) {
     i.addEventListener("input", () => { const v = Number(i.value); if (!Number.isFinite(v) || v < 0) return; state.yard[key] = key === "leaseRate" ? v / 100 : v; update(); });
     l.append(i); if (hint) l.append(h("span", "hint", hint)); form.append(l); return i;
   };
-  field("Yard size (acres)", "acres", { min: 0, step: 0.5 }, "Example size; enter your expected yard area");
-  field("Months shared", "months", { min: 0, step: 1 }, "Starts with planning overlap; enter expected shared use");
+  field("Yard size (acres)", "acres", { min: 0, step: 0.5 }, "Area needed by one project");
+  field("Months shared", "months", { min: 0, step: 1 }, "Starts with inferred planning overlap");
   const sl = h("label", "", "Yard surface"); const sel = h("select");
   [["mats", `Timber mats, floodplain (${money(YARD_BASIS.matsPerAcre.value)}/ac, MISO)`], ["custom", "Other surface: enter $/acre"]].forEach(([v, t]) => { const o = h("option", "", t); o.value = v; sel.append(o); });
   sel.value = state.yard.surface; sl.append(sel); form.append(sl);
   const custom = field("Surface cost ($/acre)", "surfacePerAcre", { min: 0, step: 1000 }, "your assumption (e.g. a gravel pad)");
   const toggle = () => { custom.closest("label").hidden = state.yard.surface === "mats"; };
   sel.addEventListener("change", () => { state.yard.surface = sel.value; toggle(); update(); }); toggle();
-  field("Lease (% of land value per year)", "leaseRate", { min: 0, max: 100, step: 1 }, "Example rate; adjust for your expected lease");
-  field("Shared access road (miles)", "roadMiles", { min: 0, step: 0.05 }, "Example length; enter the access road needed");
+  field("Lease (% of land value per year)", "leaseRate", { min: 0, max: 100, step: 1 }, "Example rental rate");
+  field("Shared access road (miles)", "roadMiles", { min: 0, step: 0.05 }, "Access needed for one yard");
   function update() {
     const sc = yardScenario(pair, yardInputs());
-    out.replaceChildren(sideBySide(pair, sc), h("div", "cost-big", sc.active ? `${money(sc.low)} – ${money(sc.high)}` : "$0"), h("p", "cost-caption", sc.active ? "illustrative avoided cost if sharing is feasible" : sc.reason));
+    if (!sc.active) {
+      out.replaceChildren(h("p", "scenario-empty", sc.reason));
+      return;
+    }
+    const saving = h("div", "scenario-saving");
+    saving.append(h("h4", "", "Potential avoided cost"), h("div", "cost-big", `${money(sc.low)} – ${money(sc.high)}`), h("p", "cost-caption", "Assumes a shared yard costs 1–1.5× one separate yard. This range reflects that assumption."));
+    out.replaceChildren(sideBySide(pair, sc), saving);
     const ul = h("ul", "cost-basis"); scenarioLines(pair, sc).forEach(([k, v, why]) => { const li = h("li"); li.append(h("b", "", `${k}: `), document.createTextNode(v), h("span", "why", ` · ${why}`)); ul.append(li); });
     ul.append(h("li", "", `One yard ≈ ${money(sc.oneYard)}. A combined yard is assumed to be 1.0–1.5× one project's yard, so sharing avoids 0.5–1.0 of a yard.`));
     const ground = groundCostNote(pair);
     if (ground) ul.append(h("li", "", ground));
     const est = savingsEstimate(pair, { benchmarkPerMile: state.data.costBenchmark.perMile });
     if (est && sc.active) ul.append(h("li", "", `For scale: the smaller project costs about ${money(Math.min(est.costA, est.costB))}${est.aEstimated || est.bEstimated ? ` (${[est.aEstimated && sideName(pair.a), est.bEstimated && sideName(pair.b)].filter(Boolean).join(" and ")} estimated from DESC's median $/mi)` : " (published)"}; the high end is ${((sc.high / Math.min(est.costA, est.costB)) * 100).toFixed(1)}% of it.`));
-    out.append(ul);
-    if (!sc.active) out.append(h("p", "", `Scenario unavailable: ${sc.reason}`));
+    const calculation = h("details", "detail-fold");
+    calculation.append(h("summary", "", "Calculation breakdown"), ul);
+    out.append(calculation);
   }
   update();
   const assumptions = h("section", "scenario-assumptions");
-  assumptions.append(h("h4", "", "Enter your planning inputs"), h("p", "muted-note", "Start here: replace the example values with your expected yard needs. Size, lease rate and road length are not supplied by the project filings. Months start from inferred planning overlap. MISO and USDA provide reference rates, which may differ from local costs. Results update as you edit."), form);
-  card.append(assumptions, h("h4", "", "Scenario based on the inputs above"), out, h("p", "", `Beyond the yard: ${beyondYard(pair).join(" ")}`));
+  assumptions.append(h("h4", "", "Enter your planning inputs"), h("p", "muted-note", "Replace example values with your yard requirements. These inputs are not supplied by the filings; results update as you edit."), form);
+  card.append(assumptions, out);
   const src = h("p", "muted-note"); src.append(document.createTextNode("Cost basis: "), link(YARD_BASIS.matsPerAcre.url, "MISO MTEP24 cost guide, p. 19 (mats)"), document.createTextNode(" · "), link(YARD_BASIS.roadPerMile.url, "p. 23 (access road)"), document.createTextNode(" · "), link(YARD_BASIS.landPerAcre.url, `USDA Land Values 2026, p. 15 (pasture: GA ${money(YARD_BASIS.landPerAcre.GA)}, SC ${money(YARD_BASIS.landPerAcre.SC)}/ac)`));
-  card.append(src, h("p", "muted-note", "Proximity alone can't establish that land or equipment can be shared. This assumes a usable site between the projects, both schedules holding, and both utilities agreeing. It is a reason to make a call, not a budget."));
+  const sources = h("details", "detail-fold");
+  sources.append(h("summary", "", "Reference rates and limits"), src, h("p", "muted-note", "Reference rates may differ from local costs. Surface choice is manual; ground layers do not set the rate. Savings depend on a usable shared site, compatible schedules and agreement between utilities."));
+  card.append(sources);
   return card;
 }
 

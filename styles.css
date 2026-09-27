@@ -303,15 +303,22 @@ input[type="range"], input[type="checkbox"] { accent-color: var(--ink); }
 .cost-card { padding-top: 16px; }
 .cost-card > p { color: var(--ink-2); font-size: 13px; }
 .sbs { display: grid; grid-template-columns: 1fr 1fr; margin: 16px 0 0; border: 1px solid var(--rule); border-radius: var(--radius); }
-.sbs-col { padding: 12px 14px 13px; }
+.sbs-col { padding: 12px 14px 13px; min-width: 0; }
 .sbs-col + .sbs-col { border-left: 1px solid var(--rule); }
 .sbs h4 { margin: 0 0 10px; font-size: 13px; font-weight: 600; }
 .sbs p { margin: 4px 0 0; color: var(--ink-2); font-size: 12px; line-height: 1.4; }
 .sbs-cost { margin-top: 10px; font-family: var(--mono); font-size: 17px; font-weight: 600; line-height: 1.3; }
-.yards { display: flex; gap: 8px; align-items: flex-end; height: 46px; }
-.yard { display: flex; align-items: flex-end; min-width: 46px; white-space: nowrap; height: 38px; padding: 3px 5px; border: 1.5px solid var(--desc); border-radius: 3px; background: color-mix(in srgb, var(--desc) 12%, var(--paper)); font-size: 10px; line-height: 1.1; color: var(--desc-text); overflow: hidden; }
+.yards { display: flex; flex-wrap: wrap; gap: 6px; align-items: flex-start; min-height: 46px; }
+.yard { display: inline-flex; align-items: center; max-width: 100%; min-height: 32px; padding: 6px 8px; border: 1px solid var(--desc); border-radius: 3px; background: color-mix(in srgb, var(--desc) 12%, var(--paper)); font-size: 11px; line-height: 1.4; color: var(--desc-text); overflow-wrap: anywhere; }
 .yard.gpc { border-color: var(--gpc); background: color-mix(in srgb, var(--gpc) 12%, var(--paper)); color: var(--gpc-text); }
-.yard.both { min-width: 69px; height: 46px; border-color: var(--ink-2); background: linear-gradient(90deg, color-mix(in srgb, var(--desc) 16%, var(--paper)) 50%, color-mix(in srgb, var(--gpc) 16%, var(--paper)) 50%); color: var(--ink); }
+.yard.both { border-color: var(--ink-2); background: var(--ground); color: var(--ink); }
+.scenario-saving { padding: 14px; margin: 12px 0; background: var(--ground); border-radius: var(--radius); }
+.scenario-saving h4 { margin: 0; font-size: 13px; }
+.scenario-saving .cost-big { margin-top: 6px; }
+.scenario-saving .cost-caption { margin: 6px 0 0; }
+.scenario-empty { padding: 14px; margin: 12px 0; border: 1px solid var(--rule); background: var(--ground); border-radius: var(--radius); font-size: 13px; }
+.scenario-empty h4 { margin-top: 0; }
+.scenario-form label { min-width: 0; }
 .cost-caption { margin: 0 0 10px; color: var(--ink-2); font-size: 13px; }
 .cost-big { margin: 14px 0 2px; font-family: var(--mono); font-size: 25px; font-weight: 600; line-height: 1.2; }
 .cost-basis { margin: 0 0 10px; padding-left: 17px; font-size: 13px; line-height: 1.5; }
