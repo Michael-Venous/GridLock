@@ -1691,10 +1691,10 @@
       "lat": 32.333758,
       "lon": -81.032495
      },
-     "method": "sponsor",
+     "method": "reference",
      "confidence": "high",
      "radiusMi": 0.5,
-     "evidence": "Projects_Overlaps.xlsx (sponsor starter workbook)"
+     "evidence": "Projects_Overlaps.xlsx (reference dataset)"
     }
    ],
    "center": {
@@ -1806,10 +1806,10 @@
       "lat": 32.35912,
       "lon": -81.1246
      },
-     "method": "sponsor",
+     "method": "reference",
      "confidence": "high",
      "radiusMi": 0.5,
-     "evidence": "Projects_Overlaps.xlsx (sponsor starter workbook)"
+     "evidence": "Projects_Overlaps.xlsx (reference dataset)"
     },
     {
      "name": "Okatie",
@@ -1817,10 +1817,10 @@
       "lat": 32.333758,
       "lon": -81.032495
      },
-     "method": "sponsor",
+     "method": "reference",
      "confidence": "high",
      "radiusMi": 0.5,
-     "evidence": "Projects_Overlaps.xlsx (sponsor starter workbook)"
+     "evidence": "Projects_Overlaps.xlsx (reference dataset)"
     }
    ],
    "center": {
@@ -2030,10 +2030,10 @@
       "lat": 32.35912,
       "lon": -81.1246
      },
-     "method": "sponsor",
+     "method": "reference",
      "confidence": "high",
      "radiusMi": 0.5,
-     "evidence": "Projects_Overlaps.xlsx (sponsor starter workbook)"
+     "evidence": "Projects_Overlaps.xlsx (reference dataset)"
     },
     {
      "name": "Okatie",
@@ -2041,10 +2041,10 @@
       "lat": 32.333758,
       "lon": -81.032495
      },
-     "method": "sponsor",
+     "method": "reference",
      "confidence": "high",
      "radiusMi": 0.5,
-     "evidence": "Projects_Overlaps.xlsx (sponsor starter workbook)"
+     "evidence": "Projects_Overlaps.xlsx (reference dataset)"
     }
    ],
    "center": {
@@ -3791,7 +3791,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": null,
@@ -4833,10 +4833,10 @@
       "lat": 32.333758,
       "lon": -81.032495
      },
-     "method": "sponsor",
+     "method": "reference",
      "confidence": "high",
      "radiusMi": 0.5,
-     "evidence": "Projects_Overlaps.xlsx (sponsor starter workbook)"
+     "evidence": "Projects_Overlaps.xlsx (reference dataset)"
     },
     {
      "name": "McIntosh",
@@ -5863,10 +5863,10 @@
       "lat": 33.562599,
       "lon": -82.051362
      },
-     "method": "sponsor",
+     "method": "reference",
      "confidence": "high",
      "radiusMi": 0.5,
-     "evidence": "Projects_Overlaps.xlsx (sponsor starter workbook)"
+     "evidence": "Projects_Overlaps.xlsx (reference dataset)"
     },
     {
      "name": "Graniteville",
@@ -7212,7 +7212,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": null,
@@ -7280,10 +7280,10 @@
       "lat": 32.352116,
       "lon": -81.175112
      },
-     "method": "sponsor",
+     "method": "reference",
      "confidence": "high",
      "radiusMi": 0.5,
-     "evidence": "Projects_Overlaps.xlsx (sponsor starter workbook)"
+     "evidence": "Projects_Overlaps.xlsx (reference dataset)"
     }
    ],
    "center": {
@@ -7436,7 +7436,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": null,
@@ -7788,7 +7788,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": null,
@@ -8112,7 +8112,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": null,
@@ -8713,7 +8713,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": null,
@@ -9587,7 +9587,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     },
     {
      "name": "SOUTH DALTON",
@@ -10231,7 +10231,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": {
@@ -10692,7 +10692,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": null,
@@ -11167,7 +11167,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": {
@@ -11364,7 +11364,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": null,
@@ -11815,7 +11815,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": null,
@@ -11879,7 +11879,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     },
     {
      "name": "GRASSY HOLLOW",
@@ -11887,7 +11887,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": null,
@@ -11955,7 +11955,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": null,
@@ -12164,7 +12164,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": null,
@@ -12763,7 +12763,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     },
     {
      "name": "STANTON SPRINGS",
@@ -13070,10 +13070,10 @@
       "lat": 31.603106,
       "lon": -81.924947
      },
-     "method": "sponsor",
+     "method": "reference",
      "confidence": "high",
      "radiusMi": 0.5,
-     "evidence": "Projects_Overlaps.xlsx (sponsor starter workbook)"
+     "evidence": "Projects_Overlaps.xlsx (reference dataset)"
     },
     {
      "name": "OFFERMAN",
@@ -13580,7 +13580,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": null,
@@ -13655,7 +13655,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": {
@@ -13722,10 +13722,10 @@
       "lat": 32.248701,
       "lon": -81.209472
      },
-     "method": "sponsor",
+     "method": "reference",
      "confidence": "high",
      "radiusMi": 0.5,
-     "evidence": "Projects_Overlaps.xlsx (sponsor starter workbook)"
+     "evidence": "Projects_Overlaps.xlsx (reference dataset)"
     },
     {
      "name": "KRAFT",
@@ -14221,10 +14221,10 @@
       "lat": 31.603106,
       "lon": -81.924947
      },
-     "method": "sponsor",
+     "method": "reference",
      "confidence": "high",
      "radiusMi": 0.5,
-     "evidence": "Projects_Overlaps.xlsx (sponsor starter workbook)"
+     "evidence": "Projects_Overlaps.xlsx (reference dataset)"
     },
     {
      "name": "WEST BRUNSWICK",
@@ -14378,7 +14378,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     },
     {
      "name": "TOMOCHICHI",
@@ -14599,7 +14599,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": null,
@@ -15273,7 +15273,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": null,
@@ -15703,7 +15703,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": null,
@@ -15778,7 +15778,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": {
@@ -15923,7 +15923,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": null,
@@ -16209,7 +16209,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": {
@@ -16595,10 +16595,10 @@
       "lat": 32.248701,
       "lon": -81.209472
      },
-     "method": "sponsor",
+     "method": "reference",
      "confidence": "high",
      "radiusMi": 0.5,
-     "evidence": "Projects_Overlaps.xlsx (sponsor starter workbook)"
+     "evidence": "Projects_Overlaps.xlsx (reference dataset)"
     },
     {
      "name": "MCINTOSH",
@@ -16606,10 +16606,10 @@
       "lat": 32.352116,
       "lon": -81.175112
      },
-     "method": "sponsor",
+     "method": "reference",
      "confidence": "high",
      "radiusMi": 0.5,
-     "evidence": "Projects_Overlaps.xlsx (sponsor starter workbook)"
+     "evidence": "Projects_Overlaps.xlsx (reference dataset)"
     }
    ],
    "center": {
@@ -16772,7 +16772,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": null,
@@ -17063,7 +17063,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": {
@@ -17296,7 +17296,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     },
     {
      "name": "PLANT FARLEY",
@@ -17304,7 +17304,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": null,
@@ -18000,7 +18000,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": {
@@ -18208,7 +18208,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     },
     {
      "name": "TALBOT COUNTY",
@@ -18461,7 +18461,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": {
@@ -18988,7 +18988,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     },
     {
      "name": "PINE GROVE PRIMARY",
@@ -21061,7 +21061,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": null,
@@ -21136,7 +21136,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": {
@@ -21600,7 +21600,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     },
     {
      "name": "WARRENTON PRIMARY",
@@ -22563,7 +22563,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": {
@@ -22641,7 +22641,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": {
@@ -23195,7 +23195,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     },
     {
      "name": "TOCCOA",
@@ -23439,7 +23439,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": {
@@ -24797,10 +24797,10 @@
       "lat": 32.248701,
       "lon": -81.209472
      },
-     "method": "sponsor",
+     "method": "reference",
      "confidence": "high",
      "radiusMi": 0.5,
-     "evidence": "Projects_Overlaps.xlsx (sponsor starter workbook)"
+     "evidence": "Projects_Overlaps.xlsx (reference dataset)"
     },
     {
      "name": "KRAFT",
@@ -26162,7 +26162,7 @@
      "method": null,
      "confidence": "none",
      "radiusMi": null,
-     "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"
+     "evidence": "no match in overrides, reference dataset, OSM or Nominatim"
     }
    ],
    "center": {

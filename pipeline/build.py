@@ -29,7 +29,7 @@ RADIUS_OVERRIDES = _ov.get("radius", {})
 ENDPOINT_NOTES = _ov.get("endpoint_notes", {})   # uncertainty when only one end of a line could be located and no length is stated
 
 
-def sponsor_points():
+def reference_points():
     pts, issues = {}, []
     for p in load(ROOT / "data" / "starter_projects.json")["projects"]:
         state = p["state"]
@@ -83,10 +83,10 @@ def id_collisions(recs):
     return out
 
 
-def locate(recs, osm, spts, grid, anchors=None, offline=False):
+def locate(recs, osm, refs, grid, anchors=None, offline=False):
     for r in recs:
         anchor = (anchors or {}).get(r.get("zone"))
-        eps = geocode_project(r, osm, spts, anchor=anchor, allow_network=not offline)
+        eps = geocode_project(r, osm, refs, anchor=anchor, allow_network=not offline)
         pts = [(e["point"]["lat"], e["point"]["lon"]) for e in eps if e["point"]]
         c = midpoint(pts)
         r["endpoints"] = eps
@@ -110,7 +110,7 @@ def locate(recs, osm, spts, grid, anchors=None, offline=False):
         r["issues"] = [i for i in r["issues"] if not i["msg"].startswith(("mapped route is", "route rejected:", "no station names could be extracted"))]
         if not eps:
             r["issues"].append({"level": "warn", "msg": "no station names could be extracted; project requires a reviewed endpoint override"})
-        station_methods = {"manual", "sponsor", "osm-exact", "osm-partial"}
+        station_methods = {"manual", "reference", "osm-exact", "osm-partial"}
         if len(located) >= 2 and len(located) == len(eps) and grid and all(
                 e["method"] in station_methods and e["confidence"] in ("medium", "high") for e in located):
             legs = [grid.route(a["point"], b["point"]) for a, b in zip(located, located[1:])]
@@ -252,12 +252,12 @@ def main():
     dq_global = id_collisions(desc)
 
     osm, grid = OSMIndex(), Grid()
-    spts, sp_issues = sponsor_points()
-    dq_global += sp_issues
-    locate(desc, osm, spts, grid, offline=offline)
-    locate(ga, osm, spts, grid, offline=offline)
+    refs, ref_issues = reference_points()
+    dq_global += ref_issues
+    locate(desc, osm, refs, grid, offline=offline)
+    locate(ga, osm, refs, grid, offline=offline)
     anchors = zone_anchors(ga)
-    locate(ga, osm, spts, grid, anchors=anchors, offline=offline)   # second pass: zone-aware disambiguation
+    locate(ga, osm, refs, grid, anchors=anchors, offline=offline)   # second pass: zone-aware disambiguation
     unplace_zone_outliers(ga)
 
     for r in desc + ga:
@@ -290,7 +290,7 @@ def main():
                     r[k] = cur[k]
             else:
                 gone.append(r)
-        locate(gone, osm, spts, None, anchors=anchors if f["parser"] == "ga" else None, offline=offline)
+        locate(gone, osm, refs, None, anchors=anchors if f["parser"] == "ga" else None, offline=offline)
         if f["parser"] == "ga":
             unplace_zone_outliers(gone)
     changes.write(registry, editions, {f["id"]: ga_eds[f["edition"]][1] for f in filings("ga")}, {to_app(r)["id"] for r in desc + ga})

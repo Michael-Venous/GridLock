@@ -2,7 +2,7 @@
 
 Order of trust (first hit wins):
   1. data/overrides.json "points"   - hand-sited, each with a written reason
-  2. starter workbook coordinates   - Projects_Overlaps.xlsx as supplied by the sponsor
+  2. reference coordinates          - Projects_Overlaps.xlsx, the challenge's own trusted starter workbook
   3. OpenStreetMap substation/plant - exact, then token-subset name match, on the correct side of the state line
   4. Nominatim place (town)         - coarse fallback, wide uncertainty
 Each located endpoint carries method, confidence and an uncertainty radius in miles.
@@ -18,8 +18,8 @@ import urllib.request
 from common import CACHE, ROOT, haversine_mi, load, norm_name, xy_mi
 
 OVERRIDES = load(ROOT / "data" / "overrides.json")
-RADIUS = {"manual": 0.5, "sponsor": 0.5, "osm-exact": 0.5, "osm-partial": 1.5, "town": 6.0}
-CONF = {"manual": "high", "sponsor": "high", "osm-exact": "high", "osm-partial": "medium", "town": "low"}
+RADIUS = {"manual": 0.5, "reference": 0.5, "osm-exact": 0.5, "osm-partial": 1.5, "town": 6.0}
+CONF = {"manual": "high", "reference": "high", "osm-exact": "high", "osm-partial": "medium", "town": "low"}
 
 # Savannah River, coarse polyline north -> south. Used only to keep SC names on the SC side and GA names in GA.
 RIVER = [(35.00, -83.11), (34.48, -82.85), (34.07, -82.64), (33.66, -82.20), (33.45, -81.97),
@@ -179,7 +179,7 @@ def nominatim(query, state, network=True):
             for r in _nom[key] if on_state_side(state, float(r["lat"]), float(r["lon"]))]
 
 
-def geocode_project(rec, osm, sponsor_points, anchor=None, allow_network=True):
+def geocode_project(rec, osm, reference_points, anchor=None, allow_network=True):
     names = endpoint_names(rec)
     resolved = []
     for n in names:
@@ -193,11 +193,11 @@ def geocode_project(rec, osm, sponsor_points, anchor=None, allow_network=True):
             resolved.append({"name": n, "cands": [[{"lat": pt["lat"], "lon": pt["lon"]}]], "method": "manual",
                              "confidence": confidence, "radiusMi": radius, "evidence": pt["why"]})
             continue
-        sp = sponsor_points.get(f"{rec['state']}:{key}")
+        sp = reference_points.get(f"{rec['state']}:{key}")
         if sp and anchor and haversine_mi(sp["lat"], sp["lon"], anchor["lat"], anchor["lon"]) > FAR_MI:
             sp = None   # same name, different place (e.g. the Augusta-area Goshen vs Goshen (SAV))
         if sp:
-            resolved.append({"name": n, "cands": [[sp]], "method": "sponsor", "evidence": "Projects_Overlaps.xlsx (sponsor starter workbook)"})
+            resolved.append({"name": n, "cands": [[sp]], "method": "reference", "evidence": "Projects_Overlaps.xlsx (reference dataset)"})
             continue
         cands, method = osm.find(n, rec["state"])
         if cands:
@@ -209,7 +209,7 @@ def geocode_project(rec, osm, sponsor_points, anchor=None, allow_network=True):
             if towns:
                 resolved.append({"name": n, "cands": [[t] for t in towns], "method": "town", "evidence": None})
                 continue
-        resolved.append({"name": n, "cands": [], "method": None, "evidence": "no match in overrides, sponsor workbook, OSM or Nominatim"})
+        resolved.append({"name": n, "cands": [], "method": None, "evidence": "no match in overrides, reference dataset, OSM or Nominatim"})
 
     # joint resolution: when a name matches several places, pick the combination that keeps the
     # endpoints closest to each other and to the planning-zone anchor (if the source gives a zone)
@@ -225,7 +225,7 @@ def geocode_project(rec, osm, sponsor_points, anchor=None, allow_network=True):
     disambiguated = bool(anchor) or sum(1 for r in resolved if r["cands"]) > 1
     # drop endpoints that land implausibly far from the rest of the project (a same-name place elsewhere).
     # The weaker evidence loses; with a zone anchor as the only reference, the endpoint loses.
-    rank = {"manual": 4, "sponsor": 4, "osm-exact": 3, "osm-partial": 2, "town": 1}
+    rank = {"manual": 4, "reference": 4, "osm-exact": 3, "osm-partial": 2, "town": 1}
     for i, r in enumerate(resolved):
         if not r["cands"]:
             continue
