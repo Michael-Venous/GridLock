@@ -73,6 +73,21 @@ function link(href, text) { const a = h("a", "", text); a.href = href; a.target 
 const side = project => project.state === "SC" ? "desc" : "gpc";
 const sideName = project => project.state === "SC" ? "DESC" : project.utility === "SAV" ? "GPC · Savannah" : project.utility;
 function projectLabel(project) { return `${project.projectId} · ${project.name}`; }
+// Other projects in the same state with the same named end stations (separate filings on one line), which otherwise
+// read as duplicate pairs in the list.
+function sameStationProjects(projects) {
+  // Both stations must be named in the project's own title, so a tap placed on its host line doesn't count.
+  const key = p => {
+    const names = [...new Set((p.endpoints ?? []).map(e => e.name?.toUpperCase()).filter(Boolean))];
+    return names.length >= 2 && names.every(n => p.name.toUpperCase().includes(n)) ? `${p.state}|${names.sort().join("|")}` : null;
+  };
+  const groups = new Map();
+  for (const p of projects) { const k = key(p); if (k) groups.set(k, [...(groups.get(k) ?? []), p]); }
+  const out = new Map();
+  for (const group of groups.values()) if (group.length > 1) for (const p of group) out.set(p.id, group.filter(q => q !== p));
+  return out;
+}
+const windowText = p => p.window?.start ? `${formatDate(p.window.start)} → ${formatDate(p.window.end)}` : `in service ${formatDate(p.inServiceDate)}`;
 function formatDate(value) { return value ? new Intl.DateTimeFormat("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" }).format(new Date(`${value}T00:00:00Z`)) : "Unknown"; }
 const money = n => n == null ? "—" : n >= 1e6 ? `$${(n / 1e6).toFixed(n >= 1e7 ? 0 : 1)}M` : `$${Math.round(n / 1000)}k`;
 function datePassed(value) { return Boolean(value && value < state.asOf); }
@@ -236,6 +251,12 @@ function renderList() {
     if (mapped.length) {
       tag(mapped.length > 1 ? `${mapped[0]} +${mapped.length - 1}` : mapped[0], "env");
       tags.lastChild.title = `Mapped at the work sites: ${mapped.join(", ").toLowerCase()}`;
+    }
+    for (const p of [pair.a, pair.b]) {
+      const others = state.sameStations.get(p.id);
+      if (!others) continue;
+      tag(others.length === 1 ? `Same stations as ${others[0].projectId}` : `Same stations as ${others.length} others`, "muted");
+      tags.lastChild.title = `${p.projectId} (${windowText(p)}) shares its end stations with ${others.map(q => `${q.projectId} · ${q.name} (${windowText(q)})`).join("; ")}. Separate projects in the filing.`;
     }
     if (pair.bothPast) tag("Both dates passed", "muted");
     else if (datePassed(pair.a.inServiceDate) || datePassed(pair.b.inServiceDate)) tag("A date has passed", "warn");
@@ -532,6 +553,8 @@ function projectBlock(p, full = false, heading = true) {
   if (p.miles || p.route) block.append(infoRow("Length", `${p.miles ? `${p.miles} mi stated` : "not stated"}${p.route ? ` · ${p.route.miles} mi inferred OSM path (circuit unverified)` : ""}`));
   if (p.slipDays) block.append(infoRow("Schedule history", `${p.slipDays > 0 ? "slipped" : "advanced"} ${Math.abs(Math.round(p.slipDays / 30.44))} months since ${p.history[0].edition}`));
   else if (p.change && p.state === "GA") block.append(infoRow("Change vs last plan", p.change));
+  const others = state.sameStations?.get(p.id);
+  if (others) block.append(infoRow("Same end stations", `${others.map(q => `${q.projectId} · ${q.name} (${windowText(q)})`).join("; ")}. Listed as a separate project in the filing, not a duplicate.`));
   block.append(infoRow("Map point", centerMethod(p)), infoRow("Location confidence", `${p.locationConfidence} · ±${p.radiusMi ?? "?"} mi`));
   const src = h("div", "source-line"); src.append(document.createTextNode("Source: "), sourceLink(p), document.createTextNode(` (${p.source.item})`));
   block.append(src);
@@ -1050,6 +1073,7 @@ try {
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
   state.data = await response.json();
   state.projects = state.data.projects;
+  state.sameStations = sameStationProjects(state.projects);
   state.asOf = state.data.generated;
   if (!/^\d{4}-\d{2}-\d{2}$/.test(state.asOf ?? "")) throw new Error("Dataset is missing a valid as-of date");
   state.allPairs = matchProjects(state.projects, MAX_MILES, { includePossible: true, asOf: state.asOf });
