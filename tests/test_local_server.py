@@ -273,5 +273,35 @@ class LocalServerTests(unittest.TestCase):
         self.assertEqual(code, 409, "a completed rebuild must not be repeated")
 
 
+class ImportProtocolTests(unittest.TestCase):
+    def test_missing_result_is_not_a_duplicate(self):
+        manager = local_server.IngestManager()
+        process = mock.Mock(stdout=[])
+        process.wait.return_value = 0
+        with mock.patch.object(local_server.subprocess, "Popen", return_value=process):
+            with self.assertRaisesRegex(RuntimeError, "without a result"):
+                manager._execute("job", [])
+            process.stdout = [local_server.RESULT_PREFIX + "null\n"]
+            self.assertIsNone(manager._execute("job", []))
+            process.stdout = [local_server.RESULT_PREFIX + "[]\n"]
+            with self.assertRaisesRegex(RuntimeError, "invalid result"):
+                manager._execute("job", [])
+
+    def test_discovered_utility_survives_registration(self):
+        pdf = mock.Mock()
+        pdf.read_bytes.return_value = b"%PDF-fixture"
+        digest = hashlib.sha256(pdf.read_bytes()).hexdigest()
+        manager = local_server.IngestManager()
+        manager.jobs["job"] = {"spec": {"mode": "find", "source": "Santee Cooper"},
+            "run": {"url": "https://example.org/deck.pdf", "reviewedParserSha256": "a" * 64},
+            "preview": {"sha256": digest}}
+        with mock.patch.object(manager, "_execute", return_value={"sha256": digest}) as execute:
+            manager._register_worker("job", pdf)
+        argv = execute.call_args.args[1]
+        self.assertEqual(argv[argv.index("--company") + 1], "Santee Cooper")
+        self.assertNotIn("--find", argv)
+        self.assertEqual(manager.jobs["job"]["status"], "registered")
+
+
 if __name__ == "__main__":
     unittest.main()

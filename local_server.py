@@ -316,17 +316,23 @@ class IngestManager:
     def _execute(self, ident, argv):
         command = [sys.executable, str(self.root / "pipeline" / "ingest_bridge.py"), *argv]
         result = None
+        received_result = False
         process = subprocess.Popen(command, cwd=self.root, stdout=subprocess.PIPE,
                                    stderr=subprocess.STDOUT, text=True, bufsize=1)
         for line in process.stdout:
             if line.startswith(RESULT_PREFIX):
                 result = json.loads(line[len(RESULT_PREFIX):])
+                received_result = True
             else:
                 self._append_log(ident, line)
         code = process.wait()
         if code:
             logs = self.get(ident)["logs"]
             raise RuntimeError(logs[-1] if logs else f"Ingest exited with code {code}")
+        if not received_result:
+            raise RuntimeError("Ingest exited without a result. Preview the filing again.")
+        if result is not None and not isinstance(result, dict):
+            raise RuntimeError("Ingest returned an invalid result. Preview the filing again.")
         return result
 
     @staticmethod
@@ -374,6 +380,8 @@ class IngestManager:
             if not url:
                 raise RuntimeError("No public filing URL was found")
             argv = [str(pdf), "--url", url] + self._flags(spec)
+            if spec["mode"] == "find":
+                argv += ["--company", spec["source"]]
             if spec["mode"] == "find" and prior.get("zipMember"):
                 argv += ["--zip-member", prior["zipMember"]]
             if prior.get("reviewedParserSha256"):

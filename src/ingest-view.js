@@ -56,7 +56,7 @@ async function api(path, options) {
   const response = await fetch(path, { ...options, headers: options?.body && !(options.body instanceof FormData) ? { "Content-Type": "application/json" } : undefined });
   let body;
   try { body = await response.json(); } catch { throw new Error(`Local ingest service returned HTTP ${response.status} without JSON.`); }
-  if (!response.ok) throw new Error(body.error || body.message || `HTTP ${response.status}`);
+  if (!response.ok) throw Object.assign(new Error(body.error || body.message || `HTTP ${response.status}`), { status: response.status });
   return body;
 }
 
@@ -72,7 +72,22 @@ export function createIngestView({ onBack }) {
   const rebuildButton = el("ingest-rebuild");
   const controls = [...form.querySelectorAll("input")];
   let available = false, aiAvailable = false, currentJob = null, previewKey = null, pollTimer = null, polling = false;
-  let previewFile = null;
+  let previewFile = null, recoveredUpload = false, failures = 0;
+  const sessionKey = "gridlock.ingest-session";
+  const saveSession = () => { try { sessionStorage.setItem(sessionKey, JSON.stringify({ id: currentJob, payload: JSON.parse(previewKey) })); } catch { /* session storage unavailable */ } };
+  const forgetSession = () => { try { sessionStorage.removeItem(sessionKey); } catch { /* session storage unavailable */ } };
+  function restoreSession() {
+    try {
+      const saved = JSON.parse(sessionStorage.getItem(sessionKey) || "null");
+      if (!saved || !/^[0-9a-f]{32}$/.test(saved.id)) return;
+      const payload = ingestPayload(saved.payload);
+      form.querySelector(`input[name="ingest-mode"][value="${payload.mode}"]`).checked = true;
+      const sourceId = payload.mode === "find" ? "ingest-find" : payload.mode === "upload" ? "ingest-upload-url" : "ingest-url";
+      el(sourceId).value = payload.source;
+      for (const [key, id] of Object.entries({company:"ingest-company", date:"ingest-date", edition:"ingest-edition", title:"ingest-title", zipMember:"ingest-zip-member"})) el(id).value = payload[key] || "";
+      currentJob = saved.id; previewKey = JSON.stringify(payload); recoveredUpload = payload.mode === "upload";
+    } catch { forgetSession(); }
+  }
 
   function payloadFromForm() {
     const mode = form.querySelector('input[name="ingest-mode"]:checked').value;
@@ -104,7 +119,7 @@ export function createIngestView({ onBack }) {
     showError("");
   }
   function clearPreview() {
-    currentJob = null; previewKey = null; previewFile = null;
+    currentJob = null; previewKey = null; previewFile = null; recoveredUpload = false; failures = 0; forgetSession();
     el("ingest-preview-result").hidden = true;
     el("ingest-preview-result").replaceChildren();
     el("ingest-log-wrap").hidden = true;
@@ -222,11 +237,20 @@ export function createIngestView({ onBack }) {
       const job = await api(`/api/ingest/jobs/${encodeURIComponent(id)}`);
       if (id !== currentJob) return;
       if (job.id !== id) throw new Error("The ingest service returned a different job.");
+      failures = 0;
       renderJob(job);
       if (["queued", "running", "registering", "rebuilding"].includes(job.status)) pollTimer = setTimeout(poll, POLL_MS);
     } catch (error) {
-      setProgress(`Could not check ingest progress: ${error.message}`, "error");
-      busy(false);
+      if (id !== currentJob) return;
+      if (error.status === 404) {
+        clearPreview(); busy(false);
+        setProgress("This preview is no longer available, possibly because the server restarted. Preview the filing again.", "error");
+      } else {
+        failures += 1;
+        setProgress(`Connection interrupted. Retrying progress check… (${error.message})`, "working");
+        busy(true);
+        pollTimer = setTimeout(poll, Math.min(15000, POLL_MS * 2 ** Math.min(failures, 4)));
+      }
     } finally { polling = false; }
   }
   async function checkService() {
@@ -243,6 +267,7 @@ export function createIngestView({ onBack }) {
     }
     if (!aiAvailable && form.querySelector('input[name="ingest-mode"]:checked').value === "find") form.querySelector('input[name="ingest-mode"][value="url"]').checked = true;
     switchMode(); busy(false);
+    if (currentJob) { busy(true); if (pollTimer) clearTimeout(pollTimer); poll(); }
   }
 
   form.addEventListener("change", event => {
@@ -279,6 +304,7 @@ export function createIngestView({ onBack }) {
       const job = await api(endpoint, { method: "POST", body });
       if (!job.id) throw new Error("The ingest service did not return a job ID.");
       currentJob = job.id; previewKey = JSON.stringify(payload); previewFile = file ?? null;
+      saveSession();
       renderJob(job);
       poll();
     } catch (error) { setProgress(`Preview could not start: ${error.message}`, "error"); busy(false); }
@@ -287,7 +313,7 @@ export function createIngestView({ onBack }) {
     if (!currentJob || !previewKey) return;
     try {
       if (JSON.stringify(payloadFromForm()) !== previewKey) throw new Error("Source details changed. Preview again before registering.");
-      if (previewFile && el("ingest-file").files[0] !== previewFile) throw new Error("PDF changed. Preview again before registering.");
+      if ((previewFile && el("ingest-file").files[0] !== previewFile) || (recoveredUpload && el("ingest-file").files.length)) throw new Error("PDF changed. Preview again before registering.");
       registerButton.disabled = true; setProgress("Starting registration and rebuild…", "working");
       const job = await api(`/api/ingest/jobs/${encodeURIComponent(currentJob)}/register`, { method: "POST", body: "{}" });
       renderJob(job); poll();
@@ -307,6 +333,7 @@ export function createIngestView({ onBack }) {
   });
   el("ingest-back").addEventListener("click", onBack);
   el("ingest-reload").addEventListener("click", () => window.location.reload());
+  restoreSession();
   switchMode();
   return { open: checkService };
 }
