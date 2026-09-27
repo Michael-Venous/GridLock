@@ -94,6 +94,67 @@ def parse_date(s):
         return None, f"invalid date {m.group(0)!r}"
 
 
+MONTHS = {m: i for i, m in enumerate(("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"), 1)}
+MONTH_RE = r"(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sept?(?:ember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\b\.?"
+SEASONS = {"spring": (3, 5), "summer": (6, 8), "fall": (9, 11), "autumn": (9, 11), "winter": (12, 12)}
+
+
+def _month_period(y, a, b):
+    return dt.date(y, a, 1), dt.date(y, b, calendar.monthrange(y, b)[1])
+
+
+def _full(mo, day, y):
+    """(first day, last day, issue) of a full date, repaired as parse_date does; None if it is no date."""
+    d, err = parse_date(f"{mo}/{day}/{y}")
+    return (d, d, err) if d else None
+
+
+# every form a date takes, most specific first: (pattern, what it stands for, groups -> (first day, last day, issue) or None)
+DATE_FORMS = (
+    (DATE_RE, None, lambda g: _full(*g)),
+    (re.compile(r"\b(20\d\d|19\d\d)-(\d{1,2})-(\d{1,2})(?!\d)"), None, lambda g: _full(g[1], g[2], g[0])),
+    (re.compile(rf"\b{MONTH_RE}\s+(\d{{1,2}}),?\s+(\d{{4}})\b", re.I), None, lambda g: _full(MONTHS[g[0][:3].lower()], g[1], g[2])),
+    (re.compile(rf"\b(\d{{1,2}})\s+{MONTH_RE},?\s+(\d{{4}})\b", re.I), None, lambda g: _full(MONTHS[g[1][:3].lower()], g[0], g[2])),
+    (re.compile(rf"\b{MONTH_RE}\s*[-'’ ,]\s*(\d{{4}}|\d{{2}})\b", re.I), "a month",
+     lambda g: _month_period(int(g[1]) + (2000 if len(g[1]) == 2 else 0), MONTHS[g[0][:3].lower()], MONTHS[g[0][:3].lower()])),
+    (re.compile(r"\b(\d{1,2})/(\d{4})\b"), "a month", lambda g: _month_period(int(g[1]), int(g[0]), int(g[0])) if 1 <= int(g[0]) <= 12 else None),
+    (re.compile(r"\bq([1-4])\s*[-' ]?\s*(\d{4})\b|\b(\d{4})\s*[-' ]?\s*q([1-4])\b", re.I), "a quarter",
+     lambda g: _month_period(int(g[1] or g[2]), 3 * int(g[0] or g[3]) - 2, 3 * int(g[0] or g[3]))),
+    (re.compile(r"\b(spring|summer|fall|autumn|winter)\s*[-' ]?\s*(\d{4})\b", re.I), "a season",
+     lambda g: _month_period(int(g[1]), *SEASONS[g[0].lower()])),
+    (re.compile(r"\b(19\d\d|20\d\d)\b"), "a year", lambda g: _month_period(int(g[0]), 1, 12)),
+)
+
+
+def read_date(s, end=True):
+    """Any date a utility prints: m/d/y, yyyy-mm-dd, 'June 1, 2027', 'June 2027', 'Jun-27', '06/2027', 'Q2 2027',
+    'Summer 2027' or a bare year. A date short of a day stands for its whole period: its last day when end is True (in
+    service by), else its first. Of several (phases, or a slip 'from 2025 to 2027'), the latest is read when end is
+    True, else the earliest. Returns (date, issue); the issue says how a partial, repaired or chosen date was read, and
+    is None for a plain full date."""
+    s = s or ""
+    found, taken, bad = [], [], None
+    for rx, what, period in DATE_FORMS:
+        for m in rx.finditer(s):
+            # '1/2027' inside '6/1/2027' or the year inside 'Q2 2027' is part of a date already read
+            if any(a < m.end() and m.start() < b for a, b in taken):
+                continue
+            taken.append(m.span())
+            p = period(m.groups())
+            if p is None:
+                bad = bad or f"invalid date {m.group(0)!r}"
+                continue
+            found.append((m.start(), p[0], p[1], p[2] if what is None else None, what))
+    if not found:
+        return None, bad or f"unparseable date {s!r}"
+    _, first, last, err, what = max(found, key=lambda f: f[2]) if end else min(found, key=lambda f: f[1])
+    d = last if end else first
+    issue = err or (f"date given as {what} ({s.strip()!r}); read as {d.isoformat()}" if what else None)
+    if len({(f[1], f[2]) for f in found}) > 1:
+        issue = f"several dates in {s.strip()!r}; read the {'latest' if end else 'earliest'}, {d.isoformat()}" + (f" ({issue})" if err else "")
+    return d, issue
+
+
 def iso(d):
     return d.isoformat() if d else None
 
@@ -130,7 +191,7 @@ def override_key(rec):
 
 def dump(obj, path):
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(obj, indent=1, default=str))
+    path.write_text(json.dumps(obj, indent=1, default=str, allow_nan=False))
 
 
 def load(path):

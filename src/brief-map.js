@@ -12,8 +12,8 @@ function svg(content, description) {
   return `<svg xmlns="http://www.w3.org/2000/svg" class="brief-map" viewBox="0 0 ${WIDTH} ${HEIGHT}" width="${WIDTH}" height="${HEIGHT}" role="img" aria-label="Project location overview" style="display:block;width:100%;height:auto;max-width:700px;background:#fff;font-family:Arial,sans-serif"><title>Project location overview</title><desc>${esc(description)}</desc><rect width="700" height="190" fill="#fff" stroke="none"/>${content}</svg>`;
 }
 
-/** Return escaped, standalone SVG markup suitable for a pair's printable brief. */
-export function briefMapSvg(pair) {
+/** Return escaped, standalone SVG markup suitable for a pair's printable brief. `colors`: [a, b], each project's plan color. */
+export function briefMapSvg(pair, { colors = COLORS } = {}) {
   const projects = [pair?.a, pair?.b];
   if (!projects.every(p => validPoint(p?.center))) {
     return svg('<rect x="1" y="1" width="698" height="188" rx="5" fill="#f5f8f8" stroke="#d7e0e3"/><text x="20" y="40" fill="#405661" stroke="none" font-size="13">Location overview unavailable: both project centers are needed.</text>', 'One or both project center locations are unavailable.');
@@ -24,7 +24,7 @@ export function briefMapSvg(pair) {
   const cos = Math.max(0.01, Math.cos(lat0 * Math.PI / 180));
   const xy = point => [(point.lon - lon0) * MI_PER_DEGREE * cos, (point.lat - lat0) * MI_PER_DEGREE];
   const rows = projects.map((p, i) => ({
-    project: p, color: COLORS[i], letter: i ? "B" : "A", center: xy(p.center), radius: radius(p),
+    project: p, color: colors[i], letter: i ? "B" : "A", center: xy(p.center), radius: radius(p),
     endpoints: (p.endpoints ?? []).filter(e => validPoint(e.point)).map(e => ({ ...e, xy: xy(e.point) })),
   }));
   const extent = rows.flatMap(r => [

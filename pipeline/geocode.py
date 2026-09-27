@@ -19,7 +19,7 @@ import time
 import urllib.parse
 import urllib.request
 
-from common import CACHE, ROOT, haversine_mi, load, norm_name, override_key, xy_mi
+from common import CACHE, ROOT, haversine_mi, load, norm_name, xy_mi
 
 OVERRIDES = load(ROOT / "data" / "overrides.json")
 RADIUS = {"manual": 0.5, "reference": 0.5, "osm-exact": 0.5, "osm-partial": 1.5, "town": 6.0}
@@ -62,6 +62,7 @@ SC_POLY = [(35.215, -83.11), (35.18, -82.30), (35.20, -81.04), (35.15, -80.93), 
            (33.85, -78.54), (32.00, -80.60)] + RIVER[::-1][1:]
 GA_POLY = [(35.00, -85.61), (35.00, -83.11)] + RIVER[1:] + [(30.70, -81.45), (30.70, -82.00), (30.36, -82.04),
            (30.60, -84.86), (31.00, -85.00), (32.00, -85.06), (33.00, -85.18)]
+COVERED = ("SC", "GA")   # the only states outlined here: a project anywhere else can't be placed
 
 
 def in_poly(lat, lon, poly):
@@ -80,14 +81,19 @@ def on_state_side(state, lat, lon):
     return in_poly(lat, lon, other) and abs(side_of_river(lat, lon)) <= SLACK_MI
 
 
+def ov_key(r):
+    """The key a project goes by in overrides.json: its uid's plan prefix and printed ID."""
+    return f"{r['uid'].split(':')[0]}:{r['key']}"
+
+
 def endpoint_names(rec):
-    ov = OVERRIDES["endpoints"].get(override_key(rec))
+    ov = OVERRIDES["endpoints"].get(ov_key(rec))
     if ov is not None:
         return ov
     if rec.get("endpoint_names") is not None:   # a parser that knows its filing's title format names the stations
         return list(rec["endpoint_names"])
     name = rec["name"]
-    if rec["state"] != "SC":
+    if rec.get("plan") == "ga":   # Georgia ITS title prefixes are not conventions of every GA plan
         name = re.sub(r"^(SAV|GTC|MEAG|DU|SPC|GRID)\s*[:\-]\s*", "", name, flags=re.I)
         name = re.sub(r"^CC\s*[:\-–]\s*", "", name, flags=re.I)
         name = re.sub(r"^.*\bAT\s+", "", name, flags=re.I)

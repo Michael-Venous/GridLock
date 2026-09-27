@@ -15286,5 +15286,405 @@
     "-81.7204210"
    ]
   }
- ]
+ ],
+ "BANKS CROSSING|GA": [
+  {
+   "place_id": 342278922,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "node",
+   "osm_id": 154050921,
+   "lat": "34.2567734",
+   "lon": "-83.4640511",
+   "class": "place",
+   "type": "hamlet",
+   "place_rank": 20,
+   "importance": 0.13336833524071104,
+   "addresstype": "hamlet",
+   "name": "Banks Crossing",
+   "display_name": "Banks Crossing, Banks County, Georgia, 30529, United States",
+   "boundingbox": [
+    "34.2367734",
+    "34.2767734",
+    "-83.4840511",
+    "-83.4440511"
+   ]
+  },
+  {
+   "place_id": 341697647,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "way",
+   "osm_id": 83442385,
+   "lat": "33.4714497",
+   "lon": "-84.4475102",
+   "class": "highway",
+   "type": "unclassified",
+   "place_rank": 26,
+   "importance": 0.053386731517509695,
+   "addresstype": "road",
+   "name": "Banks Crossing",
+   "display_name": "Banks Crossing, Cottonwood, Fayetteville, Fayette County, Georgia, 30214, United States",
+   "boundingbox": [
+    "33.4714345",
+    "33.4721768",
+    "-84.4496990",
+    "-84.4454479"
+   ]
+  }
+ ],
+ "BANKS CROSSING|GA|near 33.96,-83.77": [
+  {
+   "place_id": 344312999,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "node",
+   "osm_id": 154050921,
+   "lat": "34.2567734",
+   "lon": "-83.4640511",
+   "class": "place",
+   "type": "hamlet",
+   "place_rank": 20,
+   "importance": 0.13336833524071104,
+   "addresstype": "hamlet",
+   "name": "Banks Crossing",
+   "display_name": "Banks Crossing, Banks County, Georgia, 30529, United States",
+   "boundingbox": [
+    "34.2367734",
+    "34.2767734",
+    "-83.4840511",
+    "-83.4440511"
+   ]
+  }
+ ],
+ "CASH CREEK|GA|near 33.96,-83.77": [
+  {
+   "place_id": 341093503,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "way",
+   "osm_id": 34972891,
+   "lat": "34.4070193",
+   "lon": "-83.4150482",
+   "class": "waterway",
+   "type": "stream",
+   "place_rank": 22,
+   "importance": 0.10667666666666664,
+   "addresstype": "stream",
+   "name": "Cash Creek",
+   "display_name": "Cash Creek, Banks County, Georgia, United States",
+   "boundingbox": [
+    "34.4047600",
+    "34.4091210",
+    "-83.4193000",
+    "-83.4106630"
+   ]
+  }
+ ],
+ "CORNELIA|GA|near 33.96,-83.77": [
+  {
+   "place_id": 342566395,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "relation",
+   "osm_id": 119882,
+   "lat": "34.5114883",
+   "lon": "-83.5271166",
+   "class": "boundary",
+   "type": "administrative",
+   "place_rank": 16,
+   "importance": 0.4246822253175736,
+   "addresstype": "town",
+   "name": "Cornelia",
+   "display_name": "Cornelia, Habersham County, Georgia, United States",
+   "boundingbox": [
+    "34.4930740",
+    "34.5471850",
+    "-83.5580225",
+    "-83.5021170"
+   ]
+  }
+ ],
+ "EAST DALTON|GA|near 34.12,-84.89": [],
+ "EAST WALTON|GA|near 33.96,-83.77": [
+  {
+   "place_id": 343189010,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "way",
+   "osm_id": 9402511,
+   "lat": "33.5891770",
+   "lon": "-83.4725235",
+   "class": "highway",
+   "type": "residential",
+   "place_rank": 26,
+   "importance": 0.053386359197375416,
+   "addresstype": "road",
+   "name": "East Walton Street",
+   "display_name": "East Walton Street, Madison, Morgan County, Georgia, 30650, United States",
+   "boundingbox": [
+    "33.5890410",
+    "33.5893130",
+    "-83.4726530",
+    "-83.4723940"
+   ]
+  }
+ ],
+ "LOOPERS FARM|GA|near 34.12,-84.89": [],
+ "MORNING HORNET|GA|near 33.96,-83.77": [],
+ "OOSTANAULA|GA|near 34.12,-84.89": [
+  {
+   "place_id": 342005926,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "node",
+   "osm_id": 153807937,
+   "lat": "34.4814762",
+   "lon": "-85.0143897",
+   "class": "place",
+   "type": "hamlet",
+   "place_rank": 20,
+   "importance": 0.13336833524071104,
+   "addresstype": "hamlet",
+   "name": "Oostanaula",
+   "display_name": "Oostanaula, Gordon County, Georgia, 30703, United States",
+   "boundingbox": [
+    "34.4614762",
+    "34.5014762",
+    "-85.0343897",
+    "-84.9943897"
+   ]
+  },
+  {
+   "place_id": 341966227,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "way",
+   "osm_id": 9267479,
+   "lat": "34.4862255",
+   "lon": "-85.0149531",
+   "class": "highway",
+   "type": "residential",
+   "place_rank": 26,
+   "importance": 0.05336833524071104,
+   "addresstype": "road",
+   "name": "Oostanaula",
+   "display_name": "Oostanaula, Gordon County, Georgia, 30703, United States",
+   "boundingbox": [
+    "34.4816017",
+    "34.4907001",
+    "-85.0159469",
+    "-85.0145709"
+   ]
+  },
+  {
+   "place_id": 342070779,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "relation",
+   "osm_id": 3857491,
+   "lat": "34.4355403",
+   "lon": "-85.0445604",
+   "class": "waterway",
+   "type": "river",
+   "place_rank": 18,
+   "importance": 0.35263345776344923,
+   "addresstype": "river",
+   "name": "Oostanaula River",
+   "display_name": "Oostanaula River, Gordon County, Georgia, United States",
+   "boundingbox": [
+    "34.2539830",
+    "34.5776932",
+    "-85.1774494",
+    "-84.9030270"
+   ]
+  }
+ ],
+ "POND FORK|GA|near 33.96,-83.77": [
+  {
+   "place_id": 341377842,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "way",
+   "osm_id": 34513248,
+   "lat": "34.2494774",
+   "lon": "-83.7396206",
+   "class": "waterway",
+   "type": "stream",
+   "place_rank": 22,
+   "importance": 0.10670166857404438,
+   "addresstype": "stream",
+   "name": "Pond Fork",
+   "display_name": "Pond Fork, Frontier Trail, Hall County, Georgia, 30575, United States",
+   "boundingbox": [
+    "34.2454240",
+    "34.2526830",
+    "-83.7434980",
+    "-83.7362520"
+   ]
+  },
+  {
+   "place_id": 341241947,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "way",
+   "osm_id": 34474029,
+   "lat": "34.2382225",
+   "lon": "-83.7225516",
+   "class": "waterway",
+   "type": "stream",
+   "place_rank": 22,
+   "importance": 0.10670166857404438,
+   "addresstype": "stream",
+   "name": "Pond Fork",
+   "display_name": "Pond Fork, Hall County, Georgia, 30575, United States",
+   "boundingbox": [
+    "34.2375630",
+    "34.2405670",
+    "-83.7247010",
+    "-83.7196650"
+   ]
+  },
+  {
+   "place_id": 341894367,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "way",
+   "osm_id": 34447278,
+   "lat": "34.2448530",
+   "lon": "-83.7304410",
+   "class": "waterway",
+   "type": "stream",
+   "place_rank": 22,
+   "importance": 0.10670166857404438,
+   "addresstype": "stream",
+   "name": "Pond Fork",
+   "display_name": "Pond Fork, Jarrett, Hall County, Georgia, 30575, United States",
+   "boundingbox": [
+    "34.2446370",
+    "34.2450690",
+    "-83.7308550",
+    "-83.7300270"
+   ]
+  }
+ ],
+ "SOUTH DALTON|GA|near 34.12,-84.89": [
+  {
+   "place_id": 342132965,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "way",
+   "osm_id": 9248353,
+   "lat": "34.6947849",
+   "lon": "-84.4833099",
+   "class": "highway",
+   "type": "residential",
+   "place_rank": 26,
+   "importance": 0.05338434500648505,
+   "addresstype": "road",
+   "name": "South Dalton Street",
+   "display_name": "South Dalton Street, Ellijay, Gilmer County, Georgia, 30540, United States",
+   "boundingbox": [
+    "34.6944376",
+    "34.6950902",
+    "-84.4836582",
+    "-84.4829293"
+   ]
+  },
+  {
+   "place_id": 342043508,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "way",
+   "osm_id": 53368938,
+   "lat": "34.6944559",
+   "lon": "-84.9830431",
+   "class": "highway",
+   "type": "trunk",
+   "place_rank": 26,
+   "importance": 0.05336833524071104,
+   "addresstype": "road",
+   "name": "South Dalton Bypass",
+   "display_name": "South Dalton Bypass, Phelps, Whitfield County, Georgia, 30712, United States",
+   "boundingbox": [
+    "34.6916411",
+    "34.6983684",
+    "-84.9880320",
+    "-84.9787256"
+   ]
+  },
+  {
+   "place_id": 341978164,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "way",
+   "osm_id": 990539305,
+   "lat": "34.7019897",
+   "lon": "-84.9671354",
+   "class": "highway",
+   "type": "trunk",
+   "place_rank": 26,
+   "importance": 0.0533620332646677,
+   "addresstype": "road",
+   "name": "South Dalton Bypass",
+   "display_name": "South Dalton Bypass, Whitfield County, Georgia, 30712, United States",
+   "boundingbox": [
+    "34.7019284",
+    "34.7020511",
+    "-84.9673994",
+    "-84.9668715"
+   ]
+  }
+ ],
+ "STANTON SPRINGS|GA|near 33.96,-83.77": [
+  {
+   "place_id": 343055917,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "way",
+   "osm_id": 1054387470,
+   "lat": "33.6004763",
+   "lon": "-83.6970675",
+   "class": "landuse",
+   "type": "industrial",
+   "place_rank": 24,
+   "importance": 0.08003500190737771,
+   "addresstype": "industrial",
+   "name": "Meta Stanton Springs Data Center",
+   "display_name": "Meta Stanton Springs Data Center, 100, Social Circle, Newton County, Georgia, United States",
+   "boundingbox": [
+    "33.5957844",
+    "33.6051522",
+    "-83.7090455",
+    "-83.6916708"
+   ]
+  },
+  {
+   "place_id": 343821118,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "way",
+   "osm_id": 1282590996,
+   "lat": "33.5983720",
+   "lon": "-83.6755656",
+   "class": "landuse",
+   "type": "construction",
+   "place_rank": 24,
+   "importance": 0.08000999999999997,
+   "addresstype": "construction",
+   "name": "Meta Stanton Springs Data Center #2",
+   "display_name": "Meta Stanton Springs Data Center #2, Morgan County, Georgia, United States",
+   "boundingbox": [
+    "33.5927426",
+    "33.6040651",
+    "-83.6862702",
+    "-83.6671163"
+   ]
+  },
+  {
+   "place_id": 343033726,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "node",
+   "osm_id": 13293501860,
+   "lat": "33.6178094",
+   "lon": "-83.6902850",
+   "class": "amenity",
+   "type": "place_of_worship",
+   "place_rank": 30,
+   "importance": 4.923857480730934e-05,
+   "addresstype": "amenity",
+   "name": "The Church at Stanton Springs",
+   "display_name": "The Church at Stanton Springs, US 278;GA 12, Social Circle, Walton County, Georgia, 30025, United States",
+   "boundingbox": [
+    "33.6177594",
+    "33.6178594",
+    "-83.6903350",
+    "-83.6902350"
+   ]
+  }
+ ],
+ "TALLULAH LODGE|GA|near 33.96,-83.77": []
 }

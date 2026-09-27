@@ -534,13 +534,16 @@ def site_placed(e):
     return bool(e["point"]) and e["confidence"] in ("high", "medium") and e["method"] != "town"
 
 
+UNPLACED = "not placed on the map, so its distance to other utilities' projects can't be measured"
+
+
 def in_pairing_range(recs):
-    """Projects that could appear in any pair: within 25 mi plus both uncertainty radii of a project in the other state."""
+    """Projects that could appear in a cross-state pair: within 25 mi plus both uncertainty radii."""
     located = [r for r in recs if r.get("center")]
     keep = set()
     for a in located:
         for b in located:
-            if a["state"] == b["state"]:
+            if a["plan"] == b["plan"] or a.get("state") == b.get("state"):
                 continue
             d = haversine_mi(a["center"]["lat"], a["center"]["lon"], b["center"]["lat"], b["center"]["lon"])
             if d < 25 + (a["radiusMi"] or 0) + (b["radiusMi"] or 0):
@@ -560,7 +563,7 @@ def check(recs, offline=False):
     jobs, plans = {}, {}
     for r in recs:
         if r["uid"] not in targets:
-            r["environment"] = {"checked": False, "reason": "not near any project in the other state"}
+            r["environment"] = {"checked": False, "reason": "not near any project in the other state" if r.get("center") else UNPLACED}
             continue
         sites = [e for e in r["endpoints"] if site_placed(e)]
         route_ok = bool(r.get("route")) and all(site_placed(e) for e in r["endpoints"] if e["point"])

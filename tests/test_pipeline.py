@@ -14,11 +14,12 @@ sys.path.insert(0, str(ROOT / "pipeline"))
 
 import build
 import geocode
+import parse_ga
 from common import norm_name
 
 
-def record(name="Test", uid="GA:99999", state="GA"):
-    return {"name": name, "uid": uid, "state": state, "key": uid.split(":")[1], "issues": [], "miles": 10}
+def record(name="Test", uid="GA:99999", state="GA", plan=None):
+    return {"name": name, "uid": uid, "state": state, "plan": plan or uid.split(":")[0].lower(), "key": uid.split(":")[1], "issues": [], "miles": 10}
 
 
 def endpoint(name="A", method="osm-exact", confidence="high", point=True):
@@ -64,11 +65,10 @@ class StationExtractionTests(unittest.TestCase):
         with patch.object(geocode, "OVERRIDES", ov):
             self.assertEqual(geocode.endpoint_names(rec), ["McIntosh"])
 
-    def test_override_keys(self):
-        from common import override_key
-        self.assertEqual(override_key({"uid": "DESC:6809M:19"}), "DESC:6809M")
-        self.assertEqual(override_key({"uid": "GA:21275"}), "GA:21275")
-        self.assertEqual(override_key({"uid": "SCPSA:BLUFFTON-IMPROVEMENTS"}), "SCPSA:BLUFFTON-IMPROVEMENTS")
+    def test_georgia_title_conventions_belong_to_its_plan(self):
+        self.assertEqual(geocode.endpoint_names(record("GTC: YATES - LINE CREEK 230kV REBUILD")), ["YATES", "LINE CREEK"])
+        # another plan's GA project keeps its own title: "SAV" there is not a Georgia ITS sponsor tag
+        self.assertEqual(geocode.endpoint_names(record("SAV - OGEECHEE 115kV LINE", uid="X:1", plan="x")), ["SAV", "OGEECHEE"])
 
     def test_fuzzy_matching_cannot_swap_directions(self):
         osm = geocode.OSMIndex.__new__(geocode.OSMIndex)
@@ -233,6 +233,62 @@ class PlacementTests(unittest.TestCase):
         self.assertEqual(rec["route"]["method"], "osm-shortest-path")
 
 
+class OffMapTests(unittest.TestCase):
+    def test_a_project_outside_sc_and_ga_is_left_unplaced_with_one_issue(self):
+        nc = record("ROCKY MOUNT - WILSON 230kV LINE REBUILD", uid="DUKE:R-1", state="NC")
+        sc = record("Okatie - McIntosh 230kV Tie", uid="DESC:6888:1", state="SC")
+        with patch.object(build, "geocode_project", return_value=[endpoint(), endpoint("B")]) as geo:
+            build.locate(build.on_map([nc, sc]), Mock(), {}, None, offline=True)
+        self.assertEqual([c.args[0]["uid"] for c in geo.call_args_list], ["DESC:6888:1"])   # never searched for in SC/GA
+        self.assertIsNotNone(sc["center"])
+        self.assertEqual((nc["center"], nc["radiusMi"], nc["locationConfidence"], nc["locatedBy"], nc["route"]), (None, None, "none", None, None))
+        self.assertEqual([(e["name"], e["point"]) for e in nc["endpoints"]], [("ROCKY MOUNT", None), ("WILSON", None)])
+        self.assertEqual(nc["locationCompleteness"], {"located": 0, "total": 2})
+        self.assertEqual(len(nc["issues"]), 1)
+        self.assertIn("covers South Carolina and Georgia only", nc["issues"][0]["msg"])
+        self.assertIn("NC", nc["issues"][0]["msg"])
+
+
+class GeorgiaTableTests(unittest.TestCase):
+    def test_table_2_sponsor_is_read_as_printed_and_stored_as_its_code(self):
+        # rows as pdftotext lays them out: the 2025 plan ends a row with the sponsor, the 2024 plan follows it with redacted costs
+        for line, expected in (
+            (" 211      2026       13188          DALTON 230kV NETWORK                      6/1/2026          Dalton", ("211", "2026", "13188", "DU")),
+            ("   211      2026      18679            DU: EAST DALTON -                6/1/2026          DU            REDACTED                REDACTED", ("211", "2026", "18679", "DU")),
+            (" 208      2027       20717             SOLUTION (NETWORK                                         GPC", ("208", "2027", "20717", "GPC")),
+            (" 208      2026       21022                                                                       GPC", ("208", "2026", "21022", "GPC")),
+        ):
+            with self.subTest(line=line):
+                m = parse_ga.ROW.match(line)
+                self.assertEqual((*m.group(1, 2, 3), parse_ga.sponsor_code(m.group(4))), expected)
+        self.assertEqual(parse_ga.sponsor_code("Georgia Power"), "GPC")
+        self.assertEqual(parse_ga.sponsor_code("Georgia"), "Georgia")   # fits several codes: kept as printed
+        self.assertEqual(parse_ga.sponsor_code("Oglethorpe Power"), "Oglethorpe Power")   # fits none
+
+
+class ZoneTests(unittest.TestCase):
+    def placed(self, zone, lat, lon, n):
+        rec = record(f"P{n}", uid=f"X:{n}", plan="x")
+        rec.update(zone=zone, center={"lat": lat, "lon": lon}, radiusMi=0.5, locationConfidence="high", route=None, locatedBy="endpoints",
+                   endpoints=[endpoint()], locationCompleteness={"located": 1, "total": 1})
+        return rec
+
+    def test_a_broad_region_is_not_a_planning_zone(self):
+        # a compact zone around Atlanta with one project matched to a Savannah name, and a region some 300 mi long
+        atlanta = [self.placed("206", 33.75 + d, -84.39 + d, i) for i, d in enumerate((0, 0.05, -0.05, 0.1, -0.1))]
+        stray = self.placed("206", 32.05, -81.10, 5)
+        region = [self.placed("West Region", lat, -84.0, 10 + i) for i, lat in enumerate((31.0, 31.8, 32.6, 33.4, 34.2, 35.4))]
+        recs = atlanta + [stray] + region
+        zones = build.planning_zones(recs)
+        self.assertEqual(zones, {"206"})
+        self.assertEqual(set(build.zone_anchors(recs, zones)), {"206"})
+        build.unplace_zone_outliers(recs, zones)
+        self.assertIsNone(stray["center"])
+        self.assertTrue(stray["issues"][-1]["msg"].endswith("so it is left unplaced"))
+        self.assertTrue(all(r["center"] for r in atlanta + region))   # the region's 35.4 N project is 166 mi from its median
+        self.assertTrue(all(not r["issues"] for r in atlanta + region))
+
+
 class IdentityTests(unittest.TestCase):
     def test_only_reused_printed_ids_change(self):
         recs = [record(uid="DESC:6809M:19", state="SC"), record(uid="DESC:6809M:48", state="SC"), record(uid="DESC:6888:41", state="SC"), record(uid="GA:99999")]
@@ -245,6 +301,26 @@ class IdentityTests(unittest.TestCase):
         recs = [record(uid="SCPSA:BLUFFTON-IMPROVEMENTS", state="SC"), record(uid="DESC:6888:41", state="SC")]
         build.assign_app_ids(recs)
         self.assertEqual([r["app_id"] for r in recs], ["SCPSA-BLUFFTON-IMPROVEMENTS", "DESC-6888"])
+
+    def test_override_key_and_link_are_the_uid_prefix_and_printed_id_for_every_plan(self):
+        # the same values the old state-based rules gave: DESC:<ProjectID> without the item suffix, GA:<TEAMS> = uid
+        for uid, state, key, link in (("DESC:6853B-F:12", "SC", "DESC:6853B-F", "DESC-6853B-F"), ("DESC:06810F:3", "SC", "DESC:06810F", "DESC-06810F"),
+                                      ("GA:21319", "GA", "GA:21319", "GA-21319"), ("SANTEE:T-44", "SC", "SANTEE:T-44", "SANTEE-T-44")):
+            with self.subTest(uid=uid):
+                rec = record(uid=uid, state=state)
+                self.assertEqual(build.ov_key(rec), key)
+                build.assign_app_ids([rec])
+                self.assertEqual(rec["app_id"], link)
+        recs = [record(uid="SANTEE:T-44:2", state="SC"), record(uid="SANTEE:T-44:9", state="SC")]
+        build.assign_app_ids(recs)
+        self.assertEqual([(r["app_id"], r["legacy_id"]) for r in recs], [("SANTEE-T-44-2", "SANTEE-T-44"), ("SANTEE-T-44-9", "SANTEE-T-44")])
+
+    def test_every_override_names_a_key_the_general_rule_can_produce(self):
+        ov = json.loads((ROOT / "data/overrides.json").read_text())
+        for section in ("endpoints", "endpoint_notes", "radius", "host_line"):
+            for k in ov.get(section, {}):
+                with self.subTest(section=section, key=k):
+                    self.assertRegex(k, r"^[A-Z]+:[^:]+$")
 
     def test_unresolvable_duplicate_records_fail_the_build(self):
         with self.assertRaises(ValueError):

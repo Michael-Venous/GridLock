@@ -1,6 +1,7 @@
-import { matchProjects, gapLabel, overlapLabel, opportunityText, savingsEstimate, yardScenario, projectType, sortPairs, milesBetween, SORTS, WEIGHTS, YARD_BASIS, MAX_MILES } from "./match.js";
+import { matchProjects, planOf, gapLabel, overlapLabel, opportunityText, savingsEstimate, yardScenario, landValue, projectType, sortPairs, milesBetween, extraPlanColors, SORTS, WEIGHTS, YARD_BASIS, MAX_MILES } from "./match.js";
 import { pairGround, groundMatches, groundLines, groundShort, groundCostNote, floodZoneText } from "./environment.js";
 import { createChangesView } from "./changes-view.js";
+import { currentEdition } from "./changes.js";
 import { matchesProject, withinDistance, encodeView, decodeView } from "./view-state.js";
 import { briefMapSvg } from "./brief-map.js";
 import { PLANNING_FORUMS, PLANNING_TRANSITION } from "./planning-forums.js";
@@ -27,9 +28,14 @@ function saveLayers() { try { localStorage.setItem(LAYERS_KEY, JSON.stringify([.
 const SATELLITE_KEY = "gridlock.satellite";
 function loadSatellite() { try { return localStorage.getItem(SATELLITE_KEY) === "1"; } catch { return false; } }
 function saveSatellite() { try { localStorage.setItem(SATELLITE_KEY, satelliteOn ? "1" : "0"); } catch { /* storage unavailable: choice lasts for this visit */ } }
-const bounds = [[-85.8, 30.3], [-78.4, 35.3]];
 const border = [[-82.7, 31.85], [-80.6, 33.95]];
-const COLORS = { desc: "#0a8494", gpc: "#cb6e30" };
+// Plan colors by side class (see side()): DESC teal, Georgia orange, then violet, brown and navy for further plans.
+// They stay apart under the common color-vision deficiencies. The darker shades carry text on white. Plans past
+// these get generated colors (extraPlanColors), added here by addPlanColors().
+const COLORS = { desc: "#0a8494", gpc: "#cb6e30", "plan-x1": "#7b4fb0", "plan-x2": "#8b5a2b", "plan-x3": "#2a3f7a" };
+const TEXT_COLORS = { desc: "#0b5f6b", gpc: "#9a4a17", "plan-x1": "#6a3fa0", "plan-x2": "#7a4d22", "plan-x3": "#2a3f7a" };
+const PRINT_COLORS = { ...COLORS, desc: "#087f8c", gpc: "#b96124" };
+const bySide = colors => ["match", ["get", "side"], ...Object.entries(colors).flat(), colors.desc];
 // OpenFreeMap: free OpenStreetMap vector tiles, no API key.
 const BASEMAP = "https://tiles.openfreemap.org/styles/positron";
 // USGS National Map orthoimagery (USDA NAIP): public domain, no API key. Cached to zoom 16; closer in, MapLibre enlarges those tiles.
@@ -90,22 +96,56 @@ function h(tag, className = "", text = "") {
   return node;
 }
 function link(href, text) { const a = h("a", "", text); a.href = href; a.target = "_blank"; a.rel = "noopener noreferrer"; return a; }
-const side = project => project.state === "SC" ? "desc" : "gpc";
-// The plans a project would pair with; names them outright since many projects sit far from the river.
-const otherPlan = project => project.state === "SC" ? "Georgia ITS" : "South Carolina";
-const UTILITY_NAMES = { SCPSA: "Santee Cooper", SAV: "GPC · Savannah" };
-const sideName = project => UTILITY_NAMES[project.utility] ?? project.utility;
-// South Carolina's two listing utilities, for the filter.
+// Plans in registry order, each with its side class: desc and gpc for DESC and Georgia ITS, plan-x1, plan-x2, …
+// for further plans in order. Data built before plans existed has only DESC (SC) and Georgia ITS (GA).
+let plans = [];
+function loadPlans(data) {
+  const out = data.plans ? [...data.plans] : [["desc", "DESC", "SC"], ["ga", "Georgia ITS", "GA"]].map(([id, name, st]) => ({ id, name, state: st, source: data.sources?.find(s => s.id === id) }));
+  for (const p of data.projects) if (planOf(p) && !out.some(x => x.id === planOf(p))) out.push({ id: planOf(p), name: p.utility ?? planOf(p) });
+  const extra = out.filter(p => p.id !== "desc" && p.id !== "ga");
+  return out.map(p => ({ ...p, side: p.id === "desc" ? "desc" : p.id === "ga" ? "gpc" : `plan-x${extra.indexOf(p) + 1}` }));
+}
+// Sides past the fixed colors: generated colors for the maps and the brief, and CSS classes like styles.css's
+// plan-x1..3 (one color serves as fill and text, since each reads at 4.5:1 on white).
+function addPlanColors() {
+  const sides = plans.map(p => p.side).filter(s => !COLORS[s]);
+  const colors = extraPlanColors(Object.values(COLORS), sides.length);
+  sides.forEach((s, i) => { COLORS[s] = TEXT_COLORS[s] = PRINT_COLORS[s] = colors[i]; });
+  if (sides.length) document.head.append(h("style", "", sides.map((s, i) => `:root { --${s}: ${colors[i]}; --${s}-text: ${colors[i]}; }\n.${s} { --side: var(--${s}); --side-text: var(--${s}-text); }`).join("\n")));
+}
+const planInfo = id => plans.find(p => p.id === id) ?? { id, name: id, side: "desc" };
+const side = project => planInfo(planOf(project)).side;
+// The plans a project could pair with; the demo compares projects across state lines.
+const otherPlan = project => andList(plans.filter(p => p.state && p.state !== project.state).map(p => p.name), "or");
+const sideName = project => { const plan = planOf(project); return plan === "desc" ? "DESC" : plan === "ga" ? (project.utility === "SAV" ? "GPC · Savannah" : project.utility) : planInfo(plan).name; };
+const andList = (xs, word = "and") => xs.length < 3 ? xs.join(` ${word} `) : `${xs.slice(0, -1).join(", ")} ${word} ${xs.at(-1)}`;
+// Keep the focused South Carolina filter for the DESC and Santee Cooper demo.
 const SC_UTILITIES = { DESC: "DESC", SCPSA: "Santee Cooper" };
 const byScUtility = (project, choice = state.scUtility) => choice === "all" || project.state !== "SC" || project.utility === choice;
+// The change log lists every filing with its edition; it is fetched once, for the Changes tab and for each plan's
+// current edition in the landing text.
+let changeLog = null, filings = [];
+function loadChangeLog() {
+  changeLog ??= fetch("data/changes.json").then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+    .catch(error => { changeLog = null; throw error; });
+  return changeLog;
+}
+const edition = plan => currentEdition(plan, filings);
+const STATE_NAMES = { AL: "Alabama", AK: "Alaska", AZ: "Arizona", AR: "Arkansas", CA: "California", CO: "Colorado", CT: "Connecticut", DE: "Delaware", DC: "District of Columbia",
+  FL: "Florida", GA: "Georgia", HI: "Hawaii", ID: "Idaho", IL: "Illinois", IN: "Indiana", IA: "Iowa", KS: "Kansas", KY: "Kentucky", LA: "Louisiana", ME: "Maine", MD: "Maryland",
+  MA: "Massachusetts", MI: "Michigan", MN: "Minnesota", MS: "Mississippi", MO: "Missouri", MT: "Montana", NE: "Nebraska", NV: "Nevada", NH: "New Hampshire", NJ: "New Jersey",
+  NM: "New Mexico", NY: "New York", NC: "North Carolina", ND: "North Dakota", OH: "Ohio", OK: "Oklahoma", OR: "Oregon", PA: "Pennsylvania", RI: "Rhode Island", SC: "South Carolina",
+  SD: "South Dakota", TN: "Tennessee", TX: "Texas", UT: "Utah", VT: "Vermont", VA: "Virginia", WA: "Washington", WV: "West Virginia", WI: "Wisconsin", WY: "Wyoming" };
+// A plan's legend label: its name, and its state unless the name already says it.
+const planLabel = plan => { const st = STATE_NAMES[plan.state]; return st && !plan.name.includes(st) ? `${plan.name}, ${st}` : plan.name; };
 function projectLabel(project) { return `${project.projectId} · ${project.name}`; }
-// Other projects in the same state with the same named end stations (separate filings on one line), which otherwise
+// Other projects in the same plan with the same named end stations (separate filings on one line), which otherwise
 // read as duplicate pairs in the list.
 function sameStationProjects(projects) {
   // Both stations must be named in the project's own title, so a tap placed on its host line doesn't count.
   const key = p => {
     const names = [...new Set((p.endpoints ?? []).map(e => e.name?.toUpperCase()).filter(Boolean))];
-    return names.length >= 2 && names.every(n => p.name.toUpperCase().includes(n)) ? `${p.state}|${names.sort().join("|")}` : null;
+    return names.length >= 2 && names.every(n => p.name.toUpperCase().includes(n)) ? `${planOf(p)}|${names.sort().join("|")}` : null;
   };
   const groups = new Map();
   for (const p of projects) { const k = key(p); if (k) groups.set(k, [...(groups.get(k) ?? []), p]); }
@@ -135,7 +175,7 @@ const GROUND_LABELS = { flood: "Flood area mapped at a site", habitat: "Critical
 function filterPairs(f) {
   return state.allPairs.filter(pair =>
     (f.includePossible || pair.qualifies) && bySelectedYear(pair.a, f.year) && bySelectedYear(pair.b, f.year) && withinDistance(pair, f.distance) &&
-    byScUtility(pair.a, f.scUtility) &&
+    byScUtility(pair.a, f.scUtility) && byScUtility(pair.b, f.scUtility) &&
     (!f.hidePast || !pair.bothPast) &&
     (f.gap === "all" || (f.gap === "ahead" ? pair.remainingDays > 0 : f.gap === "overlap" ? pair.overlapDays > 0 : pair.gapDays !== null && pair.gapDays <= Number(f.gap))) &&
     groundMatches(pair, f.ground) &&
@@ -228,7 +268,7 @@ function emptyState() {
   if (project && !project.center) { box.append(h("p", "", `${project.projectId} could not be located, so it can't be paired. The Data quality tab lists why.`)); return box; }
   if (lonely) {
     const n = nearestPartner(project);
-    box.append(h("p", "", `${project.projectId} has no ${otherPlan(project)} project within ${MAX_MILES} miles.${n ? ` The nearest is ${n.p.projectId} (${n.p.name}), ${n.miles.toFixed(1)} mi away.` : ""} Most projects in both plans have no match; that is expected.`));
+    box.append(h("p", "", `${project.projectId} has no ${otherPlan(project)} project within ${MAX_MILES} miles.${n ? ` The nearest is ${n.p.projectId} (${n.p.name}), ${n.miles.toFixed(1)} mi away.` : ""} Most projects in ${plans.length === 2 ? "both plans" : "every plan"} have no match; that is expected.`));
     return box;
   }
   const hints = activeFilters().map(f => ({ f, n: filterPairs({ ...state, [f.key]: f.key === "selectedProject" ? null : FILTER_DEFAULTS[f.key] }).length })).filter(x => x.n > 0);
@@ -349,7 +389,7 @@ function restoreViewUrl() {
 function nearestPartner(project) {
   if (!project.center) return null;
   let best = null;
-  for (const p of state.projects) if (p.state !== project.state && p.center) {
+  for (const p of state.projects) if (planOf(p) !== planOf(project) && p.state && project.state && p.state !== project.state && p.center) {
     const miles = milesBetween(project.center, p.center);
     if (!best || miles < best.miles) best = { p, miles };
   }
@@ -486,16 +526,16 @@ function addLayers() {
   map.addSource("geometry", { type: "geojson", data: featureCollection([]) });
   map.addSource("links", { type: "geojson", data: featureCollection([]), promoteId: "id" });
   map.addSource("projects", { type: "geojson", data: featureCollection([]), promoteId: "id" });
-  const bySide = ["match", ["get", "side"], "desc", COLORS.desc, COLORS.gpc];
+  const sideColor = bySide(COLORS);
   const kind = k => ["==", ["get", "kind"], k];
   const hover = ["boolean", ["feature-state", "hover"], false];
   const linkState = ["get", "state"];
-  map.addLayer({ id: "uncertainty-fill", type: "fill", source: "geometry", filter: kind("uncertainty"), paint: { "fill-color": bySide, "fill-opacity": 0.08 } });
+  map.addLayer({ id: "uncertainty-fill", type: "fill", source: "geometry", filter: kind("uncertainty"), paint: { "fill-color": sideColor, "fill-opacity": 0.08 } });
   map.addLayer({ id: "geometry-casing", type: "line", source: "geometry", filter: ["in", ["get", "kind"], ["literal", ["uncertainty", "route-inferred", "stations"]]], layout: { visibility: "none", "line-join": "round", "line-cap": "round" },
     paint: { "line-color": "#fff", "line-width": ["match", ["get", "kind"], "uncertainty", 3.5, 6.5], "line-opacity": 0.75 } });
-  map.addLayer({ id: "uncertainty-line", type: "line", source: "geometry", filter: kind("uncertainty"), paint: { "line-color": bySide, "line-width": 1.2, "line-dasharray": [4, 3] } });
-  map.addLayer({ id: "routes-inferred", type: "line", source: "geometry", filter: kind("route-inferred"), layout: { "line-join": "round" }, paint: { "line-color": bySide, "line-width": 3, "line-dasharray": [2.5, 1.5] } });
-  map.addLayer({ id: "station-lines", type: "line", source: "geometry", filter: kind("stations"), layout: { "line-cap": "round" }, paint: { "line-color": bySide, "line-width": 2.5, "line-dasharray": [0, 2] } });
+  map.addLayer({ id: "uncertainty-line", type: "line", source: "geometry", filter: kind("uncertainty"), paint: { "line-color": sideColor, "line-width": 1.2, "line-dasharray": [4, 3] } });
+  map.addLayer({ id: "routes-inferred", type: "line", source: "geometry", filter: kind("route-inferred"), layout: { "line-join": "round" }, paint: { "line-color": sideColor, "line-width": 3, "line-dasharray": [2.5, 1.5] } });
+  map.addLayer({ id: "station-lines", type: "line", source: "geometry", filter: kind("stations"), layout: { "line-cap": "round" }, paint: { "line-color": sideColor, "line-width": 2.5, "line-dasharray": [0, 2] } });
   const linkLook = linkStyle(satelliteOn);
   const linkPaint = { "line-color": linkLook.color, "line-width": ["case", ["==", linkState, "selected"], 4.5, hover, 3.5, 1.6] };
   // Casings only show over satellite imagery: a dark edge under the white pair links, a light band under project lines.
@@ -508,22 +548,30 @@ function addLayers() {
   map.addLayer({ id: "links-hit", type: "line", source: "links", paint: { "line-color": "#000", "line-width": 14, "line-opacity": 0 } });
   const focus = ["get", "focus"];
   map.addLayer({ id: "project-halo", type: "circle", source: "projects", filter: ["any", ["==", focus, "chosen"], ["get", "matched"]],
-    paint: { "circle-radius": 14, "circle-color": bySide, "circle-opacity": ["case", ["==", focus, "chosen"], 0.2, hover, 0.2, 0], "circle-stroke-color": bySide, "circle-stroke-width": ["case", ["==", focus, "chosen"], 2.5, hover, 2, 0] } });
+    paint: { "circle-radius": 14, "circle-color": sideColor, "circle-opacity": ["case", ["==", focus, "chosen"], 0.2, hover, 0.2, 0], "circle-stroke-color": sideColor, "circle-stroke-width": ["case", ["==", focus, "chosen"], 2.5, hover, 2, 0] } });
   map.addLayer({ id: "project-core", type: "circle", source: "projects", layout: { "circle-sort-key": ["get", "order"] },
     paint: {
       "circle-radius": ["case", ["==", focus, "chosen"], 8, ["get", "matched"], 6, 3.5],
-      "circle-color": bySide,
+      "circle-color": sideColor,
       "circle-stroke-color": ["case", ["==", focus, "chosen"], "#13232a", "#fff"],
       "circle-stroke-width": ["case", ["get", "matched"], 2.5, ["==", focus, "chosen"], 2.5, 1.5],
       "circle-opacity": ["case", ["==", focus, "faded"], 0.35, ["get", "matched"], 1, ["case", hover, 1, 0.55]],
       "circle-stroke-opacity": ["case", ["==", focus, "faded"], 0.35, 1],
     } });
   // Stations draw above project dots: a project centered on the selected one's station would otherwise hide it.
-  map.addLayer({ id: "endpoints", type: "circle", source: "geometry", filter: kind("endpoint"), paint: { "circle-radius": 3.5, "circle-color": "#fff", "circle-stroke-color": bySide, "circle-stroke-width": 1.5, "circle-opacity": ["case", ["get", "town"], 0.5, 1], "circle-stroke-opacity": ["case", ["get", "town"], 0.5, 1] } });
+  map.addLayer({ id: "endpoints", type: "circle", source: "geometry", filter: kind("endpoint"), paint: { "circle-radius": 3.5, "circle-color": "#fff", "circle-stroke-color": sideColor, "circle-stroke-width": 1.5, "circle-opacity": ["case", ["get", "town"], 0.5, 1], "circle-stroke-opacity": ["case", ["get", "town"], 0.5, 1] } });
   map.addLayer({ id: "project-hit", type: "circle", source: "projects", layout: { "circle-sort-key": ["get", "order"] }, paint: { "circle-radius": 12, "circle-color": "#000", "circle-opacity": 0 } });
   map.addLayer({ id: "project-labels", type: "symbol", source: "projects", filter: ["==", focus, "chosen"],
     layout: { "text-field": ["get", "label"], "text-font": ["Noto Sans Bold"], "text-size": 12, "text-anchor": "left", "text-offset": [1.35, 0], "text-allow-overlap": true, "text-ignore-placement": true },
-    paint: { "text-color": ["match", ["get", "side"], "desc", "#0b5f6b", "#9a4a17"], "text-halo-color": "#fff", "text-halo-width": 2.5 } });
+    paint: { "text-color": bySide(TEXT_COLORS), "text-halo-color": "#fff", "text-halo-width": 2.5 } });
+}
+
+// One row per plan, in plan order, at the top of both maps' legends; the Pairs map's rows count its dots.
+const legendCounts = new Map();
+function addPlanLegends() {
+  const row = (plan, text) => { const r = h("span", "plan-row"); r.append(h("i", `dot ${plan.side}`), document.createTextNode(text)); return r; };
+  document.querySelector(".map-panel .map-legend").prepend(...plans.map(plan => { const r = row(plan, planLabel(plan)), count = h("b", "", "0"); r.append(count); legendCounts.set(plan.id, count); return r; }));
+  document.querySelector(".changes-legend").prepend(...plans.map(plan => row(plan, `${plan.name} change`)));
 }
 
 function renderMap() {
@@ -533,10 +581,7 @@ function renderMap() {
   const activeIds = new Set(state.pairs.flatMap(p => [p.a.id, p.b.id]));
   const focusIds = new Set(pair ? [pair.a.id, pair.b.id] : project ? [project.id] : []);
   const visibleProjects = state.projects.filter(p => p.center && bySelectedYear(p) && byScUtility(p));
-  $("desc-count").textContent = String(visibleProjects.filter(p => p.state === "SC").length);
-  const scLabel = $("desc-count").previousSibling;   // the legend text before the count names the South Carolina utilities shown
-  if (scLabel?.nodeType === Node.TEXT_NODE) scLabel.textContent = state.scUtility === "all" ? "DESC and Santee Cooper, SC" : `${SC_UTILITIES[state.scUtility]}, SC`;
-  $("gpc-count").textContent = String(visibleProjects.filter(p => p.state === "GA").length);
+  for (const [plan, count] of legendCounts) count.textContent = String(visibleProjects.filter(p => planOf(p) === plan).length);
   if (!mapReady) return;
   const geometry = (pair ? [pair.a, pair.b] : project ? [project] : []).flatMap(geometryFeatures);
   map.getSource("geometry").setData(featureCollection(geometry));
@@ -661,7 +706,7 @@ function locationEditor(p) {
     try { localStorage.setItem(LOCATION_KEY, JSON.stringify(locationEdits)); } catch { stored = false; }
     state.projects = applyLocationEdits(state.data.projects, locationEdits);
     state.sameStations = sameStationProjects(state.projects);
-    state.allPairs = matchProjects(state.projects, MAX_MILES, { includePossible: true, asOf: state.asOf });
+    state.allPairs = matchProjects(state.projects, MAX_MILES, { includePossible: true, asOf: state.asOf, planOrder: plans.map(p => p.id) });
     state.selectedPair = null; state.selectedProject = p.id;
     applyFilters(); renderQuality();
     $("session-notice").textContent = `${stored ? "Locations saved in this browser." : "Browser storage unavailable; edits last for this visit only."} Matches recalculated. Shared links and Changes history use published locations.`;
@@ -683,10 +728,10 @@ function projectBlock(p, full = false, heading = true, foldEvidence = false) {
   block.append(infoRow("Target in service (published)", targetDate(p)));
   const st = infoRow("Current status", statusText(p)); if (datePassed(p.inServiceDate)) st.classList.add("warn-row"); block.append(st);
   if (p.window?.start) block.append(infoRow("Planning window", `${formatDate(p.window.start)} → ${formatDate(p.window.end)} (${p.window.basis})`));
-  block.append(infoRow("Cost", p.cost?.total ? `${money(p.cost.total)} (DESC estimate)` : p.state === "GA" ? "Redacted in the public filing" : p.utility === "SCPSA" ? "Not published in Santee Cooper's list" : "—"));
+  block.append(infoRow("Cost", p.cost?.total ? `${money(p.cost.total)} (${planInfo(planOf(p)).name} estimate)` : redacted(p) ? "Redacted in the public filing" : "Not published"));
   if (p.miles || p.route) block.append(infoRow("Length", `${p.miles ? `${p.miles} mi stated` : "not stated"}${p.route ? ` · ${p.route.miles} mi inferred OSM path (circuit unverified)` : ""}`));
   if (p.slipDays) block.append(infoRow("Schedule history", `${p.slipDays > 0 ? "slipped" : "advanced"} ${Math.abs(Math.round(p.slipDays / 30.44))} months since ${p.history[0].edition}`));
-  else if (p.change && p.state === "GA") block.append(infoRow("Change vs last plan", p.change));
+  else if (p.change) block.append(infoRow("Change vs last plan", p.change));
   const others = state.sameStations?.get(p.id);
   if (others) block.append(infoRow("Same end stations", `${others.map(q => `${q.projectId} · ${q.name} (${windowText(q)})`).join("; ")}. Listed as a separate project in the filing, not a duplicate.`));
   block.append(infoRow("Project dot", centerMethod(p)), infoRow("Location confidence", `${p.locationConfidence} · ±${p.radiusMi ?? "?"} mi`));
@@ -780,15 +825,17 @@ function sharedResources(pair) {
 
 function planningForumBlock(pair) {
   const box = h("section", "list-box planning-forums"); box.append(h("h3", "", "Where to raise it"));
-  for (const p of [pair.a, pair.b]) {
-    const forum = PLANNING_FORUMS[p.state]; if (!forum) continue;
+  for (const p of forumProjects(pair)) {
+    const forum = PLANNING_FORUMS[p.state];
     const row = h("p"); row.append(h("strong", "", `${sideName(p)}: `), link(forum.contactUrl, `${forum.shortName} contact page`)); box.append(row);
   }
   const note = h("p", "muted-note", `${PLANNING_TRANSITION.text} Checked ${formatDate(PLANNING_TRANSITION.checkedOn)}. `);
   note.append(link(PLANNING_TRANSITION.sourceUrl, PLANNING_TRANSITION.sourceLabel)); box.append(note); return box;
 }
+// Forums are keyed by state; a project in a state without one gets no line.
+const forumProjects = pair => [pair.a, pair.b].filter(p => PLANNING_FORUMS[p.state]);
 function planningForumText(pair) {
-  return [...[pair.a, pair.b].map(p => `${sideName(p)}: ${PLANNING_FORUMS[p.state].shortName} - ${PLANNING_FORUMS[p.state].contactUrl}`), `${PLANNING_TRANSITION.text} Checked ${PLANNING_TRANSITION.checkedOn}: ${PLANNING_TRANSITION.sourceUrl}`];
+  return [...forumProjects(pair).map(p => `${sideName(p)}: ${PLANNING_FORUMS[p.state].shortName} - ${PLANNING_FORUMS[p.state].contactUrl}`), `${PLANNING_TRANSITION.text} Checked ${PLANNING_TRANSITION.checkedOn}: ${PLANNING_TRANSITION.sourceUrl}`];
 }
 
 function questions(pair) {
@@ -804,10 +851,16 @@ function questions(pair) {
 
 // ---- Staging-yard scenario ----
 function yardInputs() { const y = state.yard; return { acres: y.acres, months: y.months, leaseRate: y.leaseRate, surfacePerAcre: y.surface === "mats" ? YARD_BASIS.matsPerAcre.value : y.surfacePerAcre, roadMiles: y.roadMiles }; }
+// The pair's own states' USDA land values; a state without one is named, with what stands in for it.
+function landBasis(land) {
+  const used = land.states.length > 1 ? `${land.states.join("/")} average` : land.states[0];
+  if (!land.missing.length) return `land value cited (USDA, ${used})`;
+  return `no USDA land value for ${andList(land.missing, "or")}; ${land.standIn ? `the cited ${used} stands in` : `${used}'s cited value is used`}`;
+}
 function scenarioLines(pair, sc) {
   return [
     ["Yard surface", `${sc.acres} ac × ${money(sc.surfacePerAcre)}/ac = ${money(sc.parts.surface)}`, state.yard.surface === "mats" ? "cited: MISO timber-mat rate" : "your assumption"],
-    ["Land lease", `${sc.acres} ac × ${money(sc.landPerAcre)}/ac × ${Math.round(sc.leaseRate * 100)}%/yr × ${sc.months} mo = ${money(sc.parts.lease)}`, "land value cited (USDA, GA/SC average); lease rate is an assumption"],
+    ["Land lease", `${sc.acres} ac × ${money(sc.landPerAcre)}/ac × ${Math.round(sc.leaseRate * 100)}%/yr × ${sc.months} mo = ${money(sc.parts.lease)}`, `${landBasis(sc.land)}; lease rate is an assumption`],
     ["Access road", `${sc.roadMiles} mi × ${money(YARD_BASIS.roadPerMile.value)}/mi = ${money(sc.parts.road)}`, "cited: MISO access-road rate; length is an assumption"],
   ];
 }
@@ -819,7 +872,10 @@ function sideBySide(pair, sc) {
   const yard = (cls, text) => { const y = h("span", `yard ${cls}`); y.append(h("span", "", text)); return y; };
   const apart = h("div", "yards"); apart.append(yard(side(pair.a), sideName(pair.a)), yard(side(pair.b), sideName(pair.b)));
   const together = h("div", "yards");
-  if (sc.active) together.append(yard("both", "Shared"));
+  if (sc.active) {
+    const both = yard("both", "Shared"); both.style.setProperty("--yard-a", `var(--${side(pair.a)})`); both.style.setProperty("--yard-b", `var(--${side(pair.b)})`);
+    together.append(both);
+  }
   else together.append(yard(side(pair.a), sideName(pair.a)), yard(side(pair.b), sideName(pair.b)));
   box.append(
     col("Separately", apart, money(2 * sc.oneYard), `Two yards, ${money(sc.oneYard)} each, over ${sc.months} months.`),
@@ -834,7 +890,7 @@ function yardCard(pair) {
   if (!pair.qualifies) { card.append(h("p", "", "Only modeled for qualifying pairs.")); return card; }
   if (!(pair.remainingDays > 0)) {
     const empty = h("div", "scenario-empty");
-    empty.append(h("h4", "", "No shared-yard scenario available"), h("p", "", "These planning windows have no overlap after the data date. Confirm construction timing with both utilities before estimating shared-yard savings."), infoRow(sideName(pair.a), windowText(pair.a)), infoRow(sideName(pair.b), windowText(pair.b)));
+    empty.append(h("h4", "", "No shared-yard scenario available"), h("p", "", `${yardScenario(pair).reason} Confirm construction timing with both utilities before estimating shared-yard savings.`), infoRow(sideName(pair.a), windowText(pair.a)), infoRow(sideName(pair.b), windowText(pair.b)));
     card.append(empty); return card;
   }
   card.append(h("p", "scenario-caution", "Compare two separate yards with one shared site for storing materials and equipment. Site access and actual construction timing still need confirmation."));
@@ -868,8 +924,9 @@ function yardCard(pair) {
     ul.append(h("li", "", `One yard ≈ ${money(sc.oneYard)}. A combined yard is assumed to be 1.0–1.5× one project's yard, so sharing avoids 0.5–1.0 of a yard.`));
     const ground = groundCostNote(pair);
     if (ground) ul.append(h("li", "", ground));
-    const est = savingsEstimate(pair, { benchmarkPerMile: state.data.costBenchmark.perMile });
-    if (est && sc.active) ul.append(h("li", "", `For scale: the smaller project costs about ${money(Math.min(est.costA, est.costB))}${est.aEstimated || est.bEstimated ? ` (${[est.aEstimated && sideName(pair.a), est.bEstimated && sideName(pair.b)].filter(Boolean).join(" and ")} estimated from DESC's median $/mi)` : " (published)"}; the high end is ${((sc.high / Math.min(est.costA, est.costB)) * 100).toFixed(1)}% of it.`));
+    const est = savingsEstimate(pair, { benchmarkPerMile: state.data.costBenchmark?.perMile });
+    const estimated = [est?.aEstimated && pair.a, est?.bEstimated && pair.b].filter(Boolean).map(p => planInfo(planOf(p)).name);
+    if (est && sc.active && Math.min(est.costA, est.costB) > 0) ul.append(h("li", "", `For scale: the smaller project costs about ${money(Math.min(est.costA, est.costB))}${estimated.length ? ` (${andList(estimated)} ${estimated.length > 1 ? "sides" : "side"} estimated from ${costs.benchmark ? `${costs.benchmark.name}'s` : "the reference"} median $/mi)` : " (published)"}; the high end is ${((sc.high / Math.min(est.costA, est.costB)) * 100).toFixed(1)}% of it.`));
     const calculation = h("details", "detail-fold");
     calculation.append(h("summary", "", "Calculation breakdown"), ul);
     out.append(calculation);
@@ -878,7 +935,7 @@ function yardCard(pair) {
   const assumptions = h("section", "scenario-assumptions");
   assumptions.append(h("h4", "", "Enter your planning inputs"), h("p", "muted-note", "Replace example values with your yard requirements. These inputs are not supplied by the filings; results update as you edit."), form);
   card.append(assumptions, out);
-  const src = h("p", "muted-note"); src.append(document.createTextNode("Cost basis: "), link(YARD_BASIS.matsPerAcre.url, "MISO MTEP24 cost guide, p. 19 (mats)"), document.createTextNode(" · "), link(YARD_BASIS.roadPerMile.url, "p. 23 (access road)"), document.createTextNode(" · "), link(YARD_BASIS.landPerAcre.url, `USDA Land Values 2026, p. 15 (pasture: GA ${money(YARD_BASIS.landPerAcre.GA)}, SC ${money(YARD_BASIS.landPerAcre.SC)}/ac)`));
+  const src = h("p", "muted-note"); src.append(document.createTextNode("Cost basis: "), link(YARD_BASIS.matsPerAcre.url, "MISO MTEP24 cost guide, p. 19 (mats)"), document.createTextNode(" · "), link(YARD_BASIS.roadPerMile.url, "p. 23 (access road)"), document.createTextNode(" · "), link(YARD_BASIS.landPerAcre.url, `USDA Land Values 2026, p. 15 (pasture: ${landValue(pair).states.map(st => `${st} ${money(YARD_BASIS.landPerAcre[st])}`).join(", ")}/ac)`));
   const sources = h("details", "detail-fold");
   sources.append(h("summary", "", "Reference rates and limits"), src, h("p", "muted-note", "Reference rates may differ from local costs. Surface choice is manual; ground layers do not set the rate. Savings depend on a usable shared site, compatible schedules and agreement between utilities."));
   card.append(sources);
@@ -887,7 +944,7 @@ function yardCard(pair) {
 
 function compareTable(pair) {
   const t = h("table", "compare");
-  const head = h("tr"); head.append(h("th", "", ""), h("th", `desc`, sideName(pair.a)), h("th", "gpc", sideName(pair.b))); t.append(head);
+  const head = h("tr"); head.append(h("th", "", ""), h("th", side(pair.a), sideName(pair.a)), h("th", side(pair.b), sideName(pair.b))); t.append(head);
   const rows = [
     ["Type", p => projectType(p)],
     ["Target in service", p => targetDate(p)],
@@ -1044,7 +1101,7 @@ function scoreBlock(pair) {
 function landing() {
   const box = h("div", "landing");
   box.append(h("h2", "", "Savannah River transmission coordination"),
-    h("p", "lead", `Every planned project in the South Carolina lists published through SCRTP (DESC’s and Santee Cooper’s 2026–2030 lists) and Georgia ITS’s 2026–2035 plan, each South Carolina project paired with each Georgia project when their centers are under ${MAX_MILES} miles apart.`),
+    h("p", "lead", `Every planned project in ${andList(plans.map(p => `${p.name}’s ${edition(p) ?? "current"} ${p.id === "ga" ? "plan" : "list"}`))}. Projects in different states form a candidate pair when their centers are under ${MAX_MILES} miles apart.`),
     overviewStats());
   const steps = h("ol", "guide-steps");
   [["Find", "Pairs are ranked geography first, timing second. Change the sort or open Filters to explore."], ["Check", "Published project fields link to their filing pages. Calculated values and location methods are labeled."], ["Call", "Shortlist a pair and export a coordination brief with evidence, shared resources, a cost scenario and questions."]]
@@ -1132,18 +1189,18 @@ function briefHtml(pair) {
   <header><div><p class="eyebrow">Gridlock coordination brief · ${esc(state.asOf)}</p><h1>${esc(a.name)} <span>×</span> ${esc(b.name)}</h1></div>
   <div class="figs"><div><b>${pair.miles.toFixed(2)} mi</b>center to center</div><div><b>${pair.gapDays ?? "?"} days</b>in-service gap</div><div><b>${esc(pair.certainty)}</b>location</div></div></header>
   ${!pair.qualifies ? `<p class="qualification-notice">Does not qualify at current locations: outside the ${MAX_MILES}-mile rule.</p>` : ""}
-  ${briefMapSvg(pair)}
+  ${briefMapSvg(pair, { colors: [a, b].map(p => PRINT_COLORS[side(p)]) })}
   <table class="cmp"><tr><th></th><th>${esc(sideName(a))}</th><th>${esc(sideName(b))}</th></tr>
   ${row("Project", p => `${esc(p.projectId)} · ${esc(p.name)}`)}${row("Type", p => esc(projectType(p)))}${row("Target in service", p => esc(targetDate(p)))}
   ${row("Status", p => esc(statusShort(p)))}
-  ${row("Planning window", p => p.window?.start ? `${esc(p.window.start)} → ${esc(p.window.end)}` : "unknown")}${row("Cost", p => p.cost?.total ? money(p.cost.total) : p.state === "GA" ? "redacted" : "not published")}
+  ${row("Planning window", p => p.window?.start ? `${esc(p.window.start)} → ${esc(p.window.end)}` : "unknown")}${row("Cost", p => p.cost?.total ? money(p.cost.total) : redacted(p) ? "redacted" : "not published")}
   ${row("Location", p => `${esc(p.locationConfidence)}, ±${p.radiusMi} mi · ${esc(centerMethod(p))}`)}${row("Endpoints", eps)}${row("Source", src)}</table>
   <div class="cols"><div><h2>${pair.qualifies ? "Why it qualifies" : "Why it might qualify"}</h2><ul>${li(whyQualifies(pair))}</ul><h2>Possible shared resources</h2><ul>${li(sharedResources(pair))}</ul>
   <h2>Staging-yard scenario${sc.active ? `: ${money(sc.low)} – ${money(sc.high)}` : " unavailable"}</h2>${sc.active ? `<p>Illustrative avoided cost; sharing feasibility unconfirmed.</p><ul>${scenarioLines(pair, sc).map(([k, v, why]) => `<li><b>${k}:</b> ${esc(v)} <i>(${esc(why)})</i></li>`).join("")}<li>Combined yard assumed 1.0–1.5× one yard. Proximity does not prove land or equipment can be shared.</li></ul>` : `<p>${esc(sc.reason)}</p>`}</div>
   <div><h2>Still to confirm</h2><ul>${li(toConfirm(pair))}</ul><h2>Questions for ${esc(sideName(b))}</h2><ol>${li(questions(pair))}</ol></div></div>
   <h2>Ground near mapped endpoints</h2><div class="cols">${[a, b].map(p => `<div><b>${esc(sideName(p))} ${esc(p.projectId)}</b><ul>${li(groundLines(p, state.data.environmentRadiusMi))}</ul></div>`).join("")}</div>
   <p class="note">${esc(GROUND_NOTE)}</p>
-  <section class="forum"><h2>Where to raise it</h2><p>${[a,b].map(p => `${esc(sideName(p))}: <a href="${esc(PLANNING_FORUMS[p.state].contactUrl)}">${esc(PLANNING_FORUMS[p.state].shortName)} contact page</a>`).join(" · ")}</p><p>${esc(PLANNING_TRANSITION.text)} Checked ${esc(PLANNING_TRANSITION.checkedOn)}. <a href="${esc(PLANNING_TRANSITION.sourceUrl)}">Transition notice</a></p></section>
+  <section class="forum"><h2>Where to raise it</h2><p>${forumProjects(pair).map(p => `${esc(sideName(p))}: <a href="${esc(PLANNING_FORUMS[p.state].contactUrl)}">${esc(PLANNING_FORUMS[p.state].shortName)} contact page</a>`).join(" · ")}</p><p>${esc(PLANNING_TRANSITION.text)} Checked ${esc(PLANNING_TRANSITION.checkedOn)}. <a href="${esc(PLANNING_TRANSITION.sourceUrl)}">Transition notice</a></p></section>
   <footer>Cost basis: ${esc(YARD_BASIS.matsPerAcre.source)}; ${esc(YARD_BASIS.roadPerMile.source)}; ${esc(YARD_BASIS.landPerAcre.source)}. Built from public filings and OpenStreetMap only; no CEII. Locations are estimates with stated uncertainty.</footer>
 </section>`;
 }
@@ -1238,6 +1295,32 @@ function renderQuality() {
   v.append(wrap);
 }
 
+// Which plans publish costs, which publish none (and whether the filings say redacted), and whose line projects set
+// the median $/mi that estimates a cost the filing doesn't give: the plan whose projects the benchmark lists.
+const redacted = p => /redact/i.test(p.cost?.basis ?? "");
+let costs = { publish: [], withheld: [], partial: [], benchmark: null };
+function costPlans(data) {
+  const of = plan => data.projects.filter(p => planOf(p) === plan.id);
+  const names = new Set((data.costBenchmark?.projects ?? []).map(b => b.name));
+  const inBenchmark = plan => of(plan).filter(p => names.has(p.name)).length;
+  const publish = plans.filter(plan => of(plan).some(p => p.cost?.total));
+  return {
+    publish, partial: publish.filter(plan => of(plan).some(p => !p.cost?.total)),
+    withheld: plans.filter(plan => of(plan).length && !publish.includes(plan)).map(plan => ({ ...plan, why: of(plan).every(redacted) ? "redacted" : "not published" })),
+    benchmark: plans.filter(inBenchmark).sort((x, y) => inBenchmark(y) - inBenchmark(x))[0] ?? null,
+  };
+}
+function costMethod(bm) {
+  const lead = "For scale, the panel compares the result with the smaller project's cost.";
+  if (!costs.publish.length || !bm?.perMile) return `${lead} Only published costs are compared; no plan's costs give a $/mi median to estimate the others.`;
+  const median = `${costs.benchmark ? `${costs.benchmark.name}'s own` : "the"} median of ${money(bm.perMile)} per mile (${bm.n} line projects)`;
+  const who = `${andList(costs.publish.map(p => p.name))} publish${costs.publish.length > 1 ? "" : "es"} costs`;
+  if (!costs.withheld.length) return `${lead} ${who}; for a line without a published cost but with a stated length we apply ${median}.`;
+  const why = [...new Set(costs.withheld.map(p => p.why))].map(r => `${andList(costs.withheld.filter(p => p.why === r).map(p => `${p.name}'s`))} costs are ${r}`);
+  const partial = costs.partial.length ? ` The same median stands in for any ${andList(costs.partial.map(p => p.name), "or")} project without a published cost.` : "";
+  return `${lead} ${who}; ${andList(why)}, so for a ${andList(costs.withheld.map(p => p.name), "or")} line with a stated length we apply ${median}.${partial}`;
+}
+
 function renderMethod() {
   const v = $("view-method"); v.replaceChildren();
   const d = state.data, bm = d.costBenchmark;
@@ -1248,8 +1331,8 @@ function renderMethod() {
   const sertp = h("p", "", "Checked September 27, 2026 for a newer source, as the brief asks: SERTP's ");
   sertp.append(link("https://www.southeasternrtp.com/docs/general/2026/2026_SERTP_Preliminary_Expansion_Plan_Report_(Non-CEII).pdf", "2026 preliminary expansion plan"), document.createTextNode(" (June 12, 426 projects) lists no DESC or Santee Cooper projects, and its "),
     link("https://www.southeasternrtp.com/docs/general/2026/2026_SERTP_3rd_Quarter_Meeting_Presentation.pdf", "September 22 meeting"), document.createTextNode(" still treats SCRTP as a separate region. The SCRTP lists used here are the newest for both South Carolina utilities."));
-  sec("Sources", `Dataset as of ${formatDate(d.generated)}. The first three links are the current public filings; earlier editions support schedule history and the change log.`, srcList, "The challenge zip's DESC list (2024–2028) and Georgia plan (2025 IRP) are superseded; both newer editions are public and are used here. Santee Cooper, which publishes its list through SCRTP alongside DESC, is on the South Carolina side too: its list is a slide in the first SCRTP stakeholder meeting of each year.", sertp);
-  sec("The qualifying rule (unchanged from the challenge)", `A South Carolina project (DESC or Santee Cooper) and a Georgia project form a pair when their centers are less than ${MAX_MILES} miles apart by great-circle (haversine) distance. A project's center is the midpoint of its located endpoints, or the single located endpoint. The time gap is the absolute difference between in-service dates. Our tests reproduce the sponsor's six example rows to the hundredth of a mile and the day.`);
+  sec("Sources", `Dataset as of ${formatDate(d.generated)}. The first ${plans.length} links are the current public filings; earlier editions support schedule history and the change log.`, srcList, "The challenge zip's DESC list (2024–2028) and Georgia plan (2025 IRP) are superseded; both newer editions are public and are used here. Santee Cooper publishes its list through SCRTP alongside DESC.", sertp);
+  sec("The qualifying rule", `A project in one plan and a project in another state form a pair when their centers are less than ${MAX_MILES} miles apart by great-circle (haversine) distance. This pairs the South Carolina plans with Georgia ITS, never DESC with Santee Cooper. A project's center is the midpoint of its located endpoints, or the single located endpoint. The time gap is the absolute difference between in-service dates. Our tests reproduce the sponsor's six example rows to the hundredth of a mile and the day.`);
   sec("What we add on top (ranking only — never changes which pairs qualify)",
     "Planning windows: DESC's first budget year with spend through its in-service date; Georgia's detail-page Start Date through Need Date. Santee Cooper publishes only in-service dates, so its projects have no window and are timed by the in-service gap alone. Overlap still ahead of the data date counts; overlap already in the past does not.",
     "Certainty: each location carries an uncertainty radius. A pair is robust if it stays under 25 miles at the edges of both radii, sensitive if it only does at the best estimate, and possible (shown only on request) if it could qualify.",
@@ -1260,7 +1343,7 @@ function renderMethod() {
     "For a pair with planning overlap ahead of the data date, we model what one shared staging/laydown yard would avoid compared with two separate yards. One yard = surface (acres × $/acre) + land lease (acres × land value × lease rate × months) + a short access road (miles × $/mile). A combined yard is assumed to be 1.0–1.5× the size of one project's yard, so sharing avoids 0.5–1.0 of a yard. Without future planning overlap, the scenario is unavailable; no savings are estimated.",
     "Cited unit costs:", basis,
     "Yard size, months, lease rate, road length and any non-mat surface cost are assumptions, marked as such and editable in the panel. Proximity alone can't establish that land or equipment can be shared; the scenario is a reason to make the call, not a budget.",
-    `For scale, the panel compares the result with the smaller project's cost. DESC publishes costs; Georgia's are redacted and Santee Cooper's list gives none, so for a line with a stated length we apply DESC's own median of ${money(bm.perMile)} per mile (${bm.n} line projects).`);
+    costMethod(bm));
   sec("Changes between filings",
     "Every filing we read is listed in data/filings.json. Each new edition is compared with the one before it from the same utility: projects are matched on their ID (DESC reuses IDs, so a DESC match also needs a similar name; an ID kept under a different name is reported as renamed; Santee Cooper publishes no IDs, so its projects are matched on their titles and its “Row” numbers are only positions in the list), then we list what was added, dropped, rescheduled, renamed or re-costed. Georgia says why each project left its plan (Table 3 cancelled, Table 4 completed); the South Carolina lists don't, so a dropped project only says whether its date had already passed.",
     "Pairs are recomputed with the same 25-mile rule before and after each filing, keeping every project's current location, so a pair appears or disappears only because a project was added, dropped or rescheduled. A pair whose in-service gap moves by 30 days or more is listed as a timing change.");
@@ -1290,8 +1373,9 @@ function setView(name) {
 }
 
 function exportCsv() {
-  const header = ["as_of", "rank", "qualifies", "score", "certainty", "sc_utility", "sc_project", "sc_id", "sc_type", "sc_status", "ga_utility", "ga_project", "ga_teams", "ga_type", "ga_status", "distance_miles", "sc_point_type", "ga_point_type", "in_service_gap_days", "build_overlap_days", "overlap_days_ahead", "in_service_sc", "in_service_ga", "ground_sc", "ground_ga", "source_sc", "source_ga"];
-  const lines = [header, ...state.pairs.map((p, i) => [state.asOf, i + 1, p.qualifies, p.score.total, p.certainty, sideName(p.a), p.a.name, p.a.projectId, projectType(p.a), p.a.status ?? "", sideName(p.b), p.b.name, p.b.projectId, projectType(p.b), p.b.status ?? "", p.miles.toFixed(3), pointKind(p.a), pointKind(p.b), p.gapDays ?? "", p.overlapDays ?? "", p.remainingDays ?? "", p.a.inServiceDate ?? "", p.b.inServiceDate ?? "", groundShort(p.a), groundShort(p.b), pdfLink(p.a.source), pdfLink(p.b.source)])];
+  // Columns a_* and b_* follow the pair's orientation: a is the project whose plan comes first in the registry.
+  const header = ["as_of", "rank", "qualifies", "score", "certainty", "a_plan", "a_project", "a_id", "a_type", "a_status", "b_plan", "b_project", "b_id", "b_type", "b_status", "distance_miles", "a_point_type", "b_point_type", "in_service_gap_days", "build_overlap_days", "overlap_days_ahead", "in_service_a", "in_service_b", "ground_a", "ground_b", "source_a", "source_b"];
+  const lines = [header, ...state.pairs.map((p, i) => [state.asOf, i + 1, p.qualifies, p.score.total, p.certainty, planInfo(planOf(p.a)).name, p.a.name, p.a.projectId, projectType(p.a), p.a.status ?? "", planInfo(planOf(p.b)).name, p.b.name, p.b.projectId, projectType(p.b), p.b.status ?? "", p.miles.toFixed(3), pointKind(p.a), pointKind(p.b), p.gapDays ?? "", p.overlapDays ?? "", p.remainingDays ?? "", p.a.inServiceDate ?? "", p.b.inServiceDate ?? "", groundShort(p.a), groundShort(p.b), pdfLink(p.a.source), pdfLink(p.b.source)])];
   const csv = lines.map(row => row.map(value => `"${String(value).replaceAll('"', '""')}"`).join(",")).join("\r\n");
   const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" })); a.download = "gridlock-opportunities.csv"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }
@@ -1331,19 +1415,41 @@ $("filter-toggle").addEventListener("click", () => { const open = $("filters").h
 $("zoom-in").addEventListener("click", () => map?.zoomIn());
 $("zoom-out").addEventListener("click", () => map?.zoomOut());
 $("fit").addEventListener("click", () => map?.fitBounds(border, { padding: 20 }));
-$("fit-all").addEventListener("click", () => map?.fitBounds(bounds, { padding: 20 }));
+// Frames every placed project, whatever its plan or state, clear of the legend: the padding takes the legend's
+// width or its height, whichever leaves more of the map.
+function placedBounds() {
+  const pts = state.projects.filter(p => p.center).map(p => p.center);
+  if (!pts.length) return border;
+  const lons = pts.map(p => p.lon), lats = pts.map(p => p.lat);
+  return [[Math.min(...lons), Math.min(...lats)], [Math.max(...lons), Math.max(...lats)]];
+}
+function clearOfLegend() {
+  const box = $("map").getBoundingClientRect(), legend = document.querySelector(".map-panel .map-legend").getBoundingClientRect();
+  const pad = { top: 20, right: 20, bottom: 20, left: 20 };
+  const side = legend.left + legend.width / 2 < box.left + box.width / 2 ? "left" : "right";
+  const across = side === "left" ? legend.right - box.left : box.right - legend.left, up = box.bottom - legend.top;
+  if (across / box.width < up / box.height) pad[side] += across; else pad.bottom += up;
+  return pad.left + pad.right < box.width - 100 && pad.top + pad.bottom < box.height - 100 ? pad : 20;
+}
+$("fit-all").addEventListener("click", () => map?.fitBounds(placedBounds(), { padding: clearOfLegend() }));
 document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => setView(t.dataset.view)));
 
+// The landing names each plan's edition once the change log arrives; until then (or without it) the source titles do.
+const editionsLoaded = loadChangeLog().then(log => { filings = log.filings ?? []; }, () => { /* the Changes tab reports the error */ });
 try {
   const response = await fetch("data/projects.json");
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
   state.data = await response.json();
   state.projects = applyLocationEdits(state.data.projects, locationEdits);
+  plans = loadPlans(state.data);
+  costs = costPlans(state.data);
+  addPlanColors();
+  addPlanLegends();
   state.sameStations = sameStationProjects(state.projects);
   state.asOf = state.data.generated;
   if (!/^\d{4}-\d{2}-\d{2}$/.test(state.asOf ?? "")) throw new Error("Dataset is missing a valid as-of date");
   $("data-as-of").textContent = `Data as of ${formatDate(state.asOf)}`;
-  state.allPairs = matchProjects(state.projects, MAX_MILES, { includePossible: true, asOf: state.asOf });
+  state.allPairs = matchProjects(state.projects, MAX_MILES, { includePossible: true, asOf: state.asOf, planOrder: plans.map(p => p.id) });
   const years = state.projects.map(project => Number(project.inServiceDate?.slice(0, 4))).filter(Number.isFinite);
   $("year").min = String(Math.min(...years)); $("year").max = String(Math.max(...years)); state.year = FILTER_DEFAULTS.year = Math.max(...years); $("year").value = String(state.year);
   const saved = loadShortlist();
@@ -1354,7 +1460,7 @@ try {
   initMap();
   syncEnvLayers();
   changesView = createChangesView({
-    h, link, formatDate, money, colors: COLORS, basemap: BASEMAP, fallbackStyle: FALLBACK_STYLE,
+    h, link, formatDate, money, colors: COLORS, basemap: BASEMAP, fallbackStyle: FALLBACK_STYLE, side, sideName, planName: id => planInfo(id).name, loadLog: loadChangeLog,
     pairExists: id => state.allPairs.some(p => p.id === id && p.qualifies),
     openProject: id => { state.selectedProject = id; state.selectedPair = null; setView("explore"); applyFilters(); },
     openPair: id => {
@@ -1370,5 +1476,6 @@ try {
   restoreViewUrl(); syncControls();
   if (state.selectedPair) { focusPair(state.allPairs.find(p => p.id === state.selectedPair)); revealDetails(); scrollToPairRow(state.selectedPair); }
   else if (state.selectedProject) revealDetails();
+  editionsLoaded.then(() => { if (!state.selectedPair && !state.selectedProject) renderDetail(); });
   window.addEventListener("hashchange", () => { restoreViewUrl(); syncControls(); if (state.selectedPair || state.selectedProject) revealDetails(); if (state.selectedPair) scrollToPairRow(state.selectedPair); });
 } catch (error) { $("match-list").textContent = `Could not load project data: ${error.message}. Run the local server described in README.md.`; console.error(error); }

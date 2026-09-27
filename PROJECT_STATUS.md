@@ -1,6 +1,6 @@
 # Project status
 
-Reviewed 2026-09-27 against `main`, `data/projects.json` (analysis date 2026-09-26), and the current matching code. GridLock is a private-repository entry for the Sperry Tech Gridlock Challenge using public planning data.
+Reviewed 2026-09-27 against the merged code, `data/projects.json` (analysis date 2026-09-26), and the current matching code. GridLock is a private-repository entry for the Sperry Tech Gridlock Challenge using public planning data.
 
 Documentation audit on 2026-09-27 aligned the README, this tracker, the leading-pair research note, and the in-app Method/intro copy with the current dataset and code. The current rank-2 Rice Hope placement is recorded as a demo limitation rather than a verified site.
 
@@ -11,6 +11,7 @@ Documentation audit on 2026-09-27 aligned the README, this tracker, the leading-
 - The 100-point review score is proximity (60) and timing (40), with a 0.85 multiplier for location-sensitive pairs. The former confirmed-site/verified-route bonus was **removed**; estimated routes and nearby network endpoints do not prove a shared worksite.
 - The Cost scenario is an optional, conditional example for pairs with future planning overlap. Inputs come first; reference rates are cited, while yard needs and shared-site feasibility are assumptions. No-overlap pairs show their dates without a savings figure.
 - Browser coordinate edits require a source note and uncertainty radius, recalculate pairs, and stay local to that browser. They do not alter published filings or Changes. Edited projects lose precomputed route and ground screening until rebuilt and reviewed.
+- The ingest-agent branch is integrated with a plan/parser registry. All eight current filings use deterministic built-in parsers; the committed snapshot does not depend on an LLM. The optional CLI can search public links, identify a new document with Bedrock, draft a sandboxed parser, and propose a registry update. Novel-format registration remains experimental and should follow a reviewed dry run. Generated parsers require working bubblewrap for registration or production rebuilds.
 
 ## Evidence and limits
 
@@ -21,10 +22,10 @@ Documentation audit on 2026-09-27 aligned the README, this tracker, the leading-
 
 ## Verification
 
-- 2026-09-27: Six JavaScript test files passed; 51 Python tests passed with two skips after integrating Santee Cooper. Subsequent Cost scenario and coordinate-editor changes passed the six JavaScript test files, syntax, whitespace, and targeted browser checks. Full desktop, phone, brief-print, and fresh online rebuild checks remain before deployment.
+- 2026-09-27: The ingest merge rebuilt all eight downloaded public filings offline: 321 projects, 294 located, 95 qualifying cross-state pairs, 93 visible by default, 45 with future planning-window overlap, and 33 ground-screened projects. All eight PDFs matched exactly one parser signature. Six JavaScript test files and 160 Python tests passed (one skipped); the ground-screening cross-state regression test also passed after the full run. A live Bedrock run and a full desktop/phone/print browser pass remain unverified.
 
 ## Next actions
 
 1. Correct or explicitly qualify the highest-ranked uncertain locations, especially Rice Hope, Deerfield, and the TEAMS 20065 work section. Demonstrate a defensible lead rather than treating several pairs involving the same DESC project as independent opportunities.
 2. Run a full browser and printable-brief regression, then deploy an HTTPS demo with working map tiles and confirm judge access.
-3. Keep the README, Method view, and demo claims aligned with the reviewed snapshot as new filings are added.
+3. On a host with Bedrock access and bubblewrap, dry-run one genuinely new public filing, inspect the extracted records against its PDF, then decide whether to register it. Keep README, Method, and demo claims aligned with each reviewed snapshot.

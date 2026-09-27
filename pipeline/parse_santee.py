@@ -13,6 +13,7 @@ import re
 from common import RAW, BUILD, dump, filings, iso, norm_name, parse_date, pdf_pages
 
 EDITIONS = {f["edition"]: f for f in filings("santee")}
+LIST_NOTES = {}   # filing id -> slide-level parsing notes, shown in data quality for the current edition
 ROW = re.compile(r"^\s*(\S.*?\S)\s{2,}(\d{1,2}/\d{1,2}/\d{2,4}|TBD)\s*$")
 VOLT = re.compile(r"\b\d{2,3}(?:\s*[-/]\s*\d{1,3})*\s*kv\b", re.I)
 LEAD = re.compile(r"^(?:reconductor|rebuild|construct|upgrade|replace|install(?:\s+\d+(?:st|nd|rd|th))?)\s+", re.I)
@@ -120,8 +121,8 @@ def cased(name, text):
     return m.group(0) if m else name
 
 
-def parse(edition):
-    filing = EDITIONS[edition]
+def parse(edition, filing=None):
+    filing = filing or EDITIONS[edition]
     pages = pdf_pages(RAW / filing["file"])
     heading = re.compile(r"Transmission Projects " + edition.replace("-", r"\s*-\s*"))
     lists = [i for i, p in enumerate(pages) if heading.search(p) and "In-service Date" in p]
@@ -172,7 +173,7 @@ def parse(edition):
         miles = [float(x) for x in MILES.findall(desc)] if re.search(r"\blines?\b", title, re.I) else []
         page = slide["page"] if slide else at + 1
         out.append({
-            "uid": f"SCPSA:{key}", "key": key, "utility": "SCPSA", "owner": "Santee Cooper", "state": "SC",
+            "uid": f"SCPSA:{key}", "key": key, "plan": "santee", "utility": "SCPSA", "owner": "Santee Cooper", "state": "SC",
             "name": title, "project_id": f"Row {n}", "status": slide["status"] if slide and slide["status"] else None,
             "description": desc, "need": slide["need"] if slide else "",
             "endpoint_names": [cased(e, slide["title"] if slide else "") for e in endpoint_names(title)],
@@ -190,6 +191,13 @@ def parse(edition):
     dump(out, BUILD / f"santee_{edition}.json")
     print(f"Santee Cooper {edition}: {len(out)} projects, {len(slides)} project slides, {sum(len(r['issues']) for r in out)} issues")
     return out, notes
+
+
+def parse_filing(filing):
+    """The registry's built-in parser interface: (records, removed projects)."""
+    records, notes = parse(filing["edition"], filing)
+    LIST_NOTES[filing["id"]] = notes
+    return records, {}
 
 
 def main():
