@@ -524,7 +524,10 @@ function renderMap() {
   $("desc-count").textContent = String(visibleProjects.filter(p => p.state === "SC").length);
   $("gpc-count").textContent = String(visibleProjects.filter(p => p.state === "GA").length);
   if (!mapReady) return;
-  map.getSource("geometry").setData(featureCollection((pair ? [pair.a, pair.b] : project ? [project] : []).flatMap(geometryFeatures)));
+  const geometry = (pair ? [pair.a, pair.b] : project ? [project] : []).flatMap(geometryFeatures);
+  map.getSource("geometry").setData(featureCollection(geometry));
+  // Line-style rows appear only while the selection draws that kind of line.
+  for (const row of document.querySelectorAll(".map-legend [data-kind]")) row.hidden = !geometry.some(f => f.properties.kind === row.dataset.kind);
   map.getSource("links").setData(featureCollection(state.pairs.map(p => ({
     type: "Feature", geometry: { type: "LineString", coordinates: [lngLat(p.a.center), lngLat(p.b.center)] },
     properties: { id: p.id, possible: !p.qualifies, state: p.id === state.selectedPair ? "selected" : state.selectedPair ? "dim" : "normal", title: `${p.a.projectId} ↔ ${p.b.projectId}: ${p.miles.toFixed(1)} mi between comparison points` },

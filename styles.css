@@ -222,7 +222,8 @@ input[type="range"], input[type="checkbox"] { accent-color: var(--ink); }
 .action-menu-items .button { width: 100%; border-color: transparent; justify-content: flex-start; }
 .pair-rationale { margin: 12px 0; font-size: 13px; line-height: 1.5; color: var(--ink-2); }
 .point-basis { margin-top: 8px; color: var(--ink-2); font-size: 12px; line-height: 1.4; }
-.map-point-note { margin: 5px 0 0; padding-top: 7px; border-top: 1px solid var(--rule); color: var(--ink-2); line-height: 1.35; }
+/* Wraps to the rows' width instead of stretching the legend to its own line length. */
+.map-point-note { width: 0; min-width: 100%; margin: 5px 0 0; padding-top: 7px; border-top: 1px solid var(--rule); color: var(--ink-2); line-height: 1.35; }
 .scenario-assumptions { margin-top: 14px; }
 .area-disclosure { margin-top: 18px; padding: 12px 0; border-block: 1px solid var(--rule); }
 .area-disclosure > summary { cursor: pointer; font-weight: 600; }
