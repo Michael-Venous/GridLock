@@ -28,13 +28,13 @@ export function groundFlags(project) {
   for (const s of env.sites) {
     if (s.flood?.sfha) flags.flood = true;
     for (const h of s.habitat ?? []) habitat.set(habitatLabel(h), h);
-    for (const a of s.protected ?? []) prot.set(a.name, a);
+    for (const a of s.protected ?? []) prot.set(areaLabel(a), a);
   }
   const r = env.route;
   if (r) {
     if ((r.flood?.sfhaMiles ?? 0) >= 0.1) flags.flood = true;
     for (const h of r.habitat ?? []) habitat.set(habitatLabel(h), h);
-    for (const a of r.protected ?? []) prot.set(a.name, a);
+    for (const a of r.protected ?? []) prot.set(areaLabel(a), a);
   }
   flags.habitat = [...habitat.keys()];
   flags.protected = [...prot.keys()];
