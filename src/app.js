@@ -1100,7 +1100,7 @@ function scoreBlock(pair) {
 
 function landing() {
   const box = h("div", "landing");
-  box.append(h("h2", "", "Savannah River transmission coordination"),
+  box.append(h("h2", "", "Cross-utility transmission coordination"),
     h("p", "lead", `Every planned project in ${andList(plans.map(p => `${p.name}’s ${edition(p) ?? "current"} ${p.id === "ga" ? "plan" : "list"}`))}. Projects in different states form a candidate pair when their centers are under ${MAX_MILES} miles apart.`),
     overviewStats());
   const steps = h("ol", "guide-steps");
