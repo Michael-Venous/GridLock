@@ -87,6 +87,62 @@ class GeocodingEvidenceTests(unittest.TestCase):
             geocode.geocode_project(record("Example"), Mock(), {}, allow_network=False)
 
 
+def osm_items(*rows):
+    osm = geocode.OSMIndex.__new__(geocode.OSMIndex)
+    osm.items = [{"norm": norm_name(n), "name": n, "lat": lat, "lon": lon, "osm": f"way/{i}", "power": "substation", "operator": ""}
+                 for i, (n, lat, lon) in enumerate(rows)]
+    return osm
+
+
+class PlaceNameTests(unittest.TestCase):
+    def result(self, name, cls="place"):
+        return {"name": name, "display_name": f"{name}, Georgia", "class": cls}
+
+    def test_a_stand_in_place_must_carry_the_station_name(self):
+        self.assertTrue(geocode.names_place(self.result("Hampton", "boundary"), "HAMPTON"))
+        self.assertTrue(geocode.names_place(self.result("Garrett Road", "highway"), "GARRETT RD"))
+        self.assertTrue(geocode.names_place(self.result("Harry Truman Parkway", "highway"), "TRUMAN PARKWAY"))
+        self.assertTrue(geocode.names_place(self.result("Talbot County", "boundary"), "TALBOT CO"))
+        self.assertFalse(geocode.names_place(self.result("Alvin Griffin Irrigation Pond Dam South", "waterway"), "SOUTH GRIFFIN"))
+        self.assertFalse(geocode.names_place(self.result("Jones Bridge Hills", "landuse"), "HILLS BRIDGE"))
+        self.assertFalse(geocode.names_place(self.result("Dublin", "boundary"), "N DUBLIN"))
+
+    def test_institutions_peaks_and_regions_are_not_stand_ins(self):
+        self.assertFalse(geocode.names_place(self.result("Tomochichi", "amenity"), "TOMOCHICHI"))
+        self.assertFalse(geocode.names_place(self.result("Buzzard Roost", "natural"), "BUZZARD ROOST"))
+        self.assertFalse(geocode.names_place(self.result("North Georgia Avenue", "highway"), "NORTH GEORGIA"))
+
+
+class DescribedStationTests(unittest.TestCase):
+    def test_description_names_existing_stations_by_whole_name(self):
+        osm = osm_items(("Bonaire Primary Substation", 32.55, -83.6), ("Scherer", 33.06, -83.8), ("Griffin", 33.25, -84.26))
+        rec = record()
+        rec["description"] = "Build a 500/230kV station splitting the Bonaire Primary - Scherer 500kV line near Big South Griffin."
+        found = geocode.described_stations(rec, osm)
+        self.assertEqual([d["name"] for d in found], ["Bonaire Primary", "Scherer"])
+        self.assertIn("Named in the filing description", found[0]["evidence"])
+        self.assertIn("Bonaire Primary - Scherer", found[0]["evidence"])
+
+    def test_a_name_needs_one_place_within_the_zone(self):
+        osm = osm_items(("Midway", 32.05, -81.4), ("Midway", 34.2, -83.5), ("Fortson", 32.6, -84.95))
+        rec = record()
+        rec["description"] = "At Midway, replace the protection on the Fortson 115kV line."
+        self.assertEqual([d["name"] for d in geocode.described_stations(rec, osm)], ["Fortson"])
+        # the planning zone leaves one Midway and puts Fortson out of reach
+        self.assertEqual([d["name"] for d in geocode.described_stations(rec, osm, anchor={"lat": 34.2, "lon": -83.5})], ["Midway"])
+
+    def test_description_places_a_project_only_when_its_own_stations_cannot_be_placed(self):
+        osm = osm_items(("Ohara", 33.4, -84.3), ("Scherer", 33.06, -83.8))
+        rec = record("CC - TOMOCHICHI 500/230kV SOLUTION")
+        rec["description"] = "Build the new Tomochichi 500/230kV station splitting the Ohara - Scherer 500kV line."
+        with patch.object(geocode, "nominatim", return_value=[]):
+            build.locate([rec], osm, {}, None, offline=True)
+        self.assertEqual(rec["locatedBy"], "description")
+        self.assertEqual(rec["locationConfidence"], "low")
+        self.assertGreaterEqual(rec["radiusMi"], geocode.DESC_RADIUS_MIN)
+        self.assertIsNone(rec["endpoints"][0]["point"])
+
+
 class PlacementTests(unittest.TestCase):
     def locate(self, eps, miles=10, traced=10):
         rec = record()

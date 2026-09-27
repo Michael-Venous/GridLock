@@ -72,6 +72,8 @@ function geometryFeatures(project) {
   if (!project.hostLine && project.route?.coords?.length > 1) line(project.route.coords, "route-inferred");
   else if (!project.hostLine && stations.length > 1) line(stations, "stations");
   for (const e of project.endpoints) if (e.point) out.push(pointFeature(e.point, { kind: "endpoint", side: s, town: e.method === "town", title: `${e.name} · ${e.method} · ${e.confidence}` }));
+  // Stations the description names mark the neighborhood, not the project's own ends, so they draw faint.
+  if (project.locatedBy === "description") for (const d of project.describedStations) out.push(pointFeature(d.point, { kind: "endpoint", side: s, town: true, title: `${d.name} · ${DESCRIBED}` }));
   return out;
 }
 
@@ -83,6 +85,8 @@ function h(tag, className = "", text = "") {
 }
 function link(href, text) { const a = h("a", "", text); a.href = href; a.target = "_blank"; a.rel = "noopener noreferrer"; return a; }
 const side = project => project.state === "SC" ? "desc" : "gpc";
+// The plan a project would pair with; names it outright since many projects sit far from the river.
+const otherPlan = project => project.state === "SC" ? "Georgia ITS" : "DESC";
 const sideName = project => project.state === "SC" ? "DESC" : project.utility === "SAV" ? "GPC · Savannah" : project.utility;
 function projectLabel(project) { return `${project.projectId} · ${project.name}`; }
 // Other projects in the same state with the same named end stations (separate filings on one line), which otherwise
@@ -208,11 +212,11 @@ function emptyState() {
   const box = h("div", "empty-state");
   const project = state.projects.find(p => p.id === state.selectedProject);
   const lonely = project && !state.allPairs.some(p => p.qualifies && (p.a.id === project.id || p.b.id === project.id));
-  box.append(h("strong", "", !project?.center && project ? "Project not located" : lonely ? "No partner across the river" : "No pairs match these filters"));
+  box.append(h("strong", "", !project?.center && project ? "Project not located" : lonely ? `No ${otherPlan(project)} match` : "No pairs match these filters"));
   if (project && !project.center) { box.append(h("p", "", `${project.projectId} could not be located, so it can't be paired. The Data quality tab lists why.`)); return box; }
   if (lonely) {
     const n = nearestPartner(project);
-    box.append(h("p", "", `${project.projectId} has no project across the river within ${MAX_MILES} miles.${n ? ` The nearest is ${n.p.projectId} (${n.p.name}), ${n.miles.toFixed(1)} mi away.` : ""} Most projects in both plans have no match; that is expected.`));
+    box.append(h("p", "", `${project.projectId} has no ${otherPlan(project)} project within ${MAX_MILES} miles.${n ? ` The nearest is ${n.p.projectId} (${n.p.name}), ${n.miles.toFixed(1)} mi away.` : ""} Most projects in both plans have no match; that is expected.`));
     return box;
   }
   const hints = activeFilters().map(f => ({ f, n: filterPairs({ ...state, [f.key]: f.key === "selectedProject" ? null : FILTER_DEFAULTS[f.key] }).length })).filter(x => x.n > 0);
@@ -581,8 +585,11 @@ function issuesList(project) {
 }
 
 const located = p => p.endpoints.filter(e => e.point);
+const DESCRIBED = "Station named in filing description";
+const describedNames = p => p.describedStations.map(d => d.name).join(", ");
 function pointKind(p) {
   const sites = located(p);
+  if (p.locatedBy === "description") return "Near stations named in filing description";
   if (!sites.length) return "Not located";
   if (sites.length > 1) return sites.length === 2 ? "Calculated midpoint" : "Calculated average";
   if (sites[0].method === "town") return "Town estimate";
@@ -590,6 +597,7 @@ function pointKind(p) {
 }
 function centerMethod(p) {
   const n = located(p).length, total = p.endpoints.length;
+  if (p.locatedBy === "description") return `${p.endpoints.length ? `${p.endpoints.map(e => e.name).join(", ")} could not be located. ` : ""}Placed among the existing stations the filing's description names (${describedNames(p)}); an estimate, not the worksite`;
   if (!n) return "Not located";
   if (n >= 2) return `${pointKind(p)} of ${n} mapped endpoints; this is a comparison point, not a verified worksite`;
   if (located(p)[0].method === "town") return `Town estimate for ${located(p)[0].name}; station and worksite unverified`;
@@ -641,6 +649,15 @@ function projectBlock(p, full = false, heading = true, foldEvidence = false) {
       endpoints.append(row);
     }
     if (p.locationNote) endpoints.append(h("p", "evidence", p.locationNote));
+    if (p.locatedBy === "description") {
+      endpoints.append(h("h4", "", "Stations named in the filing description"));
+      for (const d of p.describedStations) {
+        const row = h("p", ""), go = h("button", "endpoint-go", d.name); go.type = "button"; go.title = `Show ${d.name} on the map`;
+        go.addEventListener("click", () => focusEndpoint(d));
+        row.append(go, `: ${d.point.lat.toFixed(4)}, ${d.point.lon.toFixed(4)} · ${DESCRIBED.toLowerCase()}`, h("span", "evidence", d.evidence));
+        endpoints.append(row);
+      }
+    }
     if (foldEvidence) {
       const evidence = h("details", "project-evidence detail-fold");
       evidence.append(h("summary", "", "Location evidence and validation"), endpoints, h("h4", "", "Validation"), issuesList(p));
@@ -670,6 +687,7 @@ function toConfirm(pair, compact = false) {
   for (const p of [pair.a, pair.b]) {
     if (datePassed(p.inServiceDate)) out.push(`${sideName(p)} ${p.projectId}: target date ${formatDate(p.inServiceDate)} has passed while the filing still says “${p.status}”. Is it built, delayed or dropped?`);
     if (p.slipDays > 0) out.push(`${sideName(p)} ${p.projectId} has slipped ${Math.round(p.slipDays / 30.44)} months since ${p.history[0].edition}. Is the current date firm?`);
+    if (p.locatedBy === "description") out.push(`${sideName(p)} ${p.projectId}: placed only near the stations its description names (${describedNames(p)}). Where is the project's own station?`);
     for (const e of p.endpoints) {
       if (!e.point) out.push(`${sideName(p)} ${p.projectId}: endpoint “${e.name}” is not located.`);
       else if (!["high"].includes(e.confidence)) out.push(`${sideName(p)} ${p.projectId}: “${e.name}” placed by ${e.method} (${e.confidence}, ±${e.radiusMi} mi). Confirm the site.`);
@@ -686,7 +704,7 @@ function sharedResources(pair) {
   const out = [];
   if (pair.remainingDays > 0) out.push("If a usable shared site is confirmed, compare one staging/laydown yard with two (see scenario).", "Ask whether crane, mat and specialty-crew mobilizations could be coordinated.");
   if (projectType(pair.a) === projectType(pair.b)) out.push(`Same kind of work (${projectType(pair.a).toLowerCase()}): joint procurement, shared spares or one specialist contractor.`);
-  if (!out.length) out.push("Crew and contractor scheduling across the river; no site-level sharing is indicated.");
+  if (!out.length) out.push("Crew and contractor scheduling between the two utilities; no site-level sharing is indicated.");
   return out;
 }
 
@@ -943,7 +961,7 @@ function scoreBlock(pair) {
 function landing() {
   const box = h("div", "landing");
   box.append(h("h2", "", "Savannah River transmission coordination"),
-    h("p", "lead", `Every planned project in DESC’s 2026–2030 list and Georgia ITS’s 2026–2035 plan, paired across the river when their centers are under ${MAX_MILES} miles apart.`),
+    h("p", "lead", `Every planned project in DESC’s 2026–2030 list and Georgia ITS’s 2026–2035 plan, each DESC project paired with each Georgia project when their centers are under ${MAX_MILES} miles apart.`),
     overviewStats());
   const steps = h("ol", "guide-steps");
   [["Find", "Pairs are ranked geography first, timing second. Change the sort or open Filters to explore."], ["Check", "Every number links to the filing page it came from, and every location states its method and confidence."], ["Call", "Shortlist a pair and export a coordination brief with evidence, shared resources, a cost scenario and questions."]]
@@ -974,7 +992,7 @@ function renderDetail() {
     if (!project.center) lead = "This project could not be located, so it can't be matched. The Data quality tab lists why.";
     else if (!state.allPairs.some(p => p.qualifies && (p.a.id === project.id || p.b.id === project.id))) {
       const n = nearestPartner(project);
-      lead = `No project across the river within ${MAX_MILES} miles.${n ? ` The nearest is ${n.p.projectId}, ${n.p.name}, ${n.miles.toFixed(1)} mi away.` : ""}`;
+      lead = `No ${otherPlan(project)} project within ${MAX_MILES} miles.${n ? ` The nearest is ${n.p.projectId}, ${n.p.name}, ${n.miles.toFixed(1)} mi away.` : ""}`;
     } else lead = `${count} ${count === 1 ? "pair" : "pairs"} with the other state under the current filters. Pick one in the list to compare.`;
     head.append(h("p", "lead", lead));
     if (project.endpoints.length) head.append(endpointChips(project));
@@ -1134,7 +1152,7 @@ function renderMethod() {
     "Planning windows: DESC's first budget year with spend through its in-service date; Georgia's detail-page Start Date through Need Date. Overlap still ahead of the data date counts; overlap already in the past does not.",
     "Certainty: each location carries an uncertainty radius. A pair is robust if it stays under 25 miles at the edges of both radii, sensitive if it only does at the best estimate, and possible (shown only on request) if it could qualify.",
     `Score = proximity (${WEIGHTS.proximity}) + timing (${WEIGHTS.timing}), × 0.85 when location-sensitive — the challenge's own two signals, geography primary and timing a strong secondary one, filling the full 100. Distance sets most of the order; timing reorders pairs at similar distances. To explore alternatives, sort by distance, by closest in-service dates, or by build overlap still ahead.`);
-  sec("How locations are found", "In order of trust: hand-sited points with a written reason (data/overrides.json); coordinates from the sponsor's starter workbook; OpenStreetMap substations and plants by exact then partial name, restricted to the right state; and last, a town-level match (±6 mi). When a name fits several places (there are two Goshens 87 miles apart), the one nearest the project's other endpoint and its planning zone wins. Matches far from the rest of the project are rejected rather than kept.");
+  sec("How locations are found", "In order of trust: hand-sited points with a written reason (data/overrides.json); coordinates from the sponsor's starter workbook; OpenStreetMap substations and plants by exact then partial name, restricted to the right state; and last, a town, road or creek that carries the station's exact name (±6 mi), searched near whatever else locates the project. A project none of whose own stations can be placed, often because they are new, is placed among the existing stations its filing description names, each matched to exactly one OSM station in the planning zone; its radius covers all of them. When a name fits several places (there are two Goshens 87 miles apart), the one nearest the project's other endpoint and its planning zone wins. Matches far from the rest of the project are rejected rather than kept.");
   const basis = h("ul", "src-list"); [YARD_BASIS.matsPerAcre, YARD_BASIS.roadPerMile, YARD_BASIS.landPerAcre].forEach(b => { const li = h("li"); li.append(link(b.url, b.source)); basis.append(li); });
   sec("Impact scenario (bonus): one shared staging yard",
     "For a pair overlapping planning windows, we model what one shared staging/laydown yard would avoid compared with two separate yards. One yard = surface (acres × $/acre) + land lease (acres × land value × lease rate × months) + a short access road (miles × $/mile). A combined yard is assumed to be 1.0–1.5× the size of one project's yard, so sharing avoids 0.5–1.0 of a yard. With no build overlap after the data date, the saving is $0.",

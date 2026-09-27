@@ -4,8 +4,12 @@ Order of trust (first hit wins):
   1. data/overrides.json "points"   - hand-sited, each with a written reason
   2. reference coordinates          - Projects_Overlaps.xlsx, the challenge's own trusted starter workbook
   3. OpenStreetMap substation/plant - exact, then token-subset name match, on the correct side of the state line
-  4. Nominatim place (town)         - coarse fallback, wide uncertainty
+  4. Nominatim place (town)         - coarse fallback, wide uncertainty. The result's own name must be the
+                                      station name, and it is searched near the project when anything locates it
 Each located endpoint carries method, confidence and an uncertainty radius in miles.
+
+Separately, described_stations() finds existing stations the filing's description names (a line the project
+loops in, a station it connects to). They locate the project's neighborhood, never its endpoints.
 """
 import difflib
 import json
@@ -132,6 +136,12 @@ class OSMIndex:
         exact = [i for i in self.items if i["norm"] == q and on_state_side(state, i["lat"], i["lon"])]
         if exact:
             return exact, "osm-exact"
+        # "Wadley Primary" and "West Point Dam" are mapped as "Wadley" and "West Point"
+        base = re.sub(r" (primary|dam)$", "", q)
+        suffix = [i for i in self.items if base != q and i["norm"] == base and not NOT_GRID.search(i["name"])
+                  and on_state_side(state, i["lat"], i["lon"])]
+        if suffix:
+            return suffix, "osm-partial"
         qt = set(q.split())
         part = [i for i in self.items if qt and qt <= set(i["norm"].split()) and len(set(i["norm"].split()) - qt) <= 1
                 and not NOT_GRID.search(i["name"]) and on_state_side(state, i["lat"], i["lon"])]
@@ -160,13 +170,36 @@ _nom_cache_path = CACHE / "nominatim.json"
 _nom = json.loads(_nom_cache_path.read_text()) if _nom_cache_path.exists() else {}
 
 
-def nominatim(query, state, network=True):
-    key = f"{query}|{state}"
+NEAR_DEG = 0.6   # half-width of the search box around a project's known location (~40 mi)
+PLACE_CLASSES = {"place", "boundary", "highway", "waterway", "landuse", "power"}   # not peaks, wetlands, churches, shops
+_ROAD = {"dr": "drive", "ave": "avenue", "av": "avenue", "hwy": "highway", "pkwy": "parkway", "blvd": "boulevard",
+         "ln": "lane", "co": "county", "cty": "county"}
+
+
+def place_key(s):
+    return " ".join(_ROAD.get(w, w) for w in norm_name(s).split())
+
+
+def names_place(result, query):
+    """A town, road or creek stands in for a station only when it carries the station's name. This keeps
+    "South Griffin" off "Alvin Griffin Irrigation Pond Dam", a courthouse, church or park off any station, and a
+    region ("North Georgia") off a street that happens to share it."""
+    name, q = place_key(result.get("name") or result["display_name"].split(",")[0]), place_key(query)
+    # a name of two or more words may carry a leading qualifier: Truman Parkway is "Harry Truman Parkway"
+    named = name == q or (len(q.split()) >= 2 and name.endswith(" " + q))
+    return result.get("class") in PLACE_CLASSES and named and not re.search(r"\b(georgia|carolina)\b", q)
+
+
+def nominatim(query, state, network=True, near=None):
+    key = f"{query}|{state}" + (f"|near {near['lat']:.2f},{near['lon']:.2f}" if near else "")
     if key not in _nom and not network:
         return []
     if key not in _nom:
-        url = "https://nominatim.openstreetmap.org/search?" + urllib.parse.urlencode(
-            {"q": f"{query}, {'South Carolina' if state == 'SC' else 'Georgia'}", "format": "json", "limit": 3, "countrycodes": "us"})
+        params = {"q": f"{query}, {'South Carolina' if state == 'SC' else 'Georgia'}", "format": "json", "limit": 3, "countrycodes": "us"}
+        if near:
+            la, lo = round(near["lat"], 2), round(near["lon"], 2)
+            params.update(viewbox=f"{lo - NEAR_DEG},{la + NEAR_DEG},{lo + NEAR_DEG},{la - NEAR_DEG}", bounded=1)
+        url = "https://nominatim.openstreetmap.org/search?" + urllib.parse.urlencode(params)
         req = urllib.request.Request(url, headers={"User-Agent": "GridLock-ShellHacks-2026/0.1 (hackathon prototype)"})
         try:
             _nom[key] = json.loads(urllib.request.urlopen(req, timeout=20).read())
@@ -176,7 +209,50 @@ def nominatim(query, state, network=True):
         time.sleep(1.1)
         _nom_cache_path.write_text(json.dumps(_nom, indent=1))
     return [{"lat": float(r["lat"]), "lon": float(r["lon"]), "label": f"{r.get('class')}/{r.get('type')}: {r['display_name']}"}
-            for r in _nom[key] if on_state_side(state, float(r["lat"]), float(r["lon"]))]
+            for r in _nom[key] if on_state_side(state, float(r["lat"]), float(r["lon"])) and names_place(r, query)
+            and not (near and haversine_mi(float(r["lat"]), float(r["lon"]), near["lat"], near["lon"]) > FAR_MI)]
+
+
+# Capitalized words that open a sentence or an instruction in the filings, not a station name
+LEAD = {"at", "the", "a", "an", "and", "or", "to", "from", "in", "on", "near", "with", "for", "of", "this", "also", "both",
+        "existing", "new", "build", "building", "rebuild", "rebuilding", "construct", "constructing", "install", "installing",
+        "replace", "replacing", "upgrade", "upgrading", "reconductor", "add", "loop", "convert", "make", "remove", "expand",
+        "approximately", "retire", "disconnect", "terminate", "connect", "fold", "split", "relocate", "extend", "move",
+        "complete", "energize", "cut", "reconfigure", "gpc", "gtc", "meag", "desc", "apc", "sav"}
+DESC_RADIUS_MIN = 5.0   # a new station connected to a named one can sit a few miles from it
+
+
+def described_stations(rec, osm, anchor=None):
+    """Existing stations the filing's own description names, each matched to exactly one OSM substation or plant.
+
+    A candidate is a whole run of capitalized words in the description ("Bonaire Primary", "Little Ogeechee").
+    Only leading verbs and articles are dropped; a run is never cut to a shorter name inside it, so
+    "Big South Griffin" cannot become Griffin. The name must equal an OSM name exactly (after norm_name),
+    on the right side of the state line, form a single place, and lie within FAR_MI of the planning zone.
+    """
+    text = rec.get("description") or ""
+    found = {}
+    for m in re.finditer(r"[A-Z][A-Za-z'’]*\.?(?:[ \t]+[A-Z][A-Za-z'’]*\.?)*", text):
+        words = m.group().rstrip(".").split()
+        while words and words[0].lower().rstrip(".") in LEAD:
+            words = words[1:]
+        name = " ".join(words)
+        key = norm_name(name)
+        if len(key) < 4 or key in found:
+            continue
+        cands = [i for i in osm.items if i["norm"] == key and not NOT_GRID.search(i["name"]) and on_state_side(rec["state"], i["lat"], i["lon"])]
+        if anchor:
+            cands = [i for i in cands if haversine_mi(i["lat"], i["lon"], anchor["lat"], anchor["lon"]) <= FAR_MI]
+        groups = cluster(cands)
+        if len(groups) != 1:
+            continue
+        g = groups[0]
+        start = max(0, text.rfind(".", 0, m.start()) + 1)
+        end = text.find(".", m.end())
+        quote = text[start:end + 1 if end >= 0 else len(text)].strip()
+        found[key] = {"name": name, "point": {"lat": round(g[0]["lat"], 6), "lon": round(g[0]["lon"], 6)},
+                      "evidence": f"Named in the filing description (“{quote}”), matched to OSM {g[0]['osm']} {g[0]['name']!r}"}
+    return list(found.values())
 
 
 def geocode_project(rec, osm, reference_points, anchor=None, allow_network=True):
@@ -204,12 +280,21 @@ def geocode_project(rec, osm, reference_points, anchor=None, allow_network=True)
             resolved.append({"name": n, "cands": cluster(cands), "method": method,
                              "evidence": None})
             continue
-        if len(key) > 2:
-            towns = nominatim(n, rec["state"], network=allow_network)
-            if towns:
-                resolved.append({"name": n, "cands": [[t] for t in towns], "method": "town", "evidence": None})
-                continue
         resolved.append({"name": n, "cands": [], "method": None, "evidence": "no match in overrides, reference dataset, OSM or Nominatim"})
+
+    # Town fallback, searched near what already locates the project: the zone or described stations, else its
+    # other stations when each matched a single place. A statewide search finds the wrong "Garrett Road".
+    fixed = [r["cands"][0][0] for r in resolved if len(r["cands"]) == 1]
+    near = anchor or ({"lat": sum(p["lat"] for p in fixed) / len(fixed), "lon": sum(p["lon"] for p in fixed) / len(fixed)} if fixed else None)
+    for r in resolved:
+        if r["method"] or len(norm_name(r["name"])) <= 2:
+            continue
+        towns = nominatim(r["name"], rec["state"], network=allow_network, near=near) if near else None
+        if not towns:   # statewide, but still no farther than FAR_MI from what locates the project
+            towns = [t for t in nominatim(r["name"], rec["state"], network=allow_network) or []
+                     if not near or haversine_mi(t["lat"], t["lon"], near["lat"], near["lon"]) <= FAR_MI]
+        if towns:
+            r.update(cands=[[t] for t in towns], method="town", evidence=None)
 
     # joint resolution: when a name matches several places, pick the combination that keeps the
     # endpoints closest to each other and to the planning-zone anchor (if the source gives a zone)

@@ -113,9 +113,10 @@ def norm_name(s):
     s = re.sub(r"\((sav|usa|aug)\)", " ", s)
     s = re.sub(r"\b(st|ft|mt)\.?\s", lambda m: {"st": "saint ", "ft": "fort ", "mt": "mount "}[m.group(1)], s)
     s = re.sub(r"[^a-z0-9 ]", " ", s)
-    s = re.sub(r"\b(substation|sub|switching station|switchyard|station|generating plant|power plant|plant|"
+    s = re.sub(r"\b(substation|sub|ss|switching station|switchyard|station|generating plant|power plant|plant|"
                r"tap|jct|junction|kv|the|of|inc|scana|sce g|desc|gpc|georgia power|dominion energy)\b", " ", s)
     s = re.sub(r"\brd\b", "road", s)
+    s = re.sub(r"\b[nsew]\b", lambda m: {"n": "north", "s": "south", "e": "east", "w": "west"}[m.group()], s)
     s = re.sub(r"\bpri\b", "primary", s)
     s = re.sub(r"\b\d+\b", " ", s)
     return re.sub(r"\s+", " ", s).strip()

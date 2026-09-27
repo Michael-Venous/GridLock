@@ -171,8 +171,8 @@
      "utility": "DESC",
      "isd": "2026-05-31",
      "center": {
-      "lat": 34.226798,
-      "lon": -81.138896
+      "lat": 34.217259,
+      "lon": -81.124223
      },
      "radiusMi": 6.0,
      "points": [
@@ -181,12 +181,12 @@
        34.2986
       ],
       [
-       -80.957492,
-       34.154995
+       -80.928147,
+       34.135918
       ],
       [
-       -81.138896,
-       34.226798
+       -81.124223,
+       34.217259
       ]
      ],
      "source": {
@@ -216,7 +216,7 @@
      "lineage": "SC:6846A:eastover sumter 115kv dep tie rebuild with acsr",
      "key": "6846A",
      "projectId": "6846 A",
-     "name": "Eastover – Sumter 115kV DEP Tie: Rebuild with 1272 ACSR",
+     "name": "Eastover \u2013 Sumter 115kV DEP Tie: Rebuild with 1272 ACSR",
      "state": "SC",
      "utility": "DESC",
      "isd": "2026-05-31",
@@ -224,7 +224,7 @@
       "lat": 33.887388,
       "lon": -80.508117
      },
-     "radiusMi": 6.0,
+     "radiusMi": 10.09,
      "points": [
       [
        -80.692259,
@@ -245,7 +245,7 @@
       "page": 4,
       "item": "Project 4 of 54"
      },
-     "oldName": "Eastover – Sumter 115kV DEP Tie: Rebuild with 1272 ACSR",
+     "oldName": "Eastover \u2013 Sumter 115kV DEP Tie: Rebuild with 1272 ACSR",
      "oldIsd": "2026-05-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2025-2029",
@@ -319,22 +319,18 @@
      "utility": "DESC",
      "isd": "2026-07-31",
      "center": {
-      "lat": 33.010402,
-      "lon": -80.189723
+      "lat": 33.01867,
+      "lon": -80.17627
      },
-     "radiusMi": 6.0,
+     "radiusMi": 6.6,
      "points": [
       [
        -80.17627,
        33.01867
       ],
       [
-       -80.203176,
-       33.002135
-      ],
-      [
-       -80.189723,
-       33.010402
+       -80.17627,
+       33.01867
       ]
      ],
      "source": {
@@ -353,7 +349,7 @@
      "lineage": "SC:6852:urquhart toolebeck 115kv line rebuild",
      "key": "6852",
      "projectId": "6852",
-     "name": "Urquhart – Toolebeck 115kV line: Rebuild",
+     "name": "Urquhart \u2013 Toolebeck 115kV line: Rebuild",
      "state": "SC",
      "utility": "DESC",
      "isd": "2026-08-12",
@@ -361,7 +357,7 @@
       "lat": 33.484005,
       "lon": -81.789268
      },
-     "radiusMi": 0.5,
+     "radiusMi": 1.5,
      "points": [
       [
        -81.909209,
@@ -382,7 +378,7 @@
       "page": 7,
       "item": "Project 7 of 54"
      },
-     "oldName": "Urquhart – Toolebeck 115kV line: Rebuild",
+     "oldName": "Urquhart \u2013 Toolebeck 115kV line: Rebuild",
      "oldIsd": "2026-08-12",
      "oldSource": {
       "doc": "DESC $2M+ list 2025-2029",
@@ -403,7 +399,7 @@
      "lineage": "SC:6341A-F:cainhoy hamlin 115kv rebuild line and cainhoy hamlin construct new line",
      "key": "6341A-F",
      "projectId": "6341 A-F",
-     "name": "Cainhoy - Hamlin 115kV: Rebuild Line and Cainhoy – Hamlin 115 kV #2: Construct New 115 kV Line",
+     "name": "Cainhoy - Hamlin 115kV: Rebuild Line and Cainhoy \u2013 Hamlin 115 kV #2: Construct New 115 kV Line",
      "state": "SC",
      "utility": "DESC",
      "isd": "2026-12-02",
@@ -432,7 +428,7 @@
       "page": 9,
       "item": "Project 9 of 54"
      },
-     "oldName": "Cainhoy - Hamlin 115kV: Rebuild Line and Cainhoy – Hamlin 115 kV #2: Construct New 115 kV Line",
+     "oldName": "Cainhoy - Hamlin 115kV: Rebuild Line and Cainhoy \u2013 Hamlin 115 kV #2: Construct New 115 kV Line",
      "oldIsd": "2026-12-02",
      "oldSource": {
       "doc": "DESC $2M+ list 2025-2029",
@@ -453,27 +449,23 @@
      "lineage": "SC:5392A-C:coit gills creek 115kv construct",
      "key": "5392A-C",
      "projectId": "5392 A-C",
-     "name": "Coit – Gills Creek 115kV: Construct",
+     "name": "Coit \u2013 Gills Creek 115kV: Construct",
      "state": "SC",
      "utility": "DESC",
      "isd": "2026-12-31",
      "center": {
-      "lat": 34.068605,
-      "lon": -80.378725
+      "lat": 33.916284,
+      "lon": -80.990121
      },
-     "radiusMi": 6.0,
+     "radiusMi": 6.62,
      "points": [
       [
-       -79.769808,
-       34.188495
+       -80.990121,
+       33.916284
       ],
       [
-       -80.987642,
-       33.948715
-      ],
-      [
-       -80.378725,
-       34.068605
+       -80.990121,
+       33.916284
       ]
      ],
      "source": {
@@ -482,7 +474,7 @@
       "page": 10,
       "item": "Project 10 of 54"
      },
-     "oldName": "Coit – Gills Creek 115kV: Construct",
+     "oldName": "Coit \u2013 Gills Creek 115kV: Construct",
      "oldIsd": "2025-12-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2025-2029",
@@ -501,7 +493,7 @@
      "lineage": "SC:0139M,N:okatie 115kv jasper yemassee 230kv fold in",
      "key": "0139M,N",
      "projectId": "0139 M,N",
-     "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+     "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
      "state": "SC",
      "utility": "DESC",
      "isd": "2026-12-31",
@@ -526,7 +518,7 @@
       "page": 11,
       "item": "Project 11 of 54"
      },
-     "oldName": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+     "oldName": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
      "oldIsd": "2026-05-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2025-2029",
@@ -546,7 +538,7 @@
      "lineage": "SC:06367D-G:jasper okatie construct",
      "key": "06367D-G",
      "projectId": "06367 D - G",
-     "name": "Jasper – Okatie 230 kV #2: Construct",
+     "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
      "state": "SC",
      "utility": "DESC",
      "isd": "2026-12-01",
@@ -575,7 +567,7 @@
       "page": 12,
       "item": "Project 12 of 54"
      },
-     "oldName": "Jasper – Okatie 230 kV #2: Construct",
+     "oldName": "Jasper \u2013 Okatie 230 kV #2: Construct",
      "oldIsd": "2026-05-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2025-2029",
@@ -664,23 +656,27 @@
      "lineage": "SC:6870A:saluda hydro bush river 115kv and tie lines rebuild",
      "key": "6870A",
      "projectId": "6870 A",
-     "name": "Saluda Hydro – Bush River 115kV #1 and #2 Tie Lines Rebuild",
+     "name": "Saluda Hydro \u2013 Bush River 115kV #1 and #2 Tie Lines Rebuild",
      "state": "SC",
      "utility": "DESC",
      "isd": "2026-12-31",
      "center": {
-      "lat": 34.321801,
-      "lon": -81.760665
+      "lat": 34.187618,
+      "lon": -81.48875
      },
-     "radiusMi": 16.0,
+     "radiusMi": 6.0,
      "points": [
+      [
+       -81.216834,
+       34.053434
+      ],
       [
        -81.760665,
        34.321801
       ],
       [
-       -81.760665,
-       34.321801
+       -81.48875,
+       34.187618
       ]
      ],
      "source": {
@@ -689,7 +685,7 @@
       "page": 15,
       "item": "Project 15 of 54"
      },
-     "oldName": "Saluda Hydro – Bush River 115kV #1 and #2 Tie Lines Rebuild",
+     "oldName": "Saluda Hydro \u2013 Bush River 115kV #1 and #2 Tie Lines Rebuild",
      "oldIsd": "2026-12-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2025-2029",
@@ -710,7 +706,7 @@
      "lineage": "SC:6847:church creek faber place charleston transmission add 230kv line",
      "key": "6847",
      "projectId": "6847",
-     "name": "Church Creek – Faber Place – Charleston Transmission: Add 230kV Line",
+     "name": "Church Creek \u2013 Faber Place \u2013 Charleston Transmission: Add 230kV Line",
      "state": "SC",
      "utility": "DESC",
      "isd": "2027-05-01",
@@ -739,7 +735,7 @@
       "page": 16,
       "item": "Project 16 of 54"
      },
-     "oldName": "Church Creek – Faber Place – Charleston Transmission: Add 230kV Line",
+     "oldName": "Church Creek \u2013 Faber Place \u2013 Charleston Transmission: Add 230kV Line",
      "oldIsd": "2027-05-01",
      "oldSource": {
       "doc": "DESC $2M+ list 2025-2029",
@@ -760,7 +756,7 @@
      "lineage": "SC:6359:yemassee ritter 230kv and construct spdc with b",
      "key": "6359",
      "projectId": "6359",
-     "name": "Yemassee– Ritter 230kV #1 & #2: Construct SPDC with B-1272",
+     "name": "Yemassee\u2013 Ritter 230kV #1 & #2: Construct SPDC with B-1272",
      "state": "SC",
      "utility": "DESC",
      "isd": "2027-06-01",
@@ -789,7 +785,7 @@
       "page": 17,
       "item": "Project 17 of 54"
      },
-     "oldName": "Yemassee– Ritter 230kV #1 & #2: Construct SPDC with B-1272",
+     "oldName": "Yemassee\u2013 Ritter 230kV #1 & #2: Construct SPDC with B-1272",
      "oldIsd": "2027-06-01",
      "oldSource": {
       "doc": "DESC $2M+ list 2025-2029",
@@ -849,8 +845,7 @@
      },
      "days": 0,
      "cost": 4569331,
-     "oldCost": 5000000,
-     "appId": "DESC-6809M-19"
+     "oldCost": 5000000
     },
     {
      "kind": "changed",
@@ -906,27 +901,23 @@
      "lineage": "SC:6808L:burton saint helena 115kv frogmore distribution saint helena",
      "key": "6808L",
      "projectId": "6808 L",
-     "name": "Burton-St Helena 115kV: Rebuild Frogmore Distribution – St. Helena Section",
+     "name": "Burton-St Helena 115kV: Rebuild Frogmore Distribution \u2013 St. Helena Section",
      "state": "SC",
      "utility": "DESC",
      "isd": "2027-12-31",
      "center": {
-      "lat": 32.435663,
-      "lon": -80.697842
+      "lat": 32.436488,
+      "lon": -80.721016
      },
-     "radiusMi": 6.0,
+     "radiusMi": 10.5,
      "points": [
       [
        -80.721016,
        32.436488
       ],
       [
-       -80.674667,
-       32.434838
-      ],
-      [
-       -80.697842,
-       32.435663
+       -80.721016,
+       32.436488
       ]
      ],
      "source": {
@@ -1002,7 +993,7 @@
      "lineage": "SC:6810U:cameron elloree rebuild",
      "key": "6810U",
      "projectId": "6810 U",
-     "name": "Cameron Jct – Elloree 46 kV Rebuild",
+     "name": "Cameron Jct \u2013 Elloree 46 kV Rebuild",
      "state": "SC",
      "utility": "DESC",
      "isd": "2027-12-31",
@@ -1031,7 +1022,7 @@
       "page": 23,
       "item": "Project 23 of 54"
      },
-     "oldName": "Cameron Jct – Elloree 46 kV Rebuild",
+     "oldName": "Cameron Jct \u2013 Elloree 46 kV Rebuild",
      "oldIsd": "2027-12-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2025-2029",
@@ -1084,7 +1075,7 @@
      "lineage": "SC:6810J:elloree santee city rebuild",
      "key": "6810J",
      "projectId": "6810 J",
-     "name": "Elloree – Santee City 46 kV: Rebuild",
+     "name": "Elloree \u2013 Santee City 46 kV: Rebuild",
      "state": "SC",
      "utility": "DESC",
      "isd": "2027-12-31",
@@ -1109,7 +1100,7 @@
       "page": 25,
       "item": "Project 25 of 54"
      },
-     "oldName": "Elloree – Santee City 46 kV: Rebuild",
+     "oldName": "Elloree \u2013 Santee City 46 kV: Rebuild",
      "oldIsd": "2027-12-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2025-2029",
@@ -1178,7 +1169,7 @@
      "lineage": "SC:6809I2:adams run red house road replace dawhoo river crossing and other structures",
      "key": "6809I2",
      "projectId": "6809 I2",
-     "name": "Adams Run – Red House Road 46 kV: Replace Dawhoo River Crossing and other Structures",
+     "name": "Adams Run \u2013 Red House Road 46 kV: Replace Dawhoo River Crossing and other Structures",
      "state": "SC",
      "utility": "DESC",
      "isd": "2027-12-31",
@@ -1214,29 +1205,13 @@
      "lineage": "SC:6809S:lyles kilbourne park 115kv replace structure kilbourne park",
      "key": "6809S",
      "projectId": "6809 S",
-     "name": "Lyles – Kilbourne Park 115kV: Replace Structure 67 – Kilbourne Park",
+     "name": "Lyles \u2013 Kilbourne Park 115kV: Replace Structure 67 \u2013 Kilbourne Park",
      "state": "SC",
      "utility": "DESC",
      "isd": "2027-12-01",
-     "center": {
-      "lat": 34.01332,
-      "lon": -81.014823
-     },
-     "radiusMi": 6.0,
-     "points": [
-      [
-       -81.051023,
-       34.024163
-      ],
-      [
-       -80.978622,
-       34.002476
-      ],
-      [
-       -81.014823,
-       34.01332
-      ]
-     ],
+     "center": null,
+     "radiusMi": null,
+     "points": [],
      "source": {
       "doc": "DESC $2M+ list 2026-2030",
       "url": "https://www.scrtp.com/assets/pdfs/home/2026-2030-2million-and-above-project-descriptions.pdf",
@@ -1352,7 +1327,7 @@
      "lineage": "SC:6854C:jackson 115kv construct 12kv distribution",
      "key": "6854C",
      "projectId": "6854 C",
-     "name": "Jackson 115kV: Construct 115 – 12kV Distribution Substation",
+     "name": "Jackson 115kV: Construct 115 \u2013 12kV Distribution Substation",
      "state": "SC",
      "utility": "DESC",
      "isd": "2028-12-31",
@@ -1387,7 +1362,7 @@
      "lineage": "SC:06005B:harleyville 115kv transmission construct miles",
      "key": "06005B",
      "projectId": "06005 B",
-     "name": "Harleyville 115KV Transmission Tap – Construct (1.4 miles)",
+     "name": "Harleyville 115KV Transmission Tap \u2013 Construct (1.4 miles)",
      "state": "SC",
      "utility": "DESC",
      "isd": "2028-12-31",
@@ -1412,7 +1387,7 @@
       "page": 34,
       "item": "Project 34 of 54"
      },
-     "oldName": "Harleyville 115KV Transmission Tap – Construct (1.4 miles)",
+     "oldName": "Harleyville 115KV Transmission Tap \u2013 Construct (1.4 miles)",
      "oldIsd": "2027-03-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2025-2029",
@@ -1534,21 +1509,9 @@
      "state": "SC",
      "utility": "DESC",
      "isd": "2027-12-31",
-     "center": {
-      "lat": 32.852508,
-      "lon": -79.944532
-     },
-     "radiusMi": 6.0,
-     "points": [
-      [
-       -79.944532,
-       32.852508
-      ],
-      [
-       -79.944532,
-       32.852508
-      ]
-     ],
+     "center": null,
+     "radiusMi": null,
+     "points": [],
      "source": {
       "doc": "DESC $2M+ list 2026-2030",
       "url": "https://www.scrtp.com/assets/pdfs/home/2026-2030-2million-and-above-project-descriptions.pdf",
@@ -1571,18 +1534,14 @@
      "utility": "DESC",
      "isd": "2028-12-31",
      "center": {
-      "lat": 34.145994,
-      "lon": -79.464776
+      "lat": 33.941766,
+      "lon": -81.085496
      },
-     "radiusMi": 6.0,
+     "radiusMi": 5.0,
      "points": [
       [
-       -79.464776,
-       34.145994
-      ],
-      [
-       -79.464776,
-       34.145994
+       -81.085496,
+       33.941766
       ]
      ],
      "source": {
@@ -1612,7 +1571,7 @@
      "lineage": "SC:6810T:cameron cameron saint matthews rebuild",
      "key": "6810T",
      "projectId": "6810 T",
-     "name": "Cameron Jct – Cameron – St Matthews 46 kV Rebuild",
+     "name": "Cameron Jct \u2013 Cameron \u2013 St Matthews 46 kV Rebuild",
      "state": "SC",
      "utility": "DESC",
      "isd": "2028-12-31",
@@ -1641,7 +1600,7 @@
       "page": 40,
       "item": "Project 40 of 54"
      },
-     "oldName": "Cameron Jct – Cameron – St Matthews 46 kV Rebuild",
+     "oldName": "Cameron Jct \u2013 Cameron \u2013 St Matthews 46 kV Rebuild",
      "oldIsd": "2028-12-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2025-2029",
@@ -1703,7 +1662,7 @@
       "lat": 33.262617,
       "lon": -80.506713
      },
-     "radiusMi": 0.5,
+     "radiusMi": 4.89,
      "points": [
       [
        -80.592009,
@@ -1837,27 +1796,23 @@
      "lineage": "SC:6877A:church creek dawson rebuild from long savannah to dawson",
      "key": "6877A",
      "projectId": "6877 A",
-     "name": "Church Creek – Dawson 230 kV: Rebuild from Long Savannah to Dawson",
+     "name": "Church Creek \u2013 Dawson 230 kV: Rebuild from Long Savannah to Dawson",
      "state": "SC",
      "utility": "DESC",
      "isd": "2029-12-31",
      "center": {
-      "lat": 33.028577,
-      "lon": -79.862814
+      "lat": 32.83032,
+      "lon": -80.070279
      },
-     "radiusMi": 6.0,
+     "radiusMi": 7.3,
      "points": [
       [
        -80.070279,
        32.83032
       ],
       [
-       -79.655349,
-       33.226834
-      ],
-      [
-       -79.862814,
-       33.028577
+       -80.070279,
+       32.83032
       ]
      ],
      "source": {
@@ -1866,7 +1821,7 @@
       "page": 46,
       "item": "Project 46 of 54"
      },
-     "oldName": "Church Creek – Dawson 230 kV: Rebuild from Long Savannah to Dawson",
+     "oldName": "Church Creek \u2013 Dawson 230 kV: Rebuild from Long Savannah to Dawson",
      "oldIsd": "2028-12-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2025-2029",
@@ -1893,18 +1848,14 @@
      "utility": "DESC",
      "isd": "2029-12-31",
      "center": {
-      "lat": 33.058217,
-      "lon": -79.813063
+      "lat": 32.83032,
+      "lon": -80.070279
      },
-     "radiusMi": 6.0,
+     "radiusMi": 5.0,
      "points": [
       [
-       -79.813063,
-       33.058217
-      ],
-      [
-       -79.813063,
-       33.058217
+       -80.070279,
+       32.83032
       ]
      ],
      "source": {
@@ -1931,7 +1882,7 @@
      "lineage": "SC:6809M:modoc mccormick rebuild",
      "key": "6809M",
      "projectId": "6809 M",
-     "name": "Modoc – McCormick 115/46 kV Rebuild",
+     "name": "Modoc \u2013 McCormick 115/46 kV Rebuild",
      "state": "SC",
      "utility": "DESC",
      "isd": "2029-12-31",
@@ -1960,7 +1911,7 @@
       "page": 48,
       "item": "Project 48 of 54"
      },
-     "appId": "DESC-6809M-48",
+     "appId": null,
      "note": "Reuses Project ID 6809 M, which the previous list gave to a different project."
     },
     {
@@ -2048,21 +1999,9 @@
      "state": "SC",
      "utility": "DESC",
      "isd": "2030-12-31",
-     "center": {
-      "lat": 32.784336,
-      "lon": -79.925588
-     },
-     "radiusMi": 6.0,
-     "points": [
-      [
-       -79.925588,
-       32.784336
-      ],
-      [
-       -79.925588,
-       32.784336
-      ]
-     ],
+     "center": null,
+     "radiusMi": null,
+     "points": [],
      "source": {
       "doc": "DESC $2M+ list 2026-2030",
       "url": "https://www.scrtp.com/assets/pdfs/home/2026-2030-2million-and-above-project-descriptions.pdf",
@@ -2143,22 +2082,18 @@
      "utility": "DESC",
      "isd": "2031-12-31",
      "center": {
-      "lat": 32.937603,
-      "lon": -79.838996
+      "lat": 32.941402,
+      "lon": -79.842276
      },
-     "radiusMi": 6.0,
+     "radiusMi": 1.9,
      "points": [
-      [
-       -79.835716,
-       32.933805
-      ],
       [
        -79.842276,
        32.941402
       ],
       [
-       -79.838996,
-       32.937603
+       -79.842276,
+       32.941402
       ]
      ],
      "source": {
@@ -2230,22 +2165,18 @@
      "utility": "DESC",
      "isd": "2025-04-30",
      "center": {
-      "lat": 32.435663,
-      "lon": -80.697842
+      "lat": 32.436488,
+      "lon": -80.721016
      },
-     "radiusMi": 6.0,
+     "radiusMi": 10.5,
      "points": [
       [
        -80.721016,
        32.436488
       ],
       [
-       -80.674667,
-       32.434838
-      ],
-      [
-       -80.697842,
-       32.435663
+       -80.721016,
+       32.436488
       ]
      ],
      "source": {
@@ -2333,9 +2264,21 @@
      "state": "SC",
      "utility": "DESC",
      "isd": "2025-06-30",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 33.953765,
+      "lon": -81.059815
+     },
+     "radiusMi": 6.0,
+     "points": [
+      [
+       -81.059815,
+       33.953765
+      ],
+      [
+       -81.059815,
+       33.953765
+      ]
+     ],
      "source": {
       "doc": "DESC $2M+ list 2025-2029",
       "url": "https://www.scrtp.com/assets/pdfs/home/2025-2029-2million-and-above-project-descriptions.pdf",
@@ -2353,9 +2296,21 @@
      "state": "SC",
      "utility": "DESC",
      "isd": "2026-05-31",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 34.197326,
+      "lon": -82.187598
+     },
+     "radiusMi": 6.0,
+     "points": [
+      [
+       -82.187598,
+       34.197326
+      ],
+      [
+       -82.187598,
+       34.197326
+      ]
+     ],
      "source": {
       "doc": "DESC $2M+ list 2025-2029",
       "url": "https://www.scrtp.com/assets/pdfs/home/2025-2029-2million-and-above-project-descriptions.pdf",
@@ -2373,9 +2328,17 @@
      "state": "SC",
      "utility": "DESC",
      "isd": "2025-10-31",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 32.933889,
+      "lon": -79.973396
+     },
+     "radiusMi": 7.27,
+     "points": [
+      [
+       -79.973396,
+       32.933889
+      ]
+     ],
      "source": {
       "doc": "DESC $2M+ list 2025-2029",
       "url": "https://www.scrtp.com/assets/pdfs/home/2025-2029-2million-and-above-project-descriptions.pdf",
@@ -2455,7 +2418,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-12-31",
       "center": {
        "lat": 32.333758,
@@ -2499,7 +2462,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-12-31",
       "center": {
        "lat": 32.333758,
@@ -2543,7 +2506,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-12-31",
       "center": {
        "lat": 32.333758,
@@ -2591,7 +2554,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-12-31",
       "center": {
        "lat": 32.333758,
@@ -2639,7 +2602,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-12-31",
       "center": {
        "lat": 32.333758,
@@ -2687,7 +2650,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-12-31",
       "center": {
        "lat": 32.333758,
@@ -2735,7 +2698,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-12-31",
       "center": {
        "lat": 32.333758,
@@ -2748,11 +2711,11 @@
       "name": "SAV: RICE HOPE NEW AUTO TRANSFORMER 230/115kV",
       "isd": "2028-11-01",
       "center": {
-       "lat": 32.209572,
-       "lon": -81.200072
+       "lat": 32.352116,
+       "lon": -81.175112
       }
      },
-     "miles": 13.02,
+     "miles": 8.42,
      "gapDays": 671,
      "points": [
       [
@@ -2764,12 +2727,8 @@
        32.333758
       ],
       [
-       -81.200072,
-       32.209572
-      ],
-      [
-       -81.200072,
-       32.209572
+       -81.175112,
+       32.352116
       ]
      ],
      "oldGapDays": 885
@@ -2779,7 +2738,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-12-31",
       "center": {
        "lat": 32.333758,
@@ -2792,11 +2751,11 @@
       "name": "SAV: BOULEVARD - MAGNOLIA - TRUMAN PARKWAY 115kV REBUILDS",
       "isd": "2029-06-01",
       "center": {
-       "lat": 32.034765,
-       "lon": -81.100862
+       "lat": 32.029838,
+       "lon": -81.105741
       }
      },
-     "miles": 21.04,
+     "miles": 21.43,
      "gapDays": 883,
      "points": [
       [
@@ -2816,12 +2775,12 @@
        32.022687
       ],
       [
-       -81.071942,
-       32.040378
+       -81.086577,
+       32.025597
       ],
       [
-       -81.100862,
-       32.034765
+       -81.105741,
+       32.029838
       ]
      ],
      "oldGapDays": 1097
@@ -2831,7 +2790,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-12-31",
       "center": {
        "lat": 32.333758,
@@ -2879,7 +2838,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-12-31",
       "center": {
        "lat": 32.333758,
@@ -2927,7 +2886,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-12-31",
       "center": {
        "lat": 32.333758,
@@ -2975,7 +2934,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-12-31",
       "center": {
        "lat": 32.333758,
@@ -3019,7 +2978,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-12-31",
       "center": {
        "lat": 32.333758,
@@ -3063,7 +3022,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-12-01",
       "center": {
        "lat": 32.346439,
@@ -3111,7 +3070,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-12-01",
       "center": {
        "lat": 32.346439,
@@ -3159,7 +3118,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-12-01",
       "center": {
        "lat": 32.346439,
@@ -3211,7 +3170,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-12-01",
       "center": {
        "lat": 32.346439,
@@ -3263,7 +3222,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-12-01",
       "center": {
        "lat": 32.346439,
@@ -3315,7 +3274,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-12-01",
       "center": {
        "lat": 32.346439,
@@ -3367,7 +3326,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-12-01",
       "center": {
        "lat": 32.346439,
@@ -3380,11 +3339,11 @@
       "name": "SAV: RICE HOPE NEW AUTO TRANSFORMER 230/115kV",
       "isd": "2028-11-01",
       "center": {
-       "lat": 32.209572,
-       "lon": -81.200072
+       "lat": 32.352116,
+       "lon": -81.175112
       }
      },
-     "miles": 11.82,
+     "miles": 5.65,
      "gapDays": 701,
      "points": [
       [
@@ -3400,12 +3359,8 @@
        32.346439
       ],
       [
-       -81.200072,
-       32.209572
-      ],
-      [
-       -81.200072,
-       32.209572
+       -81.175112,
+       32.352116
       ]
      ],
      "oldGapDays": 885
@@ -3415,7 +3370,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-12-01",
       "center": {
        "lat": 32.346439,
@@ -3428,11 +3383,11 @@
       "name": "SAV: BOULEVARD - MAGNOLIA - TRUMAN PARKWAY 115kV REBUILDS",
       "isd": "2029-06-01",
       "center": {
-       "lat": 32.034765,
-       "lon": -81.100862
+       "lat": 32.029838,
+       "lon": -81.105741
       }
      },
-     "miles": 21.57,
+     "miles": 21.93,
      "gapDays": 913,
      "points": [
       [
@@ -3456,12 +3411,12 @@
        32.022687
       ],
       [
-       -81.071942,
-       32.040378
+       -81.086577,
+       32.025597
       ],
       [
-       -81.100862,
-       32.034765
+       -81.105741,
+       32.029838
       ]
      ],
      "oldGapDays": 1097
@@ -3471,7 +3426,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-12-01",
       "center": {
        "lat": 32.346439,
@@ -3523,7 +3478,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-12-01",
       "center": {
        "lat": 32.346439,
@@ -3575,7 +3530,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-12-01",
       "center": {
        "lat": 32.346439,
@@ -3627,7 +3582,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-12-01",
       "center": {
        "lat": 32.346439,
@@ -3675,7 +3630,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-12-01",
       "center": {
        "lat": 32.346439,
@@ -4040,11 +3995,11 @@
       "name": "SAV: RICE HOPE NEW AUTO TRANSFORMER 230/115kV",
       "isd": "2028-11-01",
       "center": {
-       "lat": 32.209572,
-       "lon": -81.200072
+       "lat": 32.352116,
+       "lon": -81.175112
       }
      },
-     "miles": 11.82,
+     "miles": 5.65,
      "gapDays": 701,
      "points": [
       [
@@ -4060,12 +4015,8 @@
        32.346439
       ],
       [
-       -81.200072,
-       32.209572
-      ],
-      [
-       -81.200072,
-       32.209572
+       -81.175112,
+       32.352116
       ]
      ],
      "reason": "6367 D is new"
@@ -4088,11 +4039,11 @@
       "name": "SAV: BOULEVARD - MAGNOLIA - TRUMAN PARKWAY 115kV REBUILDS",
       "isd": "2029-06-01",
       "center": {
-       "lat": 32.034765,
-       "lon": -81.100862
+       "lat": 32.029838,
+       "lon": -81.105741
       }
      },
-     "miles": 21.57,
+     "miles": 21.93,
      "gapDays": 913,
      "points": [
       [
@@ -4116,12 +4067,12 @@
        32.022687
       ],
       [
-       -81.071942,
-       32.040378
+       -81.086577,
+       32.025597
       ],
       [
-       -81.100862,
-       32.034765
+       -81.105741,
+       32.029838
       ]
      ],
      "reason": "6367 D is new"
@@ -4444,11 +4395,11 @@
       "name": "FENWICK STREET - SAND BAR FERRY 115kV RECONDUCTOR",
       "isd": "2026-06-01",
       "center": {
-       "lat": 33.465934,
-       "lon": -81.952356
+       "lat": 33.478196,
+       "lon": -81.995678
       }
      },
-     "miles": 7.74,
+     "miles": 10.27,
      "gapDays": 944,
      "points": [
       [
@@ -4460,16 +4411,12 @@
        33.396851
       ],
       [
-       -81.961412,
-       33.466932
+       -81.995678,
+       33.478196
       ],
       [
-       -81.9433,
-       33.464936
-      ],
-      [
-       -81.952356,
-       33.465934
+       -81.995678,
+       33.478196
       ]
      ],
      "reason": "7956B is new"
@@ -4571,7 +4518,7 @@
      "desc": {
       "key": "6854C",
       "projectId": "6854 C",
-      "name": "Jackson 115kV: Construct 115 – 12kV Distribution Substation",
+      "name": "Jackson 115kV: Construct 115 \u2013 12kV Distribution Substation",
       "isd": "2028-12-31",
       "center": {
        "lat": 33.325421,
@@ -4584,11 +4531,11 @@
       "name": "FENWICK STREET - SAND BAR FERRY 115kV RECONDUCTOR",
       "isd": "2026-06-01",
       "center": {
-       "lat": 33.465934,
-       "lon": -81.952356
+       "lat": 33.478196,
+       "lon": -81.995678
       }
      },
-     "miles": 13.57,
+     "miles": 15.97,
      "gapDays": 944,
      "points": [
       [
@@ -4600,16 +4547,12 @@
        33.325421
       ],
       [
-       -81.961412,
-       33.466932
+       -81.995678,
+       33.478196
       ],
       [
-       -81.9433,
-       33.464936
-      ],
-      [
-       -81.952356,
-       33.465934
+       -81.995678,
+       33.478196
       ]
      ],
      "reason": "6854 C is new"
@@ -4619,7 +4562,7 @@
      "desc": {
       "key": "6854C",
       "projectId": "6854 C",
-      "name": "Jackson 115kV: Construct 115 – 12kV Distribution Substation",
+      "name": "Jackson 115kV: Construct 115 \u2013 12kV Distribution Substation",
       "isd": "2028-12-31",
       "center": {
        "lat": 33.325421,
@@ -4663,7 +4606,7 @@
      "desc": {
       "key": "6854C",
       "projectId": "6854 C",
-      "name": "Jackson 115kV: Construct 115 – 12kV Distribution Substation",
+      "name": "Jackson 115kV: Construct 115 \u2013 12kV Distribution Substation",
       "isd": "2028-12-31",
       "center": {
        "lat": 33.325421,
@@ -4724,11 +4667,11 @@
       "name": "FENWICK STREET - SAND BAR FERRY 115kV RECONDUCTOR",
       "isd": "2026-06-01",
       "center": {
-       "lat": 33.465934,
-       "lon": -81.952356
+       "lat": 33.478196,
+       "lon": -81.995678
       }
      },
-     "miles": 7.53,
+     "miles": 7.63,
      "gapDays": 1309,
      "points": [
       [
@@ -4744,16 +4687,12 @@
        33.573018
       ],
       [
-       -81.961412,
-       33.466932
+       -81.995678,
+       33.478196
       ],
       [
-       -81.9433,
-       33.464936
-      ],
-      [
-       -81.952356,
-       33.465934
+       -81.995678,
+       33.478196
       ]
      ],
      "reason": "6809 T is new"
@@ -5180,11 +5119,11 @@
       "name": "SAV: RICE HOPE NEW AUTO TRANSFORMER 230/115kV",
       "isd": "2028-11-01",
       "center": {
-       "lat": 32.209572,
-       "lon": -81.200072
+       "lat": 32.352116,
+       "lon": -81.175112
       }
      },
-     "miles": 15.89,
+     "miles": 14.34,
      "gapDays": 1249,
      "points": [
       [
@@ -5200,12 +5139,8 @@
        32.284393
       ],
       [
-       -81.200072,
-       32.209572
-      ],
-      [
-       -81.200072,
-       32.209572
+       -81.175112,
+       32.352116
       ]
      ],
      "reason": "6808 S was dropped"
@@ -5228,11 +5163,11 @@
       "name": "SAV: BOULEVARD - MAGNOLIA - TRUMAN PARKWAY 115kV REBUILDS",
       "isd": "2029-06-01",
       "center": {
-       "lat": 32.034765,
-       "lon": -81.100862
+       "lat": 32.029838,
+       "lon": -81.105741
       }
      },
-     "miles": 19.57,
+     "miles": 20.0,
      "gapDays": 1461,
      "points": [
       [
@@ -5256,12 +5191,12 @@
        32.022687
       ],
       [
-       -81.071942,
-       32.040378
+       -81.086577,
+       32.025597
       ],
       [
-       -81.100862,
-       32.034765
+       -81.105741,
+       32.029838
       ]
      ],
      "reason": "6808 S was dropped"
@@ -5445,7 +5380,7 @@
     "renamed": 3,
     "recosted": 0,
     "pairsNew": 19,
-    "pairsGone": 21,
+    "pairsGone": 24,
     "pairsTiming": 17
    },
    "projects": [
@@ -5504,22 +5439,22 @@
      "utility": "GPC",
      "isd": "2027-03-01",
      "center": {
-      "lat": 33.564477,
-      "lon": -84.34245
+      "lat": 33.570421,
+      "lon": -84.322738
      },
      "radiusMi": 0.5,
      "points": [
       [
-       -84.351437,
-       33.523023
+       -84.312015,
+       33.534912
       ],
       [
        -84.333462,
        33.605931
       ],
       [
-       -84.34245,
-       33.564477
+       -84.322738,
+       33.570421
       ]
      ],
      "source": {
@@ -5594,9 +5529,21 @@
      "state": "GA",
      "utility": "GPC",
      "isd": "2027-06-01",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 33.338395,
+      "lon": -84.546636
+     },
+     "radiusMi": 6.0,
+     "points": [
+      [
+       -84.546636,
+       33.338395
+      ],
+      [
+       -84.546636,
+       33.338395
+      ]
+     ],
      "source": {
       "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -5636,9 +5583,21 @@
      "state": "GA",
      "utility": "GPC",
      "isd": "2028-05-15",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 32.882471,
+      "lon": -83.316914
+     },
+     "radiusMi": 0.5,
+     "points": [
+      [
+       -83.316914,
+       32.882471
+      ],
+      [
+       -83.316914,
+       32.882471
+      ]
+     ],
      "source": {
       "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -5690,9 +5649,21 @@
      "state": "GA",
      "utility": "GPC",
      "isd": "2028-12-31",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 33.481901,
+      "lon": -84.36739
+     },
+     "radiusMi": 0.5,
+     "points": [
+      [
+       -84.36739,
+       33.481901
+      ],
+      [
+       -84.36739,
+       33.481901
+      ]
+     ],
      "source": {
       "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -5864,9 +5835,21 @@
      "state": "GA",
      "utility": "GPC",
      "isd": "2030-06-01",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 33.338395,
+      "lon": -84.546636
+     },
+     "radiusMi": 6.0,
+     "points": [
+      [
+       -84.546636,
+       33.338395
+      ],
+      [
+       -84.546636,
+       33.338395
+      ]
+     ],
      "source": {
       "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -5918,9 +5901,21 @@
      "state": "GA",
      "utility": "GPC",
      "isd": "2030-06-01",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 33.410956,
+      "lon": -85.030769
+     },
+     "radiusMi": 0.5,
+     "points": [
+      [
+       -85.030769,
+       33.410956
+      ],
+      [
+       -85.030769,
+       33.410956
+      ]
+     ],
      "source": {
       "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -6161,7 +6156,7 @@
      "lineage": "GA:21249:brunswick mcmanus 115kv lines re termination",
      "key": "21249",
      "projectId": "TEAMS 21249",
-     "name": "BRUNSWICK – MCMANUS 115kV LINES RE-TERMINATION",
+     "name": "BRUNSWICK \u2013 MCMANUS 115kV LINES RE-TERMINATION",
      "state": "GA",
      "utility": "GPC",
      "isd": "2026-06-01",
@@ -6202,21 +6197,9 @@
      "state": "GA",
      "utility": "DU",
      "isd": "2026-06-01",
-     "center": {
-      "lat": 34.694785,
-      "lon": -84.48331
-     },
-     "radiusMi": 16.0,
-     "points": [
-      [
-       -84.48331,
-       34.694785
-      ],
-      [
-       -84.48331,
-       34.694785
-      ]
-     ],
+     "center": null,
+     "radiusMi": null,
+     "points": [],
      "source": {
       "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -6231,29 +6214,13 @@
      "lineage": "GA:21701:gtc cc cornish mountain lake varner 230kv network improvements",
      "key": "21701",
      "projectId": "TEAMS 21701",
-     "name": "GTC: CC – CORNISH MOUNTAIN - LAKE VARNER 230kV (NETWORK IMPROVEMENTS)",
+     "name": "GTC: CC \u2013 CORNISH MOUNTAIN - LAKE VARNER 230kV (NETWORK IMPROVEMENTS)",
      "state": "GA",
      "utility": "GTC",
      "isd": "2026-06-01",
-     "center": {
-      "lat": 33.678164,
-      "lon": -83.809078
-     },
-     "radiusMi": 9.0,
-     "points": [
-      [
-       -83.813791,
-       33.673448
-      ],
-      [
-       -83.804365,
-       33.68288
-      ],
-      [
-       -83.809078,
-       33.678164
-      ]
-     ],
+     "center": null,
+     "radiusMi": null,
+     "points": [],
      "source": {
       "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -6324,7 +6291,7 @@
       "lat": 32.564087,
       "lon": -83.669987
      },
-     "radiusMi": 1.5,
+     "radiusMi": 3.08,
      "points": [
       [
        -83.739951,
@@ -6517,9 +6484,21 @@
      "state": "GA",
      "utility": "GPC",
      "isd": "2026-12-31",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 33.819286,
+      "lon": -84.666475
+     },
+     "radiusMi": 6.0,
+     "points": [
+      [
+       -84.666475,
+       33.819286
+      ],
+      [
+       -84.666475,
+       33.819286
+      ]
+     ],
      "source": {
       "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -6599,9 +6578,17 @@
      "state": "GA",
      "utility": "GPC",
      "isd": "2027-06-01",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 34.326453,
+      "lon": -84.337007
+     },
+     "radiusMi": 5.0,
+     "points": [
+      [
+       -84.337007,
+       34.326453
+      ]
+     ],
      "source": {
       "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -6629,9 +6616,17 @@
      "state": "GA",
      "utility": "GPC",
      "isd": "2027-06-01",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 33.271383,
+      "lon": -84.090044
+     },
+     "radiusMi": 22.65,
+     "points": [
+      [
+       -84.090044,
+       33.271383
+      ]
+     ],
      "source": {
       "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -6653,9 +6648,17 @@
      "state": "GA",
      "utility": "GPC",
      "isd": "2027-06-01",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 33.533558,
+      "lon": -84.614995
+     },
+     "radiusMi": 17.97,
+     "points": [
+      [
+       -84.614995,
+       33.533558
+      ]
+     ],
      "source": {
       "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -6719,21 +6722,9 @@
      "state": "GA",
      "utility": "GTC",
      "isd": "2027-06-01",
-     "center": {
-      "lat": 33.617809,
-      "lon": -83.690285
-     },
-     "radiusMi": 7.2,
-     "points": [
-      [
-       -83.690285,
-       33.617809
-      ],
-      [
-       -83.690285,
-       33.617809
-      ]
-     ],
+     "center": null,
+     "radiusMi": null,
+     "points": [],
      "source": {
       "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -6761,9 +6752,21 @@
      "state": "GA",
      "utility": "GPC",
      "isd": "2027-06-01",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 33.320614,
+      "lon": -83.841009
+     },
+     "radiusMi": 1.5,
+     "points": [
+      [
+       -83.841009,
+       33.320614
+      ],
+      [
+       -83.841009,
+       33.320614
+      ]
+     ],
      "source": {
       "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -6871,7 +6874,7 @@
       "lat": 33.587381,
       "lon": -82.786484
      },
-     "radiusMi": 0.5,
+     "radiusMi": 7.65,
      "points": [
       [
        -82.819772,
@@ -6916,9 +6919,17 @@
      "state": "GA",
      "utility": "GPC",
      "isd": "2027-06-01",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 33.67415,
+      "lon": -83.679326
+     },
+     "radiusMi": 5.0,
+     "points": [
+      [
+       -83.679326,
+       33.67415
+      ]
+     ],
      "source": {
       "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -6994,9 +7005,17 @@
      "state": "GA",
      "utility": "GPC",
      "isd": "2027-09-15",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 33.271383,
+      "lon": -84.090044
+     },
+     "radiusMi": 22.65,
+     "points": [
+      [
+       -84.090044,
+       33.271383
+      ]
+     ],
      "source": {
       "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -7062,22 +7081,18 @@
      "utility": "GPC",
      "isd": "2028-06-01",
      "center": {
-      "lat": 32.994257,
-      "lon": -84.906513
+      "lat": 32.661129,
+      "lon": -85.09209
      },
-     "radiusMi": 6.0,
+     "radiusMi": 11.5,
      "points": [
       [
        -85.09209,
        32.661129
       ],
       [
-       -84.720936,
-       33.327385
-      ],
-      [
-       -84.906513,
-       32.994257
+       -85.09209,
+       32.661129
       ]
      ],
      "source": {
@@ -7156,9 +7171,21 @@
      "state": "GA",
      "utility": "GPC",
      "isd": "2028-06-01",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 33.007417,
+      "lon": -83.88139
+     },
+     "radiusMi": 6.0,
+     "points": [
+      [
+       -83.88139,
+       33.007417
+      ],
+      [
+       -83.88139,
+       33.007417
+      ]
+     ],
      "source": {
       "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -7181,7 +7208,7 @@
       "lat": 33.391492,
       "lon": -84.924622
      },
-     "radiusMi": 6.0,
+     "radiusMi": 18.62,
      "points": [
       [
        -84.819361,
@@ -7217,9 +7244,21 @@
      "state": "GA",
      "utility": "GPC",
      "isd": "2028-06-01",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 33.447353,
+      "lon": -84.906421
+     },
+     "radiusMi": 16.35,
+     "points": [
+      [
+       -84.906421,
+       33.447353
+      ],
+      [
+       -84.906421,
+       33.447353
+      ]
+     ],
      "source": {
       "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -7247,21 +7286,9 @@
      "state": "GA",
      "utility": "GTC",
      "isd": "2028-06-01",
-     "center": {
-      "lat": 33.928475,
-      "lon": -84.472155
-     },
-     "radiusMi": 6.0,
-     "points": [
-      [
-       -84.472155,
-       33.928475
-      ],
-      [
-       -84.472155,
-       33.928475
-      ]
-     ],
+     "center": null,
+     "radiusMi": null,
+     "points": [],
      "source": {
       "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -7434,22 +7461,18 @@
      "utility": "GPC",
      "isd": "2028-06-01",
      "center": {
-      "lat": 33.712975,
-      "lon": -84.256734
+      "lat": 33.387058,
+      "lon": -84.282978
      },
-     "radiusMi": 6.0,
+     "radiusMi": 9.0,
      "points": [
       [
        -84.282978,
        33.387058
       ],
       [
-       -84.230491,
-       34.038893
-      ],
-      [
-       -84.256734,
-       33.712975
+       -84.282978,
+       33.387058
       ]
      ],
      "source": {
@@ -7471,22 +7494,18 @@
      "utility": "GPC",
      "isd": "2028-06-01",
      "center": {
-      "lat": 33.682287,
-      "lon": -84.382159
+      "lat": 33.325681,
+      "lon": -84.533826
      },
-     "radiusMi": 6.0,
+     "radiusMi": 7.0,
      "points": [
-      [
-       -84.230491,
-       34.038893
-      ],
       [
        -84.533826,
        33.325681
       ],
       [
-       -84.382159,
-       33.682287
+       -84.533826,
+       33.325681
       ]
      ],
      "source": {
@@ -7507,9 +7526,21 @@
      "state": "GA",
      "utility": "GPC",
      "isd": "2028-06-01",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 33.394855,
+      "lon": -84.60714
+     },
+     "radiusMi": 6.0,
+     "points": [
+      [
+       -84.60714,
+       33.394855
+      ],
+      [
+       -84.60714,
+       33.394855
+      ]
+     ],
      "source": {
       "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -7606,9 +7637,17 @@
      "state": "GA",
      "utility": "MEAG",
      "isd": "2028-06-01",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 33.287261,
+      "lon": -84.387137
+     },
+     "radiusMi": 9.88,
+     "points": [
+      [
+       -84.387137,
+       33.287261
+      ]
+     ],
      "source": {
       "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -7627,9 +7666,21 @@
      "state": "GA",
      "utility": "GPC",
      "isd": "2028-06-01",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 33.605931,
+      "lon": -84.333462
+     },
+     "radiusMi": 0.5,
+     "points": [
+      [
+       -84.333462,
+       33.605931
+      ],
+      [
+       -84.333462,
+       33.605931
+      ]
+     ],
      "source": {
       "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -7648,9 +7699,21 @@
      "state": "GA",
      "utility": "GPC",
      "isd": "2028-06-01",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 33.608608,
+      "lon": -84.302117
+     },
+     "radiusMi": 0.5,
+     "points": [
+      [
+       -84.302117,
+       33.608608
+      ],
+      [
+       -84.302117,
+       33.608608
+      ]
+     ],
      "source": {
       "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -7718,9 +7781,21 @@
      "state": "GA",
      "utility": "GPC",
      "isd": "2028-09-01",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 34.121585,
+      "lon": -84.922327
+     },
+     "radiusMi": 0.5,
+     "points": [
+      [
+       -84.922327,
+       34.121585
+      ],
+      [
+       -84.922327,
+       34.121585
+      ]
+     ],
      "source": {
       "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -7743,18 +7818,14 @@
      "utility": "SAV",
      "isd": "2028-11-01",
      "center": {
-      "lat": 32.209572,
-      "lon": -81.200072
+      "lat": 32.352116,
+      "lon": -81.175112
      },
-     "radiusMi": 6.0,
+     "radiusMi": 5.0,
      "points": [
       [
-       -81.200072,
-       32.209572
-      ],
-      [
-       -81.200072,
-       32.209572
+       -81.175112,
+       32.352116
       ]
      ],
      "source": {
@@ -7785,22 +7856,18 @@
      "utility": "GPC",
      "isd": "2029-06-01",
      "center": {
-      "lat": 32.127355,
-      "lon": -84.089637
+      "lat": 32.097651,
+      "lon": -84.211701
      },
-     "radiusMi": 6.0,
+     "radiusMi": 10.6,
      "points": [
       [
        -84.211701,
        32.097651
       ],
       [
-       -83.967573,
-       32.157059
-      ],
-      [
-       -84.089637,
-       32.127355
+       -84.211701,
+       32.097651
       ]
      ],
      "source": {
@@ -7820,7 +7887,7 @@
      "lineage": "GA:21063:farley apc tazewell 500kv",
      "key": "21063",
      "projectId": "TEAMS 21063",
-     "name": "BIG TAZEWELL – PLANT FARLEY (APC) 500kV LINE",
+     "name": "BIG TAZEWELL \u2013 PLANT FARLEY (APC) 500kV LINE",
      "state": "GA",
      "utility": "GPC",
      "isd": "2029-06-01",
@@ -8124,21 +8191,9 @@
      "state": "GA",
      "utility": "GTC",
      "isd": "2029-06-01",
-     "center": {
-      "lat": 32.588839,
-      "lon": -84.69318
-     },
-     "radiusMi": 11.5,
-     "points": [
-      [
-       -84.69318,
-       32.588839
-      ],
-      [
-       -84.69318,
-       32.588839
-      ]
-     ],
+     "center": null,
+     "radiusMi": null,
+     "points": [],
      "source": {
       "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -8167,22 +8222,18 @@
      "utility": "GTC",
      "isd": "2029-06-01",
      "center": {
-      "lat": 34.23119,
-      "lon": -84.435887
+      "lat": 33.79113,
+      "lon": -84.627918
      },
-     "radiusMi": 6.0,
+     "radiusMi": 6.5,
      "points": [
       [
-       -84.242139,
-       34.670366
+       -84.627918,
+       33.79113
       ],
       [
-       -84.629635,
-       33.792015
-      ],
-      [
-       -84.435887,
-       34.23119
+       -84.627918,
+       33.79113
       ]
      ],
      "source": {
@@ -8256,7 +8307,7 @@
       "lat": 34.382357,
       "lon": -84.256173
      },
-     "radiusMi": 0.5,
+     "radiusMi": 3.25,
      "points": [
       [
        -84.133575,
@@ -8290,22 +8341,18 @@
      "utility": "GTC",
      "isd": "2029-06-01",
      "center": {
-      "lat": 31.939411,
-      "lon": -83.821231
+      "lat": 33.481901,
+      "lon": -84.36739
      },
-     "radiusMi": 6.0,
+     "radiusMi": 12.0,
      "points": [
       [
-       -84.246429,
-       32.101254
+       -84.36739,
+       33.481901
       ],
       [
-       -83.396032,
-       31.777569
-      ],
-      [
-       -83.821231,
-       31.939411
+       -84.36739,
+       33.481901
       ]
      ],
      "source": {
@@ -8360,22 +8407,18 @@
      "utility": "GPC",
      "isd": "2029-06-01",
      "center": {
-      "lat": 33.978442,
-      "lon": -84.582576
+      "lat": 33.719701,
+      "lon": -84.832349
      },
-     "radiusMi": 6.0,
+     "radiusMi": 8.25,
      "points": [
       [
-       -84.938047,
-       33.71849
+       -84.832349,
+       33.719701
       ],
       [
-       -84.227105,
-       34.238394
-      ],
-      [
-       -84.582576,
-       33.978442
+       -84.832349,
+       33.719701
       ]
      ],
      "source": {
@@ -8494,8 +8537,8 @@
      "utility": "SAV",
      "isd": "2029-06-01",
      "center": {
-      "lat": 32.034765,
-      "lon": -81.100862
+      "lat": 32.029838,
+      "lon": -81.105741
      },
      "radiusMi": 6.0,
      "points": [
@@ -8508,12 +8551,12 @@
        32.022687
       ],
       [
-       -81.071942,
-       32.040378
+       -81.086577,
+       32.025597
       ],
       [
-       -81.100862,
-       32.034765
+       -81.105741,
+       32.029838
       ]
      ],
      "source": {
@@ -8739,9 +8782,21 @@
      "state": "GA",
      "utility": "GTC",
      "isd": "2029-12-01",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 32.589917,
+      "lon": -82.927336
+     },
+     "radiusMi": 21.0,
+     "points": [
+      [
+       -82.927336,
+       32.589917
+      ],
+      [
+       -82.927336,
+       32.589917
+      ]
+     ],
      "source": {
       "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -8840,22 +8895,18 @@
      "utility": "GPC",
      "isd": "2030-06-01",
      "center": {
-      "lat": 34.19945,
-      "lon": -85.120586
+      "lat": 34.121585,
+      "lon": -84.922327
      },
-     "radiusMi": 6.0,
+     "radiusMi": 16.89,
      "points": [
       [
        -84.922327,
        34.121585
       ],
       [
-       -85.318844,
-       34.277315
-      ],
-      [
-       -85.120586,
-       34.19945
+       -84.922327,
+       34.121585
       ]
      ],
      "source": {
@@ -8877,22 +8928,18 @@
      "utility": "GPC",
      "isd": "2030-06-01",
      "center": {
-      "lat": 34.111479,
-      "lon": -84.911765
+      "lat": 34.121585,
+      "lon": -84.922327
      },
-     "radiusMi": 6.0,
+     "radiusMi": 0.53,
      "points": [
       [
        -84.922327,
        34.121585
       ],
       [
-       -84.901203,
-       34.101373
-      ],
-      [
-       -84.911765,
-       34.111479
+       -84.922327,
+       34.121585
       ]
      ],
      "source": {
@@ -9020,9 +9067,21 @@
      "state": "GA",
      "utility": "GPC",
      "isd": "2030-06-01",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 33.675453,
+      "lon": -84.462197
+     },
+     "radiusMi": 1.5,
+     "points": [
+      [
+       -84.462197,
+       33.675453
+      ],
+      [
+       -84.462197,
+       33.675453
+      ]
+     ],
      "source": {
       "doc": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -9086,27 +9145,23 @@
      "lineage": "GA:21620:gtc buzzard roost rockhouse road 230kv rebuild",
      "key": "21620",
      "projectId": "TEAMS 21620",
-     "name": "GTC: BUZZARD ROOST – ROCKHOUSE RD 230kV REBUILD",
+     "name": "GTC: BUZZARD ROOST \u2013 ROCKHOUSE RD 230kV REBUILD",
      "state": "GA",
      "utility": "GTC",
      "isd": "2030-06-01",
      "center": {
-      "lat": 34.224709,
-      "lon": -84.406912
+      "lat": 33.779051,
+      "lon": -84.571685
      },
-     "radiusMi": 6.0,
+     "radiusMi": 6.41,
      "points": [
-      [
-       -84.242139,
-       34.670366
-      ],
       [
        -84.571685,
        33.779051
       ],
       [
-       -84.406912,
-       34.224709
+       -84.571685,
+       33.779051
       ]
      ],
      "source": {
@@ -9120,7 +9175,7 @@
     },
     {
      "kind": "added",
-     "lineage": "GA:21271:gtc douglasville east villa rica ss 230kv rebuild",
+     "lineage": "GA:21271:gtc douglasville east villa rica 230kv rebuild",
      "key": "21271",
      "projectId": "TEAMS 21271",
      "name": "GTC: DOUGLASVILLE - EAST VILLA RICA SS 230kV REBUILD",
@@ -9128,22 +9183,18 @@
      "utility": "GTC",
      "isd": "2030-06-01",
      "center": {
-      "lat": 33.740306,
-      "lon": -84.829976
+      "lat": 33.751497,
+      "lon": -84.747714
      },
-     "radiusMi": 6.0,
+     "radiusMi": 10.1,
      "points": [
       [
        -84.747714,
        33.751497
       ],
       [
-       -84.912238,
-       33.729115
-      ],
-      [
-       -84.829976,
-       33.740306
+       -84.747714,
+       33.751497
       ]
      ],
      "source": {
@@ -9165,22 +9216,22 @@
      "utility": "GTC",
      "isd": "2030-06-01",
      "center": {
-      "lat": 33.480125,
-      "lon": -84.761906
+      "lat": 33.389887,
+      "lon": -84.717272
      },
-     "radiusMi": 6.0,
+     "radiusMi": 6.88,
      "points": [
       [
-       -84.989986,
-       33.63457
+       -84.900717,
+       33.454092
       ],
       [
        -84.533826,
        33.325681
       ],
       [
-       -84.761906,
-       33.480125
+       -84.717272,
+       33.389887
       ]
      ],
      "source": {
@@ -9235,18 +9286,22 @@
      "utility": "GTC",
      "isd": "2030-06-01",
      "center": {
-      "lat": 33.461186,
-      "lon": -84.896528
+      "lat": 33.428021,
+      "lon": -84.751834
      },
-     "radiusMi": 0.5,
+     "radiusMi": 6.0,
      "points": [
       [
        -84.896528,
        33.461186
       ],
       [
-       -84.896528,
-       33.461186
+       -84.60714,
+       33.394855
+      ],
+      [
+       -84.751834,
+       33.428021
       ]
      ],
      "source": {
@@ -9268,18 +9323,22 @@
      "utility": "GTC",
      "isd": "2030-06-01",
      "center": {
-      "lat": 33.461186,
-      "lon": -84.896528
+      "lat": 33.428021,
+      "lon": -84.751834
      },
-     "radiusMi": 0.5,
+     "radiusMi": 6.0,
      "points": [
       [
        -84.896528,
        33.461186
       ],
       [
-       -84.896528,
-       33.461186
+       -84.60714,
+       33.394855
+      ],
+      [
+       -84.751834,
+       33.428021
       ]
      ],
      "source": {
@@ -9338,22 +9397,18 @@
      "utility": "GPC",
      "isd": "2030-06-01",
      "center": {
-      "lat": 33.279159,
-      "lon": -84.854966
+      "lat": 33.641225,
+      "lon": -84.584722
      },
-     "radiusMi": 6.0,
+     "radiusMi": 16.0,
      "points": [
-      [
-       -85.12521,
-       32.917093
-      ],
       [
        -84.584722,
        33.641225
       ],
       [
-       -84.854966,
-       33.279159
+       -84.584722,
+       33.641225
       ]
      ],
      "source": {
@@ -9381,7 +9436,7 @@
       "lat": 33.970013,
       "lon": -83.854395
      },
-     "radiusMi": 0.5,
+     "radiusMi": 5.46,
      "points": [
       [
        -83.95566,
@@ -9724,22 +9779,18 @@
      "utility": "GTC",
      "isd": "2031-06-01",
      "center": {
-      "lat": 32.520683,
-      "lon": -82.930311
+      "lat": 32.502529,
+      "lon": -82.946484
      },
-     "radiusMi": 6.0,
+     "radiusMi": 5.42,
      "points": [
       [
        -82.946484,
        32.502529
       ],
       [
-       -82.914138,
-       32.538836
-      ],
-      [
-       -82.930311,
-       32.520683
+       -82.946484,
+       32.502529
       ]
      ],
      "source": {
@@ -9871,7 +9922,7 @@
       "lat": 31.711355,
       "lon": -83.544926
      },
-     "radiusMi": 6.0,
+     "radiusMi": 10.62,
      "points": [
       [
        -83.54913,
@@ -9908,7 +9959,7 @@
       "lat": 33.262333,
       "lon": -84.875315
      },
-     "radiusMi": 6.0,
+     "radiusMi": 28.95,
      "points": [
       [
        -84.584722,
@@ -9945,7 +9996,7 @@
       "lat": 32.198418,
       "lon": -81.177728
      },
-     "radiusMi": 0.5,
+     "radiusMi": 2.42,
      "points": [
       [
        -81.209472,
@@ -10023,7 +10074,7 @@
      "lineage": "GA:21598:adamsville east point 230kv upgrade and limiting elements replacement",
      "key": "21598",
      "projectId": "TEAMS 21598",
-     "name": "ADAMSVILLE – EAST POINT 230kV UPGRADE AND LIMITING ELEMENTS REPLACEMENT",
+     "name": "ADAMSVILLE \u2013 EAST POINT 230kV UPGRADE AND LIMITING ELEMENTS REPLACEMENT",
      "state": "GA",
      "utility": "GPC",
      "isd": "2032-06-01",
@@ -10068,22 +10119,18 @@
      "utility": "GPC",
      "isd": "2032-06-01",
      "center": {
-      "lat": 33.807686,
-      "lon": -84.43962
+      "lat": 33.825476,
+      "lon": -84.471421
      },
-     "radiusMi": 6.0,
+     "radiusMi": 3.1,
      "points": [
       [
        -84.471421,
        33.825476
       ],
       [
-       -84.407818,
-       33.789896
-      ],
-      [
-       -84.43962,
-       33.807686
+       -84.471421,
+       33.825476
       ]
      ],
      "source": {
@@ -10114,22 +10161,22 @@
      "utility": "GTC",
      "isd": "2032-06-01",
      "center": {
-      "lat": 33.480125,
-      "lon": -84.761906
+      "lat": 33.389887,
+      "lon": -84.717272
      },
-     "radiusMi": 6.0,
+     "radiusMi": 9.88,
      "points": [
       [
-       -84.989986,
-       33.63457
+       -84.900717,
+       33.454092
       ],
       [
        -84.533826,
        33.325681
       ],
       [
-       -84.761906,
-       33.480125
+       -84.717272,
+       33.389887
       ]
      ],
      "source": {
@@ -10151,22 +10198,18 @@
      "utility": "GPC",
      "isd": "2032-06-01",
      "center": {
-      "lat": 34.267177,
-      "lon": -85.241759
+      "lat": 34.257038,
+      "lon": -85.164673
      },
-     "radiusMi": 6.0,
+     "radiusMi": 8.45,
      "points": [
-      [
-       -85.318844,
-       34.277315
-      ],
       [
        -85.164673,
        34.257038
       ],
       [
-       -85.241759,
-       34.267177
+       -85.164673,
+       34.257038
       ]
      ],
      "source": {
@@ -10225,8 +10268,8 @@
      "utility": "GPC",
      "isd": "2034-06-01",
      "center": {
-      "lat": 33.935685,
-      "lon": -84.405786
+      "lat": 33.949303,
+      "lon": -84.425791
      },
      "radiusMi": 6.0,
      "points": [
@@ -10235,12 +10278,12 @@
        33.966567
       ],
       [
-       -84.432597,
-       33.904804
+       -84.472608,
+       33.93204
       ],
       [
-       -84.405786,
-       33.935685
+       -84.425791,
+       33.949303
       ]
      ],
      "source": {
@@ -10302,7 +10345,7 @@
       "lat": 34.290919,
       "lon": -84.456798
      },
-     "radiusMi": 0.5,
+     "radiusMi": 3.92,
      "points": [
       [
        -84.534826,
@@ -10458,7 +10501,7 @@
       "lat": 33.640692,
       "lon": -84.39783
      },
-     "radiusMi": 1.5,
+     "radiusMi": 2.91,
      "points": [
       [
        -84.462197,
@@ -10495,7 +10538,7 @@
       "lat": 34.206115,
       "lon": -84.460295
      },
-     "radiusMi": 0.5,
+     "radiusMi": 3.11,
      "points": [
       [
        -84.385764,
@@ -10612,9 +10655,17 @@
      "state": "GA",
      "utility": "SAV",
      "isd": "2025-04-25",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 32.091581,
+      "lon": -81.331563
+     },
+     "radiusMi": 8.44,
+     "points": [
+      [
+       -81.331563,
+       32.091581
+      ]
+     ],
      "source": {
       "doc": "2024 GA ITS Ten-Year Plan (2025-2034), 2025 IRP Technical Appendix Volume 3, GA PSC docket 56002 #221233",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/221233/102406",
@@ -10633,18 +10684,22 @@
      "utility": "GTC",
      "isd": "2025-05-01",
      "center": {
-      "lat": 34.238222,
-      "lon": -83.722552
+      "lat": 34.247498,
+      "lon": -83.593301
      },
-     "radiusMi": 7.5,
+     "radiusMi": 6.0,
      "points": [
+      [
+       -83.464051,
+       34.256773
+      ],
       [
        -83.722552,
        34.238222
       ],
       [
-       -83.722552,
-       34.238222
+       -83.593301,
+       34.247498
       ]
      ],
      "source": {
@@ -10733,22 +10788,18 @@
      "utility": "GPC",
      "isd": "2025-06-01",
      "center": {
-      "lat": 32.65262,
-      "lon": -83.653515
+      "lat": 32.685144,
+      "lon": -83.700462
      },
-     "radiusMi": 6.0,
+     "radiusMi": 6.6,
      "points": [
       [
        -83.700462,
        32.685144
       ],
       [
-       -83.606568,
-       32.620097
-      ],
-      [
-       -83.653515,
-       32.65262
+       -83.700462,
+       32.685144
       ]
      ],
      "source": {
@@ -10769,18 +10820,22 @@
      "utility": "GPC",
      "isd": "2025-06-01",
      "center": {
-      "lat": 33.70792,
-      "lon": -85.14295
+      "lat": 33.721638,
+      "lon": -84.917661
      },
-     "radiusMi": 7.5,
+     "radiusMi": 6.0,
      "points": [
       [
        -85.14295,
        33.70792
       ],
       [
-       -85.14295,
-       33.70792
+       -84.692372,
+       33.735357
+      ],
+      [
+       -84.917661,
+       33.721638
       ]
      ],
      "source": {
@@ -10856,9 +10911,25 @@
      "state": "GA",
      "utility": "GTC",
      "isd": "2025-06-01",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 33.451961,
+      "lon": -83.141332
+     },
+     "radiusMi": 6.0,
+     "points": [
+      [
+       -83.402519,
+       33.304481
+      ],
+      [
+       -82.880145,
+       33.599441
+      ],
+      [
+       -83.141332,
+       33.451961
+      ]
+     ],
      "source": {
       "doc": "2024 GA ITS Ten-Year Plan (2025-2034), 2025 IRP Technical Appendix Volume 3, GA PSC docket 56002 #221233",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/221233/102406",
@@ -10880,7 +10951,7 @@
       "lat": 31.662351,
       "lon": -81.834325
      },
-     "radiusMi": 0.5,
+     "radiusMi": 2.97,
      "points": [
       [
        -81.924947,
@@ -10913,18 +10984,18 @@
      "utility": "MEAG",
      "isd": "2025-06-01",
      "center": {
-      "lat": 33.619414,
-      "lon": -83.814895
+      "lat": 33.618741,
+      "lon": -83.84083
      },
      "radiusMi": 6.26,
      "points": [
       [
-       -83.814895,
-       33.619414
+       -83.84083,
+       33.618741
       ],
       [
-       -83.814895,
-       33.619414
+       -83.84083,
+       33.618741
       ]
      ],
      "source": {
@@ -11064,9 +11135,17 @@
      "state": "GA",
      "utility": "GPC",
      "isd": "2025-06-01",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 33.741019,
+      "lon": -84.854861
+     },
+     "radiusMi": 5.0,
+     "points": [
+      [
+       -84.854861,
+       33.741019
+      ]
+     ],
      "source": {
       "doc": "2024 GA ITS Ten-Year Plan (2025-2034), 2025 IRP Technical Appendix Volume 3, GA PSC docket 56002 #221233",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/221233/102406",
@@ -11269,22 +11348,18 @@
      "utility": "GTC",
      "isd": "2026-06-01",
      "center": {
-      "lat": 33.670529,
-      "lon": -83.91574
+      "lat": 33.66761,
+      "lon": -84.01769
      },
-     "radiusMi": 6.0,
+     "radiusMi": 16.0,
      "points": [
       [
        -84.01769,
        33.66761
       ],
       [
-       -83.813791,
-       33.673448
-      ],
-      [
-       -83.91574,
-       33.670529
+       -84.01769,
+       33.66761
       ]
      ],
      "source": {
@@ -11304,9 +11379,17 @@
      "state": "GA",
      "utility": "GPC",
      "isd": "2026-06-30",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 30.839608,
+      "lon": -84.488921
+     },
+     "radiusMi": 5.0,
+     "points": [
+      [
+       -84.488921,
+       30.839608
+      ]
+     ],
      "source": {
       "doc": "2024 GA ITS Ten-Year Plan (2025-2034), 2025 IRP Technical Appendix Volume 3, GA PSC docket 56002 #221233",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/221233/102406",
@@ -11360,9 +11443,21 @@
      "state": "GA",
      "utility": "GPC",
      "isd": "2026-12-31",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 33.740663,
+      "lon": -84.427428
+     },
+     "radiusMi": 7.3,
+     "points": [
+      [
+       -84.427428,
+       33.740663
+      ],
+      [
+       -84.427428,
+       33.740663
+      ]
+     ],
      "source": {
       "doc": "2024 GA ITS Ten-Year Plan (2025-2034), 2025 IRP Technical Appendix Volume 3, GA PSC docket 56002 #221233",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/221233/102406",
@@ -11373,7 +11468,7 @@
     },
     {
      "kind": "removed",
-     "lineage": "GA:20234:doyle lg and e monroe 230kv jacks creek loop in",
+     "lineage": "GA:20234:doyle lg and east monroe 230kv jacks creek loop in",
      "key": "20234",
      "projectId": "TEAMS 20234",
      "name": "DOYLE - LG&E MONROE 230KV - JACKS CREEK LOOP IN",
@@ -11520,21 +11615,9 @@
      "state": "GA",
      "utility": "GTC",
      "isd": "2028-12-01",
-     "center": {
-      "lat": 32.545583,
-      "lon": -82.908126
-     },
-     "radiusMi": 6.0,
-     "points": [
-      [
-       -82.908126,
-       32.545583
-      ],
-      [
-       -82.908126,
-       32.545583
-      ]
-     ],
+     "center": null,
+     "radiusMi": null,
+     "points": [],
      "source": {
       "doc": "2024 GA ITS Ten-Year Plan (2025-2034), 2025 IRP Technical Appendix Volume 3, GA PSC docket 56002 #221233",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/221233/102406",
@@ -11584,21 +11667,9 @@
      "state": "GA",
      "utility": "GPC",
      "isd": "2029-06-01",
-     "center": {
-      "lat": 33.301774,
-      "lon": -83.403962
-     },
-     "radiusMi": 16.0,
-     "points": [
-      [
-       -83.403962,
-       33.301774
-      ],
-      [
-       -83.403962,
-       33.301774
-      ]
-     ],
+     "center": null,
+     "radiusMi": null,
+     "points": [],
      "source": {
       "doc": "2024 GA ITS Ten-Year Plan (2025-2034), 2025 IRP Technical Appendix Volume 3, GA PSC docket 56002 #221233",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/221233/102406",
@@ -11912,9 +11983,21 @@
      "state": "GA",
      "utility": "GPC",
      "isd": "2030-06-01",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 33.712931,
+      "lon": -84.642647
+     },
+     "radiusMi": 8.0,
+     "points": [
+      [
+       -84.642647,
+       33.712931
+      ],
+      [
+       -84.642647,
+       33.712931
+      ]
+     ],
      "source": {
       "doc": "2024 GA ITS Ten-Year Plan (2025-2034), 2025 IRP Technical Appendix Volume 3, GA PSC docket 56002 #221233",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/221233/102406",
@@ -11988,7 +12071,7 @@
       "lat": 33.602061,
       "lon": -82.182289
      },
-     "radiusMi": 0.5,
+     "radiusMi": 1.36,
      "points": [
       [
        -82.168648,
@@ -12128,7 +12211,7 @@
       "lat": 33.498975,
       "lon": -82.291434
      },
-     "radiusMi": 0.5,
+     "radiusMi": 5.09,
      "points": [
       [
        -82.168648,
@@ -12158,7 +12241,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -12202,7 +12285,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -12246,7 +12329,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -12294,7 +12377,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -12307,11 +12390,11 @@
       "name": "SAV: RICE HOPE NEW AUTO TRANSFORMER 230/115kV",
       "isd": "2028-11-01",
       "center": {
-       "lat": 32.209572,
-       "lon": -81.200072
+       "lat": 32.352116,
+       "lon": -81.175112
       }
      },
-     "miles": 13.02,
+     "miles": 8.42,
      "gapDays": 885,
      "points": [
       [
@@ -12323,12 +12406,8 @@
        32.333758
       ],
       [
-       -81.200072,
-       32.209572
-      ],
-      [
-       -81.200072,
-       32.209572
+       -81.175112,
+       32.352116
       ]
      ],
      "oldGapDays": 1097
@@ -12338,7 +12417,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -12351,11 +12430,11 @@
       "name": "SAV: BOULEVARD - MAGNOLIA - TRUMAN PARKWAY 115kV REBUILDS",
       "isd": "2029-06-01",
       "center": {
-       "lat": 32.034765,
-       "lon": -81.100862
+       "lat": 32.029838,
+       "lon": -81.105741
       }
      },
-     "miles": 21.04,
+     "miles": 21.43,
      "gapDays": 1097,
      "points": [
       [
@@ -12375,12 +12454,12 @@
        32.022687
       ],
       [
-       -81.071942,
-       32.040378
+       -81.086577,
+       32.025597
       ],
       [
-       -81.100862,
-       32.034765
+       -81.105741,
+       32.029838
       ]
      ],
      "oldGapDays": 732
@@ -12390,7 +12469,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -12438,7 +12517,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -12486,7 +12565,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -12691,11 +12770,11 @@
       "name": "SAV: RICE HOPE NEW AUTO TRANSFORMER 230/115kV",
       "isd": "2028-11-01",
       "center": {
-       "lat": 32.209572,
-       "lon": -81.200072
+       "lat": 32.352116,
+       "lon": -81.175112
       }
      },
-     "miles": 15.89,
+     "miles": 14.34,
      "gapDays": 1249,
      "points": [
       [
@@ -12711,12 +12790,8 @@
        32.284393
       ],
       [
-       -81.200072,
-       32.209572
-      ],
-      [
-       -81.200072,
-       32.209572
+       -81.175112,
+       32.352116
       ]
      ],
      "oldGapDays": 1461
@@ -12739,11 +12814,11 @@
       "name": "SAV: BOULEVARD - MAGNOLIA - TRUMAN PARKWAY 115kV REBUILDS",
       "isd": "2029-06-01",
       "center": {
-       "lat": 32.034765,
-       "lon": -81.100862
+       "lat": 32.029838,
+       "lon": -81.105741
       }
      },
-     "miles": 19.57,
+     "miles": 20.0,
      "gapDays": 1461,
      "points": [
       [
@@ -12767,12 +12842,12 @@
        32.022687
       ],
       [
-       -81.071942,
-       32.040378
+       -81.086577,
+       32.025597
       ],
       [
-       -81.100862,
-       32.034765
+       -81.105741,
+       32.029838
       ]
      ],
      "oldGapDays": 1096
@@ -12978,7 +13053,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -13026,7 +13101,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -13074,7 +13149,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -13126,7 +13201,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -13139,11 +13214,11 @@
       "name": "SAV: RICE HOPE NEW AUTO TRANSFORMER 230/115kV",
       "isd": "2028-11-01",
       "center": {
-       "lat": 32.209572,
-       "lon": -81.200072
+       "lat": 32.352116,
+       "lon": -81.175112
       }
      },
-     "miles": 11.82,
+     "miles": 5.65,
      "gapDays": 885,
      "points": [
       [
@@ -13159,12 +13234,8 @@
        32.346439
       ],
       [
-       -81.200072,
-       32.209572
-      ],
-      [
-       -81.200072,
-       32.209572
+       -81.175112,
+       32.352116
       ]
      ],
      "oldGapDays": 1097
@@ -13174,7 +13245,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -13187,11 +13258,11 @@
       "name": "SAV: BOULEVARD - MAGNOLIA - TRUMAN PARKWAY 115kV REBUILDS",
       "isd": "2029-06-01",
       "center": {
-       "lat": 32.034765,
-       "lon": -81.100862
+       "lat": 32.029838,
+       "lon": -81.105741
       }
      },
-     "miles": 21.57,
+     "miles": 21.93,
      "gapDays": 1097,
      "points": [
       [
@@ -13215,12 +13286,12 @@
        32.022687
       ],
       [
-       -81.071942,
-       32.040378
+       -81.086577,
+       32.025597
       ],
       [
-       -81.100862,
-       32.034765
+       -81.105741,
+       32.029838
       ]
      ],
      "oldGapDays": 732
@@ -13230,7 +13301,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -13282,7 +13353,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -13334,7 +13405,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -13382,7 +13453,7 @@
      "desc": {
       "key": "6852",
       "projectId": "6852",
-      "name": "Urquhart – Toolebeck 115kV line: Rebuild",
+      "name": "Urquhart \u2013 Toolebeck 115kV line: Rebuild",
       "isd": "2026-08-12",
       "center": {
        "lat": 33.484005,
@@ -13434,7 +13505,7 @@
      "desc": {
       "key": "6810O",
       "projectId": "6810 O",
-      "name": "Urquhart – Aiken PSA 46 kV: Rebuild",
+      "name": "Urquhart \u2013 Aiken PSA 46 kV: Rebuild",
       "isd": "2027-12-31",
       "center": {
        "lat": 33.497497,
@@ -13486,7 +13557,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -13534,7 +13605,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -13582,7 +13653,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -13634,7 +13705,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -13647,11 +13718,11 @@
       "name": "SAV: RICE HOPE NEW AUTO TRANSFORMER 230/115kV",
       "isd": "2028-11-01",
       "center": {
-       "lat": 32.209572,
-       "lon": -81.200072
+       "lat": 32.352116,
+       "lon": -81.175112
       }
      },
-     "miles": 10.8,
+     "miles": 4.21,
      "gapDays": 60,
      "points": [
       [
@@ -13667,12 +13738,8 @@
        32.342937
       ],
       [
-       -81.200072,
-       32.209572
-      ],
-      [
-       -81.200072,
-       32.209572
+       -81.175112,
+       32.352116
       ]
      ],
      "oldGapDays": 152
@@ -13682,7 +13749,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -13695,11 +13762,11 @@
       "name": "SAV: BOULEVARD - MAGNOLIA - TRUMAN PARKWAY 115kV REBUILDS",
       "isd": "2029-06-01",
       "center": {
-       "lat": 32.034765,
-       "lon": -81.100862
+       "lat": 32.029838,
+       "lon": -81.105741
       }
      },
-     "miles": 21.29,
+     "miles": 21.63,
      "gapDays": 152,
      "points": [
       [
@@ -13723,12 +13790,12 @@
        32.022687
       ],
       [
-       -81.071942,
-       32.040378
+       -81.086577,
+       32.025597
       ],
       [
-       -81.100862,
-       32.034765
+       -81.105741,
+       32.029838
       ]
      ],
      "oldGapDays": 213
@@ -13738,7 +13805,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -13790,7 +13857,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -13838,7 +13905,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -13890,7 +13957,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -13938,7 +14005,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -13982,7 +14049,47 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "isd": "2026-05-31",
+      "center": {
+       "lat": 32.333758,
+       "lon": -81.032495
+      }
+     },
+     "ga": {
+      "key": "19523",
+      "projectId": "TEAMS 19523",
+      "name": "SAV: CC - HYUNDAI MOTORS SAVANNAH AKA. PROJECT EA",
+      "isd": "2025-04-25",
+      "center": {
+       "lat": 32.091581,
+       "lon": -81.331563
+      }
+     },
+     "miles": 24.2,
+     "gapDays": 401,
+     "points": [
+      [
+       -81.032495,
+       32.333758
+      ],
+      [
+       -81.032495,
+       32.333758
+      ],
+      [
+       -81.331563,
+       32.091581
+      ]
+     ],
+     "reason": "TEAMS 19523 was dropped"
+    },
+    {
+     "kind": "gone",
+     "desc": {
+      "key": "0139M,N",
+      "projectId": "0139 M,N",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -14030,7 +14137,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -14418,7 +14525,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -14466,7 +14573,51 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "isd": "2026-05-31",
+      "center": {
+       "lat": 32.346439,
+       "lon": -81.078547
+      }
+     },
+     "ga": {
+      "key": "19523",
+      "projectId": "TEAMS 19523",
+      "name": "SAV: CC - HYUNDAI MOTORS SAVANNAH AKA. PROJECT EA",
+      "isd": "2025-04-25",
+      "center": {
+       "lat": 32.091581,
+       "lon": -81.331563
+      }
+     },
+     "miles": 23.0,
+     "gapDays": 401,
+     "points": [
+      [
+       -81.1246,
+       32.35912
+      ],
+      [
+       -81.032495,
+       32.333758
+      ],
+      [
+       -81.078547,
+       32.346439
+      ],
+      [
+       -81.331563,
+       32.091581
+      ]
+     ],
+     "reason": "TEAMS 19523 was dropped"
+    },
+    {
+     "kind": "gone",
+     "desc": {
+      "key": "06367D-G",
+      "projectId": "06367 D - G",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -14518,7 +14669,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -14570,7 +14721,7 @@
      "desc": {
       "key": "6852",
       "projectId": "6852",
-      "name": "Urquhart – Toolebeck 115kV line: Rebuild",
+      "name": "Urquhart \u2013 Toolebeck 115kV line: Rebuild",
       "isd": "2026-08-12",
       "center": {
        "lat": 33.484005,
@@ -14622,7 +14773,7 @@
      "desc": {
       "key": "6852",
       "projectId": "6852",
-      "name": "Urquhart – Toolebeck 115kV line: Rebuild",
+      "name": "Urquhart \u2013 Toolebeck 115kV line: Rebuild",
       "isd": "2026-08-12",
       "center": {
        "lat": 33.484005,
@@ -14674,7 +14825,7 @@
      "desc": {
       "key": "6810O",
       "projectId": "6810 O",
-      "name": "Urquhart – Aiken PSA 46 kV: Rebuild",
+      "name": "Urquhart \u2013 Aiken PSA 46 kV: Rebuild",
       "isd": "2027-12-31",
       "center": {
        "lat": 33.497497,
@@ -14726,7 +14877,7 @@
      "desc": {
       "key": "6810O",
       "projectId": "6810 O",
-      "name": "Urquhart – Aiken PSA 46 kV: Rebuild",
+      "name": "Urquhart \u2013 Aiken PSA 46 kV: Rebuild",
       "isd": "2027-12-31",
       "center": {
        "lat": 33.497497,
@@ -14778,7 +14929,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -14826,7 +14977,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -14874,7 +15025,51 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
+      "isd": "2028-12-31",
+      "center": {
+       "lat": 32.342937,
+       "lon": -81.103803
+      }
+     },
+     "ga": {
+      "key": "19523",
+      "projectId": "TEAMS 19523",
+      "name": "SAV: CC - HYUNDAI MOTORS SAVANNAH AKA. PROJECT EA",
+      "isd": "2025-04-25",
+      "center": {
+       "lat": 32.091581,
+       "lon": -81.331563
+      }
+     },
+     "miles": 21.88,
+     "gapDays": 1346,
+     "points": [
+      [
+       -81.032495,
+       32.333758
+      ],
+      [
+       -81.175112,
+       32.352116
+      ],
+      [
+       -81.103803,
+       32.342937
+      ],
+      [
+       -81.331563,
+       32.091581
+      ]
+     ],
+     "reason": "TEAMS 19523 was dropped"
+    },
+    {
+     "kind": "gone",
+     "desc": {
+      "key": "6888",
+      "projectId": "6888",
+      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -14926,7 +15121,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -14995,9 +15190,9 @@
     "rescheduled": 21,
     "renamed": 1,
     "recosted": 27,
-    "pairsNew": 14,
+    "pairsNew": 15,
     "pairsGone": 11,
-    "pairsTiming": 29
+    "pairsTiming": 31
    },
    "projects": [
     {
@@ -15009,7 +15204,7 @@
      "lineage": "SC:0139M,N:okatie 115kv jasper yemassee 230kv fold in",
      "key": "0139M,N",
      "projectId": "0139 M,N",
-     "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+     "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
      "state": "SC",
      "utility": "DESC",
      "isd": "2026-05-31",
@@ -15034,7 +15229,7 @@
       "page": 2,
       "item": "Project 2 of 47"
      },
-     "oldName": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+     "oldName": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
      "oldIsd": "2024-12-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2024-2028",
@@ -15056,7 +15251,7 @@
      "lineage": "SC:6341A-F:cainhoy hamlin 115kv rebuild line and cainhoy hamlin construct new line",
      "key": "6341A-F",
      "projectId": "6341 A-F",
-     "name": "Cainhoy - Hamlin 115kV: Rebuild Line and Cainhoy – Hamlin 115 kV #2: Construct New 115 kV Line",
+     "name": "Cainhoy - Hamlin 115kV: Rebuild Line and Cainhoy \u2013 Hamlin 115 kV #2: Construct New 115 kV Line",
      "state": "SC",
      "utility": "DESC",
      "isd": "2026-12-02",
@@ -15085,7 +15280,7 @@
       "page": 3,
       "item": "Project 3 of 47"
      },
-     "oldName": "Cainhoy - Hamlin 115kV: Rebuild Line and Cainhoy – Hamlin 115 kV #2: Construct New 115 kV Line",
+     "oldName": "Cainhoy - Hamlin 115kV: Rebuild Line and Cainhoy \u2013 Hamlin 115 kV #2: Construct New 115 kV Line",
      "oldIsd": "2025-12-01",
      "oldSource": {
       "doc": "DESC $2M+ list 2024-2028",
@@ -15112,22 +15307,18 @@
      "utility": "DESC",
      "isd": "2025-04-30",
      "center": {
-      "lat": 32.435663,
-      "lon": -80.697842
+      "lat": 32.436488,
+      "lon": -80.721016
      },
-     "radiusMi": 6.0,
+     "radiusMi": 10.5,
      "points": [
       [
        -80.721016,
        32.436488
       ],
       [
-       -80.674667,
-       32.434838
-      ],
-      [
-       -80.697842,
-       32.435663
+       -80.721016,
+       32.436488
       ]
      ],
      "source": {
@@ -15162,22 +15353,18 @@
      "utility": "DESC",
      "isd": "2027-12-31",
      "center": {
-      "lat": 32.435663,
-      "lon": -80.697842
+      "lat": 32.436488,
+      "lon": -80.721016
      },
-     "radiusMi": 6.0,
+     "radiusMi": 10.5,
      "points": [
       [
        -80.721016,
        32.436488
       ],
       [
-       -80.674667,
-       32.434838
-      ],
-      [
-       -80.697842,
-       32.435663
+       -80.721016,
+       32.436488
       ]
      ],
      "source": {
@@ -15407,9 +15594,21 @@
      "state": "SC",
      "utility": "DESC",
      "isd": "2025-06-30",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 33.953765,
+      "lon": -81.059815
+     },
+     "radiusMi": 6.0,
+     "points": [
+      [
+       -81.059815,
+       33.953765
+      ],
+      [
+       -81.059815,
+       33.953765
+      ]
+     ],
      "source": {
       "doc": "DESC $2M+ list 2025-2029",
       "url": "https://www.scrtp.com/assets/pdfs/home/2025-2029-2million-and-above-project-descriptions.pdf",
@@ -15441,22 +15640,22 @@
      "utility": "DESC",
      "isd": "2028-12-31",
      "center": {
-      "lat": 34.028508,
-      "lon": -81.132586
+      "lat": 34.031107,
+      "lon": -81.134536
      },
      "radiusMi": 6.0,
      "points": [
       [
-       -81.048309,
-       34.001121
+       -81.05221,
+       34.006319
       ],
       [
        -81.216862,
        34.055895
       ],
       [
-       -81.132586,
-       34.028508
+       -81.134536,
+       34.031107
       ]
      ],
      "source": {
@@ -15538,7 +15737,7 @@
      "lineage": "SC:6359:yemassee ritter 230kv and construct spdc with b",
      "key": "6359",
      "projectId": "6359",
-     "name": "Yemassee– Ritter 230kV #1 & #2: Construct SPDC with B-1272",
+     "name": "Yemassee\u2013 Ritter 230kV #1 & #2: Construct SPDC with B-1272",
      "state": "SC",
      "utility": "DESC",
      "isd": "2027-06-01",
@@ -15567,7 +15766,7 @@
       "page": 16,
       "item": "Project 16 of 47"
      },
-     "oldName": "Yemassee– Ritter 230kV #1 & #2: Construct SPDC with B-1272",
+     "oldName": "Yemassee\u2013 Ritter 230kV #1 & #2: Construct SPDC with B-1272",
      "oldIsd": "2026-06-01",
      "oldSource": {
       "doc": "DESC $2M+ list 2024-2028",
@@ -15593,9 +15792,21 @@
      "state": "SC",
      "utility": "DESC",
      "isd": "2026-05-31",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 34.197326,
+      "lon": -82.187598
+     },
+     "radiusMi": 6.0,
+     "points": [
+      [
+       -82.187598,
+       34.197326
+      ],
+      [
+       -82.187598,
+       34.197326
+      ]
+     ],
      "source": {
       "doc": "DESC $2M+ list 2025-2029",
       "url": "https://www.scrtp.com/assets/pdfs/home/2025-2029-2million-and-above-project-descriptions.pdf",
@@ -15623,7 +15834,7 @@
      "lineage": "SC:06367D-G:jasper okatie construct",
      "key": "06367D-G",
      "projectId": "06367 D - G",
-     "name": "Jasper – Okatie 230 kV #2: Construct",
+     "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
      "state": "SC",
      "utility": "DESC",
      "isd": "2026-05-31",
@@ -15652,7 +15863,7 @@
       "page": 18,
       "item": "Project 18 of 47"
      },
-     "oldName": "Jasper – Okatie 230 kV #2: Construct",
+     "oldName": "Jasper \u2013 Okatie 230 kV #2: Construct",
      "oldIsd": "2025-12-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2024-2028",
@@ -15823,9 +16034,17 @@
      "state": "SC",
      "utility": "DESC",
      "isd": "2025-10-31",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 32.933889,
+      "lon": -79.973396
+     },
+     "radiusMi": 7.27,
+     "points": [
+      [
+       -79.973396,
+       32.933889
+      ]
+     ],
      "source": {
       "doc": "DESC $2M+ list 2025-2029",
       "url": "https://www.scrtp.com/assets/pdfs/home/2025-2029-2million-and-above-project-descriptions.pdf",
@@ -15936,8 +16155,7 @@
      },
      "days": 730,
      "cost": 5000000,
-     "oldCost": 4000000,
-     "appId": "DESC-6809M-19"
+     "oldCost": 4000000
     },
     {
      "kind": "changed",
@@ -15948,27 +16166,23 @@
      "lineage": "SC:5392A-C:coit gills creek 115kv construct",
      "key": "5392A-C",
      "projectId": "5392 A-C",
-     "name": "Coit – Gills Creek 115kV: Construct",
+     "name": "Coit \u2013 Gills Creek 115kV: Construct",
      "state": "SC",
      "utility": "DESC",
      "isd": "2025-12-31",
      "center": {
-      "lat": 34.068605,
-      "lon": -80.378725
+      "lat": 33.916284,
+      "lon": -80.990121
      },
-     "radiusMi": 6.0,
+     "radiusMi": 6.62,
      "points": [
       [
-       -79.769808,
-       34.188495
+       -80.990121,
+       33.916284
       ],
       [
-       -80.987642,
-       33.948715
-      ],
-      [
-       -80.378725,
-       34.068605
+       -80.990121,
+       33.916284
       ]
      ],
      "source": {
@@ -15977,7 +16191,7 @@
       "page": 25,
       "item": "Project 25 of 47"
      },
-     "oldName": "Coit – Gills Creek 115kV: Construct",
+     "oldName": "Coit \u2013 Gills Creek 115kV: Construct",
      "oldIsd": "2024-12-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2024-2028",
@@ -16003,8 +16217,8 @@
      "utility": "DESC",
      "isd": "2026-03-31",
      "center": {
-      "lat": 34.226798,
-      "lon": -81.138896
+      "lat": 34.217259,
+      "lon": -81.124223
      },
      "radiusMi": 6.0,
      "points": [
@@ -16013,12 +16227,12 @@
        34.2986
       ],
       [
-       -80.957492,
-       34.154995
+       -80.928147,
+       34.135918
       ],
       [
-       -81.138896,
-       34.226798
+       -81.124223,
+       34.217259
       ]
      ],
      "source": {
@@ -16053,18 +16267,14 @@
      "utility": "DESC",
      "isd": "2026-10-01",
      "center": {
-      "lat": 33.49865,
-      "lon": -80.844723
+      "lat": 32.914832,
+      "lon": -80.235168
      },
-     "radiusMi": 6.0,
+     "radiusMi": 25.6,
      "points": [
       [
-       -80.844723,
-       33.49865
-      ],
-      [
-       -80.844723,
-       33.49865
+       -80.235168,
+       32.914832
       ]
      ],
      "source": {
@@ -16234,7 +16444,7 @@
      "lineage": "SC:6847:church creek faber place charleston transmission add 230kv line",
      "key": "6847",
      "projectId": "6847",
-     "name": "Church Creek – Faber Place – Charleston Transmission: Add 230kV Line",
+     "name": "Church Creek \u2013 Faber Place \u2013 Charleston Transmission: Add 230kV Line",
      "state": "SC",
      "utility": "DESC",
      "isd": "2027-05-01",
@@ -16274,7 +16484,7 @@
      "lineage": "SC:6810U:cameron elloree rebuild",
      "key": "6810U",
      "projectId": "6810 U",
-     "name": "Cameron Jct – Elloree 46 kV Rebuild",
+     "name": "Cameron Jct \u2013 Elloree 46 kV Rebuild",
      "state": "SC",
      "utility": "DESC",
      "isd": "2027-12-31",
@@ -16303,7 +16513,7 @@
       "page": 35,
       "item": "Project 35 of 47"
      },
-     "oldName": "Cameron Jct – Elloree 46 kV Rebuild",
+     "oldName": "Cameron Jct \u2013 Elloree 46 kV Rebuild",
      "oldIsd": "2026-12-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2024-2028",
@@ -16324,7 +16534,7 @@
      "lineage": "SC:6810J:elloree santee city rebuild",
      "key": "6810J",
      "projectId": "6810 J",
-     "name": "Elloree – Santee City 46 kV: Rebuild",
+     "name": "Elloree \u2013 Santee City 46 kV: Rebuild",
      "state": "SC",
      "utility": "DESC",
      "isd": "2027-12-31",
@@ -16349,7 +16559,7 @@
       "page": 36,
       "item": "Project 36 of 47"
      },
-     "oldName": "Elloree – Santee City 46 kV: Rebuild",
+     "oldName": "Elloree \u2013 Santee City 46 kV: Rebuild",
      "oldIsd": "2027-12-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2024-2028",
@@ -16370,7 +16580,7 @@
      "lineage": "SC:6810T:cameron cameron saint matthews rebuild",
      "key": "6810T",
      "projectId": "6810 T",
-     "name": "Cameron Jct – Cameron – St Matthews 46 kV Rebuild",
+     "name": "Cameron Jct \u2013 Cameron \u2013 St Matthews 46 kV Rebuild",
      "state": "SC",
      "utility": "DESC",
      "isd": "2028-12-31",
@@ -16399,7 +16609,7 @@
       "page": 38,
       "item": "Project 38 of 47"
      },
-     "oldName": "Cameron Jct – Cameron – St Matthews 46 kV Rebuild",
+     "oldName": "Cameron Jct \u2013 Cameron \u2013 St Matthews 46 kV Rebuild",
      "oldIsd": "2028-12-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2024-2028",
@@ -16417,23 +16627,27 @@
      "lineage": "SC:6870A:saluda hydro bush river 115kv and tie lines rebuild",
      "key": "6870A",
      "projectId": "6870 A",
-     "name": "Saluda Hydro – Bush River 115kV #1 and #2 Tie Lines Rebuild",
+     "name": "Saluda Hydro \u2013 Bush River 115kV #1 and #2 Tie Lines Rebuild",
      "state": "SC",
      "utility": "DESC",
      "isd": "2026-12-31",
      "center": {
-      "lat": 34.321801,
-      "lon": -81.760665
+      "lat": 34.187618,
+      "lon": -81.48875
      },
-     "radiusMi": 16.0,
+     "radiusMi": 6.0,
      "points": [
+      [
+       -81.216834,
+       34.053434
+      ],
       [
        -81.760665,
        34.321801
       ],
       [
-       -81.760665,
-       34.321801
+       -81.48875,
+       34.187618
       ]
      ],
      "source": {
@@ -16521,7 +16735,7 @@
      "lineage": "SC:6888:okatie mcintosh 115kv tie add series reactor",
      "key": "6888",
      "projectId": "6888",
-     "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
+     "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
      "state": "SC",
      "utility": "DESC",
      "isd": "2028-12-31",
@@ -16557,27 +16771,23 @@
      "lineage": "SC:6877A:church creek dawson rebuild from long savannah to dawson",
      "key": "6877A",
      "projectId": "6877 A",
-     "name": "Church Creek – Dawson 230 kV: Rebuild from Long Savannah to Dawson",
+     "name": "Church Creek \u2013 Dawson 230 kV: Rebuild from Long Savannah to Dawson",
      "state": "SC",
      "utility": "DESC",
      "isd": "2028-12-31",
      "center": {
-      "lat": 33.028577,
-      "lon": -79.862814
+      "lat": 32.83032,
+      "lon": -80.070279
      },
-     "radiusMi": 6.0,
+     "radiusMi": 7.3,
      "points": [
       [
        -80.070279,
        32.83032
       ],
       [
-       -79.655349,
-       33.226834
-      ],
-      [
-       -79.862814,
-       33.028577
+       -80.070279,
+       32.83032
       ]
      ],
      "source": {
@@ -16633,9 +16843,17 @@
      "state": "SC",
      "utility": "DESC",
      "isd": "2028-01-31",
-     "center": null,
-     "radiusMi": null,
-     "points": [],
+     "center": {
+      "lat": 34.264093,
+      "lon": -81.330874
+     },
+     "radiusMi": 5.0,
+     "points": [
+      [
+       -81.330874,
+       34.264093
+      ]
+     ],
      "source": {
       "doc": "DESC $2M+ list 2025-2029",
       "url": "https://www.scrtp.com/assets/pdfs/home/2025-2029-2million-and-above-project-descriptions.pdf",
@@ -16654,18 +16872,14 @@
      "utility": "DESC",
      "isd": "2027-12-31",
      "center": {
-      "lat": 34.145994,
-      "lon": -79.464776
+      "lat": 33.941766,
+      "lon": -81.085496
      },
-     "radiusMi": 6.0,
+     "radiusMi": 5.0,
      "points": [
       [
-       -79.464776,
-       34.145994
-      ],
-      [
-       -79.464776,
-       34.145994
+       -81.085496,
+       33.941766
       ]
      ],
      "source": {
@@ -16686,18 +16900,14 @@
      "utility": "DESC",
      "isd": "2028-12-31",
      "center": {
-      "lat": 33.058217,
-      "lon": -79.813063
+      "lat": 32.83032,
+      "lon": -80.070279
      },
-     "radiusMi": 6.0,
+     "radiusMi": 5.0,
      "points": [
       [
-       -79.813063,
-       33.058217
-      ],
-      [
-       -79.813063,
-       33.058217
+       -80.070279,
+       32.83032
       ]
      ],
      "source": {
@@ -16950,15 +17160,15 @@
      "lineage": "SC:6847A-B,D-H:church creek faber place charleston transmission add 230kv line",
      "key": "6847A-B,D-H",
      "projectId": "6847 A-B, D-H",
-     "name": "Church Creek – Faber Place – Charleston Transmission: Add 230kV Line",
+     "name": "Church Creek \u2013 Faber Place \u2013 Charleston Transmission: Add 230kV Line",
      "state": "SC",
      "utility": "DESC",
      "isd": "2027-05-01",
      "center": {
-      "lat": 32.8402,
-      "lon": -80.042451
+      "lat": 32.822945,
+      "lon": -80.008278
      },
-     "radiusMi": 10.5,
+     "radiusMi": 6.0,
      "points": [
       [
        -80.070279,
@@ -16969,8 +17179,12 @@
        32.85008
       ],
       [
-       -80.042451,
-       32.8402
+       -79.939931,
+       32.788436
+      ],
+      [
+       -80.008278,
+       32.822945
       ]
      ],
      "source": {
@@ -16988,7 +17202,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -17032,7 +17246,47 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "isd": "2026-05-31",
+      "center": {
+       "lat": 32.333758,
+       "lon": -81.032495
+      }
+     },
+     "ga": {
+      "key": "19523",
+      "projectId": "TEAMS 19523",
+      "name": "SAV: CC - HYUNDAI MOTORS SAVANNAH AKA. PROJECT EA",
+      "isd": "2025-04-25",
+      "center": {
+       "lat": 32.091581,
+       "lon": -81.331563
+      }
+     },
+     "miles": 24.2,
+     "gapDays": 401,
+     "points": [
+      [
+       -81.032495,
+       32.333758
+      ],
+      [
+       -81.032495,
+       32.333758
+      ],
+      [
+       -81.331563,
+       32.091581
+      ]
+     ],
+     "oldGapDays": 115
+    },
+    {
+     "kind": "timing",
+     "desc": {
+      "key": "0139M,N",
+      "projectId": "0139 M,N",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -17080,7 +17334,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -17128,7 +17382,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -17176,7 +17430,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -17224,7 +17478,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -17272,7 +17526,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -17285,11 +17539,11 @@
       "name": "SAV: MAGNOLIA - TRUMAN PARKWAY 115KV REBUILD",
       "isd": "2028-06-01",
       "center": {
-       "lat": 32.034765,
-       "lon": -81.100862
+       "lat": 32.029838,
+       "lon": -81.105741
       }
      },
-     "miles": 21.04,
+     "miles": 21.43,
      "gapDays": 732,
      "points": [
       [
@@ -17309,12 +17563,12 @@
        32.022687
       ],
       [
-       -81.071942,
-       32.040378
+       -81.086577,
+       32.025597
       ],
       [
-       -81.100862,
-       32.034765
+       -81.105741,
+       32.029838
       ]
      ],
      "oldGapDays": 1248
@@ -17324,7 +17578,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -17372,7 +17626,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -17420,7 +17674,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -17433,11 +17687,11 @@
       "name": "SAV: RICE HOPE NEW AUTO TRANSFORMER",
       "isd": "2029-06-01",
       "center": {
-       "lat": 32.209572,
-       "lon": -81.200072
+       "lat": 32.352116,
+       "lon": -81.175112
       }
      },
-     "miles": 13.02,
+     "miles": 8.42,
      "gapDays": 1097,
      "points": [
       [
@@ -17449,12 +17703,8 @@
        32.333758
       ],
       [
-       -81.200072,
-       32.209572
-      ],
-      [
-       -81.200072,
-       32.209572
+       -81.175112,
+       32.352116
       ]
      ],
      "oldGapDays": 1613
@@ -17464,7 +17714,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -17512,7 +17762,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -17569,11 +17819,11 @@
       "name": "FENWICK STREET - SAND BAR FERRY 115KV (RECONDUCTOR/REBUILD)",
       "isd": "2026-06-01",
       "center": {
-       "lat": 33.465934,
-       "lon": -81.952356
+       "lat": 33.478196,
+       "lon": -81.995678
       }
      },
-     "miles": 23.55,
+     "miles": 21.41,
      "gapDays": 578,
      "points": [
       [
@@ -17585,16 +17835,12 @@
        33.736288
       ],
       [
-       -81.961412,
-       33.466932
+       -81.995678,
+       33.478196
       ],
       [
-       -81.9433,
-       33.464936
-      ],
-      [
-       -81.952356,
-       33.465934
+       -81.995678,
+       33.478196
       ]
      ],
      "oldGapDays": 152
@@ -17792,7 +18038,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -17840,7 +18086,51 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "isd": "2026-05-31",
+      "center": {
+       "lat": 32.346439,
+       "lon": -81.078547
+      }
+     },
+     "ga": {
+      "key": "19523",
+      "projectId": "TEAMS 19523",
+      "name": "SAV: CC - HYUNDAI MOTORS SAVANNAH AKA. PROJECT EA",
+      "isd": "2025-04-25",
+      "center": {
+       "lat": 32.091581,
+       "lon": -81.331563
+      }
+     },
+     "miles": 23.0,
+     "gapDays": 401,
+     "points": [
+      [
+       -81.1246,
+       32.35912
+      ],
+      [
+       -81.032495,
+       32.333758
+      ],
+      [
+       -81.078547,
+       32.346439
+      ],
+      [
+       -81.331563,
+       32.091581
+      ]
+     ],
+     "oldGapDays": 250
+    },
+    {
+     "kind": "timing",
+     "desc": {
+      "key": "06367D-G",
+      "projectId": "06367 D - G",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -17892,7 +18182,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -17944,7 +18234,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -17996,7 +18286,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -18048,7 +18338,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -18100,7 +18390,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -18113,11 +18403,11 @@
       "name": "SAV: MAGNOLIA - TRUMAN PARKWAY 115KV REBUILD",
       "isd": "2028-06-01",
       "center": {
-       "lat": 32.034765,
-       "lon": -81.100862
+       "lat": 32.029838,
+       "lon": -81.105741
       }
      },
-     "miles": 21.57,
+     "miles": 21.93,
      "gapDays": 732,
      "points": [
       [
@@ -18141,12 +18431,12 @@
        32.022687
       ],
       [
-       -81.071942,
-       32.040378
+       -81.086577,
+       32.025597
       ],
       [
-       -81.100862,
-       32.034765
+       -81.105741,
+       32.029838
       ]
      ],
      "oldGapDays": 883
@@ -18156,7 +18446,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -18208,7 +18498,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -18260,7 +18550,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -18273,11 +18563,11 @@
       "name": "SAV: RICE HOPE NEW AUTO TRANSFORMER",
       "isd": "2029-06-01",
       "center": {
-       "lat": 32.209572,
-       "lon": -81.200072
+       "lat": 32.352116,
+       "lon": -81.175112
       }
      },
-     "miles": 11.82,
+     "miles": 5.65,
      "gapDays": 1097,
      "points": [
       [
@@ -18293,12 +18583,8 @@
        32.346439
       ],
       [
-       -81.200072,
-       32.209572
-      ],
-      [
-       -81.200072,
-       32.209572
+       -81.175112,
+       32.352116
       ]
      ],
      "oldGapDays": 1248
@@ -18308,7 +18594,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -18360,7 +18646,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper – Okatie 230 kV #2: Construct",
+      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -18408,7 +18694,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -18456,7 +18742,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -18504,7 +18790,51 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
+      "isd": "2028-12-31",
+      "center": {
+       "lat": 32.342937,
+       "lon": -81.103803
+      }
+     },
+     "ga": {
+      "key": "19523",
+      "projectId": "TEAMS 19523",
+      "name": "SAV: CC - HYUNDAI MOTORS SAVANNAH AKA. PROJECT EA",
+      "isd": "2025-04-25",
+      "center": {
+       "lat": 32.091581,
+       "lon": -81.331563
+      }
+     },
+     "miles": 21.88,
+     "gapDays": 1346,
+     "points": [
+      [
+       -81.032495,
+       32.333758
+      ],
+      [
+       -81.175112,
+       32.352116
+      ],
+      [
+       -81.103803,
+       32.342937
+      ],
+      [
+       -81.331563,
+       32.091581
+      ]
+     ],
+     "reason": "6888 is new"
+    },
+    {
+     "kind": "new",
+     "desc": {
+      "key": "6888",
+      "projectId": "6888",
+      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -18556,7 +18886,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -18608,7 +18938,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -18660,7 +18990,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -18712,7 +19042,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -18764,7 +19094,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -18777,11 +19107,11 @@
       "name": "SAV: MAGNOLIA - TRUMAN PARKWAY 115KV REBUILD",
       "isd": "2028-06-01",
       "center": {
-       "lat": 32.034765,
-       "lon": -81.100862
+       "lat": 32.029838,
+       "lon": -81.105741
       }
      },
-     "miles": 21.29,
+     "miles": 21.63,
      "gapDays": 213,
      "points": [
       [
@@ -18805,12 +19135,12 @@
        32.022687
       ],
       [
-       -81.071942,
-       32.040378
+       -81.086577,
+       32.025597
       ],
       [
-       -81.100862,
-       32.034765
+       -81.105741,
+       32.029838
       ]
      ],
      "reason": "6888 is new"
@@ -18820,7 +19150,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -18872,7 +19202,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -18924,7 +19254,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -18937,11 +19267,11 @@
       "name": "SAV: RICE HOPE NEW AUTO TRANSFORMER",
       "isd": "2029-06-01",
       "center": {
-       "lat": 32.209572,
-       "lon": -81.200072
+       "lat": 32.352116,
+       "lon": -81.175112
       }
      },
-     "miles": 10.8,
+     "miles": 4.21,
      "gapDays": 152,
      "points": [
       [
@@ -18957,12 +19287,8 @@
        32.342937
       ],
       [
-       -81.200072,
-       32.209572
-      ],
-      [
-       -81.200072,
-       32.209572
+       -81.175112,
+       32.352116
       ]
      ],
      "reason": "6888 is new"
@@ -18972,7 +19298,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -19024,7 +19350,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -19072,7 +19398,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -19133,11 +19459,11 @@
       "name": "FENWICK STREET - SAND BAR FERRY 115KV (RECONDUCTOR/REBUILD)",
       "isd": "2026-06-01",
       "center": {
-       "lat": 33.465934,
-       "lon": -81.952356
+       "lat": 33.478196,
+       "lon": -81.995678
       }
      },
-     "miles": 8.78,
+     "miles": 6.66,
      "gapDays": 517,
      "points": [
       [
@@ -19149,16 +19475,12 @@
        33.562599
       ],
       [
-       -81.961412,
-       33.466932
+       -81.995678,
+       33.478196
       ],
       [
-       -81.9433,
-       33.464936
-      ],
-      [
-       -81.952356,
-       33.465934
+       -81.995678,
+       33.478196
       ]
      ],
      "reason": "6809 E was dropped"
@@ -19413,11 +19735,11 @@
       "name": "FENWICK STREET - SAND BAR FERRY 115KV (RECONDUCTOR/REBUILD)",
       "isd": "2026-06-01",
       "center": {
-       "lat": 33.465934,
-       "lon": -81.952356
+       "lat": 33.478196,
+       "lon": -81.995678
       }
      },
-     "miles": 19.41,
+     "miles": 17.06,
      "gapDays": 517,
      "points": [
       [
@@ -19429,16 +19751,12 @@
        33.660127
       ],
       [
-       -81.961412,
-       33.466932
+       -81.995678,
+       33.478196
       ],
       [
-       -81.9433,
-       33.464936
-      ],
-      [
-       -81.952356,
-       33.465934
+       -81.995678,
+       33.478196
       ]
      ],
      "reason": "6810 A was dropped"

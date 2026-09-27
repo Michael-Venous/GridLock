@@ -17,13 +17,14 @@ import fetch
 import parse_desc
 import parse_ga
 from common import ROOT, dump, filings, haversine_mi, load, midpoint, norm_name
-from geocode import OSMIndex, geocode_project
+from geocode import DESC_RADIUS_MIN, OSMIndex, described_stations, geocode_project
 from lines import Grid
 
 sys.setrecursionlimit(20000)
 # Fixed so local rebuilds reproduce; set GRIDLOCK_TODAY to rebuild as of another day (see issue #7).
 TODAY = dt.date.fromisoformat(os.environ.get("GRIDLOCK_TODAY", "2026-09-26"))
 DEFAULT_HALF_LINE_MI = 10.0
+DESC_REACH_MAX_MI = 25.0   # stations named in a description farther apart than this don't mark one neighborhood
 _ov = load(ROOT / "data" / "overrides.json")
 RADIUS_OVERRIDES = _ov.get("radius", {})
 ENDPOINT_NOTES = _ov.get("endpoint_notes", {})   # uncertainty when only one end of a line could be located and no length is stated
@@ -89,17 +90,39 @@ def id_collisions(recs):
     return out
 
 
+PLACEMENT_NOTES = ("mapped route is", "route rejected:", "no station names could be extracted", "the stations named in the description",
+                   "rebuilds ", "stated length (")
+
+
 def locate(recs, osm, refs, grid, anchors=None, offline=False):
     for r in recs:
+        # Georgia is located twice (the second pass uses zone anchors); drop the first pass's placement notes
+        r["issues"] = [i for i in r["issues"] if not i["msg"].startswith(PLACEMENT_NOTES)]
         anchor = (anchors or {}).get(r.get("zone"))
-        eps = geocode_project(r, osm, refs, anchor=anchor, allow_network=not offline)
+        described = described_stations(r, osm, anchor) if osm else []
+        dmid = midpoint([(d["point"]["lat"], d["point"]["lon"]) for d in described])
+        # stations the filing names place the project more tightly than its planning zone's median
+        near = {"lat": dmid[0], "lon": dmid[1]} if dmid else anchor
+        eps = geocode_project(r, osm, refs, anchor=near, allow_network=not offline)
         pts = [(e["point"]["lat"], e["point"]["lon"]) for e in eps if e["point"]]
         c = midpoint(pts)
         r["endpoints"] = eps
+        r["describedStations"] = described
+        r["locatedBy"] = "endpoints" if c else None
         r["center"] = {"lat": round(c[0], 6), "lon": round(c[1], 6)} if c else None
         located = [e for e in eps if e["point"]]
         r["locationCompleteness"] = {"located": len(located), "total": len(eps)}
-        if not located:
+        reach = max((haversine_mi(*dmid, d["point"]["lat"], d["point"]["lon"]) for d in described), default=0)
+        if not located and dmid and reach > DESC_REACH_MAX_MI:
+            r["issues"].append({"level": "info", "msg": f"the stations named in the description span {2 * reach:.0f} mi, too wide to place the project"})
+        if not located and dmid and reach <= DESC_REACH_MAX_MI:
+            # None of the project's own stations can be placed (often a new one), but its description names
+            # existing stations it connects to. The project is somewhere among them.
+            r["locatedBy"] = "description"
+            r["center"] = {"lat": round(dmid[0], 6), "lon": round(dmid[1], 6)}
+            r["radiusMi"] = round(max(DESC_RADIUS_MIN, reach + 1.0, RADIUS_OVERRIDES.get(ov_key(r), 0)), 2)
+            r["locationConfidence"] = "low"
+        elif not located:
             r["radiusMi"] = None
             r["locationConfidence"] = "none"
         else:
@@ -124,8 +147,6 @@ def locate(recs, osm, refs, grid, anchors=None, offline=False):
             if len(located) < len(eps):
                 r["locationConfidence"] = "low"
         r["route"] = None
-        # Georgia is located twice (the second pass uses zone anchors); drop the first pass's route note
-        r["issues"] = [i for i in r["issues"] if not i["msg"].startswith(("mapped route is", "route rejected:", "no station names could be extracted"))]
         if not eps:
             r["issues"].append({"level": "warn", "msg": "no station names could be extracted; project requires a reviewed endpoint override"})
         station_methods = {"manual", "reference", "osm-exact", "osm-partial"}
@@ -176,7 +197,7 @@ def unplace_zone_outliers(ga):
                                 f"zone {z}'s {len(rs)} located projects; the station names likely matched a different site, so it is left unplaced"})
             for e in r["endpoints"]:
                 e["point"], e["confidence"], e["radiusMi"] = None, "none", None
-            r["center"], r["radiusMi"], r["locationConfidence"], r["route"] = None, None, "none", None
+            r["center"], r["radiusMi"], r["locationConfidence"], r["route"], r["locatedBy"] = None, None, "none", None, None
             r["locationCompleteness"]["located"] = 0
             r["issues"] = [i for i in r["issues"] if not i["msg"].startswith("mapped route is")]
 
@@ -243,6 +264,7 @@ def to_app(r):
         "description": r["description"],
         "endpoints": [{"name": e["name"], "point": e["point"], "method": e["method"], "confidence": e["confidence"],
                        "radiusMi": e["radiusMi"], "evidence": e["evidence"]} for e in r["endpoints"]],
+        "describedStations": r.get("describedStations", []), "locatedBy": r.get("locatedBy"),
         "center": r["center"], "radiusMi": r["radiusMi"], "locationConfidence": r["locationConfidence"],
         "locationCompleteness": r["locationCompleteness"],
         "inServiceDate": r["isd"], "inServiceRaw": r["isd_raw"],
@@ -305,7 +327,7 @@ def main():
         for r in recs:
             cur = here.get(r["lineage"])
             if cur:
-                for k in ("endpoints", "center", "radiusMi", "locationConfidence"):
+                for k in ("endpoints", "describedStations", "locatedBy", "center", "radiusMi", "locationConfidence"):
                     r[k] = cur[k]
             else:
                 gone.append(r)
