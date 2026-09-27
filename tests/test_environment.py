@@ -84,7 +84,8 @@ class PairingRange(unittest.TestCase):
                 patch.object(env, "domains"), patch.object(env, "write_evidence"), contextlib.redirect_stdout(io.StringIO()):
             env.check(recs, offline=True)
         self.assertEqual(recs[0]["environment"], {"checked": False, "reason": env.UNPLACED})
-        self.assertEqual(recs[1]["environment"], {"checked": False, "reason": "not near any project in another utility's plan"})
+        self.assertEqual(recs[1]["environment"], {"checked": False, "reason": "not near any project in another plan"})
+        self.assertEqual(env.UNPLACED, "not placed on the map, so its distance to projects in other plans can't be measured")
 
 
 if __name__ == "__main__":

@@ -8,17 +8,20 @@ appeared, went away or changed timing.
 
 Projects are matched across editions on their ID. A plan that reuses IDs (DESC) needs a similar name too;
 an ID kept with a different name, and nothing else carrying it, is reported as renamed. A plan whose IDs are
-unique (Georgia's TEAMS numbers) matches on the ID alone.
+unique (Georgia's TEAMS numbers) matches on the ID alone. Records that share an ID and are equally alike by name
+(a project printed twice) are told apart by their in-service dates and costs, never by the order they are printed in.
 """
 import datetime as dt
 import difflib
 import math
 
+import generated_parser
 from common import ROOT, dump, norm_name
 
 MAX_MILES = 25
 R_MI = 3958.7613          # same Earth radius as src/match.js, so pairs agree with the app
 TIMING_DAYS = 30          # a qualifying pair's in-service gap must move this much to count as a timing change
+SAME_NAME = 0.5           # names at least this alike (sim) are one project's, in a plan that reuses IDs
 
 
 def miles(a, b):
@@ -32,27 +35,97 @@ def sim(a, b):
     return difflib.SequenceMatcher(None, norm_name(a["name"]), norm_name(b["name"])).ratio()
 
 
+def _days(a, b):
+    return abs((dt.date.fromisoformat(a) - dt.date.fromisoformat(b)).days) if a and b else math.inf
+
+
+def _cost_gap(o, n):
+    co, cn = o["cost"]["total"], n["cost"]["total"]
+    return abs(co - cn) if co is not None and cn is not None else math.inf
+
+
+def likeness(o, n):
+    """How alike two records with one ID are, most telling first: the name; then the in-service date (the same date,
+    else the nearest); then the cost (the same, else the nearest). Larger is more alike."""
+    return sim(o, n), o["isd"] == n["isd"], -_days(o["isd"], n["isd"]), _cost_gap(o, n) == 0, -_cost_gap(o, n)
+
+
+def _in_order(xs, ys, gap):
+    """[(x, y)]: every x paired with a y, both lists sorted and pairs kept in their order (no two cross), leaving out
+    the ys that give the least total gap (gap(x, y): a tuple, summed per place)."""
+    best = {(0, q): ((0, 0), []) for q in range(len(ys) + 1)}   # (p, q): the best pairing of xs[:p] into ys[:q]
+    for p in range(1, len(xs) + 1):
+        for q in range(p, len(ys) + 1):
+            (u, d), pairs = best[p - 1, q - 1]
+            g = gap(xs[p - 1], ys[q - 1])
+            take = ((u + g[0], d + g[1]), pairs + [(xs[p - 1], ys[q - 1])])
+            best[p, q] = take if q == p or take[0] <= best[p, q - 1][0] else best[p, q - 1]
+    return best[len(xs), len(ys)][1]
+
+
+def copies(old, olds, new, news):
+    """[(old index, new index)]: copies of one project (records with one key and one name; olds and news index old and
+    new) told apart by their data. A copy keeps an old one's in-service date if one has it (of several, the one with
+    its cost, else the nearest cost). The rest pair up in date order, leaving out the copies that move dates least in
+    all: two copies that both slip keep their order, never crossed. The copies left over are the added or removed."""
+    olds, news, out = list(olds), list(news), []
+    for j in list(news):
+        same = [i for i in olds if old[i]["isd"] == new[j]["isd"]]
+        if same:
+            i = max(same, key=lambda i: (_cost_gap(old[i], new[j]) == 0, -_cost_gap(old[i], new[j])))   # ties: first printed
+            out.append((i, j))
+            olds.remove(i)
+            news.remove(j)
+    when = lambda r: (r["isd"] is None, r["isd"] or "", r["cost"]["total"] is None, r["cost"]["total"] or 0)
+    olds, news = sorted(olds, key=lambda i: when(old[i])), sorted(news, key=lambda j: when(new[j]))
+
+    def gap(i, j):   # (pairs with an unknown date, days apart)
+        d = _days(old[i]["isd"], new[j]["isd"])
+        return (1, 0) if d == math.inf else (0, d)
+    if len(olds) <= len(news):
+        return out + _in_order(olds, news, gap)
+    return out + [(i, j) for j, i in _in_order(news, olds, lambda j, i: gap(i, j))]
+
+
 def match(old, new, reuses_ids):
     """[(old_rec or None, new_rec or None, how)] for one plan's two editions. reuses_ids: the plan prints one ID for
-    different projects (DESC), so IDs compare without leading zeros and a match needs a similar name too."""
-    out, used_old = [], set()
+    different projects (DESC), so IDs compare without leading zeros and a match needs a similar name too.
+
+    Within one ID, copies of one project (the same name) are matched by their data (copies), never by print order: two
+    copies printed the other way round match as they were, and when one is dropped the one whose date it had is the
+    one reported removed. The other records of the ID are matched most alike first (likeness)."""
     kf = (lambda r: r["key"].lstrip("0")) if reuses_ids else (lambda r: r["key"])
-    by_key = {}
+    by_key, new_by_key = {}, {}
     for i, o in enumerate(old):
         by_key.setdefault(kf(o), []).append(i)
-    pending = []
-    for n in new:
-        k = kf(n)
-        cands = [i for i in by_key.get(k, []) if i not in used_old]
-        if not cands:
-            out.append((None, n, "added"))
-            continue
-        best = max(cands, key=lambda i: sim(old[i], n))
-        if not reuses_ids or sim(old[best], n) >= 0.5:
-            used_old.add(best)
-            out.append((old[best], n, "same"))
+    for j, n in enumerate(new):
+        new_by_key.setdefault(kf(n), []).append(j)
+    matched, used_old = {}, set()
+    for k, js in new_by_key.items():
+        names = {}
+        for i in by_key.get(k, []):
+            names.setdefault(norm_name(old[i]["name"]), ([], []))[0].append(i)
+        for j in js:
+            names.setdefault(norm_name(new[j]["name"]), ([], []))[1].append(j)
+        for olds, news in names.values():
+            for i, j in copies(old, olds, new, news):
+                used_old.add(i)
+                matched[j] = i
+        pairs = sorted((i, j) for j in js if j not in matched for i in by_key.get(k, [])
+                       if i not in used_old and (not reuses_ids or sim(old[i], new[j]) >= SAME_NAME))
+        pairs.sort(key=lambda p: likeness(old[p[0]], new[p[1]]), reverse=True)   # a stable sort: ties stay in print order
+        for i, j in pairs:
+            if i not in used_old and j not in matched:
+                used_old.add(i)
+                matched[j] = i
+    out, pending = [], []
+    for j, n in enumerate(new):
+        if j in matched:
+            out.append((old[matched[j]], n, "same"))
+        elif any(i not in used_old for i in by_key.get(kf(n), [])):
+            pending.append((n, kf(n)))
         else:
-            pending.append((n, k))
+            out.append((None, n, "added"))
     for n, k in pending:
         cands = [i for i in by_key.get(k, []) if i not in used_old]
         if len(cands) == 1 and len(by_key[k]) == 1:
@@ -76,6 +149,12 @@ def brief(r):
             "plan": r["plan"], "isd": r["isd"], "center": r.get("center"), "radiusMi": r.get("radiusMi"), "points": points(r), "source": r["source"]}
 
 
+def printed_key(r):
+    """Whether a record's key is an ID its filing prints. A parser keys a project the filing gives no ID by its name
+    (generated_parser.key_of), and such a key says nothing about the ID being reused."""
+    return r["key"] != generated_parser.key_of({"name": r["name"]})
+
+
 def project_changes(old, new, reuses_ids, filing, removed_tables):
     """removed_tables: the new filing's own list of dropped projects ({key: {status, ...}}), or {} if it prints none."""
     out = []
@@ -84,7 +163,8 @@ def project_changes(old, new, reuses_ids, filing, removed_tables):
             c = {"kind": "added", **brief(n), "appId": None}
             if n.get("change"):
                 c["note"] = n["change"]
-            if reuses_ids and any(n["key"].lstrip("0") == x["key"].lstrip("0") for x in old):
+            # a printed ID the previous list gave a project of another name (not a copy of this one)
+            if reuses_ids and printed_key(n) and any(n["key"].lstrip("0") == x["key"].lstrip("0") and sim(x, n) < SAME_NAME for x in old):
                 c["note"] = f"Reuses Project ID {n['project_id']}, which the previous list gave to a different project."
             out.append(c)
         elif how == "removed":
@@ -100,7 +180,7 @@ def project_changes(old, new, reuses_ids, filing, removed_tables):
         else:
             what = []
             # a plan with unique IDs matches on the ID alone, so its matches can carry a different name
-            if how == "renamed" or sim(o, n) < 0.5:
+            if how == "renamed" or sim(o, n) < SAME_NAME:
                 what.append("name")
             if o["isd"] != n["isd"]:
                 what.append("date")
@@ -127,7 +207,8 @@ def assign_lineage(editions_in_order, reuses_ids):
     A project new in its edition is named by its state, key and name. A filing can print one key and name twice
     (a parser derives the key from the name when there is no printed ID), and a project matched to the edition
     before can already carry that lineage; the repeat then takes the next free ordinal (:2, :3, ...) in print
-    order, so no two projects of one edition share a lineage."""
+    order, so no two projects of one edition share a lineage. Later editions carry each copy's lineage by its
+    data (match), not by where it is printed."""
     prev = None
     for recs in editions_in_order:
         for r in recs:

@@ -8,6 +8,7 @@ earlier ones give schedule history and the change log (data/changes.json).
 """
 import datetime as dt
 import difflib
+import itertools
 import os
 import re
 import statistics
@@ -19,7 +20,7 @@ import environment
 import fetch
 import registry
 from common import ROOT, dump, haversine_mi, load, midpoint, norm_name
-from geocode import COVERED, DESC_RADIUS_MIN, OSMIndex, described_stations, endpoint_names, geocode_project, ov_key
+from geocode import COVERED, DESC_RADIUS_MIN, FAR_MI, OSMIndex, described_stations, endpoint_names, geocode_project, ov_key
 from lines import Grid
 
 sys.setrecursionlimit(20000)
@@ -49,20 +50,17 @@ def reference_points():
     return pts, issues
 
 
-def slip_history(current, editions, need_name=True):
-    """Match each current project to earlier editions on its ID and, for a plan that reuses IDs (DESC), a similar name."""
+def slip_history(current, editions, reuses_ids=True):
+    """Match each current project to earlier editions as the change log does (changes.match): on its ID and, for a plan
+    that reuses IDs (DESC), a similar name; copies of one project by their dates. A renamed project's old name isn't
+    history here."""
+    hists = {id(r): [] for r in current}
+    for ed, recs in editions.items():
+        for o, n, how in changes.match(recs, current, reuses_ids):
+            if how == "same":
+                hists[id(n)].append({"edition": ed, "isd": o["isd"], "name": o["name"]})
     for r in current:
-        hist = []
-        for ed, recs in editions.items():
-            best = None
-            for o in recs:
-                same_id = o["key"] == r["key"] or o["key"].lstrip("0") == r["key"].lstrip("0")
-                sim = difflib.SequenceMatcher(None, norm_name(o["name"]), norm_name(r["name"])).ratio()
-                if same_id and (sim >= 0.5 or not need_name) and (best is None or sim > best[0]):
-                    best = (sim, o)
-            if best:
-                hist.append({"edition": ed, "isd": best[1]["isd"], "name": best[1]["name"]})
-        r["history"] = hist
+        hist = r["history"] = hists[id(r)]
         first = next((h for h in hist if h["isd"]), None)
         if first and r["isd"] and first["isd"] != r["isd"]:
             r["slip_days"] = (dt.date.fromisoformat(r["isd"]) - dt.date.fromisoformat(first["isd"])).days
@@ -164,7 +162,6 @@ def locate(recs, osm, refs, grid, anchors=None, offline=False):
 
 
 ZONE_OUTLIER_MI = 150   # farther than this from the rest of its zone, a placement is a name collision, not a site
-ZONE_SPREAD_MI = ZONE_OUTLIER_MI / 3   # half a planning zone's located projects lie this close to their median
 
 
 def median_point(points):
@@ -172,19 +169,17 @@ def median_point(points):
 
 
 def planning_zones(recs):
-    """The zones of one plan that behave like planning zones: compact, with half of their located projects (at least 3)
-    within ZONE_SPREAD_MI of their median (Georgia's zones: 10 to 37 mi). A parser records the zone a filing prints,
-    which can be a broad region; its projects are far apart for real, so it gives no anchor and its far projects stay placed."""
+    """The zones of one edition that behave like planning zones: two of a zone's located projects (it needs at least 3)
+    are typically no farther apart than one project can span, FAR_MI, the distance its anchor then holds the zone's
+    placements to (the median distance between two of them: 12 to 58 mi in Georgia's zones). A parser records the
+    zone a filing prints, which can be a broad region; its projects are far apart for real, so it gives no anchor and
+    its far projects stay placed."""
     by = {}
     for r in recs:
         if r.get("zone") and r.get("center"):
             by.setdefault(r["zone"], []).append(r["center"])
-    out = set()
-    for z, ps in by.items():
-        mid = median_point(ps)
-        if len(ps) >= 3 and statistics.median(haversine_mi(mid["lat"], mid["lon"], p["lat"], p["lon"]) for p in ps) <= ZONE_SPREAD_MI:
-            out.add(z)
-    return out
+    return {z for z, ps in by.items() if len(ps) >= 3 and statistics.median(
+        haversine_mi(a["lat"], a["lon"], b["lat"], b["lon"]) for a, b in itertools.combinations(ps, 2)) <= FAR_MI}
 
 
 def zone_anchors(recs, zones):
@@ -197,21 +192,23 @@ def zone_anchors(recs, zones):
     return {z: median_point(ps) for z, ps in by.items() if len(ps) >= 3}
 
 
-def unplace_zone_outliers(recs, zones):
+def unplace_zone_outliers(recs, zones, only=None):
     """A project placed far from every other project in its planning zone matched a same-named site elsewhere
     (Georgia zone 206 is metro Atlanta; its "Boulevard" and "Virginia Avenue" matched Savannah names). Leave it unplaced.
-    recs: one plan's records. zones: the plan's planning zones (planning_zones); a broad region's far projects stay."""
+    recs: one edition's records of one plan. zones: its planning zones (planning_zones); a broad region's far projects
+    stay. only: the records that may be unplaced (default all); the rest still count toward their zone's median."""
     by = {}
     for r in recs:
         if r.get("zone") in zones and r.get("center"):
             by.setdefault(r["zone"], []).append(r)
+    judged = None if only is None else {id(r) for r in only}
     for z, rs in by.items():
         if len(rs) < 5:
             continue
         mid = (statistics.median(r["center"]["lat"] for r in rs), statistics.median(r["center"]["lon"] for r in rs))
         for r in rs:
             d = haversine_mi(*mid, r["center"]["lat"], r["center"]["lon"])
-            if d <= ZONE_OUTLIER_MI:
+            if d <= ZONE_OUTLIER_MI or (judged is not None and id(r) not in judged):
                 continue
             r["issues"].append({"level": "warn", "msg": f"placed at {r['center']['lat']:.4f}, {r['center']['lon']:.4f}, {d:.0f} mi from the median of "
                                 f"zone {z}'s {len(rs)} located projects; the station names likely matched a different site, so it is left unplaced"})
@@ -220,6 +217,21 @@ def unplace_zone_outliers(recs, zones):
             r["center"], r["radiusMi"], r["locationConfidence"], r["route"], r["locatedBy"] = None, None, "none", None, None
             r["locationCompleteness"]["located"] = 0
             r["issues"] = [i for i in r["issues"] if not i["msg"].startswith("mapped route is")]
+
+
+def place(recs, todo, osm, refs, grid, offline):
+    """Locate the records todo, of one plan (the rest of recs are located already). recs: the plan's records its zones
+    are judged on. When they print zones, the zones that behave like planning zones (planning_zones) anchor a second
+    pass over todo, and a record of todo placed far from the rest of its zone is left unplaced. Returns the anchors
+    ({zone: point}), or None if no record prints a zone."""
+    locate(todo, osm, refs, grid, offline=offline)
+    if not any(r.get("zone") for r in recs):
+        return None
+    zones = planning_zones(recs)
+    anchors = zone_anchors(recs, zones)
+    locate(todo, osm, refs, grid, anchors=anchors, offline=offline)   # second pass: zone-aware disambiguation
+    unplace_zone_outliers(recs, zones, only=todo)
+    return anchors
 
 
 def cost_benchmark(desc):
@@ -332,21 +344,18 @@ def main():
     recs = [r for rs in current.values() for r in rs]
     for p, rs in current.items():
         slip_history(rs, {f["edition"]: editions[f["id"]] for f in registry.filings(reg, plan=p) if f["id"] != cur[p]["id"]},
-                     need_name=plans[p]["reusesIds"])
+                     reuses_ids=plans[p]["reusesIds"])
     dq_global = [m for p, rs in current.items() if plans[p]["reusesIds"] for m in id_collisions(rs)]
 
     osm, grid = OSMIndex(), Grid()
     refs, ref_issues = reference_points()
     dq_global += ref_issues
-    anchors, zones = {}, {}   # {plan: {zone: point}} and {plan: its planning zones}, for plans whose filings print zones
+    anchors = {}   # {plan: {zone: point}} for plans whose current filing prints zones
     for p, rs in current.items():
         rs = on_map(rs)
-        locate(rs, osm, refs, grid, offline=offline)
-        if any(r.get("zone") for r in rs):
-            zones[p] = planning_zones(rs)
-            anchors[p] = zone_anchors(rs, zones[p])
-            locate(rs, osm, refs, grid, anchors=anchors[p], offline=offline)   # second pass: zone-aware disambiguation
-            unplace_zone_outliers(rs, zones[p])
+        a = place(rs, rs, osm, refs, grid, offline)
+        if a is not None:
+            anchors[p] = a
 
     for r in recs:
         if r["isd"] and dt.date.fromisoformat(r["isd"]) < TODAY:
@@ -364,6 +373,8 @@ def main():
     environment.regional_layers(offline=offline)
 
     # Older editions, for the change log: reuse each project's current location, place only the ones that are gone.
+    # Their zones are judged on the edition's own records (a zone only it prints included) and, as a plan's zone codes
+    # are its own, on the projects the plan has listed since.
     for p in plans:
         changes.assign_lineage([editions[f["id"]] for f in registry.filings(reg, plan=p)], plans[p]["reusesIds"])
     here = {(r["plan"], r["lineage"]): r for r in recs}
@@ -377,9 +388,9 @@ def main():
                     r[k] = c[k]
             else:
                 gone.append(r)
-        locate(on_map(gone), osm, refs, None, anchors=anchors.get(f["plan"]), offline=offline)
-        if f["plan"] in zones:
-            unplace_zone_outliers(gone, zones[f["plan"]])
+        kept = {r["lineage"] for r in editions[f["id"]]}
+        since = [r for r in current[f["plan"]] if r["lineage"] not in kept]
+        place(editions[f["id"]] + since, on_map(gone), osm, refs, None, offline)
     changes.write(fs, editions, removed, plans, {k: r["app_id"] for k, r in here.items()})
 
     projects = [to_app(r) for r in recs]

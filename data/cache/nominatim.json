@@ -14958,5 +14958,436 @@
    ]
   }
  ],
- "TALLULAH LODGE|GA|near 33.96,-83.77": []
+ "TALLULAH LODGE|GA|near 33.96,-83.77": [],
+ "PROJECT CHRONOS|GA|near 34.24,-83.48": [],
+ "SK/HYUNDAI|GA|near 34.24,-83.48": [],
+ "NEW LACY|GA|near 31.81,-82.57": [
+  {
+   "place_id": 301038839,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "node",
+   "osm_id": 154401965,
+   "lat": "31.5393726",
+   "lon": "-82.3715184",
+   "class": "place",
+   "type": "hamlet",
+   "place_rank": 20,
+   "importance": 0.13336833524071104,
+   "addresstype": "hamlet",
+   "name": "New Lacy",
+   "display_name": "New Lacy, Bacon County, Georgia, United States",
+   "boundingbox": [
+    "31.5193726",
+    "31.5593726",
+    "-82.3915184",
+    "-82.3515184"
+   ]
+  }
+ ],
+ "ANNISTON|GA|near 34.25,-85.35": [],
+ "ROCKVILLE|GA|near 33.09,-82.98": [
+  {
+   "place_id": 342946121,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "node",
+   "osm_id": 154297495,
+   "lat": "33.3276362",
+   "lon": "-83.2187677",
+   "class": "place",
+   "type": "hamlet",
+   "place_rank": 20,
+   "importance": 0.18554865524912875,
+   "addresstype": "hamlet",
+   "name": "Rockville",
+   "display_name": "Rockville, Putnam County, Georgia, United States",
+   "boundingbox": [
+    "33.3076362",
+    "33.3476362",
+    "-83.2387677",
+    "-83.1987677"
+   ]
+  }
+ ],
+ "NORTH SPA|GA|near 33.09,-82.98": [],
+ "THALMANN AND COLERAIN 23O KV|GA|near 31.51,-81.83": [],
+ "BANKS CROSSING|GA|near 33.99,-83.77": [
+  {
+   "place_id": 344312999,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "node",
+   "osm_id": 154050921,
+   "lat": "34.2567734",
+   "lon": "-83.4640511",
+   "class": "place",
+   "type": "hamlet",
+   "place_rank": 20,
+   "importance": 0.13336833524071104,
+   "addresstype": "hamlet",
+   "name": "Banks Crossing",
+   "display_name": "Banks Crossing, Banks County, Georgia, 30529, United States",
+   "boundingbox": [
+    "34.2367734",
+    "34.2767734",
+    "-83.4840511",
+    "-83.4440511"
+   ]
+  }
+ ],
+ "POND FORK|GA|near 33.99,-83.77": [
+  {
+   "place_id": 341377842,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "way",
+   "osm_id": 34513248,
+   "lat": "34.2494774",
+   "lon": "-83.7396206",
+   "class": "waterway",
+   "type": "stream",
+   "place_rank": 22,
+   "importance": 0.10670166857404438,
+   "addresstype": "stream",
+   "name": "Pond Fork",
+   "display_name": "Pond Fork, Frontier Trail, Hall County, Georgia, 30575, United States",
+   "boundingbox": [
+    "34.2454240",
+    "34.2526830",
+    "-83.7434980",
+    "-83.7362520"
+   ]
+  },
+  {
+   "place_id": 341241947,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "way",
+   "osm_id": 34474029,
+   "lat": "34.2382225",
+   "lon": "-83.7225516",
+   "class": "waterway",
+   "type": "stream",
+   "place_rank": 22,
+   "importance": 0.10670166857404438,
+   "addresstype": "stream",
+   "name": "Pond Fork",
+   "display_name": "Pond Fork, Hall County, Georgia, 30575, United States",
+   "boundingbox": [
+    "34.2375630",
+    "34.2405670",
+    "-83.7247010",
+    "-83.7196650"
+   ]
+  },
+  {
+   "place_id": 341894367,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "way",
+   "osm_id": 34447278,
+   "lat": "34.2448530",
+   "lon": "-83.7304410",
+   "class": "waterway",
+   "type": "stream",
+   "place_rank": 22,
+   "importance": 0.10670166857404438,
+   "addresstype": "stream",
+   "name": "Pond Fork",
+   "display_name": "Pond Fork, Jarrett, Hall County, Georgia, 30575, United States",
+   "boundingbox": [
+    "34.2446370",
+    "34.2450690",
+    "-83.7308550",
+    "-83.7300270"
+   ]
+  }
+ ],
+ "ECHECONNEE|GA|near 32.94,-83.07": [
+  {
+   "place_id": 344345243,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "way",
+   "osm_id": 9340197,
+   "lat": "32.6673591",
+   "lon": "-83.6656577",
+   "class": "highway",
+   "type": "residential",
+   "place_rank": 26,
+   "importance": 0.05336833524071104,
+   "addresstype": "road",
+   "name": "Echeconnee Lane",
+   "display_name": "Echeconnee Lane, Houston County, Georgia, 31093, United States",
+   "boundingbox": [
+    "32.6672666",
+    "32.6673668",
+    "-83.6701932",
+    "-83.6611190"
+   ]
+  },
+  {
+   "place_id": 343033517,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "way",
+   "osm_id": 9339792,
+   "lat": "32.6687570",
+   "lon": "-83.6611360",
+   "class": "highway",
+   "type": "residential",
+   "place_rank": 26,
+   "importance": 0.05336833524071104,
+   "addresstype": "road",
+   "name": "Echeconnee Ridge Road",
+   "display_name": "Echeconnee Ridge Road, Houston County, Georgia, 31093, United States",
+   "boundingbox": [
+    "32.6673511",
+    "32.6701630",
+    "-83.6611360",
+    "-83.6611190"
+   ]
+  }
+ ],
+ "WELLSTON|GA|near 32.94,-83.07": [
+  {
+   "place_id": 343050692,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "relation",
+   "osm_id": 119990,
+   "lat": "32.6200973",
+   "lon": "-83.6065680",
+   "class": "boundary",
+   "type": "administrative",
+   "place_rank": 16,
+   "importance": 0.520289035327092,
+   "addresstype": "city",
+   "name": "Warner Robins",
+   "display_name": "Warner Robins, Houston County, Georgia, United States",
+   "boundingbox": [
+    "32.5227150",
+    "32.6663890",
+    "-83.7477540",
+    "-83.5758660"
+   ]
+  }
+ ],
+ "CAMDEN INDUSTRIAL PARK|GA|near 31.51,-81.83": [],
+ "SMART VALVE INSTALLATION|GA|near 32.94,-83.07": [],
+ "NEW LACY|GA|near 32.94,-83.07": [],
+ "NORTH DUBLIN|GA|near 32.94,-83.07": [
+  {
+   "place_id": 343665255,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "way",
+   "osm_id": 9364040,
+   "lat": "32.5455833",
+   "lon": "-82.9081260",
+   "class": "highway",
+   "type": "primary",
+   "place_rank": 26,
+   "importance": 0.053387119096665867,
+   "addresstype": "road",
+   "name": "North Jefferson Street",
+   "display_name": "North Jefferson Street, Dublin, Laurens County, Georgia, 31921, United States",
+   "boundingbox": [
+    "32.5399423",
+    "32.5507043",
+    "-82.9124971",
+    "-82.9045220"
+   ]
+  },
+  {
+   "place_id": 343064701,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "way",
+   "osm_id": 1165581658,
+   "lat": "32.5388363",
+   "lon": "-82.9141377",
+   "class": "highway",
+   "type": "tertiary",
+   "place_rank": 26,
+   "importance": 0.053387119096665867,
+   "addresstype": "road",
+   "name": "North Calhoun Street",
+   "display_name": "North Calhoun Street, Dublin, Laurens County, Georgia, 31021, United States",
+   "boundingbox": [
+    "32.5377329",
+    "32.5399468",
+    "-82.9143989",
+    "-82.9138474"
+   ]
+  }
+ ],
+ "LOWER RIVER|GA|near 30.91,-83.84": [],
+ "WEBB|GA|near 30.91,-83.84": [
+  {
+   "place_id": 301179293,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "way",
+   "osm_id": 682788470,
+   "lat": "30.9917796",
+   "lon": "-83.3737745",
+   "class": "highway",
+   "type": "residential",
+   "place_rank": 26,
+   "importance": 0.05338226825360491,
+   "addresstype": "road",
+   "name": "North Webb Street",
+   "display_name": "North Webb Street, Hahira, Lowndes County, Georgia, 31605, United States",
+   "boundingbox": [
+    "30.9911741",
+    "30.9923851",
+    "-83.3739931",
+    "-83.3735560"
+   ]
+  },
+  {
+   "place_id": 301593323,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "way",
+   "osm_id": 417674846,
+   "lat": "30.9905411",
+   "lon": "-83.3733752",
+   "class": "highway",
+   "type": "residential",
+   "place_rank": 26,
+   "importance": 0.05338226825360491,
+   "addresstype": "road",
+   "name": "South Webb Street",
+   "display_name": "South Webb Street, Hahira, Lowndes County, Georgia, 31605, United States",
+   "boundingbox": [
+    "30.9899081",
+    "30.9911741",
+    "-83.3735560",
+    "-83.3731945"
+   ]
+  },
+  {
+   "place_id": 301663878,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "way",
+   "osm_id": 9372989,
+   "lat": "30.9469461",
+   "lon": "-83.4210371",
+   "class": "highway",
+   "type": "residential",
+   "place_rank": 26,
+   "importance": 0.05336833524071104,
+   "addresstype": "road",
+   "name": "Hall Webb Road",
+   "display_name": "Hall Webb Road, Shiloh, Lowndes County, Georgia, 31632, United States",
+   "boundingbox": [
+    "30.9459620",
+    "30.9470849",
+    "-83.4266394",
+    "-83.4155483"
+   ]
+  }
+ ],
+ "UNION CITY|GA|near 33.48,-84.49": [
+  {
+   "place_id": 340313218,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "relation",
+   "osm_id": 119566,
+   "lat": "33.5870558",
+   "lon": "-84.5424299",
+   "class": "boundary",
+   "type": "administrative",
+   "place_rank": 16,
+   "importance": 0.4353606624145101,
+   "addresstype": "town",
+   "name": "Union City",
+   "display_name": "Union City, Fulton County, Georgia, United States",
+   "boundingbox": [
+    "33.5377980",
+    "33.6345640",
+    "-84.6675490",
+    "-84.4861090"
+   ]
+  }
+ ],
+ "ROCKVILLE|GA|near 32.94,-83.07": [
+  {
+   "place_id": 342959270,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "node",
+   "osm_id": 154297495,
+   "lat": "33.3276362",
+   "lon": "-83.2187677",
+   "class": "place",
+   "type": "hamlet",
+   "place_rank": 20,
+   "importance": 0.18554865524912875,
+   "addresstype": "hamlet",
+   "name": "Rockville",
+   "display_name": "Rockville, Putnam County, Georgia, United States",
+   "boundingbox": [
+    "33.3076362",
+    "33.3476362",
+    "-83.2387677",
+    "-83.1987677"
+   ]
+  }
+ ],
+ "NORTH SPA|GA|near 32.94,-83.07": [],
+ "SOUTH GRIFFIN|GA|near 32.97,-84.27": [
+  {
+   "place_id": 344242863,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "way",
+   "osm_id": 9461360,
+   "lat": "33.2429763",
+   "lon": "-84.2672157",
+   "class": "highway",
+   "type": "residential",
+   "place_rank": 26,
+   "importance": 0.053387784390020565,
+   "addresstype": "road",
+   "name": "South 9th Street",
+   "display_name": "South 9th Street, Griffin, Spalding County, Georgia, 30323, United States",
+   "boundingbox": [
+    "33.2403827",
+    "33.2458200",
+    "-84.2679761",
+    "-84.2671412"
+   ]
+  },
+  {
+   "place_id": 343411018,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "way",
+   "osm_id": 9460089,
+   "lat": "33.2428404",
+   "lon": "-84.2622672",
+   "class": "highway",
+   "type": "residential",
+   "place_rank": 26,
+   "importance": 0.053387784390020565,
+   "addresstype": "road",
+   "name": "South 6th Street",
+   "display_name": "South 6th Street, Griffin, Spalding County, Georgia, 30323, United States",
+   "boundingbox": [
+    "33.2388649",
+    "33.2468264",
+    "-84.2623640",
+    "-84.2621925"
+   ]
+  },
+  {
+   "place_id": 342652850,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "way",
+   "osm_id": 9461442,
+   "lat": "33.2481352",
+   "lon": "-84.2750614",
+   "class": "highway",
+   "type": "residential",
+   "place_rank": 26,
+   "importance": 0.053387784390020565,
+   "addresstype": "road",
+   "name": "South 14th Street",
+   "display_name": "South 14th Street, Griffin, Spalding County, Georgia, 30223, United States",
+   "boundingbox": [
+    "33.2459845",
+    "33.2502875",
+    "-84.2751480",
+    "-84.2750150"
+   ]
+  }
+ ]
 }

@@ -151,9 +151,30 @@ export function savingsEstimate(pair, { benchmarkPerMile, shareRate = 0.04 }) {
     low: Math.min(ca, cb) * shareRate * 0.5, high: Math.min(ca, cb) * shareRate * 1.5 };
 }
 
+// Land values: the 2026 column of USDA NASS's "Pasture Average Value per Acre – Regions, States, and United States"
+// table (Land Values 2026 Summary, July 2026), keyed by the page each state is printed on. The table lists every state
+// but Alaska and Hawaii; its United States row (p. 15) leaves those two out as well.
+const LAND_REPORT = { title: "USDA NASS, Land Values 2026 Summary (July 2026)", table: "pasture average value per acre", url: "https://www.nass.usda.gov/Publications/Todays_Reports/reports/land0726.pdf" };
+const PASTURE_BY_PAGE = {
+  14: { CT: 13000, DE: 7800, ME: 2700, MD: 8300, MA: 15400, NH: 8120, NJ: 15600, NY: 2040, PA: 4350, RI: 17500, VT: 2920,
+    MI: 3200, MN: 2400, WI: 3500, IL: 4300, IN: 2850, IA: 3800, MO: 2850, OH: 4250, KS: 2400, NE: 1590, ND: 1200, SD: 1400,
+    KY: 4050, NC: 6380, TN: 5910, VA: 5430, WV: 2400 },
+  15: { AL: 3500, FL: 7650, GA: 5100, SC: 4500, AR: 3500, LA: 3600, MS: 3310, OK: 2200, TX: 2420,
+    AZ: 980, CO: 1200, ID: 2500, MT: 940, NV: 870, NM: 650, UT: 2000, WY: 770, CA: 4250, OR: 1120, WA: 980 },
+};
+// The report's pages, cited: "p. 15" and a link to it, or "pp. 14–15" and a link to the first.
+export function landCitation(pages) {
+  const where = pages.length > 1 ? `pp. ${pages[0]}–${pages.at(-1)}` : `p. ${pages[0]}`;
+  return { where, source: `${LAND_REPORT.title}, ${where}: ${LAND_REPORT.table}`, url: `${LAND_REPORT.url}#page=${pages[0]}` };
+}
+
 // Cited unit costs for the staging-yard scenario. Everything else in the scenario is a user-editable assumption.
 export const YARD_BASIS = {
-  landPerAcre: { GA: 5100, SC: 4500, source: "USDA NASS, Land Values 2026 Summary (July 2026), p. 15: pasture average value per acre", url: "https://www.nass.usda.gov/Publications/Todays_Reports/reports/land0726.pdf#page=15" },
+  landPerAcre: {
+    byState: Object.fromEntries(Object.entries(PASTURE_BY_PAGE).flatMap(([page, states]) => Object.entries(states).map(([st, value]) => [st, { value, page: Number(page) }]))),
+    unitedStates: { value: 2000, page: 15 },
+    ...landCitation(Object.keys(PASTURE_BY_PAGE).map(Number)),
+  },
   matsPerAcre: { value: 69975, source: "MISO Transmission Cost Estimation Guide for MTEP24 (May 2024), Table 2.2-9, p. 19: wetland matting and construction difficulties, per acre", url: "https://cdn.misoenergy.org/20240501%20PSC%20Item%2004%20MISO%20Transmission%20Cost%20Estimation%20Guide%20for%20MTEP24632680.pdf#page=19" },
   roadPerMile: { value: 593636, source: "MISO Transmission Cost Estimation Guide for MTEP24 (May 2024), p. 23: access road, per mile", url: "https://cdn.misoenergy.org/20240501%20PSC%20Item%2004%20MISO%20Transmission%20Cost%20Estimation%20Guide%20for%20MTEP24632680.pdf#page=23" },
 };
@@ -169,15 +190,21 @@ export function scenarioAvailability(pair, { months = null } = {}) {
   return { available: reason === null, reason, months: duration, remainingDays };
 }
 
-// Land value for a pair's yard: the average of the USDA figures for the pair's own states. A state with no figure
-// is named in `missing`; the other state's figure stands in for it, and with no figure for either state the
-// average of every cited state does (`standIn`).
+// Land value for a pair's yard: the average of the USDA figures for the pair's own states (`figures`, in state order).
+// A state the report doesn't list is named in `missing`, and a project with no state counts in `unstated`; the other
+// state's figure stands in for either, and with no figure for either project the report's United States average does
+// (`standIn`). `pages`: the report pages the figures are on.
 export function landValue(pair) {
-  const cited = Object.keys(YARD_BASIS.landPerAcre).filter(k => typeof YARD_BASIS.landPerAcre[k] === "number");
-  const states = [...new Set([pair.a?.state, pair.b?.state].filter(Boolean))];
-  const have = cited.filter(s => states.includes(s)), used = have.length ? have : cited;
-  const perAcre = used.reduce((sum, s) => sum + YARD_BASIS.landPerAcre[s], 0) / used.length;
-  return { perAcre, states: used, missing: states.filter(s => !cited.includes(s)), standIn: !have.length };
+  const { byState, unitedStates } = YARD_BASIS.landPerAcre;
+  const given = [pair.a?.state, pair.b?.state];
+  const states = [...new Set(given.filter(Boolean))].sort();
+  const listed = states.filter(s => byState[s]);
+  const figures = listed.length ? listed.map(s => ({ name: s, ...byState[s] })) : [{ name: "United States", ...unitedStates }];
+  return {
+    perAcre: figures.reduce((sum, f) => sum + f.value, 0) / figures.length, states: listed, figures,
+    pages: [...new Set(figures.map(f => f.page))].sort((x, y) => x - y),
+    missing: states.filter(s => !byState[s]), unstated: given.filter(s => !s).length, standIn: !listed.length,
+  };
 }
 
 // One shared staging yard instead of two. A combined yard is assumed to be 1.0-1.5x the size of one project's
@@ -207,12 +234,13 @@ export function opportunityText(pair) {
   return "Within regional coordination range: investigate crews and equipment scheduling.";
 }
 
-// ---- Plan colors beyond the fixed, hand-checked ones ----
+// ---- Plan colors beyond the fixed, hand-checked ones (src/palette.js) ----
 // A further plan gets, of the colors that read as text on white (4.5:1), no darker than the fixed palette's darkest
-// and with OKLCH chroma from 0.06 (never a grey) to 0.2 (the fixed palette peaks at 0.15), the one farthest from
-// every color in use. "Far" is measured twice, each relative to the fixed palette's own closest pair: as normal vision sees it,
-// and as whichever of full protanopia, deuteranopia or tritanopia (Machado et al. 2009) sees it closest; the smaller
-// ratio counts. Deterministic, so a plan keeps its color.
+// and with OKLCH chroma from 0.06 (never a grey) to 0.2 (the fixed palette peaks at 0.15), the one whose fill and text
+// shade (textShade) are farthest from every color in use: the plans' fills and text shades, the brief's print colors,
+// the map's ground layers, and the further plans picked before it. "Far" is measured twice, each relative to the fixed
+// palette's own closest pair of fills: as normal vision sees it, and as whichever of full protanopia, deuteranopia or
+// tritanopia (Machado et al. 2009) sees it closest; the smaller ratio counts. Deterministic, so a plan keeps its color.
 const lin = c => c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
 const enc = c => c <= 0.0031308 ? 12.92 * c : 1.055 * c ** (1 / 2.4) - 0.055;
 const mul = (m, [x, y, z]) => [0, 3, 6].map(i => m[i] * x + m[i + 1] * y + m[i + 2] * z);
@@ -241,27 +269,57 @@ export const contrastOnWhite = hex => 1.05 / (luminance(hexToRgb(hex)) + 0.05);
 // (about 0.02 is just noticeable).
 export const colorDistance = (x, y) => { const a = seen(x), b = seen(y); return { normal: normalGap(a, b), worst: worstGap(a, b) }; };
 
+const inGamut = rgb => rgb.every(c => c >= -1e-4 && c <= 1 + 1e-4);
+
 function readableColors(darkest) {
   const target = 1.05 / 4.6 - 0.05, out = [];   // luminance for 4.6:1 on white, leaving room for rounding to 8-bit
   for (let hue = 0; hue < 360; hue += 5) for (let L = darkest; L < 1; L += 0.02) for (let C = 0.06; C <= 0.2001; C += 0.02) {
     const h = hue * Math.PI / 180, rgb = fromOklab([L, C * Math.cos(h), C * Math.sin(h)]);
-    if (rgb.every(c => c >= -1e-4 && c <= 1 + 1e-4) && luminance(clamp(rgb)) <= target) out.push(rgbToHex(rgb));
+    if (inGamut(rgb) && luminance(clamp(rgb)) <= target) out.push(rgbToHex(rgb));
   }
   return out;
 }
 
-// `count` colors for further plans, each as far as possible from `fixed` and from the ones picked before it.
-export function extraPlanColors(fixed, count) {
+// A plan's text shade, made the way the fixed palette's are: its fill at the same hue, darkened until it reads at 7:1
+// on white (WCAG's enhanced contrast), or the fill itself when it already does. The fixed shades sit at 6.1–7.4:1
+// (DESC's, violet's and brown's within a few 8-bit steps of this rule's), and navy's fill, at 10:1, is its own text.
+export const TEXT_CONTRAST = 7;
+export function textShade(fill, target = TEXT_CONTRAST) {
+  if (contrastOnWhite(fill) >= target) return fill;
+  const [L, a, b] = oklab(hexToRgb(fill)), C = Math.hypot(a, b), h = Math.atan2(b, a);
+  for (let l = L - 0.005; l > 0; l -= 0.005) {
+    for (let c = C; c >= 0; c -= 0.005) {   // as much of the fill's chroma as fits in sRGB at this lightness
+      const rgb = fromOklab([l, c * Math.cos(h), c * Math.sin(h)]);
+      if (!inGamut(rgb)) continue;
+      const hex = rgbToHex(rgb);
+      if (contrastOnWhite(hex) >= target) return hex;
+      break;
+    }
+  }
+  return "#000000";
+}
+
+// `count` colors for further plans, [{ fill, text }], each as far as possible from the `fixed` plan fills, from every
+// other color in use (`inUse`: text shades, print colors, map layers) and from the ones picked before it.
+export function extraPlanColors(fixed, count, inUse = []) {
   if (count <= 0) return [];
-  const used = fixed.map(seen), pairs = used.flatMap((x, i) => used.slice(i + 1).map(y => [x, y]));
+  const plans = fixed.map(seen), pairs = plans.flatMap((x, i) => plans.slice(i + 1).map(y => [x, y]));
   const floorNormal = Math.min(...pairs.map(([x, y]) => normalGap(x, y))), floorWorst = Math.min(...pairs.map(([x, y]) => worstGap(x, y)));
   const score = (c, u) => Math.min(normalGap(c, u) / floorNormal, worstGap(c, u) / floorWorst);
-  const candidates = readableColors(Math.min(...used.map(u => u[0][0]))).map(hex => ({ hex, seen: seen(hex) }));
+  const used = [...new Set([...fixed, ...inUse].map(c => c.toLowerCase()))].map(seen);
+  const candidates = readableColors(Math.min(...plans.map(u => u[0][0]))).map(fill => {
+    const text = textShade(fill);
+    return { fill, text, seen: [...new Set([fill, text])].map(seen) };
+  });
   const out = [];
   while (out.length < count) {
     let best = null, bestScore = -1;
-    for (const c of candidates) { const sc = Math.min(...used.map(u => score(c.seen, u))); if (sc > bestScore) { bestScore = sc; best = c; } }
-    used.push(best.seen); out.push(best.hex);
+    for (const c of candidates) {
+      let sc = Infinity;
+      for (const u of used) { for (const s of c.seen) sc = Math.min(sc, score(s, u)); if (sc <= bestScore) break; }
+      if (sc > bestScore) { bestScore = sc; best = c; }
+    }
+    used.push(...best.seen); out.push({ fill: best.fill, text: best.text });
   }
   return out;
 }

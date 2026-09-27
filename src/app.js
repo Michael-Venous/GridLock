@@ -1,4 +1,5 @@
-import { matchProjects, planOf, gapLabel, overlapLabel, opportunityText, savingsEstimate, yardScenario, landValue, projectType, sortPairs, milesBetween, extraPlanColors, SORTS, WEIGHTS, YARD_BASIS, MAX_MILES } from "./match.js";
+import { matchProjects, planOf, gapLabel, overlapLabel, opportunityText, savingsEstimate, yardScenario, landValue, landCitation, projectType, sortPairs, milesBetween, extraPlanColors, SORTS, WEIGHTS, YARD_BASIS, MAX_MILES } from "./match.js";
+import { PLAN_COLORS, PLAN_TEXT_COLORS, PLAN_PRINT_COLORS, ENV_COLORS } from "./palette.js";
 import { pairGround, groundMatches, groundLines, groundShort, groundCostNote, floodZoneText } from "./environment.js";
 import { createChangesView } from "./changes-view.js";
 import { currentEdition } from "./changes.js";
@@ -23,12 +24,9 @@ const SATELLITE_KEY = "gridlock.satellite";
 function loadSatellite() { try { return localStorage.getItem(SATELLITE_KEY) === "1"; } catch { return false; } }
 function saveSatellite() { try { localStorage.setItem(SATELLITE_KEY, satelliteOn ? "1" : "0"); } catch { /* storage unavailable: choice lasts for this visit */ } }
 const border = [[-82.7, 31.85], [-80.6, 33.95]];
-// Plan colors by side class (see side()): DESC teal, Georgia orange, then violet, brown and navy for further plans.
-// They stay apart under the common color-vision deficiencies. The darker shades carry text on white. Plans past
-// these get generated colors (extraPlanColors), added here by addPlanColors().
-const COLORS = { desc: "#0a8494", gpc: "#cb6e30", "plan-x1": "#7b4fb0", "plan-x2": "#8b5a2b", "plan-x3": "#2a3f7a" };
-const TEXT_COLORS = { desc: "#0b5f6b", gpc: "#9a4a17", "plan-x1": "#6a3fa0", "plan-x2": "#7a4d22", "plan-x3": "#2a3f7a" };
-const PRINT_COLORS = { ...COLORS, desc: "#087f8c", gpc: "#b96124" };
+// Plan colors by side class (see side()), from src/palette.js. Plans past these get generated colors
+// (extraPlanColors), added here by addPlanColors().
+const COLORS = { ...PLAN_COLORS }, TEXT_COLORS = { ...PLAN_TEXT_COLORS }, PRINT_COLORS = { ...PLAN_PRINT_COLORS };
 const bySide = colors => ["match", ["get", "side"], ...Object.entries(colors).flat(), colors.desc];
 // OpenFreeMap: free OpenStreetMap vector tiles, no API key.
 const BASEMAP = "https://tiles.openfreemap.org/styles/positron";
@@ -36,6 +34,9 @@ const BASEMAP = "https://tiles.openfreemap.org/styles/positron";
 const SATELLITE_TILES = "https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}";
 const FALLBACK_STYLE = { version: 8, glyphs: "https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf", sources: {}, layers: [{ id: "background", type: "background", paint: { "background-color": "#e5ecec" } }] };
 const MILES_PER_DEGREE = 69.09;
+// Framing a set of points never zooms past town scale, so one point (or a few close together) stays in context.
+// Shared with the Changes map.
+const FIT_MAX_ZOOM = 11;
 let map = null, mapReady = false, styleFailed = false, pendingFocus = null, changesView = null;
 
 // Ground layers. Around checked sites we draw the cached outlines behind each result (data/env/); zoomed in close,
@@ -43,7 +44,6 @@ let map = null, mapReady = false, styleFailed = false, pendingFocus = null, chan
 const NWI_EXPORT = "https://fwspublicservices.wim.usgs.gov/wetlandsmapservice/rest/services/Wetlands/MapServer/export";
 const NFHL_EXPORT = "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/export";
 const exportTiles = (url, layer) => `${url}?bbox={bbox-epsg-3857}&bboxSR=3857&imageSR=3857&size=512,512&format=png32&transparent=true&layers=show:${layer}&f=image`;
-const ENV_COLORS = { wetland: "#1f8a3c", water: "#4f78c4", flood: "#3fb6d0", flood02: "#9fdbe6", habitat: "#b0397a", protected: "#8a7a2c" };
 const LIVE_ZOOM = { wetlands: 12, flood: 14 };
 const ENV_LAYERS = {
   wetlands: ["env-wetland-fill", "env-water-fill", "env-nwi"],
@@ -99,13 +99,18 @@ function loadPlans(data) {
   const extra = out.filter(p => p.id !== "desc" && p.id !== "ga");
   return out.map(p => ({ ...p, side: p.id === "desc" ? "desc" : p.id === "ga" ? "gpc" : `plan-x${extra.indexOf(p) + 1}` }));
 }
-// Sides past the fixed colors: generated colors for the maps and the brief, and CSS classes like styles.css's
-// plan-x1..3 (one color serves as fill and text, since each reads at 4.5:1 on white).
+// Sides past the fixed colors: generated fills and text shades for the maps and the brief, and CSS classes like
+// styles.css's plan-x1..3. They keep clear of every color already on the page: the fixed plans' fills, their text
+// shades here and in styles.css, the print colors and the ground layers.
 function addPlanColors() {
   const sides = plans.map(p => p.side).filter(s => !COLORS[s]);
-  const colors = extraPlanColors(Object.values(COLORS), sides.length);
-  sides.forEach((s, i) => { COLORS[s] = TEXT_COLORS[s] = PRINT_COLORS[s] = colors[i]; });
-  if (sides.length) document.head.append(h("style", "", sides.map((s, i) => `:root { --${s}: ${colors[i]}; --${s}-text: ${colors[i]}; }\n.${s} { --side: var(--${s}); --side-text: var(--${s}-text); }`).join("\n")));
+  if (!sides.length) return;
+  const root = getComputedStyle(document.documentElement), css = name => root.getPropertyValue(name).trim();
+  const pageColors = Object.keys(COLORS).flatMap(s => [css(`--${s}`), css(`--${s}-text`)]).filter(c => /^#[0-9a-f]{6}$/i.test(c));
+  const inUse = [...Object.values(TEXT_COLORS), ...Object.values(PRINT_COLORS), ...Object.values(ENV_COLORS), ...pageColors];
+  const colors = extraPlanColors(Object.values(COLORS), sides.length, inUse);
+  sides.forEach((s, i) => { COLORS[s] = PRINT_COLORS[s] = colors[i].fill; TEXT_COLORS[s] = colors[i].text; });
+  document.head.append(h("style", "", sides.map((s, i) => `:root { --${s}: ${colors[i].fill}; --${s}-text: ${colors[i].text}; }\n.${s} { --side: var(--${s}); --side-text: var(--${s}-text); }`).join("\n")));
 }
 const planInfo = id => plans.find(p => p.id === id) ?? { id, name: id, side: "desc" };
 const side = project => planInfo(planOf(project)).side;
@@ -113,22 +118,25 @@ const side = project => planInfo(planOf(project)).side;
 const otherPlan = project => plans.filter(p => p.id !== planOf(project)).map(p => p.name).join(" or ");
 const sideName = project => { const plan = planOf(project); return plan === "desc" ? "DESC" : plan === "ga" ? (project.utility === "SAV" ? "GPC · Savannah" : project.utility) : planInfo(plan).name; };
 const andList = (xs, word = "and") => xs.length < 3 ? xs.join(` ${word} `) : `${xs.slice(0, -1).join(", ")} ${word} ${xs.at(-1)}`;
-// The change log lists every filing with its edition; it is fetched once, for the Changes tab and for each plan's
-// current edition in the landing text.
-let changeLog = null, filings = [];
+// The change log is fetched the first time the Changes tab opens. Each plan's current edition comes with the project
+// data (plans[].edition).
+let changeLog = null;
 function loadChangeLog() {
   changeLog ??= fetch("data/changes.json").then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
     .catch(error => { changeLog = null; throw error; });
   return changeLog;
 }
-const edition = plan => currentEdition(plan, filings);
+const edition = plan => currentEdition(plan);
 const STATE_NAMES = { AL: "Alabama", AK: "Alaska", AZ: "Arizona", AR: "Arkansas", CA: "California", CO: "Colorado", CT: "Connecticut", DE: "Delaware", DC: "District of Columbia",
   FL: "Florida", GA: "Georgia", HI: "Hawaii", ID: "Idaho", IL: "Illinois", IN: "Indiana", IA: "Iowa", KS: "Kansas", KY: "Kentucky", LA: "Louisiana", ME: "Maine", MD: "Maryland",
   MA: "Massachusetts", MI: "Michigan", MN: "Minnesota", MS: "Mississippi", MO: "Missouri", MT: "Montana", NE: "Nebraska", NV: "Nevada", NH: "New Hampshire", NJ: "New Jersey",
   NM: "New Mexico", NY: "New York", NC: "North Carolina", ND: "North Dakota", OH: "Ohio", OK: "Oklahoma", OR: "Oregon", PA: "Pennsylvania", RI: "Rhode Island", SC: "South Carolina",
   SD: "South Dakota", TN: "Tennessee", TX: "Texas", UT: "Utah", VT: "Vermont", VA: "Virginia", WA: "Washington", WV: "West Virginia", WI: "Wisconsin", WY: "Wyoming" };
 // A plan's legend label: its name, and its state unless the name already says it ("DESC, South Carolina", "Georgia ITS").
-const planLabel = plan => { const st = STATE_NAMES[plan.state]; return st && !plan.name.includes(st) ? `${plan.name}, ${st}` : plan.name; };
+// State names count as whole words, the longest first, so "West Virginia Power" doesn't say Virginia and "Arkansas
+// Electric" doesn't say Kansas.
+const STATE_IN_NAME = new RegExp(`\\b(${Object.values(STATE_NAMES).sort((x, y) => y.length - x.length).join("|")})\\b`, "g");
+const planLabel = plan => { const st = STATE_NAMES[plan.state]; return st && !(plan.name.match(STATE_IN_NAME) ?? []).includes(st) ? `${plan.name}, ${st}` : plan.name; };
 function projectLabel(project) { return `${project.projectId} · ${project.name}`; }
 // Other projects in the same plan with the same named end stations (separate filings on one line), which otherwise
 // read as duplicate pairs in the list.
@@ -798,11 +806,16 @@ function questions(pair) {
 
 // ---- Staging-yard scenario ----
 function yardInputs() { const y = state.yard; return { acres: y.acres, months: y.months, leaseRate: y.leaseRate, surfacePerAcre: y.surface === "mats" ? YARD_BASIS.matsPerAcre.value : y.surfacePerAcre, roadMiles: y.roadMiles }; }
-// The pair's own states' USDA land values; a state without one is named, with what stands in for it.
+// The pair's own states' USDA land values. A state the report doesn't list, or a project with no state, is said,
+// with what stands in for it.
 function landBasis(land) {
-  const used = land.states.length > 1 ? `${land.states.join("/")} average` : land.states[0];
-  if (!land.missing.length) return `land value cited (USDA, ${used})`;
-  return `no USDA land value for ${andList(land.missing, "or")}; ${land.standIn ? `the cited ${used} stands in` : `${used}'s cited value is used`}`;
+  const used = land.standIn ? "United States average" : land.states.length > 1 ? `${land.states.join("/")} average` : land.states[0];
+  const gaps = [
+    ...(land.missing.length ? [`USDA's Land Values 2026 lists no pasture value for ${andList(land.missing, "or")}`] : []),
+    ...(land.unstated ? [land.unstated > 1 ? "neither project's state is given" : "one project's state isn't given"] : []),
+  ];
+  if (!gaps.length) return `land value cited (USDA, ${used})`;
+  return `${gaps.join("; ")}; ${land.standIn ? `USDA's cited ${used} stands in` : `${used}'s cited value is used`}`;
 }
 function scenarioLines(pair, sc) {
   return [
@@ -829,6 +842,12 @@ function sideBySide(pair, sc) {
     col("Coordinated", together, sc.active ? `${money(sc.oneYard)} – ${money(1.5 * sc.oneYard)}` : money(2 * sc.oneYard),
       sc.active ? `One combined yard, assumed 1.0–1.5× the size of one, for ${sc.months} assumed shared months.` : sc.reason));
   return box;
+}
+
+// The report pages behind a pair's land value, with the figures used.
+function landLink(land) {
+  const cite = landCitation(land.pages);
+  return link(cite.url, `USDA Land Values 2026, ${cite.where} (pasture: ${land.figures.map(f => `${f.name} ${money(f.value)}`).join(", ")}/ac)`);
 }
 
 function yardCard(pair) {
@@ -870,7 +889,7 @@ function yardCard(pair) {
   const assumptions = h("details", "detail-fold scenario-assumptions");
   assumptions.append(h("summary", "", "Adjust assumptions"), form);
   card.append(out, h("p", "", `Beyond the yard: ${beyondYard(pair).join(" ")}`), assumptions);
-  const src = h("p", "muted-note"); src.append(document.createTextNode("Cost basis: "), link(YARD_BASIS.matsPerAcre.url, "MISO MTEP24 cost guide, p. 19 (mats)"), document.createTextNode(" · "), link(YARD_BASIS.roadPerMile.url, "p. 23 (access road)"), document.createTextNode(" · "), link(YARD_BASIS.landPerAcre.url, `USDA Land Values 2026, p. 15 (pasture: ${landValue(pair).states.map(st => `${st} ${money(YARD_BASIS.landPerAcre[st])}`).join(", ")}/ac)`));
+  const src = h("p", "muted-note"); src.append(document.createTextNode("Cost basis: "), link(YARD_BASIS.matsPerAcre.url, "MISO MTEP24 cost guide, p. 19 (mats)"), document.createTextNode(" · "), link(YARD_BASIS.roadPerMile.url, "p. 23 (access road)"), document.createTextNode(" · "), landLink(landValue(pair)));
   card.append(src, h("p", "muted-note", "Proximity alone can't establish that land or equipment can be shared. This assumes a usable site between the projects, both schedules holding, and both utilities agreeing. It is a reason to make a call, not a budget."));
   return card;
 }
@@ -1088,7 +1107,7 @@ function briefText(pair) {
     "", `Questions for ${sideName(pair.b)}:`, ...questions(pair).map((q, i) => `  ${i + 1}. ${q}`),
     "", "Where to raise it:", ...planningForumText(pair),
     "", "Sources:", `  ${sourceLabel(pair.a.source)}: ${pdfLink(pair.a.source)}`, `  ${sourceLabel(pair.b.source)}: ${pdfLink(pair.b.source)}`,
-    `  ${YARD_BASIS.matsPerAcre.source}`, `  ${YARD_BASIS.roadPerMile.source}`, `  ${YARD_BASIS.landPerAcre.source}`,
+    `  ${YARD_BASIS.matsPerAcre.source}`, `  ${YARD_BASIS.roadPerMile.source}`, `  ${landCitation(sc.land.pages).source}`,
     "Built from public filings and OpenStreetMap only; no CEII. Locations are estimates.",
   ].join("\n");
 }
@@ -1117,7 +1136,7 @@ function briefHtml(pair) {
   <h2>Ground near mapped endpoints</h2><div class="cols">${[a, b].map(p => `<div><b>${esc(sideName(p))} ${esc(p.projectId)}</b><ul>${li(groundLines(p, state.data.environmentRadiusMi))}</ul></div>`).join("")}</div>
   <p class="note">${esc(GROUND_NOTE)}</p>
   <section class="forum"><h2>Where to raise it</h2><p>${forumProjects(pair).map(p => `${esc(sideName(p))}: <a href="${esc(PLANNING_FORUMS[p.state].contactUrl)}">${esc(PLANNING_FORUMS[p.state].shortName)} contact page</a>`).join(" · ")}</p><p>${esc(PLANNING_TRANSITION.text)} Checked ${esc(PLANNING_TRANSITION.checkedOn)}. <a href="${esc(PLANNING_TRANSITION.sourceUrl)}">Transition notice</a></p></section>
-  <footer>Cost basis: ${esc(YARD_BASIS.matsPerAcre.source)}; ${esc(YARD_BASIS.roadPerMile.source)}; ${esc(YARD_BASIS.landPerAcre.source)}. Built from public filings and OpenStreetMap only; no CEII. Locations are estimates with stated uncertainty.</footer>
+  <footer>Cost basis: ${esc(YARD_BASIS.matsPerAcre.source)}; ${esc(YARD_BASIS.roadPerMile.source)}; ${esc(landCitation(sc.land.pages).source)}. Built from public filings and OpenStreetMap only; no CEII. Locations are estimates with stated uncertainty.</footer>
 </section>`;
 }
 
@@ -1343,11 +1362,9 @@ function clearOfLegend() {
   if (across / box.width < up / box.height) pad[side] += across; else pad.bottom += up;
   return pad.left + pad.right < box.width - 100 && pad.top + pad.bottom < box.height - 100 ? pad : 20;
 }
-$("fit-all").addEventListener("click", () => map?.fitBounds(placedBounds(), { padding: clearOfLegend() }));
+$("fit-all").addEventListener("click", () => map?.fitBounds(placedBounds(), { padding: clearOfLegend(), maxZoom: FIT_MAX_ZOOM }));
 document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => setView(t.dataset.view)));
 
-// The landing names each plan's edition once the change log arrives; until then (or without it) the source titles do.
-const editionsLoaded = loadChangeLog().then(log => { filings = log.filings ?? []; }, () => { /* the Changes tab reports the error */ });
 try {
   const response = await fetch("data/projects.json");
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -1372,7 +1389,7 @@ try {
   initMap();
   syncEnvLayers();
   changesView = createChangesView({
-    h, link, formatDate, money, colors: COLORS, basemap: BASEMAP, fallbackStyle: FALLBACK_STYLE, side, sideName, planName: id => planInfo(id).name, loadLog: loadChangeLog,
+    h, link, formatDate, money, colors: COLORS, basemap: BASEMAP, fallbackStyle: FALLBACK_STYLE, fitMaxZoom: FIT_MAX_ZOOM, side, sideName, planName: id => planInfo(id).name, loadLog: loadChangeLog,
     pairExists: id => state.allPairs.some(p => p.id === id && p.qualifies),
     openProject: id => { state.selectedProject = id; state.selectedPair = null; setView("explore"); applyFilters(); },
     openPair: id => {
@@ -1388,6 +1405,5 @@ try {
   restoreViewUrl(); syncControls();
   if (state.selectedPair) { focusPair(state.allPairs.find(p => p.id === state.selectedPair)); revealDetails(); scrollToPairRow(state.selectedPair); }
   else if (state.selectedProject) revealDetails();
-  editionsLoaded.then(() => { if (!state.selectedPair && !state.selectedProject) renderDetail(); });
   window.addEventListener("hashchange", () => { restoreViewUrl(); syncControls(); if (state.selectedPair || state.selectedProject) revealDetails(); if (state.selectedPair) scrollToPairRow(state.selectedPair); });
 } catch (error) { $("match-list").textContent = `Could not load project data: ${error.message}. Run the local server described in README.md.`; console.error(error); }

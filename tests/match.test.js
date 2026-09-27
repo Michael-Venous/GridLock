@@ -1,7 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { matchProjects, planOf, milesBetween, dateGapDays, windowOverlapDays, remainingOverlapDays, certainty, nearbyEndpoints, opportunityText, scenarioAvailability, savingsEstimate, scorePair, sortPairs, projectType, yardScenario, landValue, extraPlanColors, contrastOnWhite, colorDistance, WEIGHTS, YARD_BASIS } from "../src/match.js";
+import { matchProjects, planOf, milesBetween, dateGapDays, windowOverlapDays, remainingOverlapDays, certainty, nearbyEndpoints, opportunityText, scenarioAvailability, savingsEstimate, scorePair, sortPairs, projectType, yardScenario, landValue, landCitation, extraPlanColors, textShade, contrastOnWhite, colorDistance, TEXT_CONTRAST, WEIGHTS, YARD_BASIS } from "../src/match.js";
+import { PLAN_COLORS, PLAN_TEXT_COLORS, PLAN_PRINT_COLORS, ENV_COLORS } from "../src/palette.js";
 
 const starter = JSON.parse(readFileSync(new URL("../data/starter_projects.json", import.meta.url))).projects;
 
@@ -185,7 +186,7 @@ test("project type comes from the filing's own title", () => {
 test("staging-yard scenario: cited unit costs, half to one avoided yard, nothing without overlap ahead", () => {
   const pair = { qualifies: true, remainingDays: 365, a: { state: "SC" }, b: { state: "GA" } };
   const sc = yardScenario(pair, { acres: 4, months: 12, leaseRate: 0.1, surfacePerAcre: 10000, roadMiles: 0.5 });
-  const land = (YARD_BASIS.landPerAcre.GA + YARD_BASIS.landPerAcre.SC) / 2;
+  const land = (YARD_BASIS.landPerAcre.byState.GA.value + YARD_BASIS.landPerAcre.byState.SC.value) / 2;
   assert.equal(sc.oneYard, 4 * 10000 + 4 * land * 0.1 + 0.5 * YARD_BASIS.roadPerMile.value);
   assert.equal(sc.low, sc.oneYard / 2);
   assert.equal(sc.high, sc.oneYard);
@@ -193,34 +194,90 @@ test("staging-yard scenario: cited unit costs, half to one avoided yard, nothing
   assert.equal(yardScenario(pair).months, 12);
 });
 
+test("yard land value: USDA's pasture figure for every state its table lists, each cited to its page", () => {
+  const { byState, unitedStates } = YARD_BASIS.landPerAcre;
+  // Land Values 2026 Summary, "Pasture Average Value per Acre", 2026 column: 48 states (not Alaska or Hawaii).
+  assert.equal(Object.keys(byState).length, 48);
+  assert.ok(!byState.AK && !byState.HI);
+  assert.deepEqual(byState.GA, { value: 5100, page: 15 });
+  assert.deepEqual(byState.SC, { value: 4500, page: 15 });
+  assert.deepEqual(byState.AL, { value: 3500, page: 15 });
+  assert.deepEqual(byState.FL, { value: 7650, page: 15 });
+  assert.deepEqual(byState.NC, { value: 6380, page: 14 });
+  assert.deepEqual(byState.TN, { value: 5910, page: 14 });
+  assert.deepEqual(byState.VA, { value: 5430, page: 14 });
+  assert.deepEqual(unitedStates, { value: 2000, page: 15 });
+  assert.equal(landCitation([15]).source, "USDA NASS, Land Values 2026 Summary (July 2026), p. 15: pasture average value per acre");
+  assert.match(landCitation([14, 15]).url, /land0726\.pdf#page=14$/);
+  assert.equal(landCitation([14, 15]).where, "pp. 14–15");
+});
+
 test("yard land value comes from the pair's own states, and says which state has no figure", () => {
-  const { GA, SC } = YARD_BASIS.landPerAcre;
+  const { byState, unitedStates } = YARD_BASIS.landPerAcre;
+  const GA = byState.GA.value, SC = byState.SC.value, NC = byState.NC.value, TN = byState.TN.value;
   const pair = (a, b) => ({ qualifies: true, remainingDays: 365, a: { state: a }, b: { state: b } });
-  assert.deepEqual(landValue(pair("SC", "GA")), { perAcre: (GA + SC) / 2, states: ["GA", "SC"], missing: [], standIn: false });
-  assert.deepEqual(landValue(pair("SC", "SC")), { perAcre: SC, states: ["SC"], missing: [], standIn: false });
-  assert.deepEqual(landValue(pair("NC", "GA")), { perAcre: GA, states: ["GA"], missing: ["NC"], standIn: false });
-  assert.deepEqual(landValue(pair("NC", "TN")), { perAcre: (GA + SC) / 2, states: ["GA", "SC"], missing: ["NC", "TN"], standIn: true });
+  const brief = land => ({ perAcre: land.perAcre, states: land.states, pages: land.pages, missing: land.missing, unstated: land.unstated, standIn: land.standIn });
+  assert.deepEqual(brief(landValue(pair("SC", "GA"))), { perAcre: (GA + SC) / 2, states: ["GA", "SC"], pages: [15], missing: [], unstated: 0, standIn: false });
+  assert.deepEqual(brief(landValue(pair("SC", "SC"))), { perAcre: SC, states: ["SC"], pages: [15], missing: [], unstated: 0, standIn: false });
+  assert.deepEqual(brief(landValue(pair("NC", "GA"))), { perAcre: (GA + NC) / 2, states: ["GA", "NC"], pages: [14, 15], missing: [], unstated: 0, standIn: false });
+  assert.deepEqual(brief(landValue(pair("NC", "TN"))), { perAcre: (NC + TN) / 2, states: ["NC", "TN"], pages: [14], missing: [], unstated: 0, standIn: false });
+  // A state the report doesn't list, or no state at all: the other project's state stands in, else the US average.
+  assert.deepEqual(brief(landValue(pair("AK", "GA"))), { perAcre: GA, states: ["GA"], pages: [15], missing: ["AK"], unstated: 0, standIn: false });
+  assert.deepEqual(brief(landValue(pair("AK", "HI"))), { perAcre: unitedStates.value, states: [], pages: [15], missing: ["AK", "HI"], unstated: 0, standIn: true });
+  assert.deepEqual(brief(landValue(pair(null, "GA"))), { perAcre: GA, states: ["GA"], pages: [15], missing: [], unstated: 1, standIn: false });
+  assert.deepEqual(brief(landValue(pair(undefined, null))), { perAcre: unitedStates.value, states: [], pages: [15], missing: [], unstated: 2, standIn: true });
+  assert.deepEqual(landValue(pair("SC", "GA")).figures, [{ name: "GA", value: GA, page: 15 }, { name: "SC", value: SC, page: 15 }]);
+  assert.deepEqual(landValue(pair(null, null)).figures, [{ name: "United States", ...unitedStates }]);
   const sc = yardScenario(pair("SC", "SC"), { acres: 4, months: 12, leaseRate: 0.1 });
   assert.equal(sc.parts.lease, 4 * SC * 0.1);
   assert.equal(sc.land.states[0], "SC");
 });
 
-test("plan colors: generated ones for plans past the fixed five are readable, distinct and stable", () => {
-  const fixed = ["#0a8494", "#cb6e30", "#7b4fb0", "#8b5a2b", "#2a3f7a"];   // styles.css and src/app.js
-  assert.deepEqual(extraPlanColors(fixed, 0), []);
-  const seven = [...fixed, ...extraPlanColors(fixed, 2)];
-  assert.equal(new Set(seven).size, 7);
-  assert.deepEqual(extraPlanColors(fixed, 4).slice(0, 2), seven.slice(5));   // adding a plan keeps the others' colors
-  // With seven plans, each generated color reads as text on white and sits at least as far from every other plan's
-  // color as the fixed palette's closest pair does, both to normal vision and to the dichromat who sees them closest.
+// Every color the app draws in: palette.js, plus styles.css's own text shades (which the app reads from the page).
+const cssColors = Object.fromEntries([...readFileSync(new URL("../styles.css", import.meta.url), "utf8").matchAll(/--([\w-]+):\s*(#[0-9a-f]{6})\b/gi)].map(m => [m[1], m[2].toLowerCase()]));
+const JND = 0.02;   // OKLab distance that is just noticeable
+
+test("styles.css repeats the palette's plan fills and ground-layer colors", () => {
+  for (const [side, fill] of Object.entries(PLAN_COLORS)) assert.equal(cssColors[side], fill, side);
+  for (const [layer, color] of Object.entries(ENV_COLORS)) if (cssColors[`env-${layer}`]) assert.equal(cssColors[`env-${layer}`], color, layer);
+});
+
+test("plan colors: a generated plan's text shade is made the way the fixed ones are", () => {
+  for (const side of ["desc", "plan-x1", "plan-x2", "plan-x3"]) {
+    const d = colorDistance(textShade(PLAN_COLORS[side]), PLAN_TEXT_COLORS[side]);
+    assert.ok(d.normal < JND, `${side}: ${textShade(PLAN_COLORS[side])} vs ${PLAN_TEXT_COLORS[side]}`);
+  }
+  assert.equal(textShade(PLAN_COLORS["plan-x3"]), PLAN_COLORS["plan-x3"]);   // navy already reads at 7:1
+  for (const hex of ["#d4326b", "#0a8494", "#cb6e30", "#3fb6d0"]) assert.ok(contrastOnWhite(textShade(hex)) >= TEXT_CONTRAST, hex);
+});
+
+test("plan colors: generated ones for plans past the fixed five are readable, stable, and apart from every color in use", () => {
+  const fixed = Object.values(PLAN_COLORS);
+  const inUse = [...Object.values(PLAN_TEXT_COLORS), ...Object.values(PLAN_PRINT_COLORS), ...Object.values(ENV_COLORS),
+    ...Object.keys(PLAN_COLORS).map(side => cssColors[`${side}-text`])];
+  assert.ok(inUse.every(Boolean));
+  assert.deepEqual(extraPlanColors(fixed, 0, inUse), []);
+  const six = extraPlanColors(fixed, 6, inUse);   // eleven plans
+  assert.deepEqual(extraPlanColors(fixed, 2, inUse), six.slice(0, 2));   // adding a plan keeps the others' colors
+  assert.equal(new Set(six.map(c => c.fill)).size, 6);
   const pairs = fixed.flatMap((x, i) => fixed.slice(i + 1).map(y => colorDistance(x, y)));
   const floor = { normal: Math.min(...pairs.map(d => d.normal)), worst: Math.min(...pairs.map(d => d.worst)) };
-  for (const c of seven.slice(5)) {
-    assert.ok(contrastOnWhite(c) >= 4.5, `${c} contrast ${contrastOnWhite(c)}`);
-    for (const other of seven) if (other !== c) {
-      const d = colorDistance(c, other);
-      assert.ok(d.normal >= floor.normal && d.worst >= floor.worst, `${c} vs ${other}: ${JSON.stringify(d)}, floor ${JSON.stringify(floor)}`);
+  six.forEach(({ fill, text }, i) => {
+    assert.ok(contrastOnWhite(fill) >= 4.5, `${fill} contrast ${contrastOnWhite(fill)}`);
+    assert.equal(text, textShade(fill));
+    assert.ok(contrastOnWhite(text) >= TEXT_CONTRAST, `${text} contrast ${contrastOnWhite(text)}`);
+    // Its fill and its text shade are noticeably apart from every other color on the page, to normal vision and to
+    // the dichromat who sees them closest: other plans' fills and text shades, print colors and ground layers.
+    const others = [...fixed, ...inUse, ...six.filter((_, j) => j !== i).flatMap(c => [c.fill, c.text])];
+    for (const own of new Set([fill, text])) for (const other of others) {
+      const d = colorDistance(own, other);
+      assert.ok(d.normal > JND && d.worst > JND, `plan ${i + 6} ${own} vs ${other}: ${JSON.stringify(d)}`);
     }
+  });
+  // The sixth plan's color is as far from every color in use as the fixed palette's closest pair of fills are apart.
+  for (const own of new Set([six[0].fill, six[0].text])) for (const other of [...fixed, ...inUse]) {
+    const d = colorDistance(own, other);
+    assert.ok(d.normal >= floor.normal && d.worst >= floor.worst, `${own} vs ${other}: ${JSON.stringify(d)}, floor ${JSON.stringify(floor)}`);
   }
 });
 

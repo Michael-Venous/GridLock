@@ -219,20 +219,52 @@ class OffMapTests(unittest.TestCase):
 
 
 class GeorgiaTableTests(unittest.TestCase):
+    def read(self, *lines, members=()):
+        return {k: (v["zone"], v["year"], v["sponsor"]) for k, v in parse_ga.table2(list(lines), members).items()}
+
     def test_table_2_sponsor_is_read_as_printed_and_stored_as_its_code(self):
         # rows as pdftotext lays them out: the 2025 plan ends a row with the sponsor, the 2024 plan follows it with redacted costs
         for line, expected in (
-            (" 211      2026       13188          DALTON 230kV NETWORK                      6/1/2026          Dalton", ("211", "2026", "13188", "DU")),
-            ("   211      2026      18679            DU: EAST DALTON -                6/1/2026          DU            REDACTED                REDACTED", ("211", "2026", "18679", "DU")),
-            (" 208      2027       20717             SOLUTION (NETWORK                                         GPC", ("208", "2027", "20717", "GPC")),
-            (" 208      2026       21022                                                                       GPC", ("208", "2026", "21022", "GPC")),
+            (" 211      2026       13188          DALTON 230kV NETWORK                      6/1/2026          Dalton", ("211", "2026", "DU")),
+            ("   211      2026      18679            DU: EAST DALTON -                6/1/2026          DU            REDACTED                REDACTED", ("211", "2026", "DU")),
+            (" 208      2027       20717             SOLUTION (NETWORK                                         GPC", ("208", "2027", "GPC")),
+            (" 208      2026       21022                                                                       GPC", ("208", "2026", "GPC")),
+            # a code one space after the date, trailing cost cells and footnote marks, a name with parentheses
+            (" 211      2026       18679            DU: EAST DALTON -                6/1/2026 GPC", ("211", "2026", "GPC")),
+            (" 211      2026       18679            DU: EAST DALTON -                6/1/2026          GPC      $12.5      *", ("211", "2026", "GPC")),
+            (" 219      2026       19523            SAV: CC - HYUNDAI            6/1/2026          Georgia Power (Savannah)   REDACTED", ("219", "2026", "SAV")),
         ):
             with self.subTest(line=line):
-                m = parse_ga.ROW.match(line)
-                self.assertEqual((*m.group(1, 2, 3), parse_ga.sponsor_code(m.group(4))), expected)
+                (got,) = self.read(line).values()
+                self.assertEqual(got, expected)
         self.assertEqual(parse_ga.sponsor_code("Georgia Power"), "GPC")
         self.assertEqual(parse_ga.sponsor_code("Georgia"), "Georgia")   # fits several codes: kept as printed
         self.assertEqual(parse_ga.sponsor_code("Oglethorpe Power"), "Oglethorpe Power")   # fits none
+
+    def test_a_whole_company_name_is_not_read_as_another_company(self):
+        # company_key drops "Company"; the "Southern" left must not become Southern Power (SPC)
+        self.assertEqual(parse_ga.sponsor_code("Southern Company"), "Southern Company")
+        self.assertEqual(parse_ga.sponsor_code("Dalton"), "DU")
+        self.assertEqual(parse_ga.sponsor_code("Dalton Utilities Inc."), "DU")
+
+    def test_title_text_is_not_a_sponsor(self):
+        # a row whose sponsor cell is blank ends in its title: keep zone and year, leave the sponsor to the title prefix
+        rows = parse_ga.table2([" 208      2027       20717             NORTH ATLANTA IMPROVEMENTS",
+                                " 211      2026       13188          DU: EAST DALTON -          6/1/2026",
+                                " 206      2027       20001          CASCADE - BOULEVARD        6/1/2027          GPC"])
+        self.assertEqual({k: (v["zone"], v["year"], v["sponsor"]) for k, v in rows.items()},
+                         {"20717": ("208", "2027", None), "13188": ("211", "2026", None), "20001": ("206", "2027", "GPC")})
+        self.assertIn("'NORTH ATLANTA IMPROVEMENTS'", rows["20717"]["note"])
+        self.assertEqual(rows["13188"]["note"], "Table 2 row prints no sponsor")
+        self.assertEqual(parse_ga._sponsor_from_title("DU: EAST DALTON - OOSTANAULA 115kV REBUILD"), "DU")
+
+    def test_a_sponsor_the_code_list_lacks(self):
+        # accepted when the plan lists it as a member, or when other rows of the table print it too
+        one = " 211      2026       13188          DALTON 230kV NETWORK             6/1/2026          Southern Company"
+        self.assertEqual(self.read(one)["13188"][2], None)
+        self.assertEqual(self.read(one, members=["Georgia Power", "Southern Company"])["13188"][2], "Southern Company")
+        two = " 212      2027       13189          ROME - ARMUCHEE 115kV          6/1/2027          Southern Company"
+        self.assertEqual({k: v[2] for k, v in self.read(one, two).items()}, {"13188": "Southern Company", "13189": "Southern Company"})
 
 
 class ZoneTests(unittest.TestCase):
@@ -256,6 +288,34 @@ class ZoneTests(unittest.TestCase):
         self.assertTrue(stray["issues"][-1]["msg"].endswith("so it is left unplaced"))
         self.assertTrue(all(r["center"] for r in atlanta + region))   # the region's 35.4 N project is 166 mi from its median
         self.assertTrue(all(not r["issues"] for r in atlanta + region))
+
+    def test_an_earlier_edition_is_judged_on_its_own_zones(self):
+        # An earlier edition: its Coast projects are still listed (their current locations are copied in); its whole
+        # Metro zone (Atlanta) is gone, printed in no later edition, and one gone Metro name matched a Savannah site.
+        coast = [self.placed("Coast", 32.08 + d, -81.10 + d, i) for i, d in enumerate((0, 0.03, -0.03, 0.06, -0.06))]
+        moved = self.placed("Coast", 33.75, -84.39, 5)   # a current placement far from this edition's Coast: not this pass's to judge
+        spots = {f"X:{10 + i}": (33.75 + d, -84.39 + d) for i, d in enumerate((0, 0.05, -0.05, 0.1, -0.1, 0.02))}
+        spots["X:16"] = (32.07, -81.12)   # "Boulevard - Hutchinson Island": both names are Savannah's
+        gone = [dict(record(f"P{u}", uid=u, plan="x"), zone="Metro") for u in spots]
+        anchors_seen = []
+
+        def fake_locate(recs, osm, refs, grid, anchors=None, offline=False):
+            anchors_seen.append(anchors)
+            for r in recs:
+                lat, lon = spots[r["uid"]]
+                r.update(center={"lat": lat, "lon": lon}, radiusMi=0.5, locationConfidence="high", route=None, locatedBy="endpoints",
+                         endpoints=[endpoint()], locationCompleteness={"located": 1, "total": 1})
+
+        with patch.object(build, "locate", fake_locate):
+            anchors = build.place(coast + [moved] + gone, gone, None, {}, None, True)
+        self.assertEqual(anchors_seen[0], None)                 # first pass: no anchors
+        self.assertEqual(set(anchors_seen[1]), {"Coast", "Metro"})   # second pass: this edition's own zones
+        self.assertEqual(anchors, anchors_seen[1])
+        stray = gone[-1]
+        self.assertIsNone(stray["center"])
+        self.assertTrue(stray["issues"][-1]["msg"].endswith("so it is left unplaced"))
+        self.assertTrue(all(r["center"] for r in coast + [moved] + gone[:-1]))
+        self.assertTrue(all(not r["issues"] for r in coast + [moved]))
 
 
 class IdentityTests(unittest.TestCase):

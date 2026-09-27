@@ -8,7 +8,7 @@ const readStore = (key, fallback) => { try { return JSON.parse(localStorage.getI
 const writeStore = (key, value) => { try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* storage unavailable: lasts for this visit */ } };
 
 export function createChangesView(ctx) {
-  const { h, link, formatDate, money, colors, basemap, fallbackStyle, openProject, openPair, pairExists, side: sideOf, sideName, planName, loadLog } = ctx;
+  const { h, link, formatDate, money, colors, basemap, fallbackStyle, fitMaxZoom, openProject, openPair, pairExists, side: sideOf, sideName, planName, loadLog } = ctx;
   const saved = readStore(AREA_KEY, {});
   const view = { data: null, event: null, area: saved.area ?? null, bufferMi: saved.bufferMi ?? 0, kinds: null, drawing: null, map: null, mapReady: false };
   let areaOpen = Boolean(saved.area);
@@ -84,7 +84,7 @@ export function createChangesView(ctx) {
     }
     box.append(list);
     const oldest = view.data.filings[0], dates = dateBasisText(view.data.filings, planName);
-    box.append(h("p", "muted-note", `${dates ? `A filing's date is ${dates}. ` : ""}The log starts with ${oldest.title} (${formatDate(oldest.date)}).`));
+    box.append(h("p", "muted-note", `${dates ? `Filing dates — ${dates}. ` : ""}The log starts with ${oldest.title} (${formatDate(oldest.date)}).`));
     return box;
   }
 
@@ -247,7 +247,7 @@ export function createChangesView(ctx) {
     const pts = view.area ?? itemsIn(event(), null).flatMap(i => i.points);
     if (!pts.length) return;
     const lons = pts.map(p => p[0]), lats = pts.map(p => p[1]);
-    view.map.fitBounds([[Math.min(...lons), Math.min(...lats)], [Math.max(...lons), Math.max(...lats)]], { padding: 40, maxZoom: 11, duration: 0 });
+    view.map.fitBounds([[Math.min(...lons), Math.min(...lats)], [Math.max(...lons), Math.max(...lats)]], { padding: 40, maxZoom: fitMaxZoom, duration: 0 });
   }
 
   // ---------- drawing ----------

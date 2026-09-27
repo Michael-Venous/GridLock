@@ -162,19 +162,70 @@ class RepeatedProjects(unittest.TestCase):
                          [("X:T-2:1", "2028-06-30", "GA:100:1"), ("X:T-2:2", "2029-06-30", "GA:100:1")])
         self.assertEqual([r["lineage"] for r in self.editions["x1"]], ["SC:T-2:jasper okatie line", "SC:T-2:jasper okatie line:2"])
 
-    def test_repeats_carry_through_editions_in_print_order(self):
+    def test_repeats_carry_through_editions_by_their_dates(self):
         (ev,) = changes.events(self.filings, self.editions, {}, self.plans)
         self.assertEqual([r["lineage"] for r in self.editions["x2"]], [r["lineage"] for r in self.editions["x1"]])
         self.assertEqual([(c["kind"], c["lineage"], c["oldIsd"], c["isd"]) for c in ev["projects"]],
                          [("changed", "SC:T-2:jasper okatie line:2", "2029-06-30", "2030-06-30")])
         self.assertEqual([(p["kind"], p["a"]["isd"], p["oldGapDays"], p["gapDays"]) for p in ev["pairs"]], [("timing", "2030-06-30", 760, 1125)])
 
+    def test_reordered_repeats_are_no_change(self):
+        self.editions["x2"] = [self.jasper(1, "2029-06-30"), self.jasper(2, "2028-06-30")]   # the same two, printed the other way round
+        (ev,) = changes.events(self.filings, self.editions, {}, self.plans)
+        self.assertEqual((ev["projects"], ev["pairs"]), ([], []))
+        self.assertEqual({r["isd"]: r["lineage"] for r in self.editions["x2"]}, {r["isd"]: r["lineage"] for r in self.editions["x1"]})
+
+    def test_dropping_one_repeat_removes_that_one(self):
+        self.editions["x2"] = [self.jasper(1, "2029-06-30")]   # the 2028 copy is gone; the 2029 one is printed first now
+        (ev,) = changes.events(self.filings, self.editions, {}, self.plans)
+        self.assertEqual([(c["kind"], c["isd"], c["lineage"]) for c in ev["projects"]], [("removed", "2028-06-30", "SC:T-2:jasper okatie line")])
+        self.assertEqual((ev["counts"]["rescheduled"], ev["counts"]["pairsTiming"]), (0, 0))
+        self.assertEqual([(p["kind"], p["a"]["isd"]) for p in ev["pairs"]], [("gone", "2028-06-30")])
+
+    def test_a_slipped_repeat_is_matched_to_the_nearest_date(self):
+        # neither copy keeps its date: each takes the old copy nearest its own, whatever the print order
+        self.editions["x2"] = [self.jasper(1, "2030-06-30"), self.jasper(2, "2028-12-31")]
+        (ev,) = changes.events(self.filings, self.editions, {}, self.plans)
+        self.assertEqual(sorted((c["oldIsd"], c["isd"]) for c in ev["projects"]), [("2028-06-30", "2028-12-31"), ("2029-06-30", "2030-06-30")])
+
     def test_a_new_project_never_takes_a_lineage_kept_from_the_edition_before(self):
-        # matched on the ID alone, BRAVO keeps ALPHA's lineage; the new ALPHA printed after it takes the next ordinal
-        old = [rec("GA", "7", "ALPHA TIE")]
-        new = [rec("GA", "7", "BRAVO TIE"), rec("GA", "7", "ALPHA TIE")]
-        changes.assign_lineage([old, new], False)
-        self.assertEqual([r["lineage"] for r in new], ["GA:7:alpha tie", "GA:7:alpha tie:2"])
+        # matched on the ID alone, BRAVO keeps ALPHA's lineage; an ALPHA printed again later is new and takes the next ordinal
+        e1, e2, e3 = [rec("GA", "7", "ALPHA TIE")], [rec("GA", "7", "BRAVO TIE")], [rec("GA", "7", "BRAVO TIE"), rec("GA", "7", "ALPHA TIE")]
+        changes.assign_lineage([e1, e2, e3], False)
+        self.assertEqual([r["lineage"] for r in e2 + e3], ["GA:7:alpha tie", "GA:7:alpha tie", "GA:7:alpha tie:2"])
+
+    def test_the_record_with_the_same_name_keeps_the_id(self):
+        # one ID printed twice in the new edition: the record that is still the old project keeps it, whatever the order
+        old, new = [rec("GA", "7", "ALPHA TIE")], [rec("GA", "7", "BRAVO TIE"), rec("GA", "7", "ALPHA TIE")]
+        self.assertEqual([(o and o["name"], n and n["name"], how) for o, n, how in changes.match(old, new, False)],
+                         [(None, "BRAVO TIE", "added"), ("ALPHA TIE", "ALPHA TIE", "same")])
+
+
+class ReusedIdNote(unittest.TestCase):
+    """The 'added' note that an ID was the previous list's for another project is only said when it is true."""
+
+    def added_notes(self, old, new):
+        changes.assign_lineage([old, new], True)
+        return [c.get("note") for c in changes.project_changes(old, new, True, {"date": "2026-04-28"}, {}) if c["kind"] == "added"]
+
+    def test_a_printed_id_given_to_a_different_project(self):
+        old = [rec("SC", "6809M", "St George - Sumter 230kV Tie")]
+        new = [rec("SC", "6809M", "St George - Sumter 230kV Tie"), rec("SC", "6809M", "Modoc - McCormick 115/46 kV Rebuild")]
+        self.assertEqual(self.added_notes(old, new), ["Reuses Project ID 6809M, which the previous list gave to a different project."])
+
+    def test_not_for_another_copy_of_the_same_project(self):
+        old = [rec("SC", "6809M", "St George - Sumter 230kV Tie")]
+        new = [rec("SC", "6809M", "St George - Sumter 230kV Tie"), rec("SC", "6809M", "St George - Sumter 230kV Tie", isd="2029-06-01")]
+        self.assertEqual(self.added_notes(old, new), [None])
+
+    def test_not_for_a_key_derived_from_the_name(self):
+        # an agent-written parser keys a project with no printed ID by its name (generated_parser.key_of)
+        key = lambda name: rec("SC", changes.generated_parser.key_of({"name": name}), name, plan="x")
+        old = [key("Jasper - Okatie 230 kV Line")]
+        new = [key("Jasper - Okatie 230 kV Line"), key("Jasper - Okatie 230 kV Line")]
+        self.assertFalse(changes.printed_key(new[0]))
+        self.assertTrue(changes.printed_key(rec("SC", "6809M", "St George - Sumter 230kV Tie")))
+        self.assertEqual(self.added_notes(old, new), [None])
 
 
 if __name__ == "__main__":

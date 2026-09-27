@@ -7,14 +7,16 @@ The 2024 plan (2025-2034) and the 2025 plan (2026-2035) share this layout; the o
 "10 Year" for "10-Year" and prints redacted cost columns after the sponsor in Table 2.
 """
 import re
+from collections import Counter
 
 import registry
 from common import RAW, BUILD, dump, parse_date, pdf_pages, iso
 
 ZONES = {"215": "Augusta area", "218": "Southeast GA", "219": "Savannah area"}
-# the sponsor is the row's last cell, as printed: a code (GPC) or a name (Dalton). It ends the row (2025 plan), or
-# redacted cost columns follow it (2024 plan). Cells are two or more spaces apart; a sponsor has no digits.
-ROW = re.compile(r"^\s*(\d{3})\s+(20\d\d)\s+(\d{4,6})\b.*?\s\s(?!REDACTED\b)([A-Za-z][A-Za-z&.'-]*(?: [A-Za-z&.'-]+)*)(?:\s+REDACTED)*\s*$")
+# a Table 2 row: zone, year and TEAMS #, then the title's first line, the need date and the sponsor, a code (GPC) or a
+# name (Dalton). The sponsor ends the row (2025 plan), or redacted cost columns follow it (2024 plan).
+ROW = re.compile(r"^\s*(\d{3})\s+(20\d\d)\s+(\d{4,6})\b(.*)$")
+TRAILING = re.compile(r"(?:\s+(?:REDACTED|\$?\d[\d,]*(?:\.\d+)?[KMB]?|[*†‡]+))+\s*$")   # cost cells and footnote marks
 ROW_NOYEAR = re.compile(r"^\s*(\d{3})\s+(\d{4,6})\s+(.*?)\s{2,}(\d{1,2}/\d{1,2}/\d{4})")
 MILES = re.compile(r"(\d+(?:\.\d+)?)\s*(?:-\s*)?(?:circuit\s+)?miles?\b", re.I)
 SPONSOR_NAMES = {"GPC": "Georgia Power", "SAV": "Georgia Power (Savannah)", "GTC": "Georgia Transmission Corp",
@@ -23,14 +25,46 @@ SPONSOR_NAMES = {"GPC": "Georgia Power", "SAV": "Georgia Power (Savannah)", "GTC
 
 def sponsor_code(printed):
     """The code for a sponsor as Table 2 prints it, so every row stores a code: a code stays; a name becomes the code
-    whose name in SPONSOR_NAMES it is, or else the one code whose name holds all its words (Dalton: DU). A name that
-    fits no code, or several, is kept as printed."""
+    whose name in SPONSOR_NAMES it is (compared by registry.company_key), or else the one code whose name holds all its
+    words (Dalton: DU). A name with a word company_key drops (Southern Company) is a whole company name, compared only
+    whole: the words left (Southern) would name another company (Southern Power). A name that fits no code, or
+    several, is kept as printed."""
     if printed in SPONSOR_NAMES:
         return printed
     key = registry.company_key(printed)
+    whole = not set(re.findall(r"[a-z0-9]+", printed.lower())) <= set(key.split())
     fits = [c for c, n in SPONSOR_NAMES.items() if registry.company_key(n) == key] or \
-           [c for c, n in SPONSOR_NAMES.items() if key and set(key.split()) <= set(registry.company_key(n).split())]
+           [c for c, n in SPONSOR_NAMES.items() if key and not whole and set(key.split()) <= set(registry.company_key(n).split())]
     return fits[0] if len(fits) == 1 else printed
+
+
+def last_cell(rest):
+    """The last cell printed on a Table 2 row (rest: the row after its TEAMS #), where the sponsor is: cost cells and
+    footnote marks after it are dropped. Cells are two or more spaces apart; a cell right after a date is its own
+    even one space on (6/1/2026 GPC). '' when the row ends in a date or number (no sponsor printed)."""
+    body = TRAILING.sub("", rest).strip()
+    words = re.split(r"\s{2,}", body)[-1].split()
+    digits = [i for i, w in enumerate(words) if re.search(r"\d", w)]
+    return " ".join(words[digits[-1] + 1 if digits else 0:]).rstrip("*†‡").strip()
+
+
+def table2(lines, members=()):
+    """{TEAMS #: {zone, year, sponsor, note}} from Table 2's lines. A row's last cell is its sponsor only when it is a
+    known sponsor (sponsor_code gives a code in SPONSOR_NAMES, or it names one of members, the plan's member utilities
+    in the registry) or other rows of the table print it there too; else it is title text (a row whose sponsor cell
+    is blank or wrapped away), the row keeps its zone and year, its sponsor is left to the title's prefix, and note
+    says why."""
+    rows = [(m, last_cell(m.group(4))) for m in map(ROW.match, lines) if m]
+    printed = Counter(cell for _, cell in rows if cell)
+    member_keys = {registry.company_key(n) for n in members} - {""}
+    out = {}
+    for m, cell in rows:
+        code = sponsor_code(cell) if cell else None
+        known = bool(cell) and (code in SPONSOR_NAMES or registry.company_key(cell) in member_keys or printed[cell] > 1)
+        out[m.group(3)] = {"zone": m.group(1), "year": m.group(2), "sponsor": code if known else None,
+                           "note": None if known else ("Table 2 row prints no sponsor" if not cell else
+                                                       f"Table 2 row ends in {cell!r}, not a known sponsor and not printed as one on any other row")}
+    return out
 
 
 def section(pages, start_pat, end_pat):
@@ -46,11 +80,8 @@ def parse_filing(filing):
     pages = pdf_pages(RAW / filing["file"])
 
     # Table 2 -> zone, year, sponsor
-    t2 = {}
-    for ln in section(pages, r"Table 2 Georgia ITS 10[- ]Year Plan Project List\s*\n", r"Table 3 Cancelled").split("\n"):
-        m = ROW.match(ln)
-        if m:
-            t2[m.group(3)] = {"zone": m.group(1), "year": m.group(2), "sponsor": sponsor_code(m.group(4))}
+    t2 = table2(section(pages, r"Table 2 Georgia ITS 10[- ]Year Plan Project List\s*\n", r"Table 3 Cancelled").split("\n"),
+                registry.plans().get(filing["plan"], {}).get("members", []))
 
     removed = {}
     for label, a, b in (("cancelled", r"Table 3 Cancelled Projects[^\n]*\n[^\n]*Table 3[^\n]*\n", r"Table 4 Completed"),
@@ -97,6 +128,8 @@ def parse_filing(filing):
         if teams in removed:
             issues.append({"level": "warn", "msg": f"also listed as {removed[teams]['status']} in Table 3/4"})
         sponsor = (row or {}).get("sponsor") or _sponsor_from_title(title)
+        if row and row["note"]:
+            issues.append({"level": "warn", "msg": row["note"] + (f"; sponsor {sponsor} read from the title" if sponsor else "; sponsor unknown")})
         miles = [float(x) for x in MILES.findall(desc)]
         slip = _slip(chg)
         out.append({
@@ -127,7 +160,8 @@ def main():
 
 
 def _sponsor_from_title(t):
-    m = re.match(r"(SAV|GTC|MEAG|DU|SPC):", t)
+    """A sponsor code the title opens with ("DU: EAST DALTON - ...")."""
+    m = re.match(rf"({'|'.join(map(re.escape, SPONSOR_NAMES))}):", t)
     return m.group(1) if m else None
 
 

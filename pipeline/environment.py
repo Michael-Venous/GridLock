@@ -534,7 +534,9 @@ def site_placed(e):
     return bool(e["point"]) and e["confidence"] in ("high", "medium") and e["method"] != "town"
 
 
-UNPLACED = "not placed on the map, so its distance to other utilities' projects can't be measured"
+# pairs are between plans, not utilities: the utilities of one joint plan (Georgia ITS) are never paired with each other
+UNPLACED = "not placed on the map, so its distance to projects in other plans can't be measured"
+FAR = "not near any project in another plan"
 
 
 def in_pairing_range(recs):
@@ -563,7 +565,7 @@ def check(recs, offline=False):
     jobs, plans = {}, {}
     for r in recs:
         if r["uid"] not in targets:
-            r["environment"] = {"checked": False, "reason": "not near any project in another utility's plan" if r.get("center") else UNPLACED}
+            r["environment"] = {"checked": False, "reason": FAR if r.get("center") else UNPLACED}
             continue
         sites = [e for e in r["endpoints"] if site_placed(e)]
         route_ok = bool(r.get("route")) and all(site_placed(e) for e in r["endpoints"] if e["point"])

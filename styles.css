@@ -3,8 +3,8 @@
    Plex Mono is the third voice, reserved for surveyed values only — distances, dates, dollars,
    project IDs, counts. If it's a measurement, it's set in mono; if it's a word, it isn't.
    Color: ink on white. Teal and orange mean DESC and Georgia ITS only; violet, brown and navy mark further plans
-   (plan-x1..3), and all five match the map layers in src/app.js. Each plan class sets --side and --side-text;
-   plan-x4 onward get generated colors, and the app writes their classes the same way.
+   (plan-x1..3), and all five match the map layers in src/palette.js. Each plan class sets --side and --side-text;
+   plan-x4 onward get generated colors and text shades, and the app writes their classes the same way.
    Interactive state (selection, focus, active tab) is ink, so the data colors never double as UI chrome.
    Corners are cut close (3px) throughout — this reads as a drafted exhibit, not a software card. */
 :root {
