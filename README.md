@@ -21,6 +21,8 @@ python3 pipeline/build.py --offline  # reuse data/raw/ and the cached OSM/Nomina
 
 The pipeline uses only the Python standard library plus `pdftotext` (poppler). Every filing it reads is listed in `data/filings.json`; the newest per utility is current and the older ones feed schedule history and the change log. It writes `data/projects.json`, `data/changes.json` and the map layers in `data/env/`, which are the only data files the app reads.
 
+To add the next public filing, add its URL, edition, date, parser and local file name to `data/filings.json`, run `python3 pipeline/build.py`, and review validation and uncertain locations before committing the rebuilt outputs. A changed PDF format may require a parser update. The Changes tab then compares its new or revised records with the preceding edition. This is a reviewed update path, not a browser upload of arbitrary map points.
+
 | Source | What we take | Used for |
 |---|---|---|
 | [DESC $2M+ list 2026–2030](https://www.scrtp.com/assets/pdfs/home/2026-2030-2million-and-above-project-descriptions.pdf) (SCRTP) | 54 projects: ID, status, in-service date, yearly budget, description | Projects, costs, build windows |
