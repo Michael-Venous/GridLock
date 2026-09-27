@@ -58,7 +58,13 @@ function ring(center, miles, steps = 64) {
 function geometryFeatures(project) {
   const s = side(project), out = [];
   if (project.center && project.radiusMi) out.push({ type: "Feature", geometry: { type: "Polygon", coordinates: [ring(project.center, project.radiusMi)] }, properties: { kind: "uncertainty", side: s } });
-  if (verifiedRoute(project)) out.push({ type: "Feature", geometry: { type: "LineString", coordinates: project.route.coords.map(([lat, lon]) => [lon, lat]) }, properties: { kind: "route", side: s } });
+  const line = (coords, kind) => out.push({ type: "Feature", geometry: { type: "LineString", coordinates: coords.map(([lat, lon]) => [lon, lat]) }, properties: { kind, side: s } });
+  const stations = project.endpoints.filter(e => e.point).map(e => [e.point.lat, e.point.lon]);
+  // Solid only for a verified circuit; an OSM path we traced ourselves is dashed; with no path, a dotted straight line joins the stations.
+  // A tap placed on its host line draws nothing: those stations are the host line's, not the project's.
+  if (verifiedRoute(project)) line(project.route.coords, "route");
+  else if (!project.hostLine && project.route?.coords?.length > 1) line(project.route.coords, "route-inferred");
+  else if (!project.hostLine && stations.length > 1) line(stations, "stations");
   for (const e of project.endpoints) if (e.point) out.push(pointFeature(e.point, { kind: "endpoint", side: s, title: `${e.name} · ${e.method} · ${e.confidence}` }));
   return out;
 }
@@ -431,6 +437,8 @@ function addLayers() {
   map.addLayer({ id: "uncertainty-fill", type: "fill", source: "geometry", filter: kind("uncertainty"), paint: { "fill-color": bySide, "fill-opacity": 0.08 } });
   map.addLayer({ id: "uncertainty-line", type: "line", source: "geometry", filter: kind("uncertainty"), paint: { "line-color": bySide, "line-width": 1.2, "line-dasharray": [4, 3] } });
   map.addLayer({ id: "routes", type: "line", source: "geometry", filter: kind("route"), layout: { "line-join": "round", "line-cap": "round" }, paint: { "line-color": bySide, "line-width": 3.5 } });
+  map.addLayer({ id: "routes-inferred", type: "line", source: "geometry", filter: kind("route-inferred"), layout: { "line-join": "round" }, paint: { "line-color": bySide, "line-width": 3, "line-dasharray": [2.5, 1.5] } });
+  map.addLayer({ id: "station-lines", type: "line", source: "geometry", filter: kind("stations"), layout: { "line-cap": "round" }, paint: { "line-color": bySide, "line-width": 2.5, "line-dasharray": [0, 2] } });
   const linkPaint = {
     "line-color": ["case", ["any", hover, ["==", linkState, "selected"]], "#10262e", "#4d6670"],
     "line-width": ["case", ["==", linkState, "selected"], 4.5, hover, 3.5, 1.6],

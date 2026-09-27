@@ -27,6 +27,12 @@ DEFAULT_HALF_LINE_MI = 10.0
 _ov = load(ROOT / "data" / "overrides.json")
 RADIUS_OVERRIDES = _ov.get("radius", {})
 ENDPOINT_NOTES = _ov.get("endpoint_notes", {})   # uncertainty when only one end of a line could be located and no length is stated
+HOST_LINE = _ov.get("host_line", {})   # projects placed on the line they tap: its stations aren't the project's own ends, so no line is traced or drawn
+
+
+def ov_key(r):
+    """The key a project goes by in overrides.json: DESC:<ProjectID without spaces> or GA:<TEAMS>."""
+    return r["uid"].rsplit(":", 1)[0] if r["state"] == "SC" else r["uid"]
 
 
 def reference_points():
@@ -112,7 +118,7 @@ def locate(recs, osm, refs, grid, anchors=None, offline=False):
                     r["issues"].append({"level": "info", "msg": f"rebuilds {r['miles']} mi of a {span:.2f} mi station-to-station span; section not stated"})
                     if span > r["miles"] * 10:
                         r["issues"].append({"level": "warn", "msg": f"stated length ({r['miles']} mi) is far shorter than the {span:.2f} mi between its stations; check whether a station is placed correctly"})
-            r["radiusMi"] = round(max(rad, RADIUS_OVERRIDES.get(r["uid"].rsplit(":", 1)[0] if r["state"] == "SC" else r["uid"], 0)), 2)
+            r["radiusMi"] = round(max(rad, RADIUS_OVERRIDES.get(ov_key(r), 0)), 2)
             order = ["none", "low", "ambiguous", "medium", "high"]
             r["locationConfidence"] = min((e["confidence"] for e in located), key=order.index)
             if len(located) < len(eps):
@@ -123,7 +129,7 @@ def locate(recs, osm, refs, grid, anchors=None, offline=False):
         if not eps:
             r["issues"].append({"level": "warn", "msg": "no station names could be extracted; project requires a reviewed endpoint override"})
         station_methods = {"manual", "reference", "osm-exact", "osm-partial"}
-        if len(located) >= 2 and len(located) == len(eps) and grid and all(
+        if len(located) >= 2 and len(located) == len(eps) and grid and ov_key(r) not in HOST_LINE and all(
                 e["method"] in station_methods and e["confidence"] in ("medium", "high") for e in located):
             legs = [grid.route(a["point"], b["point"]) for a, b in zip(located, located[1:])]
             if all(legs):
@@ -244,7 +250,8 @@ def to_app(r):
         "change": r.get("change"), "slipYears": r.get("slip_years"),
         "history": r.get("history"), "slipDays": r.get("slip_days"),
         "source": r["source"], "issues": r["issues"],
-        "locationNote": ENDPOINT_NOTES.get(r["uid"].rsplit(":", 1)[0] if r["state"] == "SC" else r["uid"]),
+        "locationNote": ENDPOINT_NOTES.get(ov_key(r)),
+        "hostLine": ov_key(r) in HOST_LINE,
         "environment": r.get("environment"),
     }
 

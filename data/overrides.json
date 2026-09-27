@@ -73,5 +73,8 @@
  },
  "radius": {
   "DESC:6367D": 3.5
+ },
+ "host_line": {
+  "DESC:6367D": "The Riverport tap's own route is not public; Jasper and Okatie are the ends of its host line, so drawing or tracing Jasper-Okatie would show the host line as the project."
  }
 }

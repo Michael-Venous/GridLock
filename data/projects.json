@@ -656,6 +656,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -737,6 +738,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -844,6 +846,7 @@
     }
    ],
    "locationNote": "Scout is a customer substation; the description says the work modifies the VCS1 and Killian terminals.",
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -963,6 +966,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -1070,6 +1074,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -1170,6 +1175,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -1336,6 +1342,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": true,
     "sites": [
@@ -1487,6 +1494,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -1581,6 +1589,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -1692,6 +1701,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -1775,6 +1785,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": true,
     "sites": [
@@ -1957,6 +1968,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": true,
     "sites": [
@@ -2101,58 +2113,7 @@
     "basis": "DESC published estimate"
    },
    "miles": null,
-   "route": {
-    "miles": 6.67,
-    "coords": [
-     [
-      32.35912,
-      -81.1246
-     ],
-     [
-      32.36649,
-      -81.12371
-     ],
-     [
-      32.36819,
-      -81.12005
-     ],
-     [
-      32.36816,
-      -81.11369
-     ],
-     [
-      32.36622,
-      -81.11146
-     ],
-     [
-      32.36738,
-      -81.09845
-     ],
-     [
-      32.35458,
-      -81.07544
-     ],
-     [
-      32.34462,
-      -81.05383
-     ],
-     [
-      32.33773,
-      -81.0484
-     ],
-     [
-      32.33422,
-      -81.03836
-     ],
-     [
-      32.33376,
-      -81.03249
-     ]
-    ],
-    "verified": false,
-    "method": "osm-shortest-path",
-    "source": "shortest path along OpenStreetMap power=line ways between the endpoints"
-   },
+   "route": null,
    "change": null,
    "slipYears": null,
    "history": [],
@@ -2165,6 +2126,7 @@
    },
    "issues": [],
    "locationNote": "Riverport is a tap off the Jasper-Okatie corridor; the tap point is not public, so the project is placed on its host line with the line's uncertainty. Its uncertainty radius is set to half the 6.5-mile host line plus a margin (3.5 mi).",
+   "hostLine": true,
    "environment": {
     "checked": true,
     "sites": [
@@ -2316,6 +2278,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "no endpoint is placed at a station, so the ground can't be checked"
@@ -2414,6 +2377,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -2508,6 +2472,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -2607,6 +2572,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -2694,6 +2660,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -2794,6 +2761,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -2885,6 +2853,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": true,
     "sites": [
@@ -3017,6 +2986,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": true,
     "sites": [
@@ -3125,6 +3095,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -3224,6 +3195,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -3301,6 +3273,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "no endpoint is placed at a station, so the ground can't be checked"
@@ -3401,6 +3374,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -3504,6 +3478,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": true,
     "sites": [
@@ -3621,6 +3596,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -3709,6 +3685,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -3805,6 +3782,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -3879,6 +3857,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -3986,6 +3965,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -4085,6 +4065,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -4162,6 +4143,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "no endpoint is placed at a station, so the ground can't be checked"
@@ -4245,6 +4227,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -4386,6 +4369,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -4493,6 +4477,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -4570,6 +4555,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -4653,6 +4639,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -4752,6 +4739,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -4851,6 +4839,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -5011,6 +5000,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": true,
     "sites": [
@@ -5182,6 +5172,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -5270,6 +5261,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -5377,6 +5369,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -5476,6 +5469,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -5574,6 +5568,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -5657,6 +5652,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -5813,6 +5809,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": true,
     "sites": [
@@ -6036,6 +6033,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": true,
     "sites": [
@@ -6214,6 +6212,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -6302,6 +6301,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -6401,6 +6401,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -6489,6 +6490,7 @@
     }
    ],
    "locationNote": "Title says '115kV Tap from Cainhoy'.",
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -6588,6 +6590,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -6658,6 +6661,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -6730,6 +6734,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -6800,6 +6805,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -6870,6 +6876,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -6944,6 +6951,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -7009,6 +7017,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -7074,6 +7083,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": true,
     "sites": [
@@ -7163,6 +7173,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -7239,6 +7250,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -7315,6 +7327,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -7380,6 +7393,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": true,
     "sites": [
@@ -7471,6 +7485,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -7535,6 +7550,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -7603,6 +7619,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -7668,6 +7685,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -7733,6 +7751,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": true,
     "sites": [
@@ -7823,6 +7842,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -7887,6 +7907,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -7952,6 +7973,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -8017,6 +8039,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -8082,6 +8105,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -8147,6 +8171,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -8211,6 +8236,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -8281,6 +8307,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -8346,6 +8373,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -8411,6 +8439,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -8476,6 +8505,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -8557,6 +8587,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": true,
     "sites": [
@@ -8667,6 +8698,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": true,
     "sites": [
@@ -8816,6 +8848,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -8905,6 +8938,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -8979,6 +9013,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -9072,6 +9107,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -9142,6 +9178,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -9212,6 +9249,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -9293,6 +9331,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -9378,6 +9417,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -9459,6 +9499,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -9533,6 +9574,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -9630,6 +9672,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -9720,6 +9763,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -9809,6 +9853,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "no endpoint is placed at a station, so the ground can't be checked"
@@ -9898,6 +9943,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -9968,6 +10014,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -10057,6 +10104,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -10127,6 +10175,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -10197,6 +10246,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -10267,6 +10317,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -10349,6 +10400,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -10434,6 +10486,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -10508,6 +10561,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -10672,6 +10726,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": true,
     "sites": [
@@ -10811,6 +10866,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -10896,6 +10952,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -10981,6 +11038,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -11066,6 +11124,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -11131,6 +11190,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -11216,6 +11276,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -11294,6 +11355,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -11359,6 +11421,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -11424,6 +11487,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -11488,6 +11552,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -11552,6 +11617,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -11637,6 +11703,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -11718,6 +11785,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -11799,6 +11867,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -11888,6 +11957,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -11952,6 +12022,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -12028,6 +12099,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -12092,6 +12164,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -12156,6 +12229,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -12241,6 +12315,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -12305,6 +12380,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -12398,6 +12474,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -12483,6 +12560,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -12559,6 +12637,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -12640,6 +12719,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -12710,6 +12790,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -12792,6 +12873,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -12857,6 +12939,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -12939,6 +13022,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -13009,6 +13093,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -13079,6 +13164,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -13164,6 +13250,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -13240,6 +13327,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -13316,6 +13404,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -13381,6 +13470,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -13446,6 +13536,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -13522,6 +13613,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -13607,6 +13699,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -13683,6 +13776,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -13747,6 +13841,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -13825,6 +13920,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -13906,6 +14002,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": true,
     "sites": [
@@ -14037,6 +14134,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -14113,6 +14211,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -14177,6 +14276,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -14253,6 +14353,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -14329,6 +14430,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -14405,6 +14507,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -14486,6 +14589,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -14562,6 +14666,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -14643,6 +14748,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -14707,6 +14813,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -14771,6 +14878,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -14836,6 +14944,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -14921,6 +15030,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -14997,6 +15107,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -15082,6 +15193,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -15160,6 +15272,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -15241,6 +15354,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -15311,6 +15425,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -15389,6 +15504,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -15453,6 +15569,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -15518,6 +15635,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -15583,6 +15701,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -15653,6 +15772,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -15742,6 +15862,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -15827,6 +15948,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -15891,6 +16013,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -15969,6 +16092,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -16047,6 +16171,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -16111,6 +16236,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -16196,6 +16322,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -16261,6 +16388,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -16326,6 +16454,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -16408,6 +16537,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -16473,6 +16603,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -16538,6 +16669,7 @@
    },
    "issues": [],
    "locationNote": "2025 GA ITS Ten-Year Plan (2026-2035), Teams 21319, p.181: the description explicitly places the capacitor bank at Ellenwood substation. Rainbow Drive in the title is an area name, not the worksite. Public source: https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -16661,6 +16793,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": true,
     "sites": [
@@ -16839,6 +16972,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": true,
     "sites": [
@@ -16969,6 +17103,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -17050,6 +17185,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -17115,6 +17251,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -17185,6 +17322,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "no endpoint is placed at a station, so the ground can't be checked"
@@ -17267,6 +17405,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -17348,6 +17487,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -17429,6 +17569,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -17505,6 +17646,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -17585,6 +17727,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -17678,6 +17821,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -17759,6 +17903,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -17835,6 +17980,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -17900,6 +18046,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -17978,6 +18125,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -18054,6 +18202,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -18130,6 +18279,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -18208,6 +18358,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -18284,6 +18435,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -18349,6 +18501,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -18425,6 +18578,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -18518,6 +18672,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -18603,6 +18758,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -18685,6 +18841,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -18766,6 +18923,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -18842,6 +19000,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -18920,6 +19079,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -18985,6 +19145,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -19061,6 +19222,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -19154,6 +19316,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -19232,6 +19395,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -19317,6 +19481,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -19393,6 +19558,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -19486,6 +19652,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -19571,6 +19738,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -19656,6 +19824,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -19748,6 +19917,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": true,
     "sites": [
@@ -19914,6 +20084,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": true,
     "sites": [
@@ -20102,6 +20273,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": true,
     "sites": [
@@ -20232,6 +20404,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": true,
     "sites": [
@@ -20322,6 +20495,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -20404,6 +20578,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -20474,6 +20649,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -20539,6 +20715,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -20615,6 +20792,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -20696,6 +20874,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -20761,6 +20940,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -20842,6 +21022,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -20931,6 +21112,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -21016,6 +21198,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -21097,6 +21280,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -21190,6 +21374,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -21268,6 +21453,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -21332,6 +21518,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -21414,6 +21601,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -21495,6 +21683,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -21580,6 +21769,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -21645,6 +21835,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -21734,6 +21925,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -21815,6 +22007,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -21893,6 +22086,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -21969,6 +22163,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -22062,6 +22257,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -22132,6 +22328,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -22221,6 +22418,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -22306,6 +22504,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -22371,6 +22570,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -22452,6 +22652,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -22541,6 +22742,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -22641,6 +22843,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -22730,6 +22933,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -22800,6 +23004,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -22878,6 +23083,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -22956,6 +23162,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -23037,6 +23244,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -23122,6 +23330,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -23207,6 +23416,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -23283,6 +23493,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -23364,6 +23575,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -23429,6 +23641,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": true,
     "sites": [
@@ -23530,6 +23743,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -23595,6 +23809,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": true,
     "sites": [
@@ -23685,6 +23900,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -23763,6 +23979,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -23828,6 +24045,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -23898,6 +24116,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -23963,6 +24182,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -24028,6 +24248,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -24093,6 +24314,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -24224,6 +24446,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": true,
     "sites": [
@@ -24362,6 +24585,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -24443,6 +24667,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -24524,6 +24749,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -24605,6 +24831,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -24670,6 +24897,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -24755,6 +24983,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -24831,6 +25060,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -24901,6 +25131,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -24986,6 +25217,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -25075,6 +25307,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -25156,6 +25389,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": true,
     "sites": [
@@ -25307,6 +25541,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -25388,6 +25623,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -25473,6 +25709,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -25562,6 +25799,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -25651,6 +25889,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -25732,6 +25971,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -25813,6 +26053,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -25898,6 +26139,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -25987,6 +26229,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -26068,6 +26311,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -26144,6 +26388,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -26229,6 +26474,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -26318,6 +26564,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -26383,6 +26630,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": true,
     "sites": [
@@ -26474,6 +26722,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -26552,6 +26801,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -26637,6 +26887,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -26713,6 +26964,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -26794,6 +27046,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -26859,6 +27112,7 @@
    },
    "issues": [],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": true,
     "sites": [
@@ -26970,6 +27224,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -27055,6 +27310,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -27136,6 +27392,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
@@ -27217,6 +27474,7 @@
     }
    ],
    "locationNote": null,
+   "hostLine": false,
    "environment": {
     "checked": false,
     "reason": "not near any project in the other state"
