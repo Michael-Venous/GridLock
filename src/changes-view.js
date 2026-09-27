@@ -37,6 +37,7 @@ export function createChangesView(ctx) {
     side.replaceChildren();
     side.append(h("h1", "", "What changed between filings"),
       h("p", "doc-lead", "Each new edition is compared with the one before it: projects added, dropped, rescheduled or re-costed, and qualifying pairs that appeared, went away or changed timing. Draw your area to see only what touches it."));
+    side.append(h("p", "muted-note", `Dataset as of ${formatDate(view.data.generated)}. To incorporate a new public filing, add it to data/filings.json, rebuild, and review the new edition here. For example, select the DESC 2026–2030 list below to inspect its changes from 2025–2029.`));
     side.append(areaBlock(), eventsBlock());
     const e = event();
     if (e) side.append(detailBlock(e));

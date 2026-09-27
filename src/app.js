@@ -550,7 +550,7 @@ const sitePlaced = e => e.point && ["high", "medium"].includes(e.confidence) && 
 const mapPinUrl = pt => `https://www.google.com/maps/search/?api=1&query=${pt.lat.toFixed(5)},${pt.lon.toFixed(5)}`;
 const satelliteUrl = pt => `https://www.google.com/maps/@?api=1&map_action=map&center=${pt.lat.toFixed(5)},${pt.lon.toFixed(5)}&zoom=18&basemap=satellite`;
 
-function projectBlock(p, full = false, heading = true) {
+function projectBlock(p, full = false, heading = true, foldEvidence = false) {
   const block = h("section", "project-block");
   if (heading) block.append(h("span", `utility-label ${side(p)}`, `${sideName(p)}, ${p.state}${p.zoneName ? `, ${p.zoneName}` : ""}`), h("h3", "", p.name));
   block.append(infoRow("Project ID", p.projectId), infoRow("Type", projectType(p)));
@@ -576,7 +576,11 @@ function projectBlock(p, full = false, heading = true) {
       endpoints.append(row);
     }
     if (p.locationNote) endpoints.append(h("p", "evidence", p.locationNote));
-    block.append(endpoints, h("h4", "", "Validation"), issuesList(p));
+    if (foldEvidence) {
+      const evidence = h("details", "project-evidence detail-fold");
+      evidence.append(h("summary", "", "Location evidence and validation"), endpoints, h("h4", "", "Validation"), issuesList(p));
+      block.append(evidence);
+    } else block.append(endpoints, h("h4", "", "Validation"), issuesList(p));
   }
   return block;
 }
@@ -753,6 +757,31 @@ function toggleShortlist(pair) {
 
 const DETAIL_TABS = [["summary", "Summary"], ["scenario", "Cost scenario"], ["records", "Records"]];
 let lastDetailKey = null;
+const detailFolds = new Map();
+
+function foldSection(section, key, initiallyOpen = false) {
+  const heading = section.querySelector(":scope > h3");
+  const fold = h("details", "detail-fold");
+  const summary = h("summary");
+  while (heading?.firstChild) summary.append(heading.firstChild);
+  heading?.remove();
+  const stateKey = `${state.selectedPair}:${key}`;
+  fold.open = detailFolds.get(stateKey) ?? initiallyOpen;
+  fold.addEventListener("toggle", () => detailFolds.set(stateKey, fold.open));
+  fold.append(summary, section);
+  return fold;
+}
+
+function recordFold(project) {
+  const fold = h("details", "detail-fold record-fold");
+  const summary = h("summary");
+  summary.append(h("span", `utility-label ${side(project)}`, sideName(project)), h("strong", "", `${project.projectId} · ${project.name}`));
+  const stateKey = `${state.selectedPair}:record:${project.id}`;
+  fold.open = detailFolds.get(stateKey) ?? false;
+  fold.addEventListener("toggle", () => detailFolds.set(stateKey, fold.open));
+  fold.append(summary, projectBlock(project, true, false));
+  return fold;
+}
 
 function spanHead(pair) {
   const head = h("header", "span-head");
@@ -798,12 +827,16 @@ function detailTabs(pair) {
   }
   const panel = h("div", "dpanel"); panel.id = "detail-content"; panel.tabIndex = 0; panel.setAttribute("role", "tabpanel"); panel.setAttribute("aria-labelledby", `detail-tab-${state.detailTab}`);
   if (state.detailTab === "scenario") panel.append(yardCard(pair));
-  else if (state.detailTab === "records") { panel.append(h("p", "section-note", "Every field as parsed, how each endpoint was located, and what validation flagged.")); for (const p of [pair.a, pair.b]) panel.append(projectBlock(p, true)); }
+  else if (state.detailTab === "records") { panel.append(h("p", "section-note", "Published fields, location evidence and validation for each project.")); for (const p of [pair.a, pair.b]) panel.append(recordFold(p)); }
   else {
     panel.append(compareTable(pair));
-    panel.append(listBox(pair.qualifies ? "Why it qualifies" : "Why it might qualify", whyQualifies(pair)), listBox("Still to confirm", toConfirm(pair), "confirm"), listBox("Possible shared resources", sharedResources(pair)), groundBox(pair));
-    const tl = h("section", "list-box"); tl.append(h("h3", "", "Planning windows"), timeline(pair.a, pair.b)); panel.append(tl);
-    panel.append(scoreBlock(pair), planningForumBlock(pair));
+    panel.append(
+      foldSection(listBox(pair.qualifies ? "Why it qualifies" : "Why it might qualify", whyQualifies(pair)), "why", true),
+      foldSection(listBox("Still to confirm", toConfirm(pair), "confirm"), "confirm", true),
+      foldSection(listBox("Possible shared resources", sharedResources(pair)), "resources"),
+      foldSection(groundBox(pair), "ground"));
+    const tl = h("section", "list-box"); tl.append(h("h3", "", "Planning windows"), timeline(pair.a, pair.b)); panel.append(foldSection(tl, "timeline"));
+    panel.append(foldSection(scoreBlock(pair), "score"), foldSection(planningForumBlock(pair), "forums"));
   }
   return [nav, panel];
 }
@@ -859,7 +892,7 @@ function renderDetail() {
       lead = `No project across the river within ${MAX_MILES} miles.${n ? ` The nearest is ${n.p.projectId}, ${n.p.name}, ${n.miles.toFixed(1)} mi away.` : ""}`;
     } else lead = `${count} ${count === 1 ? "pair" : "pairs"} with the other state under the current filters. Pick one in the list to compare.`;
     head.append(h("p", "lead", lead));
-    detail.append(head, projectBlock(project, true, false));
+    detail.append(head, projectBlock(project, true, false, true));
   } else detail.append(landing());
 }
 
@@ -1004,7 +1037,7 @@ function renderMethod() {
   wrap.append(h("h1", "", "How Gridlock decides"));
   const sec = (title, ...paras) => { wrap.append(h("h2", "", title)); paras.forEach(p => wrap.append(typeof p === "string" ? h("p", "", p) : p)); };
   const srcList = h("ul", "src-list"); d.sources.forEach(s => { const li = h("li"); li.append(link(s.url, s.title), document.createTextNode(s.projects ? ` — ${s.projects} projects` : "")); srcList.append(li); });
-  sec("Sources", srcList, "The challenge zip's DESC list (2024–2028) and Georgia plan (2025 IRP) are superseded; both newer editions are public and are used here. The older DESC lists are kept only to measure schedule slip.");
+  sec("Sources", `Dataset as of ${formatDate(d.generated)}. The first two links are the current public filings; earlier editions support schedule history and the change log.`, srcList, "The challenge zip's DESC list (2024–2028) and Georgia plan (2025 IRP) are superseded; both newer editions are public and are used here.");
   sec("The qualifying rule (unchanged from the challenge)", `A DESC project and a Georgia project form a pair when their centers are less than ${MAX_MILES} miles apart by great-circle (haversine) distance. A project's center is the midpoint of its located endpoints, or the single located endpoint. The time gap is the absolute difference between in-service dates. Our tests reproduce the sponsor's six example rows to the hundredth of a mile and the day.`);
   sec("What we add on top (ranking only — never changes which pairs qualify)",
     "Planning windows: DESC's first budget year with spend through its in-service date; Georgia's detail-page Start Date through Need Date. Overlap still ahead of the data date counts; overlap already in the past does not.",
@@ -1021,6 +1054,7 @@ function renderMethod() {
   sec("Changes between filings",
     "Every filing we read is listed in data/filings.json. Each new edition is compared with the one before it: projects are matched on their ID (DESC reuses IDs, so a DESC match also needs a similar name; an ID kept under a different name is reported as renamed), then we list what was added, dropped, rescheduled, renamed or re-costed. Georgia says why each project left its plan (Table 3 cancelled, Table 4 completed); DESC doesn't, so a dropped DESC project only says whether its date had already passed.",
     "Pairs are recomputed with the same 25-mile rule before and after each filing, keeping every project's current location, so a pair appears or disappears only because a project was added, dropped or rescheduled. A pair whose in-service gap moves by 30 days or more is listed as a timing change.");
+  sec("Adding the next public filing", "Add its public URL, edition, date and parser information to data/filings.json, then run python3 pipeline/build.py. Review parser validation and any uncertain locations before publishing the rebuilt data/projects.json and data/changes.json. If a utility changes its document format, its parser may need an update. The Changes tab then shows additions and revisions against the prior edition. This is a reviewed data update, not an upload of arbitrary points.");
   const envList = h("ul", "src-list"); (d.environmentSources ?? []).forEach(s => { const li = h("li"); li.append(link(s.url, s.title)); envList.append(li); });
   sec("Ground at the work sites (mapped conditions)",
     `Checked only where a location means something: endpoints placed at a station (not a town guess) and lines traced between two such stations, for projects that could appear in a pair. For each station we read what is mapped within ${d.environmentRadiusMi} mi: the FEMA flood zone at the station and the share of land in the 1% annual-chance flood area, the share mapped as wetland or open water, and any critical habitat or protected land. For each traced line we measure the miles inside those areas. Shares and miles come from sampling points about 24 m apart.`,
@@ -1084,6 +1118,7 @@ try {
   state.sameStations = sameStationProjects(state.projects);
   state.asOf = state.data.generated;
   if (!/^\d{4}-\d{2}-\d{2}$/.test(state.asOf ?? "")) throw new Error("Dataset is missing a valid as-of date");
+  $("data-as-of").textContent = `Data as of ${formatDate(state.asOf)}`;
   state.allPairs = matchProjects(state.projects, MAX_MILES, { includePossible: true, asOf: state.asOf });
   const years = state.projects.map(project => Number(project.inServiceDate?.slice(0, 4))).filter(Number.isFinite);
   $("year").min = String(Math.min(...years)); $("year").max = String(Math.max(...years)); state.year = FILTER_DEFAULTS.year = Math.max(...years); $("year").value = String(state.year);

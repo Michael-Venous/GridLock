@@ -87,6 +87,7 @@ input[type="range"], input[type="checkbox"] { accent-color: var(--ink); }
 .tab.active::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--ink); }
 .tab-count { padding: 0 6px; border-radius: 9px; background: var(--warn-soft); color: var(--warn); font-size: 11px; font-weight: 600; line-height: 18px; }
 .top-actions { display: flex; flex: none; align-items: center; gap: 14px; }
+.dataset-date { color: var(--ink-2); font-size: 12px; white-space: nowrap; }
 
 /* ---------- workspace ---------- */
 .shell { display: flex; flex-direction: column; height: calc(100dvh - 58px); min-height: 0; }
@@ -218,6 +219,24 @@ input[type="range"], input[type="checkbox"] { accent-color: var(--ink); }
 .dtab.active { color: var(--ink); }
 .dtab.active::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--ink); }
 .dpanel { padding: 4px 18px 32px; }
+.detail-fold { border-bottom: 1px solid var(--rule-soft); }
+.detail-fold > summary { display: flex; align-items: center; gap: 6px; min-height: 42px; padding: 9px 0; font-size: 14px; font-weight: 600; cursor: pointer; list-style: none; }
+.detail-fold > summary::-webkit-details-marker { display: none; }
+.detail-fold > summary::before { content: ""; width: 7px; height: 7px; margin-right: 5px; border-right: 1.5px solid var(--ink-2); border-bottom: 1.5px solid var(--ink-2); transform: rotate(-45deg); transition: transform .15s ease; }
+.detail-fold[open] > summary::before { transform: rotate(45deg); }
+.detail-fold > summary:hover { color: var(--desc-text); }
+.detail-fold > .list-box, .detail-fold > .project-block { margin: 0; padding: 0 0 16px; border: 0; }
+.detail-fold > .list-box.confirm { padding: 12px 14px 13px; margin-bottom: 14px; border-left: 3px solid var(--warn-rule); }
+.detail-fold > .score-block { padding-top: 0; }
+.detail-fold > .score-block h3 { display: none; }
+.detail-fold > summary span { color: var(--ink-2); font-weight: 400; }
+.record-fold > summary { align-items: baseline; flex-wrap: wrap; gap: 7px; }
+.record-fold > summary .utility-label { color: var(--desc-text); font-size: 12px; font-weight: 600; }
+.record-fold > summary .utility-label.gpc { color: var(--gpc-text); }
+.record-fold > summary strong { font-size: 13px; font-weight: 600; }
+.project-evidence { margin-top: 12px; }
+.project-evidence > summary { border-top: 1px solid var(--rule-soft); }
+.project-evidence > .endpoint-box, .project-evidence > .issue-list, .project-evidence > h4 { margin-left: 12px; margin-right: 12px; }
 
 .compare { width: 100%; margin: 10px 0 4px; border-collapse: collapse; table-layout: fixed; font-size: 13px; }
 .compare th, .compare td { padding: 6px 8px 6px 0; border-bottom: 1px solid var(--rule-soft); text-align: left; vertical-align: top; line-height: 1.4; overflow-wrap: anywhere; }
@@ -437,6 +456,7 @@ input[type="range"], input[type="checkbox"] { accent-color: var(--ink); }
 @media (max-width: 760px) {
   .sbs { grid-template-columns: 1fr; }
   .sbs-col + .sbs-col { border-left: 0; border-top: 1px solid var(--rule); }
+  .dataset-date { display: none; }
   body { padding-bottom: 52px; }
   .topbar { gap: 12px; padding: 0 12px; }
   .tabs { position: fixed; z-index: 5; bottom: 0; left: 0; right: 0; justify-content: space-around; gap: 0; height: 52px; border-top: 1px solid var(--rule); background: var(--paper); }
@@ -471,7 +491,7 @@ input[type="range"], input[type="checkbox"] { accent-color: var(--ink); }
 .project-result { display: block; text-align: left; width: 100%; background: white; border: 1px solid var(--rule); border-radius: 4px; padding: 10px; margin: 6px 0; }
 .project-result strong, .project-result span { display: block; }
 .project-result span { margin-top: 5px; color: var(--ink-2); font-size: 12px; }
-.back-results { margin: 12px 18px 0; }
+.back-results { display: none; margin: 12px 18px 0; }
 .scenario-caution { padding: 10px; background: #fff3db; border-left: 3px solid #d69d44; }
 @media (max-width: 1100px) {
  .workspace.show-detail { display: block; }
@@ -479,5 +499,5 @@ input[type="range"], input[type="checkbox"] { accent-color: var(--ink); }
  .workspace.show-detail > .detail-panel { min-height: calc(100dvh - 105px); }
  .workspace:not(.show-detail) > .detail-panel { display: none; }
  .mobile-intro { display: block; margin: 0 0 10px; font-size: 13px; line-height: 1.4; }
- .back-results { position: sticky; top: 8px; z-index: 4; background: white; }
+ .back-results { position: sticky; top: 8px; z-index: 4; display: inline-flex; background: white; }
 }
