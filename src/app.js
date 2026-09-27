@@ -1,4 +1,4 @@
-import { verifiedRoute, matchProjects, gapLabel, overlapLabel, opportunityText, savingsEstimate, yardScenario, projectType, sortPairs, milesBetween, SORTS, WEIGHTS, YARD_BASIS, MAX_MILES } from "./match.js";
+import { matchProjects, gapLabel, overlapLabel, opportunityText, savingsEstimate, yardScenario, projectType, sortPairs, milesBetween, SORTS, WEIGHTS, YARD_BASIS, MAX_MILES } from "./match.js";
 import { pairGround, groundMatches, groundLines, groundShort, groundCostNote, floodZoneText } from "./environment.js";
 import { createChangesView } from "./changes-view.js";
 import { matchesProject, withinDistance, encodeView, decodeView } from "./view-state.js";
@@ -60,10 +60,9 @@ function geometryFeatures(project) {
   if (project.center && project.radiusMi) out.push({ type: "Feature", geometry: { type: "Polygon", coordinates: [ring(project.center, project.radiusMi)] }, properties: { kind: "uncertainty", side: s } });
   const line = (coords, kind) => out.push({ type: "Feature", geometry: { type: "LineString", coordinates: coords.map(([lat, lon]) => [lon, lat]) }, properties: { kind, side: s } });
   const stations = project.endpoints.filter(e => e.point).map(e => [e.point.lat, e.point.lon]);
-  // Solid only for a verified circuit; an OSM path we traced ourselves is dashed; with no path, a dotted straight line joins the stations.
+  // An OSM path we traced ourselves is dashed; with no path, a dotted straight line joins the stations.
   // A tap placed on its host line draws nothing: those stations are the host line's, not the project's.
-  if (verifiedRoute(project)) line(project.route.coords, "route");
-  else if (!project.hostLine && project.route?.coords?.length > 1) line(project.route.coords, "route-inferred");
+  if (!project.hostLine && project.route?.coords?.length > 1) line(project.route.coords, "route-inferred");
   else if (!project.hostLine && stations.length > 1) line(stations, "stations");
   for (const e of project.endpoints) if (e.point) out.push(pointFeature(e.point, { kind: "endpoint", side: s, title: `${e.name} · ${e.method} · ${e.confidence}` }));
   return out;
@@ -247,8 +246,7 @@ function renderList() {
     const tag = (text, kind = "") => tags.append(h("span", `tag ${kind}`, text));
     if (state.shortlist.has(pair.id)) tag("Shortlisted", "star");
     if (!pair.qualifies) tag("Could qualify", "muted");
-    if (pair.shared.length) tag(pair.remainingDays > 0 ? "Confirmed worksite · planning overlap" : `Confirmed worksite: ${pair.shared[0].a}`, "good");
-    else if (pair.nearbyEndpoints?.length) tag("Nearby endpoints · site unconfirmed", "muted");
+    if (pair.nearbyEndpoints?.length) tag("Nearby endpoints · site unconfirmed", "muted");
     if (pair.remainingDays > 0) tag("Planning overlap", "good");
     else if (pair.overlapDays > 0) tag("Overlap past", "muted");
     if (pair.certainty === "sensitive") tag("Location-sensitive", "warn");
@@ -436,7 +434,6 @@ function addLayers() {
   const linkState = ["get", "state"];
   map.addLayer({ id: "uncertainty-fill", type: "fill", source: "geometry", filter: kind("uncertainty"), paint: { "fill-color": bySide, "fill-opacity": 0.08 } });
   map.addLayer({ id: "uncertainty-line", type: "line", source: "geometry", filter: kind("uncertainty"), paint: { "line-color": bySide, "line-width": 1.2, "line-dasharray": [4, 3] } });
-  map.addLayer({ id: "routes", type: "line", source: "geometry", filter: kind("route"), layout: { "line-join": "round", "line-cap": "round" }, paint: { "line-color": bySide, "line-width": 3.5 } });
   map.addLayer({ id: "routes-inferred", type: "line", source: "geometry", filter: kind("route-inferred"), layout: { "line-join": "round" }, paint: { "line-color": bySide, "line-width": 3, "line-dasharray": [2.5, 1.5] } });
   map.addLayer({ id: "station-lines", type: "line", source: "geometry", filter: kind("stations"), layout: { "line-cap": "round" }, paint: { "line-color": bySide, "line-width": 2.5, "line-dasharray": [0, 2] } });
   const linkPaint = {
@@ -589,8 +586,7 @@ function projectBlock(p, full = false, heading = true, foldEvidence = false) {
 // ---- What a planner needs from a pair, shared by the panel and the brief ----
 function whyQualifies(pair) {
   const out = [`Centers are ${pair.miles.toFixed(2)} mi apart, ${pair.qualifies ? `under the challenge's ${MAX_MILES}-mile rule` : `outside the ${MAX_MILES}-mile rule`}. ${certaintyText[pair.certainty]}`];
-  if (pair.shared.length) out.push(`Source-confirmed common worksite: ${pair.shared.map(s => s.a === s.b ? s.a : `${s.a} / ${s.b}`).join(", ")}. Outage and sharing feasibility remain unconfirmed.`);
-  else if (pair.nearbyEndpoints?.length) out.push(`Network endpoints are nearby (${pair.nearbyEndpoints.map(s => s.a === s.b ? s.a : `${s.a} / ${s.b}`).join(", ")}); this does not confirm construction at a shared site.`);
+  if (pair.nearbyEndpoints?.length) out.push(`Network endpoints are nearby (${pair.nearbyEndpoints.map(s => s.a === s.b ? s.a : `${s.a} / ${s.b}`).join(", ")}); this does not confirm construction at a shared site.`);
   if (pair.remainingDays > 0) out.push(`Their inferred planning windows overlap for ${Math.round(pair.remainingDays / 30.44)} months after the data date.`);
   else if (pair.overlapDays > 0) out.push("Their inferred planning windows overlapped, but that overlap is in the past.");
   else if (pair.gapDays !== null) out.push(`Their inferred planning windows don't overlap; in-service dates are ${pair.gapDays} days apart.`);
@@ -598,7 +594,7 @@ function whyQualifies(pair) {
 }
 
 function summaryRationale(pair) {
-  const scope = pair.shared.length ? "Both sources confirm work at a common site." : pair.nearbyEndpoints?.length ? "Nearby network endpoints are a lead to investigate; a shared worksite is unconfirmed." : "Site-level sharing is unconfirmed.";
+  const scope = pair.nearbyEndpoints?.length ? "Nearby network endpoints are a lead to investigate; a shared worksite is unconfirmed." : "Site-level sharing is unconfirmed.";
   return `${pair.qualifies ? "Meets the under-25-mile center-distance rule." : "Outside the center-distance rule; precise locations could change qualification."} ${scope}`;
 }
 
@@ -621,9 +617,7 @@ function toConfirm(pair, compact = false) {
 function sharedResources(pair) {
   if (!pair.qualifies) return ["Verify precise locations and the center-distance rule before proposing shared resources."];
   const out = [];
-  if (pair.shared.length) out.push(`Both source descriptions support work at ${pair.shared[0].a}. If construction months align, investigate shared mobilization and yard space. Confirm each project's outage needs separately.`);
   if (pair.remainingDays > 0) out.push("If a usable shared site is confirmed, compare one staging/laydown yard with two (see scenario).", "Ask whether crane, mat and specialty-crew mobilizations could be coordinated.");
-  if (pair.corridorVerified && pair.approachMiles !== null && pair.approachMiles < 2) out.push(`Access roads and crossings: the two ${pair.a.route && pair.b.route ? "traced lines" : "project sites"} come within ${pair.approachMiles.toFixed(1)} mi.`);
   if (projectType(pair.a) === projectType(pair.b)) out.push(`Same kind of work (${projectType(pair.a).toLowerCase()}): joint procurement, shared spares or one specialist contractor.`);
   if (!out.length) out.push("Crew and contractor scheduling across the river; no site-level sharing is indicated.");
   return out;
@@ -647,7 +641,7 @@ function questions(pair) {
   return [
     `Is ${pair.b.projectId} still scheduled for ${formatDate(pair.b.inServiceDate)}? Which months need outages or heavy construction?`,
     "Where will your staging/laydown yard be, how large, and is there room for a second project's material?",
-    pair.shared.length ? `What are each project's outage needs at ${pair.shared[0].b}, and who controls yard space?` : "Which contractors, mat suppliers and crane vendors are you planning to use?",
+    "Which contractors, mat suppliers and crane vendors are you planning to use?",
     `Would ${other} share a site lease or access road if the schedules line up? What approvals would that need?`,
     "Who is the right planning contact for follow-up?",
   ];
@@ -862,15 +856,6 @@ function scoreBlock(pair) {
   });
   if (pair.score.parts.confidence < 1) parts.append(h("p", "muted-note", "× 0.85 because location uncertainty could move this pair past 25 miles."));
   score.append(parts);
-  const bonus = h("div", "score-bonus");
-  bonus.append(h("h4", "", "Confirmed-evidence bonus, on top of 100"));
-  [["Confirmed site", pair.score.parts.shared, WEIGHTS.shared], ["Verified route", pair.score.parts.corridor, WEIGHTS.corridor]].forEach(([k, v, max]) => {
-    const row = h("div", "score-part"); const bar = h("i", ""); bar.style.width = `${(v / max) * 100}%`; const track = h("span", "score-track"); track.append(bar);
-    row.append(h("span", "", k), track, h("b", "", `+${v}/${max}`)); bonus.append(row);
-  });
-  score.append(bonus);
-  for (const note of pair.score.notes ?? []) score.append(h("p", "muted-note", note));
-  if (!pair.score.parts.shared && !pair.score.parts.corridor) score.append(h("p", "muted-note", "No project in the current dataset has this kind of sourced evidence, for any pair — it isn't specific to this one."));
   return score;
 }
 
@@ -1066,8 +1051,7 @@ function renderMethod() {
   sec("What we add on top (ranking only — never changes which pairs qualify)",
     "Planning windows: DESC's first budget year with spend through its in-service date; Georgia's detail-page Start Date through Need Date. Overlap still ahead of the data date counts; overlap already in the past does not.",
     "Certainty: each location carries an uncertainty radius. A pair is robust if it stays under 25 miles at the edges of both radii, sensitive if it only does at the best estimate, and possible (shown only on request) if it could qualify.",
-    `Score = proximity (${WEIGHTS.proximity}) + timing (${WEIGHTS.timing}), × 0.85 when location-sensitive — the challenge's own two signals, geography primary and timing a strong secondary one, filling the full 100. Distance sets most of the order; timing reorders pairs at similar distances. To explore alternatives, sort by distance, by closest in-service dates, or by build overlap still ahead.`,
-    `Confirmed-evidence bonus, on top of the 100 (rare): +${WEIGHTS.shared} if both records carry an explicit, source-backed confirmation that they name the same worksite — not just nearby or identically-named endpoints, which earn nothing here. +${WEIGHTS.corridor} if both have a verified circuit route (not an inferred OSM path) passing close together. No record in the current dataset has this kind of sourced evidence, so the bonus is 0 for every pair today; it exists for whenever one is curated with a real citation.`);
+    `Score = proximity (${WEIGHTS.proximity}) + timing (${WEIGHTS.timing}), × 0.85 when location-sensitive — the challenge's own two signals, geography primary and timing a strong secondary one, filling the full 100. Distance sets most of the order; timing reorders pairs at similar distances. To explore alternatives, sort by distance, by closest in-service dates, or by build overlap still ahead.`);
   sec("How locations are found", "In order of trust: hand-sited points with a written reason (data/overrides.json); coordinates from the sponsor's starter workbook; OpenStreetMap substations and plants by exact then partial name, restricted to the right state; and last, a town-level match (±6 mi). When a name fits several places (there are two Goshens 87 miles apart), the one nearest the project's other endpoint and its planning zone wins. Matches far from the rest of the project are rejected rather than kept.");
   const basis = h("ul", "src-list"); [YARD_BASIS.matsPerAcre, YARD_BASIS.roadPerMile, YARD_BASIS.landPerAcre].forEach(b => { const li = h("li"); li.append(link(b.url, b.source)); basis.append(li); });
   sec("Impact scenario (bonus): one shared staging yard",
@@ -1103,8 +1087,8 @@ function setView(name) {
 }
 
 function exportCsv() {
-  const header = ["as_of", "rank", "qualifies", "score", "certainty", "desc_project", "desc_id", "desc_type", "desc_status", "ga_project", "ga_teams", "ga_type", "ga_status", "distance_miles", "in_service_gap_days", "build_overlap_days", "overlap_days_ahead", "confirmed_shared_worksite", "verified_route_approach_miles", "in_service_desc", "in_service_ga", "ground_desc", "ground_ga", "source_desc", "source_ga"];
-  const lines = [header, ...state.pairs.map((p, i) => [state.asOf, i + 1, p.qualifies, p.score.total, p.certainty, p.a.name, p.a.projectId, projectType(p.a), p.a.status, p.b.name, p.b.projectId, projectType(p.b), p.b.status, p.miles.toFixed(3), p.gapDays ?? "", p.overlapDays ?? "", p.remainingDays ?? "", p.shared.map(s => s.a).join("; "), p.corridorVerified ? p.approachMiles?.toFixed(2) ?? "" : "", p.a.inServiceDate ?? "", p.b.inServiceDate ?? "", groundShort(p.a), groundShort(p.b), pdfLink(p.a.source), pdfLink(p.b.source)])];
+  const header = ["as_of", "rank", "qualifies", "score", "certainty", "desc_project", "desc_id", "desc_type", "desc_status", "ga_project", "ga_teams", "ga_type", "ga_status", "distance_miles", "in_service_gap_days", "build_overlap_days", "overlap_days_ahead", "in_service_desc", "in_service_ga", "ground_desc", "ground_ga", "source_desc", "source_ga"];
+  const lines = [header, ...state.pairs.map((p, i) => [state.asOf, i + 1, p.qualifies, p.score.total, p.certainty, p.a.name, p.a.projectId, projectType(p.a), p.a.status, p.b.name, p.b.projectId, projectType(p.b), p.b.status, p.miles.toFixed(3), p.gapDays ?? "", p.overlapDays ?? "", p.remainingDays ?? "", p.a.inServiceDate ?? "", p.b.inServiceDate ?? "", groundShort(p.a), groundShort(p.b), pdfLink(p.a.source), pdfLink(p.b.source)])];
   const csv = lines.map(row => row.map(value => `"${String(value).replaceAll('"', '""')}"`).join(",")).join("\r\n");
   const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" })); a.download = "gridlock-opportunities.csv"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }
@@ -1160,7 +1144,7 @@ try {
   state.shortlist = new Set([...saved].filter(id => state.allPairs.some(p => p.id === id)));
   if (saved.size !== state.shortlist.size) { saveShortlist(); $("session-notice").textContent = "Some saved pairs changed or were ambiguous in this data edition and were removed. Please review your shortlist."; }
   for (const [key, s] of Object.entries(SORTS)) { const o = h("option", "", s.label); o.value = key; $("sort").append(o); }
-  $("sort-hint").textContent = `Score: distance ${WEIGHTS.proximity} pts + timing ${WEIGHTS.timing} pts, plus a rare +${WEIGHTS.shared + WEIGHTS.corridor} bonus for a sourced confirmed worksite or route. Distance sets most of the order.`;
+  $("sort-hint").textContent = `Score: distance ${WEIGHTS.proximity} pts + timing ${WEIGHTS.timing} pts. Distance sets most of the order.`;
   initMap();
   syncEnvLayers();
   changesView = createChangesView({

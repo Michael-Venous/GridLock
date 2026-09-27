@@ -24,18 +24,6 @@ test('brief map is standalone, identifies geometry and escapes project text', ()
   assert.equal(svg,briefMapSvg(p));
 });
 
-test('brief map omits inferred routes and includes only explicitly verified valid routes', () => {
-  const p=pair();
-  p.a.route={coords:[[32.3,-81.1],[32.4,-81.2]]};
-  assert.doesNotMatch(briefMapSvg(p),/class="verified-route"/);
-  p.a.route.verified=true;
-  assert.doesNotMatch(briefMapSvg(p),/class="verified-route"/);
-  p.a.route.evidence={source:"https://example.org/public-plan",quote:"The project follows this circuit."};
-  assert.match(briefMapSvg(p),/class="verified-route"/);
-  p.a.route.coords[1]=[NaN,-81.2];
-  assert.doesNotMatch(briefMapSvg(p),/class="verified-route"/);
-});
-
 test('brief map handles missing, invalid and coincident centers without nonfinite coordinates', () => {
   assert.match(briefMapSvg(null),/Location overview unavailable/);
   const invalid=pair(); invalid.a.center.lat=NaN;

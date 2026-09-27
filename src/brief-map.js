@@ -1,4 +1,3 @@
-import { verifiedRoute as routeEvidenceConfirmed } from "./match.js";
 // A self-contained geographic overview for printed briefs. No map tiles, fonts,
 // scripts or external SVG resources are needed when the brief is saved as a PDF.
 const WIDTH = 700, HEIGHT = 190, MI_PER_DEGREE = 69.0934;
@@ -8,12 +7,6 @@ const short = (value, n = 30) => { const text = String(value ?? ""); return text
 const number = value => Number(value.toFixed(2));
 const validPoint = p => Boolean(p && Number.isFinite(p.lat) && Number.isFinite(p.lon) && Math.abs(p.lat) <= 90 && Math.abs(p.lon) <= 180);
 const radius = project => Number.isFinite(project.radiusMi) && project.radiusMi > 0 ? project.radiusMi : 0;
-
-// Station-level endpoints alone do not verify a route: the pipeline's shortest
-// OSM path may trace a different line or extend beyond the actual work segment.
-const verifiedRoute = project => routeEvidenceConfirmed(project) && Array.isArray(project.route.coords)
-  && project.route.coords.length >= 2 && project.route.coords.every(p => Array.isArray(p) && validPoint({ lat: p[0], lon: p[1] }))
-  ? project.route.coords.map(([lat, lon]) => ({ lat, lon })) : [];
 
 function svg(content, description) {
   return `<svg xmlns="http://www.w3.org/2000/svg" class="brief-map" viewBox="0 0 ${WIDTH} ${HEIGHT}" width="${WIDTH}" height="${HEIGHT}" role="img" aria-label="Project location overview" style="display:block;width:100%;height:auto;max-width:700px;background:#fff;font-family:Arial,sans-serif"><title>Project location overview</title><desc>${esc(description)}</desc><rect width="700" height="190" fill="#fff" stroke="none"/>${content}</svg>`;
@@ -33,11 +26,10 @@ export function briefMapSvg(pair) {
   const rows = projects.map((p, i) => ({
     project: p, color: COLORS[i], letter: i ? "B" : "A", center: xy(p.center), radius: radius(p),
     endpoints: (p.endpoints ?? []).filter(e => validPoint(e.point)).map(e => ({ ...e, xy: xy(e.point) })),
-    route: verifiedRoute(p).map(xy),
   }));
   const extent = rows.flatMap(r => [
     [r.center[0] - r.radius, r.center[1] - r.radius], [r.center[0] + r.radius, r.center[1] + r.radius],
-    ...r.endpoints.map(e => e.xy), ...r.route,
+    ...r.endpoints.map(e => e.xy),
   ]);
   const xs = extent.map(p => p[0]), ys = extent.map(p => p[1]);
   const minX = Math.min(...xs), maxX = Math.max(...xs), minY = Math.min(...ys), maxY = Math.max(...ys);
@@ -58,7 +50,6 @@ export function briefMapSvg(pair) {
   for (const r of rows) {
     const [x, y] = point(r.center);
     if (r.radius) out += circle(x, y, r.radius * scale, `class="uncertainty-ring" fill="${r.color}" fill-opacity=".06" stroke="${r.color}" stroke-width="1" stroke-dasharray="3 3"`);
-    if (r.route.length) out += `<polyline class="verified-route" points="${r.route.map(p => point(p).join(',')).join(' ')}" fill="none" stroke="${r.color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">${title(`${r.letter}: verified route`)}</polyline>`;
   }
   out += `<path class="center-link" d="M${centers[0].join(' ')} L${centers[1].join(' ')}" fill="none" stroke="#4f6570" stroke-width="1.3" stroke-dasharray="5 4">${title('Straight distance between centers; not a transmission route')}</path>`;
   for (const r of rows) for (const e of r.endpoints) {
@@ -89,8 +80,6 @@ export function briefMapSvg(pair) {
   out += circle(481, 101, 3, 'fill="#fff" stroke="#4f6570" stroke-width="1.3"') + text(493, 104, 'Located endpoint (confidence in records)', 9);
   out += circle(481, 119, 5, 'fill="none" stroke="#4f6570" stroke-width="1" stroke-dasharray="2 2"') + text(493, 122, 'Stated location uncertainty', 9);
   out += '<path d="M476 137 h14" fill="none" stroke="#4f6570" stroke-width="1.3" stroke-dasharray="4 3"/>' + text(496, 140, 'Center link — not a route', 9);
-  if (rows.some(r => r.route.length)) out += '<path d="M476 155 h14" fill="none" stroke="#4f6570" stroke-width="2.5"/>' + text(496, 158, 'Verified route geometry', 9);
-  else out += text(476, 158, 'Unverified route geometry omitted.', 9);
   out += text(14, 187, 'Relative geographic positions; no street basemap. Endpoint markers are estimates, not verified worksites.', 9);
-  return svg(out, `${rows.map(r => `${r.letter}: ${r.project.name ?? r.project.projectId}; uncertainty ${r.radius} miles`).join('. ')}. North is up. Dashed link joins project centers, not a transmission route. Only explicitly verified routes are drawn.`);
+  return svg(out, `${rows.map(r => `${r.letter}: ${r.project.name ?? r.project.projectId}; uncertainty ${r.radius} miles`).join('. ')}. North is up. Dashed link joins project centers, not a transmission route.`);
 }

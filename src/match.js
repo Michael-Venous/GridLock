@@ -49,90 +49,18 @@ export function nearbyEndpoints(a, b) {
   return out;
 }
 
-// A reviewed scope quote and source must explicitly support work at the same canonical site.
-// Similar names or nearby coordinates alone never establish a common worksite.
-function hasEvidence(evidence) {
-  const source = typeof evidence?.source === "string" ? evidence.source : evidence?.source?.url;
-  return typeof source === "string" && source.trim().length > 0 && typeof evidence?.quote === "string" && evidence.quote.trim().length > 0;
-}
-
-export function sharedStations(a, b) {
-  const confirmed = p => (p.worksites ?? []).filter(s => s.siteId && s.verified === true && hasEvidence(s.evidence));
-  const out = [];
-  for (const x of confirmed(a)) for (const y of confirmed(b)) {
-    if (x.siteId === y.siteId && !out.some(s => s.siteId === x.siteId)) out.push({
-      a: x.name ?? x.siteId, b: y.name ?? y.siteId, siteId: x.siteId,
-      miles: x.point && y.point ? milesBetween(x.point, y.point) : null,
-      evidence: { a: x.evidence, b: y.evidence },
-    });
-  }
-  return out;
-}
-
-export function verifiedRoute(project) {
-  return project.route?.verified === true && project.route.coords?.length > 1 && hasEvidence(project.route.evidence);
-}
-
-function shape(project) {
-  if (project.route?.coords?.length) return project.route.coords.map(([lat, lon]) => ({ lat, lon }));
-  const points = (project.endpoints ?? []).filter(e => e.point).map(e => e.point);
-  return points.length ? points : project.center ? [project.center] : [];
-}
-
-function xy(p, lat0) { const r = Math.PI / 180; return [p.lon * r * 3958.7613 * Math.cos(lat0 * r), p.lat * r * 3958.7613]; }
-function segDist(p, a, b) {
-  const dx = b[0] - a[0], dy = b[1] - a[1], L = dx * dx + dy * dy;
-  const t = L ? Math.max(0, Math.min(1, ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / L)) : 0;
-  return Math.hypot(p[0] - a[0] - t * dx, p[1] - a[1] - t * dy);
-}
-
-function segmentsIntersect(a, b, c, d) {
-  const cross = (p, q, r) => (q[0] - p[0]) * (r[1] - p[1]) - (q[1] - p[1]) * (r[0] - p[0]);
-  const epsilon = 1e-8;
-  const sign = value => Math.abs(value) <= epsilon ? 0 : Math.sign(value);
-  const onSegment = (p, q, r) => r[0] >= Math.min(p[0], q[0]) - epsilon && r[0] <= Math.max(p[0], q[0]) + epsilon && r[1] >= Math.min(p[1], q[1]) - epsilon && r[1] <= Math.max(p[1], q[1]) + epsilon;
-  const ac = sign(cross(a, b, c)), ad = sign(cross(a, b, d));
-  const ca = sign(cross(c, d, a)), cb = sign(cross(c, d, b));
-  if (ac * ad < 0 && ca * cb < 0) return true;
-  return ac === 0 && onSegment(a, b, c) || ad === 0 && onSegment(a, b, d) || ca === 0 && onSegment(c, d, a) || cb === 0 && onSegment(c, d, b);
-}
-
-// Closest approach between the two projects' mapped lines (or endpoints when no line was traced).
-// This diagnostic does not verify a construction corridor; scoring requires source-backed routes.
-export function closestApproachMiles(a, b) {
-  const A = shape(a), B = shape(b);
-  if (!A.length || !B.length) return null;
-  const lat0 = (A[0].lat + B[0].lat) / 2;
-  const pa = A.map(p => xy(p, lat0)), pb = B.map(p => xy(p, lat0));
-  let best = Infinity;
-  const segs = pts => pts.length > 1 ? pts.slice(1).map((p, i) => [pts[i], p]) : [[pts[0], pts[0]]];
-  for (const [s, e] of segs(pa)) for (const [t, u] of segs(pb)) {
-    if (segmentsIntersect(s, e, t, u)) return 0;
-    best = Math.min(best, segDist(s, t, u), segDist(e, t, u), segDist(t, s, e), segDist(u, s, e));
-  }
-  return best;
-}
-
 // Ranking score. The challenge makes geography the primary signal and timing a strong secondary one, so the
-// core 100 points split proximity 60 / timing 40. Confirmed site and verified corridor are a separate bonus
-// on top, never baked into the 100: they require a sourced citation naming a shared worksite or a verified
-// route (see hasEvidence above), which nothing in this dataset has, so they'd otherwise sit at a permanent,
-// misleading 0 inside the main scale rather than reading as the rare, real bonus they're meant to be.
-export const WEIGHTS = { proximity: 60, timing: 40, shared: 20, corridor: 10 };
+// full 100 points split proximity 60 / timing 40.
+export const WEIGHTS = { proximity: 60, timing: 40 };
 export function scorePair(pair) {
   const proximity = WEIGHTS.proximity * Math.max(0, 1 - pair.miles / MAX_MILES);
   let timing = 0;
   const ahead = pair.remainingDays ?? pair.overlapDays;
   if (ahead > 0) timing = WEIGHTS.timing * Math.min(1, 0.5 + ahead / 730);
   else if (pair.gapDays !== null) timing = WEIGHTS.timing / 2 * Math.max(0, 1 - pair.gapDays / 1095);
-  const shared = pair.shared?.length ? WEIGHTS.shared : 0;
-  const corridor = pair.corridorVerified && Number.isFinite(pair.approachMiles) ? WEIGHTS.corridor * Math.max(0, 1 - pair.approachMiles / 5) : 0;
   const confidence = pair.certainty === "robust" ? 1 : 0.85;
-  const total = Math.round((proximity + timing) * confidence) + shared + corridor;
-  const notes = [];
-  if (!shared) notes.push(pair.nearbyEndpoints?.length ? "Nearby network endpoints need worksite confirmation; no shared-worksite bonus awarded." : "No confirmed common worksite; no shared-worksite bonus awarded.");
-  if (!pair.corridorVerified) notes.push("Construction corridors are unverified or unavailable; no corridor bonus awarded.");
-  return { total, parts: { proximity: Math.round(proximity), timing: Math.round(timing), shared, corridor: Math.round(corridor), confidence }, notes };
+  const total = Math.round((proximity + timing) * confidence);
+  return { total, parts: { proximity: Math.round(proximity), timing: Math.round(timing), confidence } };
 }
 
 export function matchProjects(projects, cutoff = MAX_MILES, { includePossible = false, asOf = null } = {}) {
@@ -149,10 +77,7 @@ export function matchProjects(projects, cutoff = MAX_MILES, { includePossible = 
       overlapDays: windowOverlapDays(a.window, b.window),
       remainingDays: remainingOverlapDays(a.window, b.window, asOf),
       bothPast: Boolean(asOf && a.inServiceDate && b.inServiceDate && a.inServiceDate < asOf && b.inServiceDate < asOf),
-      shared: sharedStations(a, b),
       nearbyEndpoints: nearbyEndpoints(a, b),
-      approachMiles: closestApproachMiles(a, b),
-      corridorVerified: verifiedRoute(a) && verifiedRoute(b),
     };
     pair.score = scorePair(pair);
     pairs.push(pair);
@@ -209,10 +134,8 @@ export function savingsEstimate(pair, { benchmarkPerMile, shareRate = 0.04 }) {
   const cost = p => p.cost?.total ?? (p.miles && benchmarkPerMile ? p.miles * benchmarkPerMile : null);
   const ca = cost(pair.a), cb = cost(pair.b);
   if (ca === null || cb === null) return null;
-  const timing = 1;
-  const site = pair.shared?.length ? 1.5 : 1;
-  return { costA: ca, costB: cb, aEstimated: pair.a.cost?.total == null, bEstimated: pair.b.cost?.total == null, timing, site, shareRate,
-    low: Math.min(ca, cb) * shareRate * 0.5 * timing * site, high: Math.min(ca, cb) * shareRate * 1.5 * timing * site };
+  return { costA: ca, costB: cb, aEstimated: pair.a.cost?.total == null, bEstimated: pair.b.cost?.total == null, shareRate,
+    low: Math.min(ca, cb) * shareRate * 0.5, high: Math.min(ca, cb) * shareRate * 1.5 };
 }
 
 // Cited unit costs for the staging-yard scenario. Everything else in the scenario is a user-editable assumption.
@@ -253,7 +176,6 @@ export function yardScenario(pair, { acres = 5, months = null, leaseRate = 0.10,
 
 export function opportunityText(pair) {
   if (!pair.qualifies) return "Outside the center-distance rule: verify locations before considering a coordination scenario.";
-  if (pair.shared.length) return `Source-backed work at ${pair.shared[0].b}: investigate compatible outages, access and staging before proposing shared resources.`;
   if (pair.nearbyEndpoints?.length) return "Near common network endpoints; confirm the actual worksites before proposing shared access, outages or staging.";
   if ((pair.remainingDays ?? pair.overlapDays) > 0 && pair.miles < 10) return "Nearby projects with overlapping planning windows: investigate staging, deliveries and specialist crews.";
   if ((pair.remainingDays ?? pair.overlapDays) > 0) return "Overlapping planning windows in the same region: investigate crews, equipment and procurement.";
