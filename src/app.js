@@ -261,7 +261,7 @@ function renderList() {
     const mapped = [ground.flood && "Flood area", ground.habitat.length && "Critical habitat", ground.protected.length && "Protected land"].filter(Boolean);
     if (mapped.length) {
       tag(mapped.length > 1 ? `${mapped[0]} +${mapped.length - 1}` : mapped[0], "env");
-      tags.lastChild.title = `Mapped at the work sites: ${mapped.join(", ").toLowerCase()}`;
+      tags.lastChild.title = `Mapped near located endpoints: ${mapped.join(", ").toLowerCase()}`;
     }
     for (const p of [pair.a, pair.b]) {
       const others = state.sameStations.get(p.id);
@@ -514,12 +514,12 @@ function renderMap() {
   map.getSource("geometry").setData(featureCollection((pair ? [pair.a, pair.b] : project ? [project] : []).flatMap(geometryFeatures)));
   map.getSource("links").setData(featureCollection(state.pairs.map(p => ({
     type: "Feature", geometry: { type: "LineString", coordinates: [lngLat(p.a.center), lngLat(p.b.center)] },
-    properties: { id: p.id, possible: !p.qualifies, state: p.id === state.selectedPair ? "selected" : state.selectedPair ? "dim" : "normal", title: `${p.a.projectId} ↔ ${p.b.projectId}: ${p.miles.toFixed(1)} miles` },
+    properties: { id: p.id, possible: !p.qualifies, state: p.id === state.selectedPair ? "selected" : state.selectedPair ? "dim" : "normal", title: `${p.a.projectId} ↔ ${p.b.projectId}: ${p.miles.toFixed(1)} mi between comparison points` },
   }))));
   map.getSource("projects").setData(featureCollection(visibleProjects.map(p => pointFeature(p.center, {
     id: p.id, side: side(p), matched: activeIds.has(p.id), focus: focusIds.has(p.id) ? "chosen" : pair ? "faded" : "normal", label: p.projectId,
     order: (activeIds.has(p.id) ? 1 : 0) + (focusIds.has(p.id) ? 2 : 0),
-    title: `${projectLabel(p)}\n${sideName(p)} · in service ${formatDate(p.inServiceDate)}`,
+    title: `${projectLabel(p)}\n${pointKind(p)} · worksite unverified\n${sideName(p)} · in service ${formatDate(p.inServiceDate)}`,
   }))));
 }
 
@@ -572,12 +572,20 @@ function issuesList(project) {
 }
 
 const located = p => p.endpoints.filter(e => e.point);
+function pointKind(p) {
+  const sites = located(p);
+  if (!sites.length) return "Not located";
+  if (sites.length > 1) return sites.length === 2 ? "Calculated midpoint" : "Calculated average";
+  if (sites[0].method === "town") return "Town estimate";
+  return p.endpoints.length > 1 ? "Single mapped endpoint" : "Mapped endpoint";
+}
 function centerMethod(p) {
   const n = located(p).length, total = p.endpoints.length;
   if (!n) return "Not located";
-  if (n >= 2) return `Midpoint of ${n} located endpoints`;
-  if (total > 1) return `Single known endpoint (${located(p)[0].name}); the other end is not located, so the radius is widened`;
-  return `Single site (${located(p)[0].name})`;
+  if (n >= 2) return `${pointKind(p)} of ${n} mapped endpoints; this is a comparison point, not a verified worksite`;
+  if (located(p)[0].method === "town") return `Town estimate for ${located(p)[0].name}; station and worksite unverified`;
+  if (total > 1) return `Single mapped endpoint (${located(p)[0].name}); the other end is not located, so the radius is widened`;
+  return `Mapped endpoint (${located(p)[0].name}); worksite unverified`;
 }
 function sourceLabel(src) { return src.url.includes("psc.ga.gov") ? `${src.doc}, PDF p. ${src.page} (link downloads the PSC zip)` : `${src.doc}, p. ${src.page}`; }
 function sourceLink(p) { return link(pdfLink(p.source), sourceLabel(p.source)); }
@@ -606,7 +614,7 @@ function projectBlock(p, full = false, heading = true, foldEvidence = false) {
   else if (p.change && p.state === "GA") block.append(infoRow("Change vs last plan", p.change));
   const others = state.sameStations?.get(p.id);
   if (others) block.append(infoRow("Same end stations", `${others.map(q => `${q.projectId} · ${q.name} (${windowText(q)})`).join("; ")}. Listed as a separate project in the filing, not a duplicate.`));
-  block.append(infoRow("Map point", centerMethod(p)), infoRow("Location confidence", `${p.locationConfidence} · ±${p.radiusMi ?? "?"} mi`));
+  block.append(infoRow("Project dot", centerMethod(p)), infoRow("Location confidence", `${p.locationConfidence} · ±${p.radiusMi ?? "?"} mi`));
   const src = h("div", "source-line"); src.append(document.createTextNode("Source: "), sourceLink(p), document.createTextNode(` (${p.source.item})`));
   block.append(src);
   if (full) {
@@ -786,7 +794,7 @@ function listBox(title, items, cls = "") { const box = h("section", `list-box ${
 const GROUND_NOTE = "What federal maps show (FEMA, USFWS, NOAA Fisheries, USGS PAD-US), read within 0.25 mi of each station-level site and along traced lines. A map is not a field survey or a permit decision; each project still needs its own permits.";
 function groundBox(pair) {
   const box = h("section", "list-box ground-box");
-  box.append(h("h3", "", "Ground at the work sites"));
+  box.append(h("h3", "", "Ground near mapped endpoints"));
   for (const p of [pair.a, pair.b]) {
     box.append(h("h4", `ground-for ${side(p)}`, `${sideName(p)} ${p.projectId}`));
     const ul = h("ul"); groundLines(p, state.data.environmentRadiusMi).forEach(t => ul.append(h("li", "", t))); box.append(ul);
@@ -842,7 +850,7 @@ function spanHead(pair) {
   const line = h("div", "span-line"); line.append(h("i"), h("b", "", `${pair.miles.toFixed(2)} mi`));
   row.append(end(pair.a), line, end(pair.b));
   const names = h("div", "span-names"); names.append(h("p", "", pair.a.name), h("p", "", pair.b.name));
-  head.append(row, names);
+  head.append(row, names, h("p", "point-basis", `Distance uses project dots: ${sideName(pair.a)} ${pointKind(pair.a).toLowerCase()} · ${sideName(pair.b)} ${pointKind(pair.b).toLowerCase()}. These dots may not be construction sites.`));
   if (!pair.qualifies) head.append(h("p", "notice", `Does not qualify: centers are over ${MAX_MILES} mi apart, but location uncertainty could bring them under.`));
   const actions = h("div", "detail-actions");
   const on = state.shortlist.has(pair.id);
@@ -961,7 +969,7 @@ function briefText(pair) {
     "", pair.qualifies ? "Why it qualifies:" : "Does not qualify at current locations - why it might qualify:", ...bullets(whyQualifies(pair)),
     "", "Possible shared resources:", ...bullets(sharedResources(pair)),
     "", `Staging-yard scenario: ${sc.active ? `${money(sc.low)} – ${money(sc.high)} (illustrative; feasibility unconfirmed)` : `Unavailable: ${sc.reason}`}`, ...(sc.active ? bullets(scenarioLines(pair, sc).map(([k, v, why]) => `${k}: ${v} (${why})`)) : []),
-    "", "Ground at the work sites (mapped, not surveyed):", ...[pair.a, pair.b].flatMap(p => [`  ${sideName(p)} ${p.projectId}:`, ...groundLines(p, state.data.environmentRadiusMi).map(x => `    - ${x}`)]),
+    "", "Ground near mapped endpoints (not surveyed):", ...[pair.a, pair.b].flatMap(p => [`  ${sideName(p)} ${p.projectId}:`, ...groundLines(p, state.data.environmentRadiusMi).map(x => `    - ${x}`)]),
     "", "Still to confirm:", ...bullets(toConfirm(pair)),
     "", `Questions for ${sideName(pair.b)}:`, ...questions(pair).map((q, i) => `  ${i + 1}. ${q}`),
     "", "Where to raise it:", ...planningForumText(pair),
@@ -992,7 +1000,7 @@ function briefHtml(pair) {
   <div class="cols"><div><h2>${pair.qualifies ? "Why it qualifies" : "Why it might qualify"}</h2><ul>${li(whyQualifies(pair))}</ul><h2>Possible shared resources</h2><ul>${li(sharedResources(pair))}</ul>
   <h2>Staging-yard scenario${sc.active ? `: ${money(sc.low)} – ${money(sc.high)}` : " unavailable"}</h2>${sc.active ? `<p>Illustrative avoided cost; sharing feasibility unconfirmed.</p><ul>${scenarioLines(pair, sc).map(([k, v, why]) => `<li><b>${k}:</b> ${esc(v)} <i>(${esc(why)})</i></li>`).join("")}<li>Combined yard assumed 1.0–1.5× one yard. Proximity does not prove land or equipment can be shared.</li></ul>` : `<p>${esc(sc.reason)}</p>`}</div>
   <div><h2>Still to confirm</h2><ul>${li(toConfirm(pair))}</ul><h2>Questions for ${esc(sideName(b))}</h2><ol>${li(questions(pair))}</ol></div></div>
-  <h2>Ground at the work sites</h2><div class="cols">${[a, b].map(p => `<div><b>${esc(sideName(p))} ${esc(p.projectId)}</b><ul>${li(groundLines(p, state.data.environmentRadiusMi))}</ul></div>`).join("")}</div>
+  <h2>Ground near mapped endpoints</h2><div class="cols">${[a, b].map(p => `<div><b>${esc(sideName(p))} ${esc(p.projectId)}</b><ul>${li(groundLines(p, state.data.environmentRadiusMi))}</ul></div>`).join("")}</div>
   <p class="note">${esc(GROUND_NOTE)}</p>
   <section class="forum"><h2>Where to raise it</h2><p>${[a,b].map(p => `${esc(sideName(p))}: <a href="${esc(PLANNING_FORUMS[p.state].contactUrl)}">${esc(PLANNING_FORUMS[p.state].shortName)} contact page</a>`).join(" · ")}</p><p>${esc(PLANNING_TRANSITION.text)} Checked ${esc(PLANNING_TRANSITION.checkedOn)}. <a href="${esc(PLANNING_TRANSITION.sourceUrl)}">Transition notice</a></p></section>
   <footer>Cost basis: ${esc(YARD_BASIS.matsPerAcre.source)}; ${esc(YARD_BASIS.roadPerMile.source)}; ${esc(YARD_BASIS.landPerAcre.source)}. Built from public filings and OpenStreetMap only; no CEII. Locations are estimates with stated uncertainty.</footer>
@@ -1114,7 +1122,7 @@ function renderMethod() {
     "Pairs are recomputed with the same 25-mile rule before and after each filing, keeping every project's current location, so a pair appears or disappears only because a project was added, dropped or rescheduled. A pair whose in-service gap moves by 30 days or more is listed as a timing change.");
   sec("Adding the next public filing", "Add its public URL, edition, date and parser information to data/filings.json, then run python3 pipeline/build.py. Review parser validation and any uncertain locations before publishing the rebuilt data/projects.json and data/changes.json. If a utility changes its document format, its parser may need an update. The Changes tab then shows additions and revisions against the prior edition. This is a reviewed data update, not an upload of arbitrary points.");
   const envList = h("ul", "src-list"); (d.environmentSources ?? []).forEach(s => { const li = h("li"); li.append(link(s.url, s.title)); envList.append(li); });
-  sec("Ground at the work sites (mapped conditions)",
+  sec("Ground near mapped endpoints (mapped conditions)",
     `Checked only where a location means something: endpoints placed at a station (not a town guess) and lines traced between two such stations, for projects that could appear in a pair. For each station we read what is mapped within ${d.environmentRadiusMi} mi: the FEMA flood zone at the station and the share of land in the 1% annual-chance flood area, the share mapped as wetland or open water, and any critical habitat or protected land. For each traced line we measure the miles inside those areas. Shares and miles come from sampling points about 24 m apart.`,
     envList,
     "Service answers are cached with the date they were read (data/cache/environment.json), so rebuilding offline gives the same results. On the map, the wetland and flood outlines behind each result are drawn inside the checked areas (dashed); zoomed in close, the agencies' own full maps are shown instead.",
@@ -1137,8 +1145,8 @@ function setView(name) {
 }
 
 function exportCsv() {
-  const header = ["as_of", "rank", "qualifies", "score", "certainty", "desc_project", "desc_id", "desc_type", "desc_status", "ga_project", "ga_teams", "ga_type", "ga_status", "distance_miles", "in_service_gap_days", "build_overlap_days", "overlap_days_ahead", "in_service_desc", "in_service_ga", "ground_desc", "ground_ga", "source_desc", "source_ga"];
-  const lines = [header, ...state.pairs.map((p, i) => [state.asOf, i + 1, p.qualifies, p.score.total, p.certainty, p.a.name, p.a.projectId, projectType(p.a), p.a.status, p.b.name, p.b.projectId, projectType(p.b), p.b.status, p.miles.toFixed(3), p.gapDays ?? "", p.overlapDays ?? "", p.remainingDays ?? "", p.a.inServiceDate ?? "", p.b.inServiceDate ?? "", groundShort(p.a), groundShort(p.b), pdfLink(p.a.source), pdfLink(p.b.source)])];
+  const header = ["as_of", "rank", "qualifies", "score", "certainty", "desc_project", "desc_id", "desc_type", "desc_status", "ga_project", "ga_teams", "ga_type", "ga_status", "distance_miles", "desc_point_type", "ga_point_type", "in_service_gap_days", "build_overlap_days", "overlap_days_ahead", "in_service_desc", "in_service_ga", "ground_desc", "ground_ga", "source_desc", "source_ga"];
+  const lines = [header, ...state.pairs.map((p, i) => [state.asOf, i + 1, p.qualifies, p.score.total, p.certainty, p.a.name, p.a.projectId, projectType(p.a), p.a.status, p.b.name, p.b.projectId, projectType(p.b), p.b.status, p.miles.toFixed(3), pointKind(p.a), pointKind(p.b), p.gapDays ?? "", p.overlapDays ?? "", p.remainingDays ?? "", p.a.inServiceDate ?? "", p.b.inServiceDate ?? "", groundShort(p.a), groundShort(p.b), pdfLink(p.a.source), pdfLink(p.b.source)])];
   const csv = lines.map(row => row.map(value => `"${String(value).replaceAll('"', '""')}"`).join(",")).join("\r\n");
   const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" })); a.download = "gridlock-opportunities.csv"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }

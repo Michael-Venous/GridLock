@@ -22,6 +22,7 @@ Last reviewed: 2026-09-26. The goal is a GridLock entry for the Sperry Tech chal
 
 ## UI review follow-through
 
+- The Pairs view now labels each map dot as a mapped endpoint, town estimate, calculated midpoint, or calculated average (2026-09-27). Pair headers, project details, map tooltips, legend, CSV, and brief copy distinguish these comparison points from verified construction sites; ground labels refer to mapped endpoints.
 - Consolidated pair sharing under Share pair, clarified the filtered-pairs CSV export, and hid pair exports on other views. Pair summaries now avoid repeating the detailed distance and timing explanations retained in briefs.
 - Cost scenarios lead with their result and collapse editable assumptions. Changes leads with filings and places area filtering in a disclosure. Removed developer rebuild instructions from that planner view, the Data quality navigation badge, and the always-expanded sponsor sample audit.
 - Verified disclosure controls, sharing-menu keyboard behavior, export visibility, and recalculation after changing and restoring a cost assumption in the browser. JavaScript tests (five files), Python tests (31 cases), syntax checks and whitespace checks passed.
@@ -29,6 +30,8 @@ Last reviewed: 2026-09-26. The goal is a GridLock entry for the Sperry Tech chal
 - 2026-09-27: removed the confirmed-site/verified-route bonus entirely (`hasEvidence`, `sharedStations`, `verifiedRoute`, `closestApproachMiles` in `src/match.js`; the map's solid-route branch; the brief map's route drawing; the scoring UI's bonus block; the CSV's two evidence columns), after checking the original challenge zip: neither `ShellHacks_Challenge_Gridlock.docx` nor the sponsor's own `Projects_Overlaps.xlsx` answer key has any concept of a confirmed worksite or verified route — overlap is defined there purely by distance and timing. The score is now a clean 100 = proximity (60) + timing (40), matching the brief 1:1. `nearbyEndpoints` (an honest, unconfirmed "lead to investigate") is unchanged.
 
 ## Next actions
+
+Manual review of the default top three pairs is recorded in [TOP_THREE_PAIR_RESEARCH.md](TOP_THREE_PAIR_RESEARCH.md) (2026-09-27). The DESC Deerfield worksite remains unlocated, and Georgia TEAMS 20065 is mapped using the full named line even though the filed work covers only its Goshen–Georgia-Pacific section. Review these before using top-three distances as verified coordination evidence.
 
 1. Verify stations, project scope and construction windows for the highest-ranked pairs with the public filings and utility teams. Improve the 32 unplaced projects and the town-level endpoints without treating guessed routes as verified corridors.
 2. Run a full desktop/phone and printable-brief check, then deploy an HTTPS demo with internet access for the basemap. Verify judge access and complete the demo video and submission checklist. Confirm the event deadline directly.

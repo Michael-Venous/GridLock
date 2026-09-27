@@ -210,6 +210,8 @@ input[type="range"], input[type="checkbox"] { accent-color: var(--ink); }
 .action-menu-items { position: absolute; right: 0; top: calc(100% + 5px); z-index: 8; display: grid; gap: 4px; min-width: 170px; padding: 6px; border: 1px solid var(--rule); border-radius: var(--radius); background: var(--paper); box-shadow: 0 4px 12px rgb(16 34 42 / .12); }
 .action-menu-items .button { width: 100%; border-color: transparent; justify-content: flex-start; }
 .pair-rationale { margin: 12px 0; font-size: 13px; line-height: 1.5; color: var(--ink-2); }
+.point-basis { margin-top: 8px; color: var(--ink-2); font-size: 12px; line-height: 1.4; }
+.map-point-note { margin: 5px 0 0; padding-top: 7px; border-top: 1px solid var(--rule); color: var(--ink-2); line-height: 1.35; }
 .scenario-assumptions { margin-top: 14px; }
 .area-disclosure { margin-top: 18px; padding: 12px 0; border-block: 1px solid var(--rule); }
 .area-disclosure > summary { cursor: pointer; font-weight: 600; }
@@ -489,6 +491,7 @@ input[type="range"], input[type="checkbox"] { accent-color: var(--ink); }
   .map-panel { height: 440px; }
   .map-legend { right: 12px; bottom: 40px; min-width: 0; grid-template-columns: 1fr 1fr; gap: 5px 12px; }
   .map-legend span:nth-child(n+3) { display: none; }
+  .map-point-note { grid-column: 1 / -1; }
   .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .facts > div:nth-child(3) { border-left: 0; padding-left: 18px; border-top: 1px solid var(--rule-soft); }
   .facts > div:nth-child(4) { border-top: 1px solid var(--rule-soft); }
