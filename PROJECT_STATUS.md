@@ -4,6 +4,12 @@ Reviewed 2026-09-27 against the merged code, `data/projects.json` (analysis date
 
 Documentation audit on 2026-09-27 aligned the README, this tracker, the leading-pair research note, and the in-app Method/intro copy with the current dataset and code. The current rank-2 Rice Hope placement is recorded as a demo limitation rather than a verified site.
 
+## Temporary ingestion demo state — 2026-09-27
+
+At the user's request, Santee Cooper is temporarily unregistered so the UI can exercise AI parser generation and re-import its 2026–2030 filing. Its three filing entries share the `santee` parser, so all three entries and that parser registration were removed together. Plan metadata and `pipeline/parse_santee.py` remain; build uses the module for source-quality notes, but ingestion has no registered Santee parser to select. The offline rebuild succeeded: **309 projects, 284 located**, with DESC and Georgia active. Counts in the normal-build section below describe the saved baseline until Santee is restored.
+
+Backup, source PDF and restoration instructions: `/home/mike/Documents/code/gridlock-ingest-test-backup-2026-09-27/README.md`. Test source: `https://www.scrtp.com/assets/pdfs/meeting-archives/scrtp-meeting-2026-03-11-presentation.pdf`; set **Utility in this PDF = Santee Cooper**, filing date **2026-03-11**, edition **2026-2030**. Expect **12 extracted projects**. No re-import was submitted on the user's behalf. Its first re-added edition will not have a Santee change comparison until earlier history is restored. This temporary test state should not be published as the final demo dataset.
+
 ## Current build
 
 - The latest public editions contain **321 projects**: 54 DESC, 12 Santee Cooper, and 255 Georgia ITS. **294** have comparison points and **27** are unplaced. Under the challenge's center-distance rule, **95** South Carolina–Georgia pairs qualify (<25 mi); **93** show by default because two have both target dates in the past. **45** qualifying pairs have inferred planning-window overlap after the analysis date. Counts were recalculated from `data/projects.json` using `src/match.js` on 2026-09-27.
