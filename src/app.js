@@ -1043,7 +1043,7 @@ function scoreBlock(pair) {
 
 function landing() {
   const box = h("div", "landing");
-  box.append(h("h2", "", "Savannah River transmission coordination"),
+  box.append(h("h2", "", "Cross-utility transmission coordination"),
     h("p", "lead", `Every planned project in the South Carolina lists published through SCRTP (DESC’s and Santee Cooper’s 2026–2030 lists) and Georgia ITS’s 2026–2035 plan, each South Carolina project paired with each Georgia project when their centers are under ${MAX_MILES} miles apart.`),
     overviewStats());
   const steps = h("ol", "guide-steps");
