@@ -5,12 +5,12 @@ Finds planned transmission projects across the Georgia–South Carolina border t
 ## Run it
 
 ```bash
-python3 -m http.server 8000      # then open http://localhost:8000
-npm test                            # browser-independent matching, view, and brief checks
-python3 -m unittest discover tests   # pipeline, ground geometry, and change-log checks
+python3 local_server.py --port 8765  # then open http://127.0.0.1:8765
+npm test                             # browser-independent UI and matching checks
+python3 -m unittest discover -s tests  # pipeline and local-ingest checks
 ```
 
-The app is static and has no build step or API keys. The map is MapLibre GL JS (loaded from jsDelivr) over free OpenFreeMap vector tiles of OpenStreetMap data, so it needs internet access and WebGL.
+The app has no frontend build step or browser API keys. `local_server.py` binds only to this computer, serves the app and reviewed-ingest API, and does not expose raw PDFs, build transcripts, parser files, or Git metadata. A plain `python3 -m http.server` can show the read-only app, but its filing importer cannot run. The map is MapLibre GL JS (loaded from jsDelivr) over free OpenFreeMap vector tiles of OpenStreetMap data, so it needs internet access and WebGL.
 
 ## Rebuild the data
 
@@ -25,6 +25,10 @@ The pipeline uses only the Python standard library plus `pdftotext` (poppler). E
 
 ## Add a filing or a new utility
 
+From the local site, open **Method → Preview a public filing**. Supply a public PDF/ZIP URL or, when Bedrock is configured, ask the agent to find a utility's public list. Optionally supply the utility, ZIP member, publication date, edition, or title when the PDF does not make them clear. **Preview** downloads a working copy, detects a parser, and shows source details, extracted counts, sample records, validation notes, a full-record JSON download, and a source link. Check these against the filing. **Register and rebuild** is a separate action; it uses the PDF bytes and extracted records from that preview. For a new layout it also rechecks the exact parser without a second model draft. The updated local `Projects` and `Changes` data are then rebuilt. If the filing registers but the rebuild fails, the importer offers a retry. Review uncertain locations and the resulting changes before publishing a new snapshot. The current map and pair engine cover Georgia–South Carolina work; filings from other states can be recorded but are outside its matching area.
+
+The equivalent CLI is:
+
 ```bash
 python3 pipeline/ingest.py FILE.pdf --dry-run           # inspect a candidate; changes nothing
 python3 pipeline/ingest.py URL --dry-run                # public PDF or zip (--zip-member)
@@ -33,11 +37,11 @@ python3 pipeline/ingest.py FILE.pdf --company "Santee Cooper" --dry-run  # one u
 python3 pipeline/ingest.py FILE.pdf --url URL           # register after reviewing the dry run
 ```
 
-- **Known layouts** are recognized by signatures and use the registered deterministic parser; no model is needed. A successful non-dry run records the filing and its SHA-256, then rebuilds the data. `--date` supplies a publication date when the PDF and its metadata give none.
+- **Known layouts** are recognized by signatures and use the registered deterministic parser; no model is needed. A successful non-dry run records the filing and its SHA-256, then rebuilds the data. `--date` supplies a publication date when the PDF and its metadata give none. The local importer requires a date before registration if preview had to use today's date as a placeholder.
 - **New layouts are experimental.** Claude on Amazon Bedrock identifies the public project list and drafts a parser only when no registered parser can read it. The checks compare each extracted value with its own entry, cross-check counts against a project marker (optionally restricted by `count_scope`), check stated cost units and dates, and compare a new edition with the previous one. A later parser repair must still read its earlier editions. Review the PDF and dry-run output before registering anything.
 - **Finding sources** follows links from public utility, planning-group and regulator pages; it does not query a search engine. `--company` selects one utility's section of a joint PDF. `--skip-plan ID` is a dry-run-only way to test discovery without that plan's registered parser. A document that omits a project altogether cannot be recovered by these checks.
 - **Isolation.** Agent-written code runs with an AST allowlist, resource limits, and bubblewrap filesystem/network isolation. Registration is refused if bubblewrap is unavailable. `GRIDLOCK_ALLOW_UNISOLATED=1` allows local dry-run debugging only and is not safe for registering code. Built-in parsers and the static app do not need Bedrock or bubblewrap.
-- **Setup and trace.** Install `requirements-agent.txt` and use your own AWS credentials with Bedrock access; no keys are stored in the repo. `GRIDLOCK_BEDROCK_MODEL` overrides the default model. Each agent run records model usage in `data/build/ingest/usage.jsonl` (ignored by Git).
+- **Setup and trace.** For AI discovery or a new layout, install `requirements-agent.txt` and use your own AWS credentials with Bedrock access; no keys are stored in the repo or browser. Generated-parser registration also needs working bubblewrap. `GRIDLOCK_BEDROCK_MODEL` overrides the default model. Each agent run records model usage in `data/build/ingest/usage.jsonl` (ignored by Git). The local importer takes only a public URL or a utility name, not an arbitrary upload; `--find` follows public links rather than a search engine.
 - **Evidence so far.** The ingest-agent handoff reports dry-run extraction matching the built-in DESC parser on 54/54 projects and Georgia parser on 255/255, plus a 23-record Santee IRP extraction. Novel-layout registration has not been verified end to end; treat agent output as a candidate for human review.
 
 The Changes tab compares each new filing with the plan's previous edition.

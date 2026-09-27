@@ -102,6 +102,71 @@
     </section>
     <section class="doc-view view" id="view-quality" hidden aria-label="Data quality"></section>
     <section class="doc-view view" id="view-method" hidden aria-label="Method and sources"></section>
+    <section class="doc-view view ingest-view" id="view-ingest" hidden aria-label="Add a public filing">
+      <div class="doc ingest-layout">
+        <button id="ingest-back" class="link-button" type="button">← Method and sources</button>
+        <div class="ingest-heading">
+          <div>
+            <p class="eyebrow">Source update</p>
+            <h1>Add a public filing</h1>
+            <p class="doc-lead">Preview what Gridlock can read, check the evidence, then choose whether to register the filing and rebuild the local dataset. This regional map ranks Georgia–South Carolina work.</p>
+          </div>
+          <div id="ingest-service" class="ingest-service" role="status">Checking local ingest service…</div>
+        </div>
+        <div class="ingest-columns">
+          <form id="ingest-form" class="ingest-form">
+            <h2><span class="ingest-step">01</span> Choose a source</h2>
+            <div class="ingest-mode" role="group" aria-label="How to locate the filing">
+              <label><input type="radio" name="ingest-mode" value="url" checked> Public PDF link</label>
+              <label><input type="radio" name="ingest-mode" value="find"> Find a utility's filing</label>
+            </div>
+            <label class="ingest-field" id="ingest-url-field">Public PDF or ZIP URL
+              <input id="ingest-url" type="url" placeholder="https://…/transmission-plan.pdf" autocomplete="url" spellcheck="false">
+              <small>Only publicly accessible filings are accepted. A ZIP may contain a PDF.</small>
+            </label>
+            <label class="ingest-field" id="ingest-find-field" hidden>Utility name
+              <input id="ingest-find" type="text" placeholder="e.g. Santee Cooper" autocomplete="off">
+              <small>The AI assistant searches the utility's public pages for a project list.</small>
+            </label>
+            <details class="ingest-options">
+              <summary>Document details and parsing options</summary>
+              <div class="ingest-option-grid">
+                <label class="ingest-field" id="ingest-company-field">Utility in this PDF <span class="optional">optional</span><input id="ingest-company" type="text" placeholder="Choose one utility in a joint filing"></label>
+                <label class="ingest-field">Filing date <span class="optional">if not printed</span><input id="ingest-date" type="date"></label>
+                <label class="ingest-field">Edition <span class="optional">if not detected</span><input id="ingest-edition" type="text" placeholder="2027–2031"></label>
+                <label class="ingest-field">PDF inside ZIP <span class="optional">if needed</span><input id="ingest-zip-member" type="text" placeholder="plan.pdf"></label>
+                <label class="ingest-field ingest-full">Filing title <span class="optional">if not detected</span><input id="ingest-title" type="text" placeholder="Published document title"></label>
+              </div>
+            </details>
+            <p id="ingest-form-error" class="ingest-error" role="alert" hidden></p>
+            <button id="ingest-preview" class="button primary ingest-primary" type="submit" disabled>Preview filing</button>
+            <p class="ingest-help">Preview parses and validates a working copy. It does not change published projects, pair rankings, or the filing list. Other states can be recorded, but are outside this map's matching area.</p>
+          </form>
+          <section class="ingest-review" aria-labelledby="ingest-review-title">
+            <h2 id="ingest-review-title"><span class="ingest-step">02</span> Review the result</h2>
+            <div id="ingest-progress" class="ingest-progress" role="status">Start a preview to see the detected filing and validation results.</div>
+            <div id="ingest-preview-result" hidden></div>
+            <details id="ingest-log-wrap" class="ingest-log-wrap" hidden><summary>Run details</summary><pre id="ingest-logs" aria-label="Ingest run details"></pre></details>
+            <div id="ingest-register-wrap" class="ingest-register" hidden>
+              <h3><span class="ingest-step">03</span> Register and rebuild</h3>
+              <p>Check the extracted records against the source PDF before registering. A new parser is a proposed interpretation and may need human corrections.</p>
+              <button id="ingest-register" class="button primary" type="button">Register and rebuild local data</button>
+              <p id="ingest-register-note" class="ingest-help">Registration reruns validation on the previewed PDF and writes the local filing registry and generated dataset.</p>
+            </div>
+            <div id="ingest-rebuild-wrap" class="ingest-register" hidden>
+              <h3>Finish the dataset rebuild</h3>
+              <p>The filing is registered, but the project and change data did not finish rebuilding. Retry after checking the run details.</p>
+              <button id="ingest-rebuild" class="button primary" type="button">Retry rebuild</button>
+            </div>
+            <div id="ingest-complete" class="ingest-complete" hidden>
+              <strong>Local dataset rebuilt.</strong>
+              <p>Reload to explore the updated projects and Changes view.</p>
+              <button id="ingest-reload" class="button" type="button">Reload Gridlock</button>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
   </main>
   <script type="module" src="src/app.js"></script>
 </body>

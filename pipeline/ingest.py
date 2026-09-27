@@ -28,6 +28,7 @@ import subprocess
 import sys
 from collections import Counter
 from pathlib import Path
+from types import SimpleNamespace
 
 import registry
 from common import BUILD, RAW, ROOT, dump, haversine_mi, load, pdf_pages, read_date
@@ -79,6 +80,11 @@ def pdfinfo(path):
 
 def sha(data):
     return hashlib.sha256(data).hexdigest()
+
+
+def records_sha(records):
+    """Stable digest of a built-in parser's reviewed record fields."""
+    return sha(json.dumps(records, sort_keys=True, ensure_ascii=False, separators=(",", ":"), allow_nan=False).encode())
 
 
 def slug(s):
@@ -214,7 +220,7 @@ def signature_checker(text, reg, texts, skip, plan_id=None):
     return problems
 
 
-def rows_of(f, reg):
+def rows_of(f, reg, include_records=False):
     """(name, project ID, dated) per record, as the filing's parser reads it on the build's own path (an agent-written
     parser that fails its checks fails here). For an agent-written parser, the IDs it printed: the build fills missing
     ones from item labels."""
@@ -225,8 +231,12 @@ def rows_of(f, reg):
         raw, err = sandbox.run((ROOT / "pipeline" / p["module"]).read_text(), pdf_pages(RAW / f["file"]))
         if err:
             raise SystemExit(err)
-        return raw_rows(raw)
-    return [(r["name"], r.get("project_id"), bool(r.get("isd"))) for r in recs]
+        rows = raw_rows(raw)
+        details = recs
+    else:
+        rows = [(r["name"], r.get("project_id"), bool(r.get("isd"))) for r in recs]
+        details = recs
+    return (rows, details) if include_records else rows
 
 
 def raw_rows(raw):
@@ -287,7 +297,10 @@ def outline_main():
         # parsers dump what they read to data/build; a trial's dumps go to a scratch directory instead (the parser
         # modules are imported after this, so they pick it up)
         common.BUILD = Path(tmp)
-        print(json.dumps(shape(rows_of(d["filing"], d["reg"]))))
+        rows, details = rows_of(d["filing"], d["reg"], include_records=True)
+        samples = [{"projectId": project_id, "name": name, "hasInServiceDate": dated}
+                   for name, project_id, dated in rows[:5]]
+        print(json.dumps({**shape(rows), "samples": samples, "reviewRecords": details}))
 
 
 def closest(reg, filing):
@@ -358,9 +371,15 @@ def record(run, state):
             fh.write(json.dumps({k: run.get(k) for k in ("started", "source", "sha256", "route", "dryRun", "model", "usage", "exit")}) + "\n")
     if state.get("work"):
         dump(run, state["work"] / "run.json")
+        if run.get("dryRun") and run.get("reviewedParserSha256"):
+            dump(run, state["work"] / "review.json")
 
 
 def _ingest(args, run, state):
+    reviewed_sha = getattr(args, "reviewed_parser_sha256", None)
+    reviewed_records_sha = getattr(args, "reviewed_records_sha256", None)
+    if reviewed_sha and args.dry_run:
+        raise SystemExit("A reviewed parser is for registration, not a dry run.")
     found = None
     if args.find:
         from finder import find
@@ -379,6 +398,9 @@ def _ingest(args, run, state):
     data, url, member = obtain(args.source, args.zip_member, local=not found)
     if args.url and args.url != url:
         confirm_url(data, args.url, args.zip_member)
+        # A reviewed ZIP is registered from its cached, extracted PDF. Preserve
+        # the archive member so a fresh clone can fetch the same document.
+        member = member or args.zip_member
     url = args.url or url
     if not url and not args.dry_run:
         raise SystemExit("GridLock uses public filings only and records where each came from: pass --url with this PDF's public address (or use --dry-run).")
@@ -398,6 +420,17 @@ def _ingest(args, run, state):
     work.mkdir(parents=True, exist_ok=True)
     pdf = work / "source.pdf"
     pdf.write_bytes(data)
+    reviewed = None
+    if reviewed_sha:
+        review_file, parser_file = work / "review.json", work / "parser.py"
+        if not re.fullmatch(r"[0-9a-f]{64}", reviewed_sha) or not review_file.is_file() or not parser_file.is_file():
+            raise SystemExit("The reviewed parser is missing; preview this PDF again.")
+        reviewed = load(review_file)
+        if (reviewed.get("sha256") != digest or not reviewed.get("dryRun") or not reviewed.get("agent") or
+                reviewed.get("reviewedParserSha256") != reviewed_sha or
+                sha(parser_file.read_bytes()) != reviewed_sha):
+            raise SystemExit("The reviewed parser or PDF changed; preview this PDF again.")
+        run["reviewedParserSha256"] = reviewed_sha
     pages = pdf_pages(pdf)
     text = "\f".join(pages)
     if len(text.strip()) < 500:
@@ -420,12 +453,18 @@ def _ingest(args, run, state):
         identity = {"title": title, "edition": edition, "reason": f"a new edition of {plans[plan_id]['name']}'s list, recognized by its parser's signature"}
     else:
         from parser_agent import identify
-        session = agent(args, state)
-        log(f"No registered parser recognizes it; asking {session.model} what it is.")
-        try:
-            identity = identify(pages, meta, plans, session, log=log, company=focus)
-        except RuntimeError as e:
-            raise SystemExit(f"The agent couldn't identify the PDF: {e}")
+        if reviewed:
+            identity = reviewed.get("identity")
+            if not isinstance(identity, dict):
+                raise SystemExit("The reviewed filing identity is missing; preview this PDF again.")
+            log("Reusing the filing identity reviewed in the dry run.")
+        else:
+            session = agent(args, state)
+            log(f"No registered parser recognizes it; asking {session.model} what it is.")
+            try:
+                identity = identify(pages, meta, plans, session, log=log, company=focus)
+            except RuntimeError as e:
+                raise SystemExit(f"The agent couldn't identify the PDF: {e}")
         run["identity"] = identity
         if not identity["is_project_list"]:
             whose = f"{focus}'s " if focus else ""
@@ -471,6 +510,11 @@ def _ingest(args, run, state):
     filing = {"id": fid, "plan": plan_id, "utility": plan["name"], "state": plan["state"], "edition": edition, "parser": None,
               "title": title, "date": date, "dateBasis": basis, "url": url, **({"zipMember": member} if member else {}),
               "file": f"{plan_id}_{slug(edition)}.pdf", "sha256": digest}
+    if reviewed:
+        former = reviewed.get("filing") or {}
+        keys = ("id", "plan", "utility", "state", "edition", "title", "date", "url", "zipMember", "file", "sha256")
+        if any(former.get(k) != filing.get(k) for k in keys):
+            raise SystemExit("The filing metadata changed since preview; preview it again.")
     stale = RAW / filing["file"]
     if stale.exists() and sha(stale.read_bytes()) != digest and not args.dry_run:
         raise SystemExit(f"data/raw/{filing['file']} already holds a different PDF with no filing of its own (left from an earlier run?); "
@@ -491,6 +535,11 @@ def _ingest(args, run, state):
         why = [got["error"]] if got.get("error") else shape_problems(got, base, prev and prev["id"])
         if not why:
             log(f"  {got['records']} records, {got['dated']} with in-service dates, {got['withId']} with project IDs")
+            output_sha = records_sha(got.get("reviewRecords", []))
+            if reviewed_records_sha and output_sha != reviewed_records_sha:
+                raise SystemExit("The extracted records changed since preview; preview this filing again.")
+            run["shape"] = got
+            run["reviewRecordsSha256"] = output_sha
             parser_id = pid
             break
         log("  it can't: " + "; ".join(why))
@@ -501,11 +550,14 @@ def _ingest(args, run, state):
     elif parser_id:
         log(f"Dry run: the existing {parser_id!r} parser reads it; nothing registered.")
     else:
+        if reviewed_records_sha:
+            raise SystemExit("The parser can no longer read the reviewed records; preview this filing again.")
         # the plan's own agent-written parser recognized the PDF but can't read it: the layout drifted, so repair that parser
         broken = next((h for h in hits if registry.parsers(reg)[h]["kind"] == "generated"), None)
         compare = (lambda raw: shape_problems(shape(raw_rows(raw)), base, prev["id"])) if base else None
-        parser_id = write_new_parser(args, reg, pages, text, identity, plan_id, plan, new_plan, filing, agent(args, state), skip, work, run,
-                                     repair=broken, compare=compare)
+        session = SimpleNamespace(model=reviewed["agent"]["parser"]["model"]) if reviewed else agent(args, state)
+        parser_id = write_new_parser(args, reg, pages, text, identity, plan_id, plan, new_plan, filing, session, skip, work, run,
+                                     repair=broken, compare=compare, reviewed=reviewed)
         if parser_id is None:
             return run
     run["parser"] = parser_id
@@ -541,7 +593,8 @@ def register(filing, pdf, plan=None, parser=None, code=None):
         _with(reg, plan=plan, parser=parser, filing=filing)
 
 
-def write_new_parser(args, reg, pages, text, identity, plan_id, plan, new_plan, filing, session, skip, work, run, repair=None, compare=None):
+def write_new_parser(args, reg, pages, text, identity, plan_id, plan, new_plan, filing, session, skip, work, run,
+                     repair=None, compare=None, reviewed=None):
     """Have the agent write a parser for this PDF (or, with repair, fix the registered parser that no longer reads it).
     compare(raw records) gives problems with its output against the plan's previous edition."""
     from parser_agent import write_parser
@@ -562,22 +615,53 @@ def write_new_parser(args, reg, pages, text, identity, plan_id, plan, new_plan, 
     else:
         parser_id = plan_id if plan_id not in registry.parsers(reg) else next(f"{plan_id}-{n}" for n in range(2, 99) if f"{plan_id}-{n}" not in registry.parsers(reg))
         log(f"Writing a parser with {session.model} (parser id {parser_id!r}) ...")
-    transcript = []
-    try:
-        result = write_parser(pages, identity, plan["name"], session, signature_checker(text, reg, Texts(reg), skip, plan_id),
-                              max_turns=args.max_turns, log=log, transcript=transcript, start=start, others=others, compare=compare)
-    except RuntimeError as e:
-        raise SystemExit(f"The agent's parser was not accepted: {e}")
-    finally:
-        dump(transcript, work / "transcript.json")
-    done = f"{'Repaired' if repair else 'Written'} by the GridLock ingest agent ({session.model} on Amazon Bedrock) on {dt.date.today().isoformat()} for {filing['id']}"
-    about = (f'Parser for {plan["owner"]}: {filing["title"]}.\n\n{done}; it passed the checks in generated_parser.py\n'
-             f'({result["report"]["records"]} records{", and still reads " + ", ".join(l for l, _ in others) if others else ""}). '
-             f'Runs in the sandbox (pipeline/sandbox.py).\n\n{result["notes"].strip()}\n')
-    header = '"""' + about.replace("\\", "\\\\").replace('"""', "'''") + '"""\n'
-    code = header + strip_docstring(result["code"])
-    if not generated_parser.evaluate(code, pages, result["count_pattern"], result["count_scope"])[0]["accepted"]:
-        code = result["code"]
+    if reviewed:
+        earlier = reviewed["agent"]["parser"]
+        if (earlier.get("plan") != plan_id or earlier.get("kind") != "generated" or
+                earlier.get("module") != f"parsers/{parser_id}.py" or
+                earlier.get("model") != session.model):
+            raise SystemExit("The parser registry changed since preview; preview this filing again.")
+        code = (work / "parser.py").read_text()
+        count_pattern, count_scope = earlier.get("countPattern"), earlier.get("countScope")
+        rep, raw, notes = generated_parser.evaluate(code, pages, count_pattern, count_scope)
+        issues = list(rep.get("blocking") or []) + ([rep["error"]] if rep.get("error") else [])
+        issues += signature_checker(text, reg, Texts(reg), skip, plan_id)(earlier.get("signature"))
+        if compare and raw:
+            issues += compare(raw)
+        for label, old_pages in others:
+            old_rep, _, _ = generated_parser.evaluate(code, old_pages, count_pattern, count_scope)
+            if not old_rep.get("accepted"):
+                issues.append(f"The reviewed parser no longer reads {label}.")
+        if issues or not rep.get("accepted"):
+            raise SystemExit("The reviewed parser no longer passes its checks: " + "; ".join(issues[:5]))
+        current_records = generated_parser.normalize(raw, notes, filing, earlier, plan)
+        try:
+            preview_records = load(work / "records.json")
+        except (OSError, ValueError):
+            raise SystemExit("The reviewed records are missing or unreadable; preview this filing again.") from None
+        if current_records != preview_records:
+            raise SystemExit("The extracted records changed since preview; preview this filing again.")
+        result = {"code": code, "signature": earlier["signature"], "count_pattern": count_pattern,
+                  "count_scope": count_scope, "no_count_reason": earlier.get("noCountReason"),
+                  "notes": reviewed["agent"]["notes"], "report": rep}
+        log("The reviewed parser and its extracted records passed fresh checks without another model call.")
+    else:
+        transcript = []
+        try:
+            result = write_parser(pages, identity, plan["name"], session, signature_checker(text, reg, Texts(reg), skip, plan_id),
+                                  max_turns=args.max_turns, log=log, transcript=transcript, start=start, others=others, compare=compare)
+        except RuntimeError as e:
+            raise SystemExit(f"The agent's parser was not accepted: {e}")
+        finally:
+            dump(transcript, work / "transcript.json")
+        done = f"{'Repaired' if repair else 'Written'} by the GridLock ingest agent ({session.model} on Amazon Bedrock) on {dt.date.today().isoformat()} for {filing['id']}"
+        about = (f'Parser for {plan["owner"]}: {filing["title"]}.\n\n{done}; it passed the checks in generated_parser.py\n'
+                 f'({result["report"]["records"]} records{", and still reads " + ", ".join(l for l, _ in others) if others else ""}). '
+                 f'Runs in the sandbox (pipeline/sandbox.py).\n\n{result["notes"].strip()}\n')
+        header = '"""' + about.replace("\\", "\\\\").replace('"""', "'''") + '"""\n'
+        code = header + strip_docstring(result["code"])
+        if not generated_parser.evaluate(code, pages, result["count_pattern"], result["count_scope"])[0]["accepted"]:
+            code = result["code"]
     filing["parser"] = parser_id
     entry = {"plan": plan_id, "kind": "generated", "module": f"parsers/{parser_id}.py", "signature": result["signature"],
              **({"countPattern": result["count_pattern"],
@@ -587,11 +671,15 @@ def write_new_parser(args, reg, pages, text, identity, plan_id, plan, new_plan, 
              "writtenFor": registry.parsers(reg)[repair]["writtenFor"] if repair else filing["id"],
              **({"repaired": dt.date.today().isoformat(), "repairedFor": filing["id"]} if repair else {}),
              "checked": {"records": result["report"]["records"], "withInServiceDate": result["report"]["with_in_service_date"]}}
+    if reviewed:
+        entry = reviewed["agent"]["parser"]
     run["agent"] = {"parser": entry, "report": result["report"], "notes": result["notes"]}
     if args.dry_run:
         (work / "parser.py").write_text(code)
         rep, raw, notes = generated_parser.evaluate(code, pages, result["count_pattern"], result["count_scope"])
         dump(generated_parser.normalize(raw, notes, filing, entry, plan), work / "records.json")
+        run["reviewedParserSha256"] = sha((work / "parser.py").read_bytes())
+        run["reviewRecordsSha256"] = sha((work / "records.json").read_bytes())
         log(f"Dry run: parser, records and report in {work.relative_to(ROOT)}/; nothing registered.")
         return None
     register(filing, work / "source.pdf", plan=(plan_id, new_plan) if new_plan else None, parser=(parser_id, entry), code=code)
@@ -646,6 +734,8 @@ def main(argv=None):
     ap.add_argument("--no-build", action="store_true")
     ap.add_argument("--model", help="Bedrock model id (default GRIDLOCK_BEDROCK_MODEL or Claude Opus 5.5)")
     ap.add_argument("--max-turns", type=int, default=40)
+    ap.add_argument("--reviewed-parser-sha256", help=argparse.SUPPRESS)
+    ap.add_argument("--reviewed-records-sha256", help=argparse.SUPPRESS)
     return ingest(ap.parse_args(argv))
 
 

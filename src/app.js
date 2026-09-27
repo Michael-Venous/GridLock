@@ -6,6 +6,7 @@ import { matchesProject, withinDistance, encodeView, decodeView } from "./view-s
 import { briefMapSvg } from "./brief-map.js";
 import { PLANNING_FORUMS, PLANNING_TRANSITION } from "./planning-forums.js";
 import { applyLocationEdits, validateLocation } from "./location-edits.js";
+import { createIngestView } from "./ingest-view.js";
 
 const LOCATION_KEY = "gridlock.location-edits.v1";
 let locationEdits = {};
@@ -1347,7 +1348,13 @@ function renderMethod() {
   sec("Changes between filings",
     "Every filing we read is listed in data/filings.json. Each new edition is compared with the one before it from the same utility: projects are matched on their ID (DESC reuses IDs, so a DESC match also needs a similar name; an ID kept under a different name is reported as renamed; Santee Cooper publishes no IDs, so its projects are matched on their titles and its “Row” numbers are only positions in the list), then we list what was added, dropped, rescheduled, renamed or re-costed. Georgia says why each project left its plan (Table 3 cancelled, Table 4 completed); the South Carolina lists don't, so a dropped project only says whether its date had already passed.",
     "Pairs are recomputed with the same 25-mile rule before and after each filing, keeping every project's current location, so a pair appears or disappears only because a project was added, dropped or rescheduled. A pair whose in-service gap moves by 30 days or more is listed as a timing change.");
-  sec("Adding the next public filing", "Add its public URL, edition, date and parser information to data/filings.json, then run python3 pipeline/build.py. Review parser validation and any uncertain locations before publishing the rebuilt data/projects.json and data/changes.json. If a utility changes its document format, its parser may need an update. The Changes tab then shows additions and revisions against the prior edition. This is a reviewed data update, not an upload of arbitrary points.");
+  const ingestAction = h("p");
+  const ingestButton = h("button", "button", "Preview a public filing");
+  ingestButton.id = "open-ingest";
+  ingestButton.type = "button";
+  ingestButton.addEventListener("click", () => { setView("ingest"); ingestView.open(); });
+  ingestAction.append(ingestButton);
+  sec("Adding the next public filing", "Run the local ingest server and use the importer to inspect a public PDF or have the AI assistant find a utility's list. Preview parses a working copy and reports its project count and validation results. After checking the PDF, explicitly register and rebuild the local dataset. The Changes tab then compares the new edition with its predecessor. This regional demo maps and ranks Georgia–South Carolina work; other states remain outside the matching area. An agent-generated parser and uncertain locations still need human review. A static file server can show this site but cannot run ingestion.", ingestAction);
   sec("Local coordinate edits", "In a project record, Modify coordinates accepts a named endpoint's latitude, longitude, uncertainty radius and a source note. The browser saves the edit locally and recalculates pairs. It does not change the published dataset or the historical Changes tab. An edited project loses precomputed route and ground screening until its location is reviewed in a rebuilt dataset.");
   const envList = h("ul", "src-list"); (d.environmentSources ?? []).forEach(s => { const li = h("li"); li.append(link(s.url, s.title)); envList.append(li); });
   sec("Ground near mapped endpoints (mapped conditions)",
@@ -1356,7 +1363,7 @@ function renderMethod() {
     "Service answers are cached with the date they were read (data/cache/environment.json), so rebuilding offline gives the same results. On the map, the wetland and flood outlines behind each result are drawn inside the checked areas (dashed); zoomed in close, the agencies' own full maps are shown instead.",
     "These are mapped conditions, not a field survey, a wetland delineation or a permit decision. Coordinating two projects doesn't remove either one's permits. Nothing here changes which pairs qualify or how they score.");
   sec("What this does not use", "The build uses public-disclosure filings and public map services only; no restricted CEII was sought. Georgia filings carry a CEII banner even in their public-disclosure versions, so source scope should be checked before presenting a specific record. We do not reconstruct redacted costs or use paid APIs.");
-  sec("Reproduce", Object.assign(h("pre", "code"), { textContent: "python3 pipeline/build.py        # fetch filings, parse, geocode, trace lines, read federal maps -> data/\npython3 pipeline/build.py --offline\nnode --test tests/*.test.js\npython3 -m unittest discover tests\npython3 -m http.server 8000" }));
+  sec("Reproduce", Object.assign(h("pre", "code"), { textContent: "python3 pipeline/build.py        # fetch filings, parse, geocode, trace lines, read federal maps -> data/\npython3 pipeline/build.py --offline\nnode --test tests/*.test.js\npython3 -m unittest discover tests\npython3 local_server.py --port 8765  # browser importer and site" }));
   v.append(wrap);
 }
 
@@ -1433,6 +1440,7 @@ function clearOfLegend() {
 }
 $("fit-all").addEventListener("click", () => map?.fitBounds(placedBounds(), { padding: clearOfLegend() }));
 document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => setView(t.dataset.view)));
+const ingestView = createIngestView({ onBack: () => { setView("method"); $("open-ingest")?.focus(); } });
 
 // The landing names each plan's edition once the change log arrives; until then (or without it) the source titles do.
 const editionsLoaded = loadChangeLog().then(log => { filings = log.filings ?? []; }, () => { /* the Changes tab reports the error */ });

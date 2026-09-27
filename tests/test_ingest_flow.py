@@ -215,6 +215,21 @@ class TrialTests(unittest.TestCase):
             self.assertEqual(registry.render(reg), registry.PATH.read_text())
         self.assertEqual(LIVE.read_bytes(), live)
 
+    def test_existing_parser_registers_only_the_records_from_preview(self):
+        with scratch_repo("desc_2025-2029.pdf", "desc_2026-2030.pdf") as t:
+            pdf = new_edition(t)
+            url = "https://example.org/desc-2027-2031.pdf"
+            with mock.patch.object(finder, "get", lambda u, limit, allow=None: (pdf.read_bytes(), "application/pdf", u)):
+                preview = ingest.main([str(pdf), "--url", url, "--dry-run", *self.ARGS])
+                self.assertEqual(preview["shape"]["records"], len(preview["shape"]["reviewRecords"]))
+                with self.assertRaisesRegex(SystemExit, "changed since preview"):
+                    ingest.main([str(pdf), "--url", url, *self.ARGS,
+                                 "--reviewed-records-sha256", "0" * 64])
+                self.assertFalse(any(f["id"] == "desc-2027-2031" for f in registry.load_registry()["filings"]))
+                ingest.main([str(pdf), "--url", url, *self.ARGS,
+                             "--reviewed-records-sha256", preview["reviewRecordsSha256"]])
+            self.assertEqual(registry.current()["desc"]["sha256"], ingest.sha(pdf.read_bytes()))
+
     def test_a_different_file_already_in_data_raw_is_never_overwritten(self):
         with scratch_repo("desc_2025-2029.pdf", "desc_2026-2030.pdf") as t:
             (t / "raw" / "desc_2027-2031.pdf").write_bytes(b"%PDF-1.4 left from an earlier run\n")
