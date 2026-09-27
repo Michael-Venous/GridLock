@@ -63,7 +63,10 @@
       <section class="map-panel" aria-label="Interactive project map">
         <div id="map" role="region" aria-label="Map of planned projects and qualifying cross-utility pairs"></div>
         <div class="map-layers">
-          <button id="layers-toggle" class="button" type="button" aria-expanded="false" aria-controls="layers-panel">Ground layers <span id="layers-count" class="count" hidden></span></button>
+          <div class="map-layer-buttons">
+            <button id="layers-toggle" class="button" type="button" aria-expanded="false" aria-controls="layers-panel">Ground layers <span id="layers-count" class="count" hidden></span></button>
+            <button id="satellite-toggle" class="button" type="button" aria-pressed="false">Satellite</button>
+          </div>
           <div id="layers-panel" class="layers-panel" hidden>
             <label><input type="checkbox" data-layer="wetlands"><i class="lsw wetlands" aria-hidden="true"></i>Wetlands and open water <small>USFWS</small></label>
             <label><input type="checkbox" data-layer="flood"><i class="lsw flood" aria-hidden="true"></i>Flood zones <small>FEMA</small></label>

@@ -170,7 +170,8 @@ input[type="range"], input[type="checkbox"] { accent-color: var(--ink); }
 .swatch.route { width: 16px; height: 3px; margin: 0 -3px; border-radius: 2px; background: var(--desc); box-shadow: none; }
 .map-tip .maplibregl-popup-content { padding: 6px 9px; border-radius: 4px; background: var(--ink); color: var(--paper); font: 12px/1.4 var(--sans); white-space: pre-line; box-shadow: 0 2px 6px rgb(16 34 42 / .25); }
 .map-tip .maplibregl-popup-tip { display: none; }
-.maplibregl-ctrl-bottom-right { z-index: 3; }
+/* Starts right of the legend, so a long credit line wraps instead of running under it. */
+.maplibregl-ctrl-bottom-right { z-index: 3; left: 270px; }
 .maplibregl-ctrl.maplibregl-ctrl-attrib { margin: 0 12px 12px 0; padding: 2px 6px; border-radius: 3px; background: rgb(255 255 255 / .85); font-size: 11px; }
 .maplibregl-ctrl-attrib a { color: var(--ink-2); }
 
@@ -324,6 +325,8 @@ input[type="range"], input[type="checkbox"] { accent-color: var(--ink); }
 .source-line { margin-top: 10px; color: var(--ink-2); font-size: 13px; }
 .desc-text { margin: 12px 0 0; padding: 10px 12px; border-radius: var(--radius); background: var(--ground); font-size: 13px; line-height: 1.55; }
 .endpoint-box p { margin: 6px 0 0; font-size: 13px; }
+.endpoint-go { padding: 0; border: 0; background: none; color: var(--ink); font: inherit; font-weight: 600; text-decoration: underline; text-decoration-color: var(--ink-3); text-underline-offset: 2px; cursor: pointer; }
+.endpoint-go:hover { text-decoration-color: var(--ink); }
 .evidence { display: block; color: var(--ink-3); font-size: 12px; }
 .site-views { display: inline-flex; gap: 10px; margin-left: 8px; font-size: 12px; white-space: nowrap; }
 .issue-list { display: grid; gap: 4px; margin: 6px 0; padding: 0; list-style: none; }
@@ -377,7 +380,9 @@ input[type="range"], input[type="checkbox"] { accent-color: var(--ink); }
 :root { --env-wetland: #1f8a3c; --env-water: #4f78c4; --env-flood: #3fb6d0; --env-habitat: #b0397a; --env-protected: #8a7a2c; }
 .tag.env { background: none; box-shadow: inset 0 0 0 1px var(--rule); color: var(--ink); }
 .map-layers { position: absolute; top: 12px; left: 12px; display: grid; justify-items: start; gap: 6px; max-width: calc(100% - 80px); }
-.map-layers > .button { box-shadow: 0 1px 2px rgb(16 34 42 / .08); }
+.map-layer-buttons { display: flex; flex-wrap: wrap; gap: 6px; }
+.map-layer-buttons .button { box-shadow: 0 1px 2px rgb(16 34 42 / .08); }
+.map-layer-buttons .button[aria-pressed="true"], .map-layer-buttons .button[aria-pressed="true"]:hover { border-color: var(--ink); background: var(--ink); color: var(--paper); }
 .layers-panel { display: grid; gap: 7px; width: 250px; max-width: 100%; padding: 10px 12px; border: 1px solid var(--rule); border-radius: var(--radius); background: rgb(255 255 255 / .96); box-shadow: 0 1px 2px rgb(16 34 42 / .08); font-size: 13px; }
 .layers-panel[hidden] { display: none; }
 .layers-panel label { display: flex; align-items: center; gap: 8px; }
@@ -443,6 +448,8 @@ input[type="range"], input[type="checkbox"] { accent-color: var(--ink); }
 .swatch.route.dashed { background: repeating-linear-gradient(90deg, var(--desc) 0 6px, transparent 6px 9px); }
 .swatch.route.dotted { height: 3px; border-radius: 0; background: radial-gradient(circle, var(--desc) 1.4px, transparent 1.6px) 0 50% / 5px 3px repeat-x; }
 .swatch.link.dashed { background: repeating-linear-gradient(90deg, #4d6670 0 4px, transparent 4px 7px); }
+/* Over satellite imagery the pair links draw white with a dark edge; the legend follows. */
+.map-panel.satellite .swatch.link:not(.dashed) { background: #fff; box-shadow: 0 0 0 1px #0b1a1f; }
 @media (max-width: 1100px) {
   .changes-view { grid-template-columns: 1fr; overflow: visible; }
   .changes-map-wrap { order: -1; height: 460px; }
@@ -467,6 +474,7 @@ input[type="range"], input[type="checkbox"] { accent-color: var(--ink); }
   .dtabs { top: 0; }
 }
 @media (max-width: 760px) {
+  .maplibregl-ctrl-bottom-right { left: auto; }
   .sbs { grid-template-columns: 1fr; }
   .sbs-col + .sbs-col { border-left: 0; border-top: 1px solid var(--rule); }
   .dataset-date { display: none; }

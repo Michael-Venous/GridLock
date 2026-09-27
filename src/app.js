@@ -18,11 +18,16 @@ function loadShortlist() { try { return new Set(JSON.parse(localStorage.getItem(
 function saveShortlist() { try { localStorage.setItem(SHORTLIST_KEY, JSON.stringify([...state.shortlist])); } catch { /* storage unavailable: shortlist lasts for this visit */ } }
 function loadLayers() { try { return new Set(JSON.parse(localStorage.getItem(LAYERS_KEY) ?? "[]")); } catch { return new Set(); } }
 function saveLayers() { try { localStorage.setItem(LAYERS_KEY, JSON.stringify([...envOn])); } catch { /* storage unavailable: layer choice lasts for this visit */ } }
+const SATELLITE_KEY = "gridlock.satellite";
+function loadSatellite() { try { return localStorage.getItem(SATELLITE_KEY) === "1"; } catch { return false; } }
+function saveSatellite() { try { localStorage.setItem(SATELLITE_KEY, satelliteOn ? "1" : "0"); } catch { /* storage unavailable: choice lasts for this visit */ } }
 const bounds = [[-85.8, 30.3], [-78.4, 35.3]];
 const border = [[-82.7, 31.85], [-80.6, 33.95]];
 const COLORS = { desc: "#0a8494", gpc: "#cb6e30" };
 // OpenFreeMap: free OpenStreetMap vector tiles, no API key.
 const BASEMAP = "https://tiles.openfreemap.org/styles/positron";
+// USGS National Map orthoimagery (USDA NAIP): public domain, no API key. Cached to zoom 16; closer in, MapLibre enlarges those tiles.
+const SATELLITE_TILES = "https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}";
 const FALLBACK_STYLE = { version: 8, glyphs: "https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf", sources: {}, layers: [{ id: "background", type: "background", paint: { "background-color": "#e5ecec" } }] };
 const MILES_PER_DEGREE = 69.09;
 let map = null, mapReady = false, styleFailed = false, pendingFocus = null, changesView = null;
@@ -43,6 +48,8 @@ const ENV_LAYERS = {
 const ENV_DATA = { evidence: "data/env/evidence.geojson", habitat: "data/env/habitat.geojson", protected: "data/env/protected.geojson" };
 const envOn = loadLayers();
 const envLoaded = new Set();
+let satelliteOn = loadSatellite();
+let endpointTip = null;
 
 let returnTarget = null, resultScroll = 0;
 const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -338,6 +345,7 @@ function initMap() {
     addLayers();
     mapReady = true;
     syncEnvLayers();
+    syncSatellite();
     renderMap();
     if (pendingFocus) { focusPair(pendingFocus); pendingFocus = null; }
   });
@@ -382,6 +390,9 @@ function addEnvLayers() {
   map.addSource("env-habitat", { type: "geojson", data: empty, attribution: "USFWS, NOAA Fisheries" });
   map.addSource("env-protected", { type: "geojson", data: empty, attribution: "USGS PAD-US" });
   map.addSource("env-nwi", { type: "raster", tiles: [exportTiles(NWI_EXPORT, 0)], tileSize: 256, minzoom: LIVE_ZOOM.wetlands, attribution: "USFWS NWI" });
+  // Imagery goes under the basemap's place labels, so town and road names stay readable on top of it.
+  map.addSource("satellite", { type: "raster", tiles: [SATELLITE_TILES], tileSize: 256, maxzoom: 16, attribution: "Imagery USGS, USDA NAIP" });
+  map.addLayer({ id: "satellite", type: "raster", source: "satellite", layout: hidden }, map.getStyle().layers.find(l => l.type === "symbol")?.id);
   map.addSource("env-nfhl", { type: "raster", tiles: [exportTiles(NFHL_EXPORT, 28)], tileSize: 256, minzoom: LIVE_ZOOM.flood, attribution: "FEMA NFHL" });
   const layer = ["get", "layer"];
   map.addLayer({ id: "env-protected-fill", type: "fill", source: "env-protected", layout: hidden, paint: { "fill-color": ENV_COLORS.protected, "fill-opacity": 0.12 } });
@@ -397,6 +408,17 @@ function addEnvLayers() {
     paint: { "line-color": "#10222a", "line-width": 1, "line-opacity": 0.55, "line-dasharray": [2, 2] } });
   map.addLayer({ id: "env-habitat-fill", type: "fill", source: "env-habitat", layout: hidden, paint: { "fill-color": ENV_COLORS.habitat, "fill-opacity": 0.14 } });
   map.addLayer({ id: "env-habitat-line", type: "line", source: "env-habitat", layout: hidden, paint: { "line-color": ENV_COLORS.habitat, "line-width": ["case", ["in", ["geometry-type"], ["literal", ["LineString", "MultiLineString"]]], 3, 1], "line-opacity": 0.75 } });
+}
+
+function syncSatellite() {
+  $("satellite-toggle").setAttribute("aria-pressed", String(satelliteOn));
+  document.querySelector(".map-panel").classList.toggle("satellite", satelliteOn);
+  if (!mapReady) return;
+  const visibility = satelliteOn ? "visible" : "none", linkLook = linkStyle(satelliteOn);
+  ["satellite", "links-casing", "geometry-casing"].forEach(id => map.setLayoutProperty(id, "visibility", visibility));
+  ["links", "links-possible"].forEach(id => map.setPaintProperty(id, "line-color", linkLook.color));
+  map.setPaintProperty("links", "line-opacity", linkLook.opacity);
+  map.setPaintProperty("links-possible", "line-opacity", linkLook.possibleOpacity);
 }
 
 function syncEnvLayers() {
@@ -424,6 +446,17 @@ function envTitle(f) {
   return null;
 }
 
+// Pair links: slate on the grey basemap, white (over a dark casing) on satellite imagery.
+function linkStyle(satellite) {
+  const hover = ["boolean", ["feature-state", "hover"], false], linkState = ["get", "state"];
+  const opacity = (normal, dim) => ["case", hover, 1, ["==", linkState, "selected"], 1, ["==", linkState, "dim"], dim, normal];
+  return {
+    color: satellite ? "#fff" : ["case", ["any", hover, ["==", linkState, "selected"]], "#10262e", "#4d6670"],
+    opacity: opacity(satellite ? 0.85 : 0.6, satellite ? 0.12 : 0.07),
+    possibleOpacity: opacity(satellite ? 0.7 : 0.4, satellite ? 0.15 : 0.1),
+  };
+}
+
 function addLayers() {
   map.addSource("geometry", { type: "geojson", data: featureCollection([]) });
   map.addSource("links", { type: "geojson", data: featureCollection([]), promoteId: "id" });
@@ -433,17 +466,20 @@ function addLayers() {
   const hover = ["boolean", ["feature-state", "hover"], false];
   const linkState = ["get", "state"];
   map.addLayer({ id: "uncertainty-fill", type: "fill", source: "geometry", filter: kind("uncertainty"), paint: { "fill-color": bySide, "fill-opacity": 0.08 } });
+  map.addLayer({ id: "geometry-casing", type: "line", source: "geometry", filter: ["in", ["get", "kind"], ["literal", ["uncertainty", "route-inferred", "stations"]]], layout: { visibility: "none", "line-join": "round", "line-cap": "round" },
+    paint: { "line-color": "#fff", "line-width": ["match", ["get", "kind"], "uncertainty", 3.5, 6.5], "line-opacity": 0.75 } });
   map.addLayer({ id: "uncertainty-line", type: "line", source: "geometry", filter: kind("uncertainty"), paint: { "line-color": bySide, "line-width": 1.2, "line-dasharray": [4, 3] } });
   map.addLayer({ id: "routes-inferred", type: "line", source: "geometry", filter: kind("route-inferred"), layout: { "line-join": "round" }, paint: { "line-color": bySide, "line-width": 3, "line-dasharray": [2.5, 1.5] } });
   map.addLayer({ id: "station-lines", type: "line", source: "geometry", filter: kind("stations"), layout: { "line-cap": "round" }, paint: { "line-color": bySide, "line-width": 2.5, "line-dasharray": [0, 2] } });
-  const linkPaint = {
-    "line-color": ["case", ["any", hover, ["==", linkState, "selected"]], "#10262e", "#4d6670"],
-    "line-width": ["case", ["==", linkState, "selected"], 4.5, hover, 3.5, 1.6],
-  };
+  const linkLook = linkStyle(satelliteOn);
+  const linkPaint = { "line-color": linkLook.color, "line-width": ["case", ["==", linkState, "selected"], 4.5, hover, 3.5, 1.6] };
+  // Casings only show over satellite imagery: a dark edge under the white pair links, a light band under project lines.
+  map.addLayer({ id: "links-casing", type: "line", source: "links", filter: ["!", ["get", "possible"]], layout: { visibility: "none", "line-sort-key": ["match", linkState, "selected", 2, "normal", 1, 0], "line-cap": "round" },
+    paint: { "line-color": "#0b1a1f", "line-width": ["case", ["==", linkState, "selected"], 7.5, hover, 6.5, 3.8], "line-opacity": linkStyle(true).opacity } });
   map.addLayer({ id: "links", type: "line", source: "links", filter: ["!", ["get", "possible"]], layout: { "line-sort-key": ["match", linkState, "selected", 2, "normal", 1, 0], "line-cap": "round" },
-    paint: { ...linkPaint, "line-opacity": ["case", hover, 1, ["==", linkState, "selected"], 1, ["==", linkState, "dim"], 0.07, 0.6] } });
+    paint: { ...linkPaint, "line-opacity": linkLook.opacity } });
   map.addLayer({ id: "links-possible", type: "line", source: "links", filter: ["get", "possible"],
-    paint: { ...linkPaint, "line-dasharray": [2, 2], "line-opacity": ["case", hover, 1, ["==", linkState, "selected"], 1, ["==", linkState, "dim"], 0.1, 0.4] } });
+    paint: { ...linkPaint, "line-dasharray": [2, 2], "line-opacity": linkLook.possibleOpacity } });
   map.addLayer({ id: "links-hit", type: "line", source: "links", paint: { "line-color": "#000", "line-width": 14, "line-opacity": 0 } });
   const focus = ["get", "focus"];
   map.addLayer({ id: "project-halo", type: "circle", source: "projects", filter: ["any", ["==", focus, "chosen"], ["get", "matched"]],
@@ -466,6 +502,7 @@ function addLayers() {
 }
 
 function renderMap() {
+  endpointTip?.remove(); endpointTip = null;
   const pair = state.allPairs.find(p => p.id === state.selectedPair);
   const project = state.projects.find(p => p.id === state.selectedProject);
   const activeIds = new Set(state.pairs.flatMap(p => [p.a.id, p.b.id]));
@@ -484,6 +521,14 @@ function renderMap() {
     order: (activeIds.has(p.id) ? 1 : 0) + (focusIds.has(p.id) ? 2 : 0),
     title: `${projectLabel(p)}\n${sideName(p)} · in service ${formatDate(p.inServiceDate)}`,
   }))));
+}
+
+// Station-level placements zoom close enough to see the yard; a town-level guess stays at town scale.
+function focusEndpoint(e) {
+  if (!mapReady) return;
+  endpointTip?.remove();
+  endpointTip = new maplibregl.Popup({ closeButton: false, className: "map-tip", offset: 10 }).setLngLat(lngLat(e.point)).setText(e.name).addTo(map);
+  map.flyTo({ center: lngLat(e.point), zoom: sitePlaced(e) ? 15 : 12, duration: reducedMotion() ? 0 : 900 });
 }
 
 function focusPair(pair) {
@@ -568,7 +613,12 @@ function projectBlock(p, full = false, heading = true, foldEvidence = false) {
     if (p.description) block.append(h("p", "desc-text", p.description));
     const endpoints = h("div", "endpoint-box"); endpoints.append(h("h4", "", "Endpoints and how each was located"));
     for (const e of p.endpoints) {
-      const row = h("p", "", `${e.name}: ${e.point ? `${e.point.lat.toFixed(4)}, ${e.point.lon.toFixed(4)} · ${e.method} · ${e.confidence} (±${e.radiusMi} mi)` : "not located"}`);
+      const row = h("p", "");
+      if (e.point) {
+        const go = h("button", "endpoint-go", e.name); go.type = "button"; go.title = `Show ${e.name} on the map`;
+        go.addEventListener("click", () => focusEndpoint(e));
+        row.append(go, `: ${e.point.lat.toFixed(4)}, ${e.point.lon.toFixed(4)} · ${e.method} · ${e.confidence} (±${e.radiusMi} mi)`);
+      } else row.append(`${e.name}: not located`);
       if (sitePlaced(e)) { const views = h("span", "site-views"); views.append(link(satelliteUrl(e.point), "Satellite"), link(mapPinUrl(e.point), "Google Maps")); row.append(views); }
       if (e.evidence) row.append(h("span", "evidence", e.evidence));
       endpoints.append(row);
@@ -1101,6 +1151,8 @@ $("gap").addEventListener("change", event => { state.gap = event.target.value; a
 $("ground").addEventListener("change", event => { state.ground = event.target.value; applyFilters(); });
 function openLayersPanel() { $("layers-panel").hidden = false; $("layers-toggle").setAttribute("aria-expanded", "true"); }
 $("layers-toggle").addEventListener("click", () => { const open = $("layers-panel").hidden; $("layers-panel").hidden = !open; $("layers-toggle").setAttribute("aria-expanded", String(open)); });
+$("satellite-toggle").addEventListener("click", () => { satelliteOn = !satelliteOn; saveSatellite(); syncSatellite(); });
+syncSatellite();
 document.querySelectorAll("#layers-panel input[data-layer]").forEach(input => input.addEventListener("change", () => {
   if (input.checked) envOn.add(input.dataset.layer); else envOn.delete(input.dataset.layer);
   saveLayers(); syncEnvLayers();
