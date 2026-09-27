@@ -1,40 +1,27 @@
 # Project status
 
-Last updated: 2026-09-26
+Last reviewed: 2026-09-26. The goal is a GridLock entry for the Sperry Tech challenge using only public planning data. The repository is private.
 
-Goal: a working Gridlock entry for the Sperry Tech challenge (ShellHacks 2026), submitted before Sun 2026-09-27 11:00 EDT. `main` now carries this build (it was reset to `nick-main` on 2026-09-26); the older 10-project prototype is kept on `main-backup-1c0badf`.
+## Consolidated build
 
-## What the app does now
+- Current `main` features and the `codex/gridlock-review-fixes` code have been reconciled. The app retains the ground-condition layers and Changes tab while gaining the review branch's search, navigation, evidence-scoring and brief fixes.
+- Current filings provide 309 projects: 54 DESC and 255 Georgia ITS. All 309 internal IDs are unique. 277 projects are mapped and 32 are unplaced. The strict sponsor rule finds 72 qualifying cross-utility pairs; 71 appear by default because one pair has both published target dates in the past. Forty-five pairs have planning-window overlap still ahead as of the dataset date, 2026-09-26.
+- Search includes projects with no partner or no usable location. A selected project shows its ranked partners. Pair details distinguish qualifying, possible and unverified leads; filters and selection can be shared by URL. Printable briefs include a self-contained schematic map, planning-forum links, source references and a conditional staging-yard scenario.
+- Ground screening covers 29 projects with suitable station-level locations and traces. The map layers and pair briefs retain FEMA, NWI, critical-habitat and PAD-US context. The Changes tab compares five filed editions through three change events and can filter to a drawn area.
 
-- Parses every project in the current public filings: DESC 2026–2030 (54 projects) and the 2025 GA ITS Ten-Year Plan 2026–2035 (255 projects). 268 are located; 17 lines are traced along OSM power lines.
-- Keeps the challenge's rule unchanged: project centers (midpoint of located endpoints) under 25 miles apart by haversine, time gap = absolute difference of in-service dates. The tests still reproduce the sponsor's six example rows exactly.
-- Adds, for ranking only: build-window overlap (DESC first budget year with spend → in-service date; Georgia Start Date → Need Date; only overlap from today on counts), location certainty (robust / sensitive / possible), shared stations and closest approach of traced lines. Score = proximity 40 + shared station 20 + line proximity 10 + timing 30, × 0.85 when location-sensitive.
-- MapLibre GL JS map, ranked pair list with filters and sorts, pair comparison, staging-yard cost scenario with cited unit costs (MISO, USDA), printable briefs, shortlist, CSV export, Data quality and Method tabs.
-- Ground at the work sites (#15): FEMA flood zones, NWI wetlands, USFWS and NOAA Fisheries critical habitat and PAD-US protected land, read at every station-level site and traced line of projects that could pair; shown in the pair panel, brief, CSV, a Ground filter and four map layers. Mapped conditions only, no permit claims.
-- Changes tab (#16): every filing is listed in `data/filings.json` (now including the 2024 Georgia plan); each new edition is compared with the one before, projects and pairs, filterable by a drawn area. Email alerts were built for AWS but dropped: the hackathon account can't send email, and alerts can't be demoed since filings come about once a year. The code is kept on branch `nick-env-alerts-aws`.
+## Evidence and limits
 
-## Decisions
+- The qualifying distance remains center-to-center, under 25 miles. A score only ranks qualifying leads; proximity is primary and timing secondary. Nearby endpoints and estimated OSM routes are explicitly unverified. None of the current records has source-backed evidence of a shared worksite or construction corridor, so the corresponding score bonuses are zero.
+- 163 endpoints use town-level estimates. 13 projects have estimated OSM route geometry, but none is a verified construction corridor. Locations, plans, target dates and cost savings require utility confirmation before action. Passed target dates are marked as status-unconfirmed.
+- The cost scenario is an editable illustration, not an estimate of actual savings. It is suppressed when the projects do not qualify or when their planning windows do not overlap ahead. Ground layers are screening context, not field surveys or permit decisions. No CEII or non-public data is used.
 
-- The challenge's `Finding_Real_Locations_Guide.docx` controls the qualifying rule, and nothing added changes which pairs qualify.
-- Build windows are inferred from the filings' own start dates and yearly budgets. (The early prototype deliberately avoided inferring them from in-service dates alone; that decision is superseded now that the full filings are parsed.)
-- Geography outweighs timing in the score (70 vs 30 points), as the challenge makes distance the primary signal.
-- No CEII, no non-public data, no reconstruction of Georgia's redacted costs.
+## Verification
 
-## Data limits
+- `npm test` passes five JavaScript test files. `python3 -m unittest discover -s tests -v` passes 31 Python cases. Syntax and Git whitespace checks pass.
+- The consolidated app loads the 309-project dataset and ranked list in a local browser. Rebuild reproducibility and full interaction/print regression should be repeated before deployment.
 
-- Locations are estimates with stated method, confidence and radius; 41 projects could not be placed (4 of them unplaced because their names matched sites far outside their planning zone) and 162 endpoints rest on town-level guesses (issue #3).
-- Many published target dates have passed while the filings still list the projects as planned; the app marks their status as unconfirmed.
-- The cost scenario is a reason to make a call, not a budget.
+## Next actions
 
-## Repository
-
-- `github.com/Michael-Venous/GridLock`, private. Work lands on `nick-main`.
-- Supplied and downloaded PDFs and the workbook stay out of git (`data/raw/` is ignored); `pipeline/fetch.py` downloads the public ones.
-
-## Open work (GitHub issues)
-
-- #3 station-name extraction; #4 routes traced to town guesses; #6 "none" confidence on placed projects; #7 pipeline vs app "today".
-- #10 hand-site Hooks, Fenwick Street, Sand Bar Ferry, Rice Hope; #11 Santee Cooper's Purrysburg–McIntosh reconductor (optional).
-- #12 submission checklist: deploy, demo video, Devpost.
-- #15 environmental layers and #16 change log: built on branch `nick-env-alerts`, not yet merged into nick-main.
-- #17 map in the brief; #18 planning-forum links (SCRTP, SERTP); #19 LLM-suggested station names, kept only when verifiable; #20 shared-station outage flag and wording.
+1. Verify stations, project scope and construction windows for the highest-ranked pairs with the public filings and utility teams. Improve the 32 unplaced projects and the town-level endpoints without treating guessed routes as verified corridors.
+2. Run a full desktop/phone and printable-brief check, then deploy an HTTPS demo with internet access for the basemap. Verify judge access and complete the demo video and submission checklist. Confirm the event deadline directly.
+3. Consider additional utilities, truck routing and richer cost estimates only after the evidence and demo are reliable.

@@ -14,6 +14,8 @@
   <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/dist/maplibre-gl.js" defer></script>
 </head>
 <body>
+  <button id="skip-details" class="skip-link" type="button" disabled>Skip to details</button>
+  <div id="session-notice" class="session-notice" role="status"></div>
   <header class="topbar">
     <div class="brand"><span class="brand-icon" aria-hidden="true"></span><strong>Gridlock</strong><span class="brand-scope">Savannah River coordination</span></div>
     <nav class="tabs" aria-label="Views">
@@ -32,6 +34,7 @@
     <section class="workspace view" id="view-explore" aria-label="Coordination explorer">
       <aside class="side-panel" aria-label="Pairs">
         <div class="side-head">
+          <p class="mobile-intro">Choose a pair to compare its evidence and next steps.</p>
           <label class="search-wrap"><span class="sr-only">Search projects</span><svg aria-hidden="true" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="m10.5 10.5 3 3"/></svg><input id="search" type="search" placeholder="Search project, station or ID" autocomplete="off"></label>
           <div class="toolbar">
             <label class="sort-wrap">Sort<select id="sort"></select></label>
@@ -40,16 +43,18 @@
           <div class="filters" id="filters" hidden>
             <label class="range">In service by <strong id="year-value">2035</strong><input id="year" type="range" min="2025" max="2035" value="2035" title="Both projects must have a target year on or before this year."></label>
             <label class="range">Max distance <strong id="distance-value">25 mi</strong><input id="distance" type="range" min="1" max="25" value="25"></label>
-            <label class="select">Timing<select id="gap"><option value="all">Any timing</option><option value="ahead">Build overlap from today on</option><option value="overlap">Build overlap, any time</option><option value="365">In service within 1 year</option><option value="730">In service within 2 years</option></select></label>
+            <label class="select">Timing<select id="gap"><option value="all">Any timing</option><option value="ahead">Planning overlap after data date</option><option value="overlap">Planning overlap, any time</option><option value="365">In service within 1 year</option><option value="730">In service within 2 years</option></select></label>
             <label class="select">Ground at the sites<select id="ground"><option value="all">Any</option><option value="flood">Flood area mapped at a site</option><option value="habitat">Critical habitat mapped at a site</option><option value="protected">Protected land mapped at a site</option><option value="clear">Checked, none of those mapped</option><option value="unchecked">Not checked (no station-level location)</option></select></label>
             <label class="check"><input id="hide-past" type="checkbox" checked> Hide pairs where both target dates have passed</label>
             <label class="check"><input id="possible" type="checkbox"> Include pairs that could qualify within location uncertainty</label>
+            <p class="hint">Possible pairs use their minimum estimated distance for the distance filter.</p>
             <label class="check"><input id="shortlist-only" type="checkbox"> Shortlisted pairs only</label>
             <div class="filter-foot"><span class="hint" id="sort-hint"></span><button id="reset-filters" class="link-button" type="button">Reset filters</button></div>
           </div>
           <div id="chips" class="chips" aria-label="Active filters"></div>
         </div>
         <div class="list-topline"><span id="result-count">Loading…</span><button id="clear-selection" class="link-button" type="button" disabled>Clear selection</button></div>
+        <p id="result-scope" class="result-scope"></p>
         <h2 id="queue-title" class="sr-only">Ranked pairs</h2>
         <div id="match-list" class="match-list" aria-live="polite"></div>
       </aside>
@@ -71,11 +76,11 @@
           <span><i class="dot desc"></i>DESC, South Carolina<b id="desc-count">0</b></span>
           <span><i class="dot gpc"></i>Georgia ITS<b id="gpc-count">0</b></span>
           <span><i class="swatch link"></i>Qualifying pair, straight link</span>
-          <span><i class="swatch route"></i>Traced line, selected project</span>
+          <span><i class="swatch route"></i>Verified route, selected project</span>
         </div>
       </section>
 
-      <aside class="detail-panel" id="detail" aria-live="polite" aria-label="Details"></aside>
+      <aside class="detail-panel" id="detail" tabindex="-1" aria-live="polite" aria-label="Details"></aside>
     </section>
 
     <section class="changes-view view" id="view-changes" hidden aria-label="Changes between filings">

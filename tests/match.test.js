@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { matchProjects, milesBetween, dateGapDays, windowOverlapDays, remainingOverlapDays, certainty, sharedStations, savingsEstimate, scorePair, sortPairs, projectType, yardScenario, WEIGHTS, YARD_BASIS } from "../src/match.js";
+import { matchProjects, milesBetween, dateGapDays, windowOverlapDays, remainingOverlapDays, certainty, sharedStations, nearbyEndpoints, closestApproachMiles, opportunityText, scenarioAvailability, savingsEstimate, scorePair, sortPairs, projectType, yardScenario, WEIGHTS, YARD_BASIS } from "../src/match.js";
 
 const starter = JSON.parse(readFileSync(new URL("../data/starter_projects.json", import.meta.url))).projects;
 
@@ -64,19 +64,84 @@ test("location uncertainty separates robust from sensitive and possible pairs", 
   assert.equal(matchProjects(far, 25, { includePossible: true })[0].qualifies, false);
 });
 
-test("shared station needs endpoints within half a mile", () => {
-  const p = (lat, lon) => ({ name: "X", point: { lat, lon } });
-  assert.equal(sharedStations({ endpoints: [p(32.352, -81.175)] }, { endpoints: [p(32.354, -81.178)] }).length, 1);
-  assert.equal(sharedStations({ endpoints: [p(32.352, -81.175)] }, { endpoints: [p(32.40, -81.175)] }).length, 0);
+test("nearby or identically named endpoints do not establish shared construction", () => {
+  const p = (name, lat, lon) => ({ name, point: { lat, lon } });
+  const a = { endpoints: [p("McIntosh", 32.352, -81.175)] };
+  const b = { endpoints: [p("West McIntosh", 32.354, -81.178)] };
+  assert.equal(nearbyEndpoints(a, b).length, 1);
+  assert.equal(sharedStations(a, b).length, 0);
+  assert.equal(sharedStations(a, a).length, 0);
+  assert.equal(nearbyEndpoints(a, { endpoints: [p("X", 32.40, -81.175)] }).length, 0);
+});
+
+test("shared worksite bonus requires a common site identity and sourced scope on both projects", () => {
+  const site = { siteId: "station-1", name: "Station One", verified: true, evidence: { source: { url: "https://example.com/plan.pdf", page: 2 }, quote: "Replace breakers at Station One." } };
+  const a = { id: "SC", state: "SC", center: { lat: 33, lon: -81 }, worksites: [site] };
+  const b = { id: "GA", state: "GA", center: a.center, worksites: [{ ...site, name: "Station 1" }] };
+  const pair = matchProjects([a, b])[0];
+  assert.equal(pair.shared.length, 1);
+  assert.equal(pair.shared[0].siteId, "station-1");
+  assert.equal(pair.shared[0].evidence.a.quote, site.evidence.quote);
+  assert.equal(pair.score.parts.shared, WEIGHTS.shared);
+  for (const unconfirmed of [{ ...site, verified: false }, { ...site, evidence: {} }, { ...site, evidence: { source: "https://example.com/plan.pdf" } }, { ...site, siteId: "nearby-station" }]) {
+    assert.equal(matchProjects([a, { ...b, worksites: [unconfirmed] }])[0].score.parts.shared, 0);
+  }
+});
+
+test("current McIntosh leads remain geographic candidates without claiming a common worksite", () => {
+  const real = JSON.parse(readFileSync(new URL("../data/projects.json", import.meta.url))).projects;
+  const pairs = matchProjects(real, 25, { asOf: "2026-09-26" });
+  for (const id of ["GA-21275", "GA-21257", "GA-20065"]) {
+    const pair = pairs.find(p => p.a.id === "DESC-6888" && p.b.id === id);
+    assert.ok(pair?.qualifies, `DESC-6888 × ${id} remains a geographic candidate`);
+    assert.ok(pair.nearbyEndpoints.length > 0);
+    assert.equal(pair.shared.length, 0);
+    assert.equal(pair.score.parts.shared, 0);
+    assert.match(opportunityText(pair), /confirm the actual worksites/);
+    assert.match(pair.score.notes.join(" "), /no shared-worksite bonus/);
+  }
+});
+
+test("corridor bonuses require source-backed verified routes for both projects", () => {
+  const evidence = { source: "https://example.com/circuit-plan.pdf", quote: "Construction follows the reviewed circuit route." };
+  const route = { coords: [[33, -81], [33, -80.99]], verified: true, evidence };
+  const a = { id: "A", state: "SC", center: { lat: 33, lon: -81 }, route };
+  const b = { id: "B", state: "GA", center: a.center, route };
+  assert.equal(matchProjects([a, b])[0].score.parts.corridor, WEIGHTS.corridor);
+  for (const unconfirmed of [undefined, { ...route, verified: false }, { coords: route.coords }, { ...route, evidence: undefined }]) {
+    const pair = matchProjects([a, { ...b, route: unconfirmed }])[0];
+    assert.equal(pair.approachMiles, 0);
+    assert.equal(pair.corridorVerified, false);
+    assert.equal(pair.score.parts.corridor, 0);
+    assert.match(pair.score.notes.join(" "), /no corridor bonus/);
+  }
+});
+
+test("closest approach detects crossing, touching and collinear line segments", () => {
+  const route = coords => ({ route: { coords } });
+  assert.equal(closestApproachMiles(route([[32, -81], [34, -81]]), route([[33, -82], [33, -80]])), 0);
+  assert.equal(closestApproachMiles(route([[33, -81], [33, -80]]), route([[33, -80], [34, -80]])), 0);
+  assert.equal(closestApproachMiles(route([[33, -81], [33, -80]]), route([[33, -80.5], [33, -79.5]])), 0);
+  assert.ok(closestApproachMiles(route([[33, -81], [33, -80]]), route([[33, -79], [33, -78]])) > 50);
+});
+
+test("closest approach handles parallel lines, point-to-line, point-to-point and missing geometry", () => {
+  const route = coords => ({ route: { coords } });
+  const parallel = closestApproachMiles(route([[32, -81], [34, -81]]), route([[32, -80], [34, -80]]));
+  assert.ok(parallel > 50 && parallel < 60);
+  assert.equal(closestApproachMiles({ center: { lat: 33, lon: -81 } }, route([[32, -81], [34, -81]])), 0);
+  const a = { lat: 33, lon: -81 }, b = { lat: 33, lon: -80.99 };
+  assert.ok(Math.abs(closestApproachMiles({ center: a }, { center: b }) - milesBetween(a, b)) < 0.00001);
+  assert.equal(closestApproachMiles({}, { center: a }), null);
 });
 
 test("savings estimate needs overlapping timing and a cost on both sides", () => {
-  const pair = { a: { cost: { total: 10e6 } }, b: { miles: 5, cost: { total: null } }, overlapDays: 100, gapDays: 10, shared: [] };
+  const pair = { qualifies: true, a: { cost: { total: 10e6 } }, b: { miles: 5, cost: { total: null } }, overlapDays: 100, gapDays: 10, shared: [] };
   const est = savingsEstimate(pair, { benchmarkPerMile: 2e6, shareRate: 0.04 });
   assert.equal(est.costB, 10e6);
   assert.ok(est.bEstimated);
   assert.equal(Math.round(est.low), 200000);
-  assert.equal(savingsEstimate({ ...pair, overlapDays: 0, gapDays: 900 }, { benchmarkPerMile: 2e6 }).high, 0);
+  assert.equal(savingsEstimate({ ...pair, overlapDays: 0, gapDays: 10 }, { benchmarkPerMile: 2e6 }), null);
   assert.equal(savingsEstimate({ ...pair, b: { cost: {} } }, { benchmarkPerMile: 2e6 }), null);
 });
 
@@ -113,12 +178,41 @@ test("project type comes from the filing's own title", () => {
 });
 
 test("staging-yard scenario: cited unit costs, half to one avoided yard, nothing without overlap ahead", () => {
-  const pair = { remainingDays: 365 };
+  const pair = { qualifies: true, remainingDays: 365 };
   const sc = yardScenario(pair, { acres: 4, months: 12, leaseRate: 0.1, surfacePerAcre: 10000, roadMiles: 0.5 });
   const land = (YARD_BASIS.landPerAcre.GA + YARD_BASIS.landPerAcre.SC) / 2;
   assert.equal(sc.oneYard, 4 * 10000 + 4 * land * 0.1 + 0.5 * YARD_BASIS.roadPerMile.value);
   assert.equal(sc.low, sc.oneYard / 2);
   assert.equal(sc.high, sc.oneYard);
-  assert.equal(yardScenario({ remainingDays: 0 }).high, 0);
+  assert.equal(yardScenario({ qualifies: true, remainingDays: 0 }).high, 0);
   assert.equal(yardScenario(pair).months, 12);
+});
+
+test("nonqualifying pairs cannot receive modeled savings through either public cost helper", () => {
+  const real = JSON.parse(readFileSync(new URL("../data/projects.json", import.meta.url))).projects;
+  const pair = matchProjects(real, 25, { includePossible: true, asOf: "2026-09-26" }).find(p => p.a.id === "DESC-6808L" && p.b.id === "GA-21275");
+  assert.ok(pair && !pair.qualifies && pair.remainingDays > 0);
+  const available = scenarioAvailability(pair);
+  assert.equal(available.available, false);
+  assert.match(available.reason, /qualification rule/);
+  const sc = yardScenario(pair, { months: 12 });
+  assert.equal(sc.active, false);
+  assert.equal(sc.low, 0);
+  assert.equal(sc.high, 0);
+  assert.equal(savingsEstimate(pair, { benchmarkPerMile: 2e6 }), null);
+  assert.equal(scenarioAvailability({ remainingDays: 365 }).available, false);
+});
+
+test("zero or invalid sharing months cannot produce positive shared-yard savings", () => {
+  const pair = { qualifies: true, remainingDays: 365 };
+  for (const months of [0, -1, NaN, Infinity]) {
+    const sc = yardScenario(pair, { months });
+    assert.equal(sc.active, false);
+    assert.equal(sc.low, 0);
+    assert.equal(sc.high, 0);
+    assert.ok(Number.isFinite(sc.oneYard));
+    assert.match(sc.reason, /positive number of shared months/);
+  }
+  assert.equal(scenarioAvailability({ ...pair, remainingDays: 0, overlapDays: 365 }).available, false);
+  assert.equal(yardScenario({ ...pair, remainingDays: 1 }).active, true);
 });

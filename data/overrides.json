@@ -1,5 +1,5 @@
 {
- "_readme": "Hand corrections. 'endpoints' maps a project (DESC:<ProjectID without spaces> or GA:<TEAMS>) to the station names its line runs between, when the title alone is misleading. 'points' maps STATE:<normalized name> to a hand-sited coordinate; every entry must say why.",
+ "_readme": "Hand corrections. 'endpoints' maps a project (DESC:<ProjectID without spaces> or GA:<TEAMS>) to station names when the title alone is misleading; explain corrections in endpoint_notes. 'points' maps STATE:<normalized name> to a hand-sited coordinate; every entry must say why and may specify confidence (low/medium/high) and radiusMi > 0. Defaults remain high and 0.5 miles, so uncertain placements must set both explicitly.",
  "endpoints": {
   "DESC:6853B-F": [
    "V C Summer",
@@ -53,6 +53,9 @@
   ],
   "GA:21116": [
    "Goshen"
+  ],
+  "GA:21319": [
+   "Ellenwood"
   ]
  },
  "points": {
@@ -65,7 +68,8 @@
  "endpoint_notes": {
   "DESC:6367D": "Riverport is a tap off the Jasper-Okatie corridor; the tap point is not public, so the project is placed on its host line with the line's uncertainty. Its uncertainty radius is set to half the 6.5-mile host line plus a margin (3.5 mi).",
   "DESC:6853B-F": "Scout is a customer substation; the description says the work modifies the VCS1 and Killian terminals.",
-  "DESC:0147A-I": "Title says '115kV Tap from Cainhoy'."
+  "DESC:0147A-I": "Title says '115kV Tap from Cainhoy'.",
+  "GA:21319": "2025 GA ITS Ten-Year Plan (2026-2035), Teams 21319, p.181: the description explicitly places the capacitor bank at Ellenwood substation. Rainbow Drive in the title is an area name, not the worksite. Public source: https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866"
  },
  "radius": {
   "DESC:6367D": 3.5

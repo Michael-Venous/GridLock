@@ -216,7 +216,7 @@
      "lineage": "SC:6846A:eastover sumter 115kv dep tie rebuild with acsr",
      "key": "6846A",
      "projectId": "6846 A",
-     "name": "Eastover \u2013 Sumter 115kV DEP Tie: Rebuild with 1272 ACSR",
+     "name": "Eastover – Sumter 115kV DEP Tie: Rebuild with 1272 ACSR",
      "state": "SC",
      "utility": "DESC",
      "isd": "2026-05-31",
@@ -245,7 +245,7 @@
       "page": 4,
       "item": "Project 4 of 54"
      },
-     "oldName": "Eastover \u2013 Sumter 115kV DEP Tie: Rebuild with 1272 ACSR",
+     "oldName": "Eastover – Sumter 115kV DEP Tie: Rebuild with 1272 ACSR",
      "oldIsd": "2026-05-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2025-2029",
@@ -353,7 +353,7 @@
      "lineage": "SC:6852:urquhart toolebeck 115kv line rebuild",
      "key": "6852",
      "projectId": "6852",
-     "name": "Urquhart \u2013 Toolebeck 115kV line: Rebuild",
+     "name": "Urquhart – Toolebeck 115kV line: Rebuild",
      "state": "SC",
      "utility": "DESC",
      "isd": "2026-08-12",
@@ -382,7 +382,7 @@
       "page": 7,
       "item": "Project 7 of 54"
      },
-     "oldName": "Urquhart \u2013 Toolebeck 115kV line: Rebuild",
+     "oldName": "Urquhart – Toolebeck 115kV line: Rebuild",
      "oldIsd": "2026-08-12",
      "oldSource": {
       "doc": "DESC $2M+ list 2025-2029",
@@ -403,7 +403,7 @@
      "lineage": "SC:6341A-F:cainhoy hamlin 115kv rebuild line and cainhoy hamlin construct new line",
      "key": "6341A-F",
      "projectId": "6341 A-F",
-     "name": "Cainhoy - Hamlin 115kV: Rebuild Line and Cainhoy \u2013 Hamlin 115 kV #2: Construct New 115 kV Line",
+     "name": "Cainhoy - Hamlin 115kV: Rebuild Line and Cainhoy – Hamlin 115 kV #2: Construct New 115 kV Line",
      "state": "SC",
      "utility": "DESC",
      "isd": "2026-12-02",
@@ -432,7 +432,7 @@
       "page": 9,
       "item": "Project 9 of 54"
      },
-     "oldName": "Cainhoy - Hamlin 115kV: Rebuild Line and Cainhoy \u2013 Hamlin 115 kV #2: Construct New 115 kV Line",
+     "oldName": "Cainhoy - Hamlin 115kV: Rebuild Line and Cainhoy – Hamlin 115 kV #2: Construct New 115 kV Line",
      "oldIsd": "2026-12-02",
      "oldSource": {
       "doc": "DESC $2M+ list 2025-2029",
@@ -453,7 +453,7 @@
      "lineage": "SC:5392A-C:coit gills creek 115kv construct",
      "key": "5392A-C",
      "projectId": "5392 A-C",
-     "name": "Coit \u2013 Gills Creek 115kV: Construct",
+     "name": "Coit – Gills Creek 115kV: Construct",
      "state": "SC",
      "utility": "DESC",
      "isd": "2026-12-31",
@@ -482,7 +482,7 @@
       "page": 10,
       "item": "Project 10 of 54"
      },
-     "oldName": "Coit \u2013 Gills Creek 115kV: Construct",
+     "oldName": "Coit – Gills Creek 115kV: Construct",
      "oldIsd": "2025-12-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2025-2029",
@@ -501,7 +501,7 @@
      "lineage": "SC:0139M,N:okatie 115kv jasper yemassee 230kv fold in",
      "key": "0139M,N",
      "projectId": "0139 M,N",
-     "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+     "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
      "state": "SC",
      "utility": "DESC",
      "isd": "2026-12-31",
@@ -526,7 +526,7 @@
       "page": 11,
       "item": "Project 11 of 54"
      },
-     "oldName": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+     "oldName": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
      "oldIsd": "2026-05-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2025-2029",
@@ -546,7 +546,7 @@
      "lineage": "SC:06367D-G:jasper okatie construct",
      "key": "06367D-G",
      "projectId": "06367 D - G",
-     "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+     "name": "Jasper – Okatie 230 kV #2: Construct",
      "state": "SC",
      "utility": "DESC",
      "isd": "2026-12-01",
@@ -575,7 +575,7 @@
       "page": 12,
       "item": "Project 12 of 54"
      },
-     "oldName": "Jasper \u2013 Okatie 230 kV #2: Construct",
+     "oldName": "Jasper – Okatie 230 kV #2: Construct",
      "oldIsd": "2026-05-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2025-2029",
@@ -664,7 +664,7 @@
      "lineage": "SC:6870A:saluda hydro bush river 115kv and tie lines rebuild",
      "key": "6870A",
      "projectId": "6870 A",
-     "name": "Saluda Hydro \u2013 Bush River 115kV #1 and #2 Tie Lines Rebuild",
+     "name": "Saluda Hydro – Bush River 115kV #1 and #2 Tie Lines Rebuild",
      "state": "SC",
      "utility": "DESC",
      "isd": "2026-12-31",
@@ -689,7 +689,7 @@
       "page": 15,
       "item": "Project 15 of 54"
      },
-     "oldName": "Saluda Hydro \u2013 Bush River 115kV #1 and #2 Tie Lines Rebuild",
+     "oldName": "Saluda Hydro – Bush River 115kV #1 and #2 Tie Lines Rebuild",
      "oldIsd": "2026-12-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2025-2029",
@@ -710,7 +710,7 @@
      "lineage": "SC:6847:church creek faber place charleston transmission add 230kv line",
      "key": "6847",
      "projectId": "6847",
-     "name": "Church Creek \u2013 Faber Place \u2013 Charleston Transmission: Add 230kV Line",
+     "name": "Church Creek – Faber Place – Charleston Transmission: Add 230kV Line",
      "state": "SC",
      "utility": "DESC",
      "isd": "2027-05-01",
@@ -739,7 +739,7 @@
       "page": 16,
       "item": "Project 16 of 54"
      },
-     "oldName": "Church Creek \u2013 Faber Place \u2013 Charleston Transmission: Add 230kV Line",
+     "oldName": "Church Creek – Faber Place – Charleston Transmission: Add 230kV Line",
      "oldIsd": "2027-05-01",
      "oldSource": {
       "doc": "DESC $2M+ list 2025-2029",
@@ -760,7 +760,7 @@
      "lineage": "SC:6359:yemassee ritter 230kv and construct spdc with b",
      "key": "6359",
      "projectId": "6359",
-     "name": "Yemassee\u2013 Ritter 230kV #1 & #2: Construct SPDC with B-1272",
+     "name": "Yemassee– Ritter 230kV #1 & #2: Construct SPDC with B-1272",
      "state": "SC",
      "utility": "DESC",
      "isd": "2027-06-01",
@@ -789,7 +789,7 @@
       "page": 17,
       "item": "Project 17 of 54"
      },
-     "oldName": "Yemassee\u2013 Ritter 230kV #1 & #2: Construct SPDC with B-1272",
+     "oldName": "Yemassee– Ritter 230kV #1 & #2: Construct SPDC with B-1272",
      "oldIsd": "2027-06-01",
      "oldSource": {
       "doc": "DESC $2M+ list 2025-2029",
@@ -850,7 +850,7 @@
      "days": 0,
      "cost": 4569331,
      "oldCost": 5000000,
-     "appId": "DESC-6809M"
+     "appId": "DESC-6809M-19"
     },
     {
      "kind": "changed",
@@ -906,7 +906,7 @@
      "lineage": "SC:6808L:burton saint helena 115kv frogmore distribution saint helena",
      "key": "6808L",
      "projectId": "6808 L",
-     "name": "Burton-St Helena 115kV: Rebuild Frogmore Distribution \u2013 St. Helena Section",
+     "name": "Burton-St Helena 115kV: Rebuild Frogmore Distribution – St. Helena Section",
      "state": "SC",
      "utility": "DESC",
      "isd": "2027-12-31",
@@ -1002,7 +1002,7 @@
      "lineage": "SC:6810U:cameron elloree rebuild",
      "key": "6810U",
      "projectId": "6810 U",
-     "name": "Cameron Jct \u2013 Elloree 46 kV Rebuild",
+     "name": "Cameron Jct – Elloree 46 kV Rebuild",
      "state": "SC",
      "utility": "DESC",
      "isd": "2027-12-31",
@@ -1031,7 +1031,7 @@
       "page": 23,
       "item": "Project 23 of 54"
      },
-     "oldName": "Cameron Jct \u2013 Elloree 46 kV Rebuild",
+     "oldName": "Cameron Jct – Elloree 46 kV Rebuild",
      "oldIsd": "2027-12-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2025-2029",
@@ -1084,7 +1084,7 @@
      "lineage": "SC:6810J:elloree santee city rebuild",
      "key": "6810J",
      "projectId": "6810 J",
-     "name": "Elloree \u2013 Santee City 46 kV: Rebuild",
+     "name": "Elloree – Santee City 46 kV: Rebuild",
      "state": "SC",
      "utility": "DESC",
      "isd": "2027-12-31",
@@ -1109,7 +1109,7 @@
       "page": 25,
       "item": "Project 25 of 54"
      },
-     "oldName": "Elloree \u2013 Santee City 46 kV: Rebuild",
+     "oldName": "Elloree – Santee City 46 kV: Rebuild",
      "oldIsd": "2027-12-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2025-2029",
@@ -1178,7 +1178,7 @@
      "lineage": "SC:6809I2:adams run red house road replace dawhoo river crossing and other structures",
      "key": "6809I2",
      "projectId": "6809 I2",
-     "name": "Adams Run \u2013 Red House Road 46 kV: Replace Dawhoo River Crossing and other Structures",
+     "name": "Adams Run – Red House Road 46 kV: Replace Dawhoo River Crossing and other Structures",
      "state": "SC",
      "utility": "DESC",
      "isd": "2027-12-31",
@@ -1214,7 +1214,7 @@
      "lineage": "SC:6809S:lyles kilbourne park 115kv replace structure kilbourne park",
      "key": "6809S",
      "projectId": "6809 S",
-     "name": "Lyles \u2013 Kilbourne Park 115kV: Replace Structure 67 \u2013 Kilbourne Park",
+     "name": "Lyles – Kilbourne Park 115kV: Replace Structure 67 – Kilbourne Park",
      "state": "SC",
      "utility": "DESC",
      "isd": "2027-12-01",
@@ -1352,7 +1352,7 @@
      "lineage": "SC:6854C:jackson 115kv construct 12kv distribution",
      "key": "6854C",
      "projectId": "6854 C",
-     "name": "Jackson 115kV: Construct 115 \u2013 12kV Distribution Substation",
+     "name": "Jackson 115kV: Construct 115 – 12kV Distribution Substation",
      "state": "SC",
      "utility": "DESC",
      "isd": "2028-12-31",
@@ -1387,7 +1387,7 @@
      "lineage": "SC:06005B:harleyville 115kv transmission construct miles",
      "key": "06005B",
      "projectId": "06005 B",
-     "name": "Harleyville 115KV Transmission Tap \u2013 Construct (1.4 miles)",
+     "name": "Harleyville 115KV Transmission Tap – Construct (1.4 miles)",
      "state": "SC",
      "utility": "DESC",
      "isd": "2028-12-31",
@@ -1412,7 +1412,7 @@
       "page": 34,
       "item": "Project 34 of 54"
      },
-     "oldName": "Harleyville 115KV Transmission Tap \u2013 Construct (1.4 miles)",
+     "oldName": "Harleyville 115KV Transmission Tap – Construct (1.4 miles)",
      "oldIsd": "2027-03-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2025-2029",
@@ -1612,7 +1612,7 @@
      "lineage": "SC:6810T:cameron cameron saint matthews rebuild",
      "key": "6810T",
      "projectId": "6810 T",
-     "name": "Cameron Jct \u2013 Cameron \u2013 St Matthews 46 kV Rebuild",
+     "name": "Cameron Jct – Cameron – St Matthews 46 kV Rebuild",
      "state": "SC",
      "utility": "DESC",
      "isd": "2028-12-31",
@@ -1641,7 +1641,7 @@
       "page": 40,
       "item": "Project 40 of 54"
      },
-     "oldName": "Cameron Jct \u2013 Cameron \u2013 St Matthews 46 kV Rebuild",
+     "oldName": "Cameron Jct – Cameron – St Matthews 46 kV Rebuild",
      "oldIsd": "2028-12-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2025-2029",
@@ -1837,7 +1837,7 @@
      "lineage": "SC:6877A:church creek dawson rebuild from long savannah to dawson",
      "key": "6877A",
      "projectId": "6877 A",
-     "name": "Church Creek \u2013 Dawson 230 kV: Rebuild from Long Savannah to Dawson",
+     "name": "Church Creek – Dawson 230 kV: Rebuild from Long Savannah to Dawson",
      "state": "SC",
      "utility": "DESC",
      "isd": "2029-12-31",
@@ -1866,7 +1866,7 @@
       "page": 46,
       "item": "Project 46 of 54"
      },
-     "oldName": "Church Creek \u2013 Dawson 230 kV: Rebuild from Long Savannah to Dawson",
+     "oldName": "Church Creek – Dawson 230 kV: Rebuild from Long Savannah to Dawson",
      "oldIsd": "2028-12-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2025-2029",
@@ -1931,7 +1931,7 @@
      "lineage": "SC:6809M:modoc mccormick rebuild",
      "key": "6809M",
      "projectId": "6809 M",
-     "name": "Modoc \u2013 McCormick 115/46 kV Rebuild",
+     "name": "Modoc – McCormick 115/46 kV Rebuild",
      "state": "SC",
      "utility": "DESC",
      "isd": "2029-12-31",
@@ -1960,7 +1960,7 @@
       "page": 48,
       "item": "Project 48 of 54"
      },
-     "appId": "DESC-6809M",
+     "appId": "DESC-6809M-48",
      "note": "Reuses Project ID 6809 M, which the previous list gave to a different project."
     },
     {
@@ -2455,7 +2455,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-12-31",
       "center": {
        "lat": 32.333758,
@@ -2499,7 +2499,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-12-31",
       "center": {
        "lat": 32.333758,
@@ -2543,7 +2543,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-12-31",
       "center": {
        "lat": 32.333758,
@@ -2591,7 +2591,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-12-31",
       "center": {
        "lat": 32.333758,
@@ -2639,7 +2639,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-12-31",
       "center": {
        "lat": 32.333758,
@@ -2687,7 +2687,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-12-31",
       "center": {
        "lat": 32.333758,
@@ -2735,7 +2735,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-12-31",
       "center": {
        "lat": 32.333758,
@@ -2779,7 +2779,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-12-31",
       "center": {
        "lat": 32.333758,
@@ -2831,7 +2831,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-12-31",
       "center": {
        "lat": 32.333758,
@@ -2879,7 +2879,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-12-31",
       "center": {
        "lat": 32.333758,
@@ -2927,7 +2927,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-12-31",
       "center": {
        "lat": 32.333758,
@@ -2975,7 +2975,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-12-31",
       "center": {
        "lat": 32.333758,
@@ -3019,7 +3019,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-12-31",
       "center": {
        "lat": 32.333758,
@@ -3063,7 +3063,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-12-01",
       "center": {
        "lat": 32.346439,
@@ -3111,7 +3111,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-12-01",
       "center": {
        "lat": 32.346439,
@@ -3159,7 +3159,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-12-01",
       "center": {
        "lat": 32.346439,
@@ -3211,7 +3211,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-12-01",
       "center": {
        "lat": 32.346439,
@@ -3263,7 +3263,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-12-01",
       "center": {
        "lat": 32.346439,
@@ -3315,7 +3315,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-12-01",
       "center": {
        "lat": 32.346439,
@@ -3367,7 +3367,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-12-01",
       "center": {
        "lat": 32.346439,
@@ -3415,7 +3415,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-12-01",
       "center": {
        "lat": 32.346439,
@@ -3471,7 +3471,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-12-01",
       "center": {
        "lat": 32.346439,
@@ -3523,7 +3523,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-12-01",
       "center": {
        "lat": 32.346439,
@@ -3575,7 +3575,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-12-01",
       "center": {
        "lat": 32.346439,
@@ -3627,7 +3627,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-12-01",
       "center": {
        "lat": 32.346439,
@@ -3675,7 +3675,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-12-01",
       "center": {
        "lat": 32.346439,
@@ -4571,7 +4571,7 @@
      "desc": {
       "key": "6854C",
       "projectId": "6854 C",
-      "name": "Jackson 115kV: Construct 115 \u2013 12kV Distribution Substation",
+      "name": "Jackson 115kV: Construct 115 – 12kV Distribution Substation",
       "isd": "2028-12-31",
       "center": {
        "lat": 33.325421,
@@ -4619,7 +4619,7 @@
      "desc": {
       "key": "6854C",
       "projectId": "6854 C",
-      "name": "Jackson 115kV: Construct 115 \u2013 12kV Distribution Substation",
+      "name": "Jackson 115kV: Construct 115 – 12kV Distribution Substation",
       "isd": "2028-12-31",
       "center": {
        "lat": 33.325421,
@@ -4663,7 +4663,7 @@
      "desc": {
       "key": "6854C",
       "projectId": "6854 C",
-      "name": "Jackson 115kV: Construct 115 \u2013 12kV Distribution Substation",
+      "name": "Jackson 115kV: Construct 115 – 12kV Distribution Substation",
       "isd": "2028-12-31",
       "center": {
        "lat": 33.325421,
@@ -6161,7 +6161,7 @@
      "lineage": "GA:21249:brunswick mcmanus 115kv lines re termination",
      "key": "21249",
      "projectId": "TEAMS 21249",
-     "name": "BRUNSWICK \u2013 MCMANUS 115kV LINES RE-TERMINATION",
+     "name": "BRUNSWICK – MCMANUS 115kV LINES RE-TERMINATION",
      "state": "GA",
      "utility": "GPC",
      "isd": "2026-06-01",
@@ -6231,7 +6231,7 @@
      "lineage": "GA:21701:gtc cc cornish mountain lake varner 230kv network improvements",
      "key": "21701",
      "projectId": "TEAMS 21701",
-     "name": "GTC: CC \u2013 CORNISH MOUNTAIN - LAKE VARNER 230kV (NETWORK IMPROVEMENTS)",
+     "name": "GTC: CC – CORNISH MOUNTAIN - LAKE VARNER 230kV (NETWORK IMPROVEMENTS)",
      "state": "GA",
      "utility": "GTC",
      "isd": "2026-06-01",
@@ -7820,7 +7820,7 @@
      "lineage": "GA:21063:farley apc tazewell 500kv",
      "key": "21063",
      "projectId": "TEAMS 21063",
-     "name": "BIG TAZEWELL \u2013 PLANT FARLEY (APC) 500kV LINE",
+     "name": "BIG TAZEWELL – PLANT FARLEY (APC) 500kV LINE",
      "state": "GA",
      "utility": "GPC",
      "isd": "2029-06-01",
@@ -9086,7 +9086,7 @@
      "lineage": "GA:21620:gtc buzzard roost rockhouse road 230kv rebuild",
      "key": "21620",
      "projectId": "TEAMS 21620",
-     "name": "GTC: BUZZARD ROOST \u2013 ROCKHOUSE RD 230kV REBUILD",
+     "name": "GTC: BUZZARD ROOST – ROCKHOUSE RD 230kV REBUILD",
      "state": "GA",
      "utility": "GTC",
      "isd": "2030-06-01",
@@ -10023,7 +10023,7 @@
      "lineage": "GA:21598:adamsville east point 230kv upgrade and limiting elements replacement",
      "key": "21598",
      "projectId": "TEAMS 21598",
-     "name": "ADAMSVILLE \u2013 EAST POINT 230kV UPGRADE AND LIMITING ELEMENTS REPLACEMENT",
+     "name": "ADAMSVILLE – EAST POINT 230kV UPGRADE AND LIMITING ELEMENTS REPLACEMENT",
      "state": "GA",
      "utility": "GPC",
      "isd": "2032-06-01",
@@ -12158,7 +12158,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -12202,7 +12202,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -12246,7 +12246,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -12294,7 +12294,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -12338,7 +12338,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -12390,7 +12390,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -12438,7 +12438,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -12486,7 +12486,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -12978,7 +12978,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -13026,7 +13026,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -13074,7 +13074,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -13126,7 +13126,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -13174,7 +13174,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -13230,7 +13230,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -13282,7 +13282,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -13334,7 +13334,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -13382,7 +13382,7 @@
      "desc": {
       "key": "6852",
       "projectId": "6852",
-      "name": "Urquhart \u2013 Toolebeck 115kV line: Rebuild",
+      "name": "Urquhart – Toolebeck 115kV line: Rebuild",
       "isd": "2026-08-12",
       "center": {
        "lat": 33.484005,
@@ -13434,7 +13434,7 @@
      "desc": {
       "key": "6810O",
       "projectId": "6810 O",
-      "name": "Urquhart \u2013 Aiken PSA 46 kV: Rebuild",
+      "name": "Urquhart – Aiken PSA 46 kV: Rebuild",
       "isd": "2027-12-31",
       "center": {
        "lat": 33.497497,
@@ -13486,7 +13486,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -13534,7 +13534,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -13582,7 +13582,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -13634,7 +13634,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -13682,7 +13682,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -13738,7 +13738,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -13790,7 +13790,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -13838,7 +13838,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -13890,7 +13890,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -13938,7 +13938,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -13982,7 +13982,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -14030,7 +14030,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -14418,7 +14418,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -14466,7 +14466,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -14518,7 +14518,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -14570,7 +14570,7 @@
      "desc": {
       "key": "6852",
       "projectId": "6852",
-      "name": "Urquhart \u2013 Toolebeck 115kV line: Rebuild",
+      "name": "Urquhart – Toolebeck 115kV line: Rebuild",
       "isd": "2026-08-12",
       "center": {
        "lat": 33.484005,
@@ -14622,7 +14622,7 @@
      "desc": {
       "key": "6852",
       "projectId": "6852",
-      "name": "Urquhart \u2013 Toolebeck 115kV line: Rebuild",
+      "name": "Urquhart – Toolebeck 115kV line: Rebuild",
       "isd": "2026-08-12",
       "center": {
        "lat": 33.484005,
@@ -14674,7 +14674,7 @@
      "desc": {
       "key": "6810O",
       "projectId": "6810 O",
-      "name": "Urquhart \u2013 Aiken PSA 46 kV: Rebuild",
+      "name": "Urquhart – Aiken PSA 46 kV: Rebuild",
       "isd": "2027-12-31",
       "center": {
        "lat": 33.497497,
@@ -14726,7 +14726,7 @@
      "desc": {
       "key": "6810O",
       "projectId": "6810 O",
-      "name": "Urquhart \u2013 Aiken PSA 46 kV: Rebuild",
+      "name": "Urquhart – Aiken PSA 46 kV: Rebuild",
       "isd": "2027-12-31",
       "center": {
        "lat": 33.497497,
@@ -14778,7 +14778,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -14826,7 +14826,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -14874,7 +14874,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -14926,7 +14926,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -15009,7 +15009,7 @@
      "lineage": "SC:0139M,N:okatie 115kv jasper yemassee 230kv fold in",
      "key": "0139M,N",
      "projectId": "0139 M,N",
-     "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+     "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
      "state": "SC",
      "utility": "DESC",
      "isd": "2026-05-31",
@@ -15034,7 +15034,7 @@
       "page": 2,
       "item": "Project 2 of 47"
      },
-     "oldName": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+     "oldName": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
      "oldIsd": "2024-12-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2024-2028",
@@ -15056,7 +15056,7 @@
      "lineage": "SC:6341A-F:cainhoy hamlin 115kv rebuild line and cainhoy hamlin construct new line",
      "key": "6341A-F",
      "projectId": "6341 A-F",
-     "name": "Cainhoy - Hamlin 115kV: Rebuild Line and Cainhoy \u2013 Hamlin 115 kV #2: Construct New 115 kV Line",
+     "name": "Cainhoy - Hamlin 115kV: Rebuild Line and Cainhoy – Hamlin 115 kV #2: Construct New 115 kV Line",
      "state": "SC",
      "utility": "DESC",
      "isd": "2026-12-02",
@@ -15085,7 +15085,7 @@
       "page": 3,
       "item": "Project 3 of 47"
      },
-     "oldName": "Cainhoy - Hamlin 115kV: Rebuild Line and Cainhoy \u2013 Hamlin 115 kV #2: Construct New 115 kV Line",
+     "oldName": "Cainhoy - Hamlin 115kV: Rebuild Line and Cainhoy – Hamlin 115 kV #2: Construct New 115 kV Line",
      "oldIsd": "2025-12-01",
      "oldSource": {
       "doc": "DESC $2M+ list 2024-2028",
@@ -15538,7 +15538,7 @@
      "lineage": "SC:6359:yemassee ritter 230kv and construct spdc with b",
      "key": "6359",
      "projectId": "6359",
-     "name": "Yemassee\u2013 Ritter 230kV #1 & #2: Construct SPDC with B-1272",
+     "name": "Yemassee– Ritter 230kV #1 & #2: Construct SPDC with B-1272",
      "state": "SC",
      "utility": "DESC",
      "isd": "2027-06-01",
@@ -15567,7 +15567,7 @@
       "page": 16,
       "item": "Project 16 of 47"
      },
-     "oldName": "Yemassee\u2013 Ritter 230kV #1 & #2: Construct SPDC with B-1272",
+     "oldName": "Yemassee– Ritter 230kV #1 & #2: Construct SPDC with B-1272",
      "oldIsd": "2026-06-01",
      "oldSource": {
       "doc": "DESC $2M+ list 2024-2028",
@@ -15623,7 +15623,7 @@
      "lineage": "SC:06367D-G:jasper okatie construct",
      "key": "06367D-G",
      "projectId": "06367 D - G",
-     "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+     "name": "Jasper – Okatie 230 kV #2: Construct",
      "state": "SC",
      "utility": "DESC",
      "isd": "2026-05-31",
@@ -15652,7 +15652,7 @@
       "page": 18,
       "item": "Project 18 of 47"
      },
-     "oldName": "Jasper \u2013 Okatie 230 kV #2: Construct",
+     "oldName": "Jasper – Okatie 230 kV #2: Construct",
      "oldIsd": "2025-12-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2024-2028",
@@ -15937,7 +15937,7 @@
      "days": 730,
      "cost": 5000000,
      "oldCost": 4000000,
-     "appId": "DESC-6809M"
+     "appId": "DESC-6809M-19"
     },
     {
      "kind": "changed",
@@ -15948,7 +15948,7 @@
      "lineage": "SC:5392A-C:coit gills creek 115kv construct",
      "key": "5392A-C",
      "projectId": "5392 A-C",
-     "name": "Coit \u2013 Gills Creek 115kV: Construct",
+     "name": "Coit – Gills Creek 115kV: Construct",
      "state": "SC",
      "utility": "DESC",
      "isd": "2025-12-31",
@@ -15977,7 +15977,7 @@
       "page": 25,
       "item": "Project 25 of 47"
      },
-     "oldName": "Coit \u2013 Gills Creek 115kV: Construct",
+     "oldName": "Coit – Gills Creek 115kV: Construct",
      "oldIsd": "2024-12-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2024-2028",
@@ -16234,7 +16234,7 @@
      "lineage": "SC:6847:church creek faber place charleston transmission add 230kv line",
      "key": "6847",
      "projectId": "6847",
-     "name": "Church Creek \u2013 Faber Place \u2013 Charleston Transmission: Add 230kV Line",
+     "name": "Church Creek – Faber Place – Charleston Transmission: Add 230kV Line",
      "state": "SC",
      "utility": "DESC",
      "isd": "2027-05-01",
@@ -16274,7 +16274,7 @@
      "lineage": "SC:6810U:cameron elloree rebuild",
      "key": "6810U",
      "projectId": "6810 U",
-     "name": "Cameron Jct \u2013 Elloree 46 kV Rebuild",
+     "name": "Cameron Jct – Elloree 46 kV Rebuild",
      "state": "SC",
      "utility": "DESC",
      "isd": "2027-12-31",
@@ -16303,7 +16303,7 @@
       "page": 35,
       "item": "Project 35 of 47"
      },
-     "oldName": "Cameron Jct \u2013 Elloree 46 kV Rebuild",
+     "oldName": "Cameron Jct – Elloree 46 kV Rebuild",
      "oldIsd": "2026-12-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2024-2028",
@@ -16324,7 +16324,7 @@
      "lineage": "SC:6810J:elloree santee city rebuild",
      "key": "6810J",
      "projectId": "6810 J",
-     "name": "Elloree \u2013 Santee City 46 kV: Rebuild",
+     "name": "Elloree – Santee City 46 kV: Rebuild",
      "state": "SC",
      "utility": "DESC",
      "isd": "2027-12-31",
@@ -16349,7 +16349,7 @@
       "page": 36,
       "item": "Project 36 of 47"
      },
-     "oldName": "Elloree \u2013 Santee City 46 kV: Rebuild",
+     "oldName": "Elloree – Santee City 46 kV: Rebuild",
      "oldIsd": "2027-12-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2024-2028",
@@ -16370,7 +16370,7 @@
      "lineage": "SC:6810T:cameron cameron saint matthews rebuild",
      "key": "6810T",
      "projectId": "6810 T",
-     "name": "Cameron Jct \u2013 Cameron \u2013 St Matthews 46 kV Rebuild",
+     "name": "Cameron Jct – Cameron – St Matthews 46 kV Rebuild",
      "state": "SC",
      "utility": "DESC",
      "isd": "2028-12-31",
@@ -16399,7 +16399,7 @@
       "page": 38,
       "item": "Project 38 of 47"
      },
-     "oldName": "Cameron Jct \u2013 Cameron \u2013 St Matthews 46 kV Rebuild",
+     "oldName": "Cameron Jct – Cameron – St Matthews 46 kV Rebuild",
      "oldIsd": "2028-12-31",
      "oldSource": {
       "doc": "DESC $2M+ list 2024-2028",
@@ -16417,7 +16417,7 @@
      "lineage": "SC:6870A:saluda hydro bush river 115kv and tie lines rebuild",
      "key": "6870A",
      "projectId": "6870 A",
-     "name": "Saluda Hydro \u2013 Bush River 115kV #1 and #2 Tie Lines Rebuild",
+     "name": "Saluda Hydro – Bush River 115kV #1 and #2 Tie Lines Rebuild",
      "state": "SC",
      "utility": "DESC",
      "isd": "2026-12-31",
@@ -16521,7 +16521,7 @@
      "lineage": "SC:6888:okatie mcintosh 115kv tie add series reactor",
      "key": "6888",
      "projectId": "6888",
-     "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
+     "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
      "state": "SC",
      "utility": "DESC",
      "isd": "2028-12-31",
@@ -16557,7 +16557,7 @@
      "lineage": "SC:6877A:church creek dawson rebuild from long savannah to dawson",
      "key": "6877A",
      "projectId": "6877 A",
-     "name": "Church Creek \u2013 Dawson 230 kV: Rebuild from Long Savannah to Dawson",
+     "name": "Church Creek – Dawson 230 kV: Rebuild from Long Savannah to Dawson",
      "state": "SC",
      "utility": "DESC",
      "isd": "2028-12-31",
@@ -16950,7 +16950,7 @@
      "lineage": "SC:6847A-B,D-H:church creek faber place charleston transmission add 230kv line",
      "key": "6847A-B,D-H",
      "projectId": "6847 A-B, D-H",
-     "name": "Church Creek \u2013 Faber Place \u2013 Charleston Transmission: Add 230kV Line",
+     "name": "Church Creek – Faber Place – Charleston Transmission: Add 230kV Line",
      "state": "SC",
      "utility": "DESC",
      "isd": "2027-05-01",
@@ -16988,7 +16988,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -17032,7 +17032,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -17080,7 +17080,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -17128,7 +17128,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -17176,7 +17176,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -17224,7 +17224,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -17272,7 +17272,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -17324,7 +17324,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -17372,7 +17372,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -17420,7 +17420,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -17464,7 +17464,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -17512,7 +17512,7 @@
      "desc": {
       "key": "0139M,N",
       "projectId": "0139 M,N",
-      "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
+      "name": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.333758,
@@ -17792,7 +17792,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -17840,7 +17840,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -17892,7 +17892,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -17944,7 +17944,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -17996,7 +17996,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -18048,7 +18048,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -18100,7 +18100,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -18156,7 +18156,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -18208,7 +18208,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -18260,7 +18260,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -18308,7 +18308,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -18360,7 +18360,7 @@
      "desc": {
       "key": "06367D-G",
       "projectId": "06367 D - G",
-      "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
+      "name": "Jasper – Okatie 230 kV #2: Construct",
       "isd": "2026-05-31",
       "center": {
        "lat": 32.346439,
@@ -18408,7 +18408,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -18456,7 +18456,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -18504,7 +18504,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -18556,7 +18556,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -18608,7 +18608,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -18660,7 +18660,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -18712,7 +18712,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -18764,7 +18764,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -18820,7 +18820,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -18872,7 +18872,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -18924,7 +18924,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -18972,7 +18972,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -19024,7 +19024,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,
@@ -19072,7 +19072,7 @@
      "desc": {
       "key": "6888",
       "projectId": "6888",
-      "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
+      "name": "Okatie – McIntosh 115kV Tie: Add Series Reactor",
       "isd": "2028-12-31",
       "center": {
        "lat": 32.342937,

@@ -9,6 +9,7 @@ import os
 import re
 import statistics
 import sys
+from collections import Counter
 
 import changes
 import environment
@@ -91,6 +92,7 @@ def locate(recs, osm, spts, grid, anchors=None, offline=False):
         r["endpoints"] = eps
         r["center"] = {"lat": round(c[0], 6), "lon": round(c[1], 6)} if c else None
         located = [e for e in eps if e["point"]]
+        r["locationCompleteness"] = {"located": len(located), "total": len(eps)}
         if not located:
             r["radiusMi"] = None
             r["locationConfidence"] = "none"
@@ -100,15 +102,26 @@ def locate(recs, osm, spts, grid, anchors=None, offline=False):
                 rad += (r["miles"] / 2) if r.get("miles") else DEFAULT_HALF_LINE_MI
             r["radiusMi"] = round(max(rad, RADIUS_OVERRIDES.get(r["uid"].rsplit(":", 1)[0] if r["state"] == "SC" else r["uid"], 0)), 2)
             order = ["none", "low", "ambiguous", "medium", "high"]
-            r["locationConfidence"] = min((e["confidence"] for e in eps), key=order.index)
+            r["locationConfidence"] = min((e["confidence"] for e in located), key=order.index)
+            if len(located) < len(eps):
+                r["locationConfidence"] = "low"
         r["route"] = None
         # Georgia is located twice (the second pass uses zone anchors); drop the first pass's route note
-        r["issues"] = [i for i in r["issues"] if not i["msg"].startswith("mapped route is")]
-        if len(located) >= 2 and grid:
+        r["issues"] = [i for i in r["issues"] if not i["msg"].startswith(("mapped route is", "route rejected:", "no station names could be extracted"))]
+        if not eps:
+            r["issues"].append({"level": "warn", "msg": "no station names could be extracted; project requires a reviewed endpoint override"})
+        station_methods = {"manual", "sponsor", "osm-exact", "osm-partial"}
+        if len(located) >= 2 and len(located) == len(eps) and grid and all(
+                e["method"] in station_methods and e["confidence"] in ("medium", "high") for e in located):
             legs = [grid.route(a["point"], b["point"]) for a, b in zip(located, located[1:])]
             if all(legs):
                 coords = [c for leg in legs for c in leg["coords"]]
-                r["route"] = {"miles": round(sum(l["miles"] for l in legs), 2), "coords": coords,
+                route_miles = round(sum(l["miles"] for l in legs), 2)
+                if r.get("miles") and (route_miles > 3 * r["miles"] or route_miles < r["miles"] / 3):
+                    r["issues"].append({"level": "warn", "msg": f"route rejected: {route_miles} mi traced vs {r['miles']} mi stated (more than 3× difference)"})
+                    continue
+                r["route"] = {"miles": route_miles, "coords": coords,
+                              "verified": False, "method": "osm-shortest-path",
                               "source": "shortest path along OpenStreetMap power=line ways between the endpoints"}
                 if r.get("miles") and abs(r["route"]["miles"] - r["miles"]) / r["miles"] > 0.35:
                     r["issues"].append({"level": "info", "msg": f"mapped route is {r['route']['miles']} mi but the source states {r['miles']} mi"})
@@ -146,6 +159,7 @@ def unplace_zone_outliers(ga):
             for e in r["endpoints"]:
                 e["point"], e["confidence"], e["radiusMi"] = None, "none", None
             r["center"], r["radiusMi"], r["locationConfidence"], r["route"] = None, None, "none", None
+            r["locationCompleteness"]["located"] = 0
             r["issues"] = [i for i in r["issues"] if not i["msg"].startswith("mapped route is")]
 
 
@@ -185,17 +199,34 @@ def starter_status(desc, ga, removed):
     return out
 
 
+def assign_app_ids(recs):
+    """Keep existing links for unique printed IDs; disambiguate reused source IDs.
+
+    The parsed DESC UID includes the source item number, so two independent
+    records with a reused printed ID remain separately selectable. legacyId is
+    only present on changed records; ambiguous old saved links must not guess.
+    """
+    legacy = ["DESC-" + r["key"] if r["state"] == "SC" else r["uid"].replace(":", "-") for r in recs]
+    counts = Counter(legacy)
+    for r, old in zip(recs, legacy):
+        r["app_id"] = r["uid"].replace(":", "-") if counts[old] > 1 else old
+        if counts[old] > 1:
+            r["legacy_id"] = old
+    ids = [r["app_id"] for r in recs]
+    if len(ids) != len(set(ids)):
+        raise ValueError("Duplicate internal project IDs; source records cannot be distinguished safely")
+
+
 def to_app(r):
-    uid = r["uid"].replace(":", "-")
-    if r["state"] == "SC":
-        uid = "DESC-" + r["key"]
     return {
-        "id": uid, "utility": r["utility"], "owner": r["owner"], "state": r["state"], "name": r["name"],
+        "id": r["app_id"], **({"legacyId": r["legacy_id"]} if r.get("legacy_id") else {}),
+        "utility": r["utility"], "owner": r["owner"], "state": r["state"], "name": r["name"],
         "projectId": r["project_id"], "status": r["status"], "zone": r.get("zone"), "zoneName": r.get("zone_name"),
         "description": r["description"],
         "endpoints": [{"name": e["name"], "point": e["point"], "method": e["method"], "confidence": e["confidence"],
                        "radiusMi": e["radiusMi"], "evidence": e["evidence"]} for e in r["endpoints"]],
         "center": r["center"], "radiusMi": r["radiusMi"], "locationConfidence": r["locationConfidence"],
+        "locationCompleteness": r["locationCompleteness"],
         "inServiceDate": r["isd"], "inServiceRaw": r["isd_raw"],
         "window": r["window"], "cost": r["cost"], "miles": r.get("miles"), "route": r.get("route"),
         "change": r.get("change"), "slipYears": r.get("slip_years"),
@@ -238,6 +269,7 @@ def main():
             elif e["confidence"] in ("ambiguous", "low"):
                 r["issues"].append({"level": "info", "msg": f"endpoint {e['name']!r} located with {e['confidence']} confidence ({e['method']})"})
 
+    assign_app_ids(desc + ga)
     environment.check(desc + ga, offline=offline)
     environment.regional_layers(offline=offline)
 
