@@ -8,18 +8,29 @@ The 2024 plan (2025-2034) and the 2025 plan (2026-2035) share this layout; the o
 """
 import re
 
-from common import RAW, BUILD, dump, filings, parse_date, pdf_pages, iso
+import registry
+from common import RAW, BUILD, dump, parse_date, pdf_pages, iso
 
 ZONES = {"215": "Augusta area", "218": "Southeast GA", "219": "Savannah area"}
-# sponsor ends the row (2025 plan), or follows the need date with redacted cost columns after it (2024 plan)
-ROW = re.compile(r"^\s*(\d{3})\s+(20\d\d)\s+(\d{4,6})\b(?:.*?\s(GPC|GTC|MEAG|DU|SAV|SPC)\s*$|.*?\s\d{1,2}/\d{1,2}/\d{4}\s+(GPC|GTC|MEAG|DU|SAV|SPC)\b)")
+# the sponsor is the row's last cell, as printed: a code (GPC) or a name (Dalton). It ends the row (2025 plan), or
+# redacted cost columns follow it (2024 plan). Cells are two or more spaces apart; a sponsor has no digits.
+ROW = re.compile(r"^\s*(\d{3})\s+(20\d\d)\s+(\d{4,6})\b.*?\s\s(?!REDACTED\b)([A-Za-z][A-Za-z&.'-]*(?: [A-Za-z&.'-]+)*)(?:\s+REDACTED)*\s*$")
 ROW_NOYEAR = re.compile(r"^\s*(\d{3})\s+(\d{4,6})\s+(.*?)\s{2,}(\d{1,2}/\d{1,2}/\d{4})")
 MILES = re.compile(r"(\d+(?:\.\d+)?)\s*(?:-\s*)?(?:circuit\s+)?miles?\b", re.I)
 SPONSOR_NAMES = {"GPC": "Georgia Power", "SAV": "Georgia Power (Savannah)", "GTC": "Georgia Transmission Corp",
                  "MEAG": "MEAG Power", "DU": "Dalton Utilities", "SPC": "Southern Power"}
-EDITIONS = {f["edition"]: f for f in filings("ga")}
-CURRENT = max(EDITIONS.values(), key=lambda f: f["date"])
-URL, DOC = CURRENT["url"], CURRENT["title"]
+
+
+def sponsor_code(printed):
+    """The code for a sponsor as Table 2 prints it, so every row stores a code: a code stays; a name becomes the code
+    whose name in SPONSOR_NAMES it is, or else the one code whose name holds all its words (Dalton: DU). A name that
+    fits no code, or several, is kept as printed."""
+    if printed in SPONSOR_NAMES:
+        return printed
+    key = registry.company_key(printed)
+    fits = [c for c, n in SPONSOR_NAMES.items() if registry.company_key(n) == key] or \
+           [c for c, n in SPONSOR_NAMES.items() if key and set(key.split()) <= set(registry.company_key(n).split())]
+    return fits[0] if len(fits) == 1 else printed
 
 
 def section(pages, start_pat, end_pat):
@@ -29,8 +40,9 @@ def section(pages, start_pat, end_pat):
     return text[a.end(): a.end() + b.start()]
 
 
-def parse(edition):
-    filing = EDITIONS[edition]
+def parse_filing(filing):
+    """(records, removed) for one filing; removed is its Tables 3 and 4: {teams: {status, zone, name, last_need}}."""
+    edition = filing["edition"]
     pages = pdf_pages(RAW / filing["file"])
 
     # Table 2 -> zone, year, sponsor
@@ -38,7 +50,7 @@ def parse(edition):
     for ln in section(pages, r"Table 2 Georgia ITS 10[- ]Year Plan Project List\s*\n", r"Table 3 Cancelled").split("\n"):
         m = ROW.match(ln)
         if m:
-            t2[m.group(3)] = {"zone": m.group(1), "year": m.group(2), "sponsor": m.group(4) or m.group(5)}
+            t2[m.group(3)] = {"zone": m.group(1), "year": m.group(2), "sponsor": sponsor_code(m.group(4))}
 
     removed = {}
     for label, a, b in (("cancelled", r"Table 3 Cancelled Projects[^\n]*\n[^\n]*Table 3[^\n]*\n", r"Table 4 Completed"),
@@ -88,7 +100,7 @@ def parse(edition):
         miles = [float(x) for x in MILES.findall(desc)]
         slip = _slip(chg)
         out.append({
-            "uid": f"GA:{teams}", "key": teams, "utility": sponsor or "GA-ITS",
+            "uid": f"GA:{teams}", "key": teams, "plan": filing["plan"], "utility": sponsor or "GA-ITS",
             "owner": SPONSOR_NAMES.get(sponsor, "Georgia ITS member"), "state": "GA",
             "name": title, "project_id": f"TEAMS {teams}", "status": "Planned",
             "zone": (row or {}).get("zone"), "zone_name": ZONES.get((row or {}).get("zone")),
@@ -102,8 +114,8 @@ def parse(edition):
             "issues": issues,
         })
     missing = sorted(set(t2) - {r["key"] for r in out})
-    dump(out, BUILD / f"ga_{edition}.json")
-    dump(removed, BUILD / f"ga_removed_{edition}.json")
+    dump(out, BUILD / f"{filing['parser']}_{edition}.json")
+    dump(removed, BUILD / f"{filing['parser']}_removed_{edition}.json")
     print(f"GA ITS {edition}: {len(out)} detail pages, {len(t2)} Table 2 rows, {len(missing)} Table 2 rows without detail page,"
           f" {len(removed)} cancelled/completed, {sum(len(r['issues']) for r in out)} issues")
     return out, removed
@@ -111,7 +123,7 @@ def parse(edition):
 
 def main():
     """Every edition in the registry, newest first: {edition: (records, removed)}."""
-    return {ed: parse(ed) for ed in sorted(EDITIONS, reverse=True)}
+    return {f["edition"]: parse_filing(f) for f in reversed(registry.filings(parser="ga"))}
 
 
 def _sponsor_from_title(t):

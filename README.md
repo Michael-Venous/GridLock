@@ -19,9 +19,27 @@ python3 pipeline/build.py            # downloads the filings into data/raw/, par
 python3 pipeline/build.py --offline  # reuse data/raw/ and the cached OSM/Nominatim lookups
 ```
 
-The pipeline uses only the Python standard library plus `pdftotext` (poppler). Every filing it reads is listed in `data/filings.json`; the newest per utility is current and the older ones feed schedule history and the change log. It writes `data/projects.json`, `data/changes.json` and the map layers in `data/env/`, which are the only data files the app reads.
+The pipeline uses only the Python standard library plus `pdftotext` (poppler). Every filing it reads is listed in `data/filings.json`; the newest per plan is current and the older ones feed schedule history and the change log. It writes `data/projects.json`, `data/changes.json` and the map layers in `data/env/`, which are the only data files the app reads.
 
-To add the next public filing, add its URL, edition, date, parser and local file name to `data/filings.json`, run `python3 pipeline/build.py`, and review validation and uncertain locations before committing the rebuilt outputs. A changed PDF format may require a parser update. The Changes tab then compares its new or revised records with the preceding edition. This is a reviewed update path, not a browser upload of arbitrary map points.
+`data/filings.json` is the registry: the plans (each utility's, or group's, series of project lists), the parsers that read them, and every filing. Projects pair only across plans.
+
+## Add a filing, or a new utility (the ingest agent)
+
+```bash
+python3 pipeline/ingest.py URL                          # a public PDF, or a zip holding one (--zip-member)
+python3 pipeline/ingest.py FILE.pdf --url URL           # a local copy of a public PDF
+python3 pipeline/ingest.py FILE.pdf --dry-run           # show what it would do; registers nothing
+```
+
+- **A layout GridLock already reads** is recognized by its parser's signature (text every PDF of that layout carries). That parser reads it, the filing is registered and the data rebuilt. No model is involved.
+- **Anything else** goes to Claude on Amazon Bedrock, which says whose list it is and whether it is a public list of planned projects at all. For a company GridLock already reads, its parsers are tried first. When none can read the PDF, the agent writes one: it reads pages, searches the text, runs drafts in a sandbox, fixes what the checks report, and submits a parser that passes. The parser is saved in `pipeline/parsers/`, a new company gets a plan in the registry, and its projects join the map and the pairs on the rebuild.
+- **A later edition that breaks an agent-written parser** is recognized by that parser's signature; the agent repairs the parser, and the repair must still read every edition the parser already reads.
+- **Checks instead of a review step.** Every value a parser returns must be printed on its project's page, or on the table row that carries the project's ID. The record count must match a per-project marker in the document, and costs must match the printed amount. Dates are read by one set of rules for every utility, and a date given as a month, quarter or year is read as the end of that period and says so. A parser that fails is not registered; a registered one that stops passing stops the build.
+- **Sandbox.** Agent-written code may import only text-processing modules and cannot open files, evaluate code or reach into the interpreter. On Linux it runs under bubblewrap with only `/usr` visible, no network, no environment and no AWS credentials.
+- **Setup.** `pip install -r requirements-agent.txt` (boto3) and AWS credentials with Bedrock access, e.g. `AWS_PROFILE=gridlock`; no keys are stored in the repo. It uses Claude Opus 5.5 and falls back to Opus 5 on accounts without 5.5; `GRIDLOCK_BEDROCK_MODEL` picks another. Only the agent needs this: the build and the app don't.
+- **Tested against our own parsers.** With the DESC and Georgia parsers hidden, the agent rebuilt each from the PDF alone. DESC 2026–2030: 54 of 54 projects identical to the built-in parser in every field, in 5 turns. Georgia 2026–2035: 255 of 255, with zone and sponsor joined from Table 2, in 7 turns. On 3 Dalton projects it read Table 2 rows the built-in parser then missed; `parse_ga` has since been fixed to read them.
+
+The Changes tab compares each new filing with the plan's previous edition.
 
 | Source | What we take | Used for |
 |---|---|---|

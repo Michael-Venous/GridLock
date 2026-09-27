@@ -1,5 +1,8 @@
 """Build data/projects.json for the app from the public source documents.
 
+Every filing in the registry (data/filings.json) is parsed; each plan's newest filing is its current list, the
+earlier ones give schedule history and the change log (data/changes.json).
+
     python3 pipeline/build.py            # uses cached OSM/Nominatim lookups, fetches only what's missing
     python3 pipeline/build.py --offline  # never touches the network
 """
@@ -14,10 +17,9 @@ from collections import Counter
 import changes
 import environment
 import fetch
-import parse_desc
-import parse_ga
-from common import ROOT, dump, filings, haversine_mi, load, midpoint, norm_name
-from geocode import DESC_RADIUS_MIN, OSMIndex, described_stations, geocode_project
+import registry
+from common import ROOT, dump, haversine_mi, load, midpoint, norm_name
+from geocode import COVERED, DESC_RADIUS_MIN, OSMIndex, described_stations, endpoint_names, geocode_project, ov_key
 from lines import Grid
 
 sys.setrecursionlimit(20000)
@@ -29,11 +31,6 @@ _ov = load(ROOT / "data" / "overrides.json")
 RADIUS_OVERRIDES = _ov.get("radius", {})
 ENDPOINT_NOTES = _ov.get("endpoint_notes", {})   # uncertainty when only one end of a line could be located and no length is stated
 HOST_LINE = _ov.get("host_line", {})   # projects placed on the line they tap: its stations aren't the project's own ends, so no line is traced or drawn
-
-
-def ov_key(r):
-    """The key a project goes by in overrides.json: DESC:<ProjectID without spaces> or GA:<TEAMS>."""
-    return r["uid"].rsplit(":", 1)[0] if r["state"] == "SC" else r["uid"]
 
 
 def reference_points():
@@ -53,7 +50,7 @@ def reference_points():
 
 
 def slip_history(current, editions, need_name=True):
-    """Match each current project to earlier editions on its ID and, for DESC (which reuses IDs), a similar name."""
+    """Match each current project to earlier editions on its ID and, for a plan that reuses IDs (DESC), a similar name."""
     for r in current:
         hist = []
         for ed, recs in editions.items():
@@ -96,7 +93,7 @@ PLACEMENT_NOTES = ("mapped route is", "route rejected:", "no station names could
 
 def locate(recs, osm, refs, grid, anchors=None, offline=False):
     for r in recs:
-        # Georgia is located twice (the second pass uses zone anchors); drop the first pass's placement notes
+        # a plan with planning zones is located twice (the second pass uses zone anchors); drop the first pass's placement notes
         r["issues"] = [i for i in r["issues"] if not i["msg"].startswith(PLACEMENT_NOTES)]
         anchor = (anchors or {}).get(r.get("zone"))
         described = described_stations(r, osm, anchor) if osm else []
@@ -166,24 +163,47 @@ def locate(recs, osm, refs, grid, anchors=None, offline=False):
                     r["issues"].append({"level": "info", "msg": f"mapped route is {r['route']['miles']} mi but the source states {r['miles']} mi"})
 
 
-def zone_anchors(ga):
-    by = {}
-    for r in ga:
-        if r.get("zone") and r.get("center") and r["locationConfidence"] == "high":
-            by.setdefault(r["zone"], []).append(r["center"])
-    return {z: {"lat": statistics.median(p["lat"] for p in ps), "lon": statistics.median(p["lon"] for p in ps)}
-            for z, ps in by.items() if len(ps) >= 3}
-
-
 ZONE_OUTLIER_MI = 150   # farther than this from the rest of its zone, a placement is a name collision, not a site
+ZONE_SPREAD_MI = ZONE_OUTLIER_MI / 3   # half a planning zone's located projects lie this close to their median
 
 
-def unplace_zone_outliers(ga):
-    """A Georgia project placed far from every other project in its planning zone matched a same-named site elsewhere
-    (zone 206 is metro Atlanta; its "Boulevard" and "Virginia Avenue" matched Savannah names). Leave it unplaced."""
+def median_point(points):
+    return {"lat": statistics.median(p["lat"] for p in points), "lon": statistics.median(p["lon"] for p in points)}
+
+
+def planning_zones(recs):
+    """The zones of one plan that behave like planning zones: compact, with half of their located projects (at least 3)
+    within ZONE_SPREAD_MI of their median (Georgia's zones: 10 to 37 mi). A parser records the zone a filing prints,
+    which can be a broad region; its projects are far apart for real, so it gives no anchor and its far projects stay placed."""
     by = {}
-    for r in ga:
+    for r in recs:
         if r.get("zone") and r.get("center"):
+            by.setdefault(r["zone"], []).append(r["center"])
+    out = set()
+    for z, ps in by.items():
+        mid = median_point(ps)
+        if len(ps) >= 3 and statistics.median(haversine_mi(mid["lat"], mid["lon"], p["lat"], p["lon"]) for p in ps) <= ZONE_SPREAD_MI:
+            out.add(z)
+    return out
+
+
+def zone_anchors(recs, zones):
+    """Median center of each planning zone's well-placed projects, for one plan (zone numbers are the plan's own).
+    zones: the plan's planning zones (planning_zones)."""
+    by = {}
+    for r in recs:
+        if r.get("zone") in zones and r.get("center") and r["locationConfidence"] == "high":
+            by.setdefault(r["zone"], []).append(r["center"])
+    return {z: median_point(ps) for z, ps in by.items() if len(ps) >= 3}
+
+
+def unplace_zone_outliers(recs, zones):
+    """A project placed far from every other project in its planning zone matched a same-named site elsewhere
+    (Georgia zone 206 is metro Atlanta; its "Boulevard" and "Virginia Avenue" matched Savannah names). Leave it unplaced.
+    recs: one plan's records. zones: the plan's planning zones (planning_zones); a broad region's far projects stay."""
+    by = {}
+    for r in recs:
+        if r.get("zone") in zones and r.get("center"):
             by.setdefault(r["zone"], []).append(r)
     for z, rs in by.items():
         if len(rs) < 5:
@@ -217,10 +237,13 @@ def cost_benchmark(desc):
 
 
 def starter_status(desc, ga, removed):
-    """What became of each project in the sponsor's 10-project sample, in the current filings."""
+    """What became of each project in the sponsor's 10-project sample, in the current filings. The sample's SC
+    projects come from DESC's list and its GA projects from the Georgia ITS plan."""
     out = []
     for p in load(ROOT / "data" / "starter_projects.json")["projects"]:
         pool = desc if p["state"] == "SC" else ga
+        if not pool:
+            continue
         best = max(pool, key=lambda r: difflib.SequenceMatcher(None, norm_name(r["name"]), norm_name(p["name"])).ratio())
         sim = difflib.SequenceMatcher(None, norm_name(best["name"]), norm_name(p["name"])).ratio()
         gone = None
@@ -241,11 +264,12 @@ def starter_status(desc, ga, removed):
 def assign_app_ids(recs):
     """Keep existing links for unique printed IDs; disambiguate reused source IDs.
 
-    The parsed DESC UID includes the source item number, so two independent
-    records with a reused printed ID remain separately selectable. legacyId is
-    only present on changed records; ambiguous old saved links must not guess.
+    A project's link is its uid's plan prefix and its printed ID (DESC-6888, GA-21319). A parsed uid that can
+    repeat a printed ID carries the source item number (DESC:6809M:19), so two independent records with a reused
+    printed ID remain separately selectable. legacyId is only present on changed records; ambiguous old saved
+    links must not guess.
     """
-    legacy = ["DESC-" + r["key"] if r["state"] == "SC" else r["uid"].replace(":", "-") for r in recs]
+    legacy = [f"{r['uid'].split(':')[0]}-{r['key']}" for r in recs]
     counts = Counter(legacy)
     for r, old in zip(recs, legacy):
         r["app_id"] = r["uid"].replace(":", "-") if counts[old] > 1 else old
@@ -259,7 +283,7 @@ def assign_app_ids(recs):
 def to_app(r):
     return {
         "id": r["app_id"], **({"legacyId": r["legacy_id"]} if r.get("legacy_id") else {}),
-        "utility": r["utility"], "owner": r["owner"], "state": r["state"], "name": r["name"],
+        "utility": r["utility"], "plan": r["plan"], "owner": r["owner"], "state": r["state"], "name": r["name"],
         "projectId": r["project_id"], "status": r["status"], "zone": r.get("zone"), "zoneName": r.get("zone_name"),
         "description": r["description"],
         "endpoints": [{"name": e["name"], "point": e["point"], "method": e["method"], "confidence": e["confidence"],
@@ -278,80 +302,104 @@ def to_app(r):
     }
 
 
+OFF_MAP = "the map covers South Carolina and Georgia only, so a project in {} is not placed"
+
+
+def on_map(recs):
+    """The records the geocoder can place. The rest (projects in other states) get what locate() gives a project
+    it could not place, and one issue saying why."""
+    for r in recs:
+        if r["state"] in COVERED:
+            continue
+        r["endpoints"] = [{"name": n, "point": None, "method": None, "confidence": "none", "radiusMi": None,
+                           "evidence": "not searched: outside the map"} for n in endpoint_names(r)]
+        r["describedStations"], r["locatedBy"], r["center"], r["radiusMi"], r["locationConfidence"], r["route"] = [], None, None, None, "none", None
+        r["locationCompleteness"] = {"located": 0, "total": len(r["endpoints"])}
+        r["issues"].append({"level": "warn", "msg": OFF_MAP.format(r["state"] or "an unstated state")})
+    return [r for r in recs if r["state"] in COVERED]
+
+
 def main():
     offline = "--offline" in sys.argv
     if not offline:
         fetch.main()
-    registry = filings()
-    cur_desc, cur_ga = filings("desc")[-1], filings("ga")[-1]
-    desc_eds = parse_desc.main()
-    ga_eds = parse_ga.main()
-    desc = desc_eds[cur_desc["edition"]]
-    ga, removed = ga_eds[cur_ga["edition"]]
-    slip_history(desc, {k: v for k, v in sorted(desc_eds.items()) if k != cur_desc["edition"]})
-    slip_history(ga, {k: v[0] for k, v in sorted(ga_eds.items()) if k != cur_ga["edition"]}, need_name=False)
-    dq_global = id_collisions(desc)
+    reg = registry.load_registry()
+    plans, fs, cur = registry.plans(reg), registry.filings(reg), registry.current(reg)
+    parsed = {f["id"]: registry.parse_filing(f, reg) for f in fs}
+    editions = {k: v[0] for k, v in parsed.items()}
+    removed = {k: v[1] for k, v in parsed.items()}
+    current = {p: editions[f["id"]] for p, f in cur.items()}
+    recs = [r for rs in current.values() for r in rs]
+    for p, rs in current.items():
+        slip_history(rs, {f["edition"]: editions[f["id"]] for f in registry.filings(reg, plan=p) if f["id"] != cur[p]["id"]},
+                     need_name=plans[p]["reusesIds"])
+    dq_global = [m for p, rs in current.items() if plans[p]["reusesIds"] for m in id_collisions(rs)]
 
     osm, grid = OSMIndex(), Grid()
     refs, ref_issues = reference_points()
     dq_global += ref_issues
-    locate(desc, osm, refs, grid, offline=offline)
-    locate(ga, osm, refs, grid, offline=offline)
-    anchors = zone_anchors(ga)
-    locate(ga, osm, refs, grid, anchors=anchors, offline=offline)   # second pass: zone-aware disambiguation
-    unplace_zone_outliers(ga)
+    anchors, zones = {}, {}   # {plan: {zone: point}} and {plan: its planning zones}, for plans whose filings print zones
+    for p, rs in current.items():
+        rs = on_map(rs)
+        locate(rs, osm, refs, grid, offline=offline)
+        if any(r.get("zone") for r in rs):
+            zones[p] = planning_zones(rs)
+            anchors[p] = zone_anchors(rs, zones[p])
+            locate(rs, osm, refs, grid, anchors=anchors[p], offline=offline)   # second pass: zone-aware disambiguation
+            unplace_zone_outliers(rs, zones[p])
 
-    for r in desc + ga:
+    for r in recs:
         if r["isd"] and dt.date.fromisoformat(r["isd"]) < TODAY:
             r["issues"].append({"level": "info", "msg": f"in-service date {r['isd']} has passed; status in source is {r['status']!r}"})
+        if r["state"] not in COVERED:
+            continue   # its one off-map issue says why no endpoint is placed
         for e in r["endpoints"]:
             if not e["point"]:
                 r["issues"].append({"level": "warn", "msg": f"endpoint {e['name']!r} could not be located"})
             elif e["confidence"] in ("ambiguous", "low"):
                 r["issues"].append({"level": "info", "msg": f"endpoint {e['name']!r} located with {e['confidence']} confidence ({e['method']})"})
 
-    assign_app_ids(desc + ga)
-    environment.check(desc + ga, offline=offline)
+    assign_app_ids(recs)
+    environment.check(recs, offline=offline)
     environment.regional_layers(offline=offline)
 
     # Older editions, for the change log: reuse each project's current location, place only the ones that are gone.
-    editions = {f["id"]: (desc_eds[f["edition"]] if f["parser"] == "desc" else ga_eds[f["edition"]][0]) for f in registry}
-    for st, parser in (("SC", "desc"), ("GA", "ga")):
-        changes.assign_lineage([editions[f["id"]] for f in filings(parser)], st)
-    here = {r["lineage"]: r for r in desc + ga}
-    for f in registry:
-        recs = editions[f["id"]]
-        if recs is desc or recs is ga:
-            continue
+    for p in plans:
+        changes.assign_lineage([editions[f["id"]] for f in registry.filings(reg, plan=p)], plans[p]["reusesIds"])
+    here = {(r["plan"], r["lineage"]): r for r in recs}
+    earlier = [f for f in fs if f["id"] != cur[f["plan"]]["id"]]
+    for f in earlier:
         gone = []
-        for r in recs:
-            cur = here.get(r["lineage"])
-            if cur:
+        for r in editions[f["id"]]:
+            c = here.get((r["plan"], r["lineage"]))
+            if c:
                 for k in ("endpoints", "describedStations", "locatedBy", "center", "radiusMi", "locationConfidence"):
-                    r[k] = cur[k]
+                    r[k] = c[k]
             else:
                 gone.append(r)
-        locate(gone, osm, refs, None, anchors=anchors if f["parser"] == "ga" else None, offline=offline)
-        if f["parser"] == "ga":
-            unplace_zone_outliers(gone)
-    changes.write(registry, editions, {f["id"]: ga_eds[f["edition"]][1] for f in filings("ga")}, {to_app(r)["id"] for r in desc + ga})
+        locate(on_map(gone), osm, refs, None, anchors=anchors.get(f["plan"]), offline=offline)
+        if f["plan"] in zones:
+            unplace_zone_outliers(gone, zones[f["plan"]])
+    changes.write(fs, editions, removed, plans, {k: r["app_id"] for k, r in here.items()})
 
-    projects = [to_app(r) for r in desc + ga]
+    projects = [to_app(r) for r in recs]
+    removed_ga = removed[cur["ga"]["id"]] if "ga" in cur else {}
     out = {
         "generated": TODAY.isoformat(),
+        "plans": [{"id": p, "name": plans[p]["name"], "owner": plans[p]["owner"], "state": plans[p]["state"],
+                   "kind": registry.parsers(reg)[f["parser"]]["kind"], "projects": len(current[p]),
+                   "edition": f["edition"], "source": {"title": f["title"], "url": f["url"]}} for p, f in cur.items()],
         "sources": [
-            {"id": "desc", "title": cur_desc["title"], "url": cur_desc["url"], "projects": len(desc)},
-            {"id": "ga", "title": cur_ga["title"], "url": cur_ga["url"], "projects": len(ga)},
-            *[{"id": f["id"], "title": f"{f['title']} (earlier edition: schedule history and the change log)", "url": f["url"]}
-              for f in registry if f not in (cur_desc, cur_ga)],
+            *[{"id": p, "title": f["title"], "url": f["url"], "projects": len(current[p])} for p, f in cur.items()],
+            *[{"id": f["id"], "title": f"{f['title']} (earlier edition: schedule history and the change log)", "url": f["url"]} for f in earlier],
             {"id": "osm", "title": "OpenStreetMap substations, plants and power lines (Overpass, 2026-09-26)", "url": "https://www.openstreetmap.org/copyright"},
         ],
         "environmentSources": environment.SOURCES,
         "environmentRadiusMi": environment.SITE_RADIUS_MI,
         "zoneAnchors": anchors,
-        "costBenchmark": cost_benchmark(desc),
-        "starterStatus": starter_status(desc, ga, removed),
-        "removedGeorgia": removed,
+        "costBenchmark": cost_benchmark(current.get("desc", [])),
+        "starterStatus": starter_status(current.get("desc", []), current.get("ga", []), removed_ga),
+        "removedGeorgia": removed_ga,
         "dataQuality": dq_global,
         "projects": projects,
     }

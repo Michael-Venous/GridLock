@@ -1,5 +1,6 @@
 // The Changes tab: what each new filing changed, on a map, filtered to an area the planner draws.
-import { KINDS, itemsIn, changeItems, countByKind, inArea, boundsRing, closeRing, daysLabel } from "./changes.js";
+import { KINDS, itemsIn, changeItems, countByKind, inArea, boundsRing, closeRing, daysLabel, pairAppId, dateBasisText } from "./changes.js";
+import { planOf } from "./match.js";
 
 const AREA_KEY = "gridlock.area";
 const KIND_TAG = { added: "New", removed: "Dropped", date: "Rescheduled", cost: "Re-costed", name: "Renamed", pairNew: "New pair", pairGone: "Pair gone", pairTiming: "Timing changed" };
@@ -7,7 +8,7 @@ const readStore = (key, fallback) => { try { return JSON.parse(localStorage.getI
 const writeStore = (key, value) => { try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* storage unavailable: lasts for this visit */ } };
 
 export function createChangesView(ctx) {
-  const { h, link, formatDate, money, colors, basemap, fallbackStyle, openProject, openPair, pairExists } = ctx;
+  const { h, link, formatDate, money, colors, basemap, fallbackStyle, openProject, openPair, pairExists, side: sideOf, sideName, planName, loadLog } = ctx;
   const saved = readStore(AREA_KEY, {});
   const view = { data: null, event: null, area: saved.area ?? null, bufferMi: saved.bufferMi ?? 0, kinds: null, drawing: null, map: null, mapReady: false };
   let areaOpen = Boolean(saved.area);
@@ -18,9 +19,7 @@ export function createChangesView(ctx) {
     if (!view.data) {
       side.replaceChildren(h("p", "muted-note", "Loading the change log…"));
       try {
-        const r = await fetch("data/changes.json");
-        if (!r.ok) throw new Error(`HTTP ${r.status}`);
-        view.data = await r.json(); view.event = view.data.events[0]?.id ?? null;
+        view.data = await loadLog(); view.event = view.data.events[0]?.id ?? null;
       } catch (error) { side.replaceChildren(h("p", "muted-note", `Could not load the change log: ${error.message}.`)); return; }
     }
     initMap();
@@ -29,8 +28,11 @@ export function createChangesView(ctx) {
   }
 
   const event = () => view.data.events.find(e => e.id === view.event);
-  const shortTitle = e => e.state === "SC" ? `DESC list ${editionOf(e.id)}` : `Georgia plan ${editionOf(e.id)}`;
-  const editionOf = id => id.split("-").slice(1).join("–");
+  const shortTitle = e => ({ desc: "DESC list", ga: "Georgia plan" })[planOf(e)] ?? `${e.utility} list`;
+  const editionOf = id => (view.data.filings.find(f => f.id === id)?.edition ?? id.split("-").slice(1).join("-")).replaceAll("-", "–");
+  const eventTitle = e => `${shortTitle(e)} ${editionOf(e.id)}`;
+  // Today's DESC × Georgia pairs read "DESC 0139 M,N × TEAMS 21275"; other pairs name both plans.
+  const pairLabel = p => p.a.plan === "desc" && p.b.plan === "ga" ? `DESC ${p.a.projectId} × ${p.b.projectId}` : `${planName(p.a.plan)} ${p.a.projectId} × ${planName(p.b.plan)} ${p.b.projectId}`;
   const saveArea = () => writeStore(AREA_KEY, { area: view.area, bufferMi: view.bufferMi });
 
   // ---------- side panel ----------
@@ -72,17 +74,17 @@ export function createChangesView(ctx) {
     const list = h("div", "event-list"); list.setAttribute("role", "listbox"); list.setAttribute("aria-label", "Filings");
     for (const e of view.data.events) {
       const n = itemsIn(e, view.area, view.bufferMi).length;
-      const b = h("button", `event-card ${e.state === "SC" ? "desc" : "gpc"}${e.id === view.event ? " active" : ""}`);
+      const b = h("button", `event-card ${sideOf(e)}${e.id === view.event ? " active" : ""}`);
       b.type = "button"; b.setAttribute("role", "option"); b.setAttribute("aria-selected", String(e.id === view.event));
-      b.append(h("strong", "", shortTitle(e)), h("span", "event-date", `${formatDate(e.date)} · replaced the ${editionOf(e.previous.id)} ${e.state === "SC" ? "list" : "plan"}`),
+      b.append(h("strong", "", eventTitle(e)), h("span", "event-date", `${formatDate(e.date)} · replaced the ${editionOf(e.previous.id)} ${planOf(e) === "ga" ? "plan" : "list"}`),
         h("span", "event-count", `${n} ${n === 1 ? "change" : "changes"}${view.area ? " in your area" : ""}`));
       b.dataset.event = e.id;
       b.addEventListener("click", () => { view.event = e.id; view.kinds = null; render(); fitEvent(); });
       list.append(b);
     }
     box.append(list);
-    const oldest = view.data.filings[0];
-    box.append(h("p", "muted-note", `Dates are GA PSC filing dates for Georgia and the PDF's own date for DESC. The log starts with ${oldest.title} (${formatDate(oldest.date)}).`));
+    const oldest = view.data.filings[0], dates = dateBasisText(view.data.filings, planName);
+    box.append(h("p", "muted-note", `${dates ? `A filing's date is ${dates}. ` : ""}The log starts with ${oldest.title} (${formatDate(oldest.date)}).`));
     return box;
   }
 
@@ -99,7 +101,7 @@ export function createChangesView(ctx) {
     const all = itemsIn(e, view.area, view.bufferMi);
     const counts = countByKind(all);
     const head = h("div", "event-head");
-    head.append(h("h2", "", `${shortTitle(e)}: ${all.length} ${all.length === 1 ? "change" : "changes"}${view.area ? " in your area" : ""}`));
+    head.append(h("h2", "", `${eventTitle(e)}: ${all.length} ${all.length === 1 ? "change" : "changes"}${view.area ? " in your area" : ""}`));
     const src = h("p", "muted-note"); src.append(link(e.url, e.title), document.createTextNode(" compared with "), link(e.previous.url, e.previous.title), document.createTextNode("."));
     head.append(src);
     box.append(head);
@@ -127,10 +129,8 @@ export function createChangesView(ctx) {
     return box;
   }
 
-  function sideName(c) { return c.state === "SC" ? "DESC" : c.utility === "SAV" ? "GPC · Savannah" : c.utility; }
-
   function projectRow(c, kinds) {
-    const li = h("li", `change-row ${c.state === "SC" ? "desc" : "gpc"}`);
+    const li = h("li", `change-row ${sideOf(c)}`);
     const tags = h("span", "change-tags"); kinds.forEach(k => tags.append(h("span", `ctag ${k}`, KIND_TAG[k])));
     const title = h("span", "change-title"); title.append(h("b", "", `${sideName(c)} ${c.projectId}`), document.createTextNode(` ${c.name}`));
     li.append(tags, title);
@@ -154,12 +154,12 @@ export function createChangesView(ctx) {
     const li = h("li", "change-row pair");
     const kind = { new: "pairNew", gone: "pairGone", timing: "pairTiming" }[p.kind];
     const tags = h("span", "change-tags"); tags.append(h("span", `ctag ${kind}`, KIND_TAG[kind]));
-    const title = h("span", "change-title"); title.append(h("b", "", `DESC ${p.desc.projectId} × ${p.ga.projectId}`), document.createTextNode(` ${p.desc.name} × ${p.ga.name}`));
+    const title = h("span", "change-title"); title.append(h("b", "", pairLabel(p)), document.createTextNode(` ${p.a.name} × ${p.b.name}`));
     li.append(tags, title);
     const gap = p.gapDays == null ? "in-service dates unknown" : `in service ${p.gapDays} days apart`;
     li.append(h("span", "change-fact", p.kind === "timing" ? `${p.miles.toFixed(1)} mi apart; in-service gap ${p.oldGapDays} → ${p.gapDays} days` : `${p.miles.toFixed(1)} mi apart, ${gap}. ${p.reason[0].toUpperCase()}${p.reason.slice(1)}.`));
-    const id = `DESC-${p.desc.key}__GA-${p.ga.key}`;
-    if (p.kind !== "gone" && pairExists(id)) { const links = h("span", "change-links"); const b = h("button", "link-button", "Open pair"); b.type = "button"; b.addEventListener("click", () => openPair(id)); links.append(b); li.append(links); }
+    const id = pairAppId(p);
+    if (p.kind !== "gone" && id && pairExists(id)) { const links = h("span", "change-links"); const b = h("button", "link-button", "Open pair"); b.type = "button"; b.addEventListener("click", () => openPair(id)); links.append(b); li.append(links); }
     li.addEventListener("mouseenter", () => highlight(p.points)); li.addEventListener("mouseleave", () => highlight(null));
     return li;
   }
@@ -184,7 +184,7 @@ export function createChangesView(ctx) {
       const pairPaint = { "line-color": "#4d6670", "line-width": 1.6, "line-opacity": ["case", ["get", "inside"], 0.8, 0.2] };
       map.addLayer({ id: "pair-lines", type: "line", source: "changes", filter: ["all", ["==", ["get", "type"], "pair"], ["!=", ["get", "kind"], "pairGone"]], paint: pairPaint });
       map.addLayer({ id: "pair-gone", type: "line", source: "changes", filter: ["all", ["==", ["get", "type"], "pair"], ["==", ["get", "kind"], "pairGone"]], paint: { ...pairPaint, "line-dasharray": [2, 2] } });
-      const bySide = ["match", ["get", "side"], "desc", colors.desc, colors.gpc];
+      const bySide = ["match", ["get", "side"], ...Object.entries(colors).flat(), colors.desc];
       map.addLayer({ id: "change-pts", type: "circle", source: "changes", filter: ["==", ["get", "type"], "project"],
         paint: { "circle-radius": 6, "circle-color": ["match", ["get", "kind"], "removed", "#fff", bySide], "circle-stroke-color": bySide, "circle-stroke-width": 2,
           "circle-opacity": ["case", ["get", "inside"], 1, 0.25], "circle-stroke-opacity": ["case", ["get", "inside"], 1, 0.25] } });
@@ -226,12 +226,12 @@ export function createChangesView(ctx) {
       const inside = inArea(i.points, view.area, view.bufferMi) && (!view.kinds || i.kinds.some(k => view.kinds.includes(k)));
       const c = i.change;
       if (i.type === "pair") {
-        if (!c.desc.center || !c.ga.center) continue;
-        feats.push({ type: "Feature", geometry: { type: "LineString", coordinates: [[c.desc.center.lon, c.desc.center.lat], [c.ga.center.lon, c.ga.center.lat]] },
-          properties: { type: "pair", kind: i.kinds[0], inside, title: `${KIND_TAG[i.kinds[0]]}: DESC ${c.desc.projectId} × ${c.ga.projectId}, ${c.miles.toFixed(1)} mi` } });
+        if (!c.a.center || !c.b.center) continue;
+        feats.push({ type: "Feature", geometry: { type: "LineString", coordinates: [[c.a.center.lon, c.a.center.lat], [c.b.center.lon, c.b.center.lat]] },
+          properties: { type: "pair", kind: i.kinds[0], inside, title: `${KIND_TAG[i.kinds[0]]}: ${pairLabel(c)}, ${c.miles.toFixed(1)} mi` } });
       } else if (c.center) {
         feats.push({ type: "Feature", geometry: { type: "Point", coordinates: [c.center.lon, c.center.lat] },
-          properties: { type: "project", kind: i.kinds[0], side: c.state === "SC" ? "desc" : "gpc", inside, title: `${i.kinds.map(k => KIND_TAG[k]).join(", ")}: ${c.projectId} ${c.name}` } });
+          properties: { type: "project", kind: i.kinds[0], side: sideOf(c), inside, title: `${i.kinds.map(k => KIND_TAG[k]).join(", ")}: ${c.projectId} ${c.name}` } });
       }
     }
     map.getSource("changes").setData({ type: "FeatureCollection", features: feats });

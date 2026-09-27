@@ -1,19 +1,27 @@
 {
-  "about": "Every public filing the pipeline reads, oldest first. The newest filing per utility is current; earlier ones give schedule history and the change log. Add a new edition here to fold it in.",
+  "about": "The pipeline's registry. plans: each utility's (or group's) series of published project lists; projects pair only across plans. A plan's aliases are its own other names; members are a joint plan's member utilities and parent companies, whose own lists are not the plan's. parsers: the code that reads a plan's PDFs, and the text every PDF of that layout carries (signature), which is how pipeline/ingest.py recognizes a new PDF. filings: every public filing read, oldest first; a plan's filings are ordered by edition (then date), the newest is current, earlier ones give schedule history and the change log. sha256 is the PDF a filing was read from.",
+  "plans": {
+    "desc": {"name": "DESC", "owner": "Dominion Energy South Carolina", "state": "SC", "reusesIds": true, "aliases": ["Dominion Energy South Carolina", "DESC", "South Carolina Electric & Gas", "SCE&G"], "titleTemplate": "DESC Planned Transmission Projects $2M and above, {edition}"},
+    "ga": {"name": "Georgia ITS", "owner": "Georgia Integrated Transmission System", "state": "GA", "reusesIds": false, "aliases": ["Georgia ITS", "Georgia Integrated Transmission System"], "members": ["Georgia Power", "Georgia Transmission Corporation", "MEAG Power", "Dalton Utilities", "Southern Company"], "titleTemplate": "GA ITS Ten-Year Plan ({edition})"}
+  },
+  "parsers": {
+    "desc": {"plan": "desc", "kind": "builtin", "module": "parse_desc", "signature": ["Dominion Energy South Carolina", "Planned Transmission Projects \\$2M and above", "Project \\d+ of \\d+"]},
+    "ga": {"plan": "ga", "kind": "builtin", "module": "parse_ga", "signature": ["Georgia ITS", "Ten[- ]Year Plan", "Teams # \\d+"]}
+  },
   "watch": {
     "desc": {"page": "https://www.scrtp.com/", "pattern": "assets/pdfs/home/(\\d{4}-\\d{4})-2million-and-above-project-descriptions\\.pdf"},
     "ga": {"dockets": ["56002"], "search": "Transmission", "note": "Georgia's annual transmission update has been filed in the IRP docket; a new IRP opens a new docket, which has to be added here."}
   },
   "filings": [
     {
-      "id": "desc-2024-2028", "utility": "DESC", "state": "SC", "edition": "2024-2028", "parser": "desc",
+      "id": "desc-2024-2028", "plan": "desc", "utility": "DESC", "state": "SC", "edition": "2024-2028", "parser": "desc",
       "title": "DESC Planned Transmission Projects $2M and above, 2024-2028",
       "date": "2024-03-05", "dateBasis": "PDF creation date",
       "url": "https://www.scrtp.com/assets/pdfs/home/2024-2028-2million-and-above-project-descriptions.pdf",
       "file": "desc_2024-2028.pdf"
     },
     {
-      "id": "ga-2025-2034", "utility": "Georgia ITS", "state": "GA", "edition": "2025-2034", "parser": "ga",
+      "id": "ga-2025-2034", "plan": "ga", "utility": "Georgia ITS", "state": "GA", "edition": "2025-2034", "parser": "ga",
       "title": "2024 GA ITS Ten-Year Plan (2025-2034), 2025 IRP Technical Appendix Volume 3, GA PSC docket 56002 #221233",
       "date": "2025-01-31", "dateBasis": "GA PSC filed date",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/221233/102406",
@@ -22,14 +30,14 @@
       "file": "ga_its_2025-2034.pdf"
     },
     {
-      "id": "desc-2025-2029", "utility": "DESC", "state": "SC", "edition": "2025-2029", "parser": "desc",
+      "id": "desc-2025-2029", "plan": "desc", "utility": "DESC", "state": "SC", "edition": "2025-2029", "parser": "desc",
       "title": "DESC Planned Transmission Projects $2M and above, 2025-2029",
       "date": "2025-03-03", "dateBasis": "PDF creation date",
       "url": "https://www.scrtp.com/assets/pdfs/home/2025-2029-2million-and-above-project-descriptions.pdf",
       "file": "desc_2025-2029.pdf"
     },
     {
-      "id": "ga-2026-2035", "utility": "Georgia ITS", "state": "GA", "edition": "2026-2035", "parser": "ga",
+      "id": "ga-2026-2035", "plan": "ga", "utility": "Georgia ITS", "state": "GA", "edition": "2026-2035", "parser": "ga",
       "title": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
       "date": "2026-02-27", "dateBasis": "GA PSC filed date",
       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866",
@@ -38,7 +46,7 @@
       "file": "ga_its_2026-2035.pdf"
     },
     {
-      "id": "desc-2026-2030", "utility": "DESC", "state": "SC", "edition": "2026-2030", "parser": "desc",
+      "id": "desc-2026-2030", "plan": "desc", "utility": "DESC", "state": "SC", "edition": "2026-2030", "parser": "desc",
       "title": "DESC Planned Transmission Projects $2M and above, 2026-2030",
       "date": "2026-04-28", "dateBasis": "PDF creation date",
       "url": "https://www.scrtp.com/assets/pdfs/home/2026-2030-2million-and-above-project-descriptions.pdf",

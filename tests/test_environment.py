@@ -1,7 +1,11 @@
 """Geometry checks for pipeline/environment.py. Run: python3 -m unittest discover tests"""
+import contextlib
+import io
 import sys
+import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "pipeline"))
 import environment as env  # noqa: E402
@@ -62,6 +66,25 @@ class Geometry(unittest.TestCase):
         self.assertEqual(out["flood"]["zone"], "AE")
         self.assertTrue(out["flood"]["sfha"])
         self.assertEqual(out["flood"]["sfhaShare"], 1.0)
+
+
+
+class PairingRange(unittest.TestCase):
+    def test_projects_are_in_range_of_other_plans_never_their_own(self):
+        rec = lambda uid, plan, state, lat: {"uid": uid, "plan": plan, "state": state, "center": {"lat": lat, "lon": -81.0}, "radiusMi": 0.5}
+        recs = [rec("GA:1", "ga", "GA", 32.0), rec("GA:2", "ga", "GA", 32.1),                 # 7 mi apart, one plan
+                rec("SANTEE:1", "santee", "SC", 33.0), rec("DESC:9:1", "desc", "SC", 33.1),   # one state, two plans
+                rec("DESC:8:2", "desc", "SC", 35.0)]                                          # far from everything
+        self.assertEqual(env.in_pairing_range(recs), {"SANTEE:1", "DESC:9:1"})
+
+    def test_an_unplaced_project_is_not_said_to_be_far_from_the_others(self):
+        recs = [{"uid": "GA:1", "plan": "ga", "state": "GA", "center": None, "radiusMi": None, "endpoints": []},
+                {"uid": "DESC:8:2", "plan": "desc", "state": "SC", "center": {"lat": 35.0, "lon": -81.0}, "radiusMi": 0.5, "endpoints": []}]
+        with tempfile.TemporaryDirectory() as d, patch.object(env, "_cache_path", Path(d) / "environment.json"), \
+                patch.object(env, "domains"), patch.object(env, "write_evidence"), contextlib.redirect_stdout(io.StringIO()):
+            env.check(recs, offline=True)
+        self.assertEqual(recs[0]["environment"], {"checked": False, "reason": env.UNPLACED})
+        self.assertEqual(recs[1]["environment"], {"checked": False, "reason": "not near any project in another utility's plan"})
 
 
 if __name__ == "__main__":

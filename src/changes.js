@@ -49,6 +49,11 @@ export function changeItems(event) {
   return items;
 }
 
+// The Pairs view's id for a changed pair, from both projects' current app ids; null when either left the data.
+export function pairAppId(pair) {
+  return pair.a?.appId && pair.b?.appId ? `${pair.a.appId}__${pair.b.appId}` : null;
+}
+
 export function itemsIn(event, area, bufferMi = 0, kinds = null) {
   return changeItems(event).filter(i => inArea(i.points, area, bufferMi) && (!kinds || i.kinds.some(k => kinds.includes(k))));
 }
@@ -68,6 +73,26 @@ export function closeRing(points) {
   if (points.length < 3) return null;
   const [a, b] = [points[0], points[points.length - 1]];
   return a[0] === b[0] && a[1] === b[1] ? points : [...points, points[0]];
+}
+
+// A plan's current edition ("2026–2030"), from the change log's filings: the one at the plan's source URL, else the
+// plan's newest. Without either, a year range in the source title; null when nothing says.
+export function currentEdition(plan, filings = []) {
+  const own = filings.filter(f => f.plan === plan.id);
+  const filing = own.find(f => f.url && f.url === plan.source?.url) ?? own.reduce((a, f) => !a || f.date >= a.date ? f : a, null);
+  const edition = filing?.edition ?? plan.source?.title?.match(/\d{4}\s*[-–]\s*\d{4}/)?.[0];
+  return edition ? edition.replace(/\s*[-–]\s*/g, "–") : null;
+}
+
+// What each plan's filing dates are, from the filings' own dateBasis: "the PDF creation date for DESC and the GA PSC
+// filed date for Georgia ITS". Plans in order of first filing; null when no filing says.
+export function dateBasisText(filings, planName = id => id) {
+  const byPlan = new Map();
+  for (const f of filings) if (f.dateBasis) byPlan.set(f.plan, new Set([...(byPlan.get(f.plan) ?? []), f.dateBasis]));
+  const byBasis = new Map();
+  for (const [plan, bases] of byPlan) { const k = [...bases].join(" or "); byBasis.set(k, [...(byBasis.get(k) ?? []), planName(plan)]); }
+  const and = xs => xs.length < 3 ? xs.join(" and ") : `${xs.slice(0, -1).join(", ")} and ${xs.at(-1)}`;
+  return byBasis.size ? and([...byBasis].map(([basis, names]) => `the ${basis} for ${and(names)}`)) : null;
 }
 
 export function daysLabel(days) {

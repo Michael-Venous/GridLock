@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { matchProjects, milesBetween, dateGapDays, windowOverlapDays, remainingOverlapDays, certainty, nearbyEndpoints, opportunityText, scenarioAvailability, savingsEstimate, scorePair, sortPairs, projectType, yardScenario, WEIGHTS, YARD_BASIS } from "../src/match.js";
+import { matchProjects, planOf, milesBetween, dateGapDays, windowOverlapDays, remainingOverlapDays, certainty, nearbyEndpoints, opportunityText, scenarioAvailability, savingsEstimate, scorePair, sortPairs, projectType, yardScenario, landValue, extraPlanColors, contrastOnWhite, colorDistance, WEIGHTS, YARD_BASIS } from "../src/match.js";
 
 const starter = JSON.parse(readFileSync(new URL("../data/starter_projects.json", import.meta.url))).projects;
 
@@ -34,6 +34,55 @@ test("25 mile threshold is strict", () => {
   const pair = (cut) => matchProjects([{ id: "A", state: "SC", center: a }, { id: "B", state: "GA", center: b }], cut);
   assert.equal(pair(distance).length, 0);
   assert.equal(pair(distance + 0.001).length, 1);
+});
+
+// Four projects a few miles apart along the river: two DESC, one Georgia, one from a third plan listed in SC.
+const river = [
+  { id: "D1", plan: "desc", state: "SC", center: { lat: 33.40, lon: -81.90 } },
+  { id: "D2", plan: "desc", state: "SC", center: { lat: 33.42, lon: -81.92 } },
+  { id: "G1", plan: "ga", state: "GA", center: { lat: 33.45, lon: -82.00 } },
+  { id: "X1", plan: "third", state: "SC", center: { lat: 33.38, lon: -81.95 } },
+];
+
+test("three plans: every cross-plan pair in range, none within a plan", () => {
+  const ids = matchProjects(river).map(p => p.id).sort();
+  assert.deepEqual(ids, ["D1__G1", "D1__X1", "D2__G1", "D2__X1", "G1__X1"]);
+  for (const p of matchProjects(river)) assert.notEqual(planOf(p.a), planOf(p.b));
+});
+
+test("projects in the same plan never pair, whatever their state", () => {
+  const same = [{ id: "A", plan: "third", state: "SC", center: { lat: 33.4, lon: -81.9 } }, { id: "B", plan: "third", state: "GA", center: { lat: 33.4, lon: -81.91 } }];
+  assert.equal(matchProjects(same).length, 0);
+  assert.equal(matchProjects([...same, { id: "C", plan: "ga", state: "GA", center: { lat: 33.4, lon: -81.92 } }]).length, 2);
+});
+
+test("orientation follows planOrder: a is the project whose plan comes first", () => {
+  const byDefault = matchProjects(river).find(p => p.id === "G1__X1");
+  assert.equal(byDefault.a.id, "G1");   // desc, ga, then plans in order of first appearance
+  const flipped = matchProjects(river, 25, { planOrder: ["third", "ga", "desc"] });
+  assert.deepEqual(flipped.map(p => p.id).sort(), ["G1__D1", "G1__D2", "X1__D1", "X1__D2", "X1__G1"]);
+  for (const p of flipped) assert.equal(p.a.plan === "third" || (p.a.plan === "ga" && p.b.plan === "desc"), true, p.id);
+  const partial = matchProjects(river, 25, { planOrder: ["third"] });
+  assert.ok(partial.every(p => p.a.plan === "third" || (p.a.plan === "desc" && p.b.plan === "ga")));
+});
+
+test("data without a plan field falls back to the state: SC is DESC, GA is Georgia ITS", () => {
+  assert.equal(planOf({ state: "SC" }), "desc");
+  assert.equal(planOf({ state: "GA" }), "ga");
+  assert.equal(planOf({ state: "SC", plan: "third" }), "third");
+  const legacy = river.slice(0, 3).map(({ plan, ...p }) => p);
+  assert.deepEqual(matchProjects(legacy).map(p => p.id), matchProjects(river.slice(0, 3)).map(p => p.id));
+  assert.deepEqual(matchProjects(legacy, 25, { planOrder: ["ga", "desc"] }).map(p => p.a.id).sort(), ["G1", "G1"]);
+});
+
+test("data without a plan field in any other state has no plan and pairs with nothing", () => {
+  assert.equal(planOf({ state: "NC" }), null);
+  assert.equal(planOf({}), null);
+  const nc = { id: "N1", state: "NC", center: { lat: 33.41, lon: -81.91 } };   // a mile from D1 and D2
+  const legacy = [...river.slice(0, 3).map(({ plan, ...p }) => p), nc];
+  assert.deepEqual(matchProjects(legacy).map(p => p.id).sort(), ["D1__G1", "D2__G1"]);
+  assert.equal(matchProjects([nc, { ...nc, id: "N2" }]).length, 0);
+  assert.equal(matchProjects([{ ...nc, plan: "third" }, river[0]]).length, 1);   // a plan field still counts
 });
 
 test("date gap is absolute days", () => {
@@ -102,6 +151,14 @@ test("real data: every project cites a source page and every located project has
   }
 });
 
+test("real data: every project names one of the listed plans, DESC and Georgia ITS first", () => {
+  const data = JSON.parse(readFileSync(new URL("../data/projects.json", import.meta.url)));
+  const ids = data.plans.map(p => p.id);
+  assert.deepEqual(ids.slice(0, 2), ["desc", "ga"]);
+  for (const p of data.projects) assert.ok(ids.includes(p.plan), p.id);
+  for (const plan of data.plans) assert.equal(plan.projects, data.projects.filter(p => p.plan === plan.id).length, plan.id);
+});
+
 test("geography outweighs timing in the score, as the challenge asks", () => {
   assert.equal(WEIGHTS.proximity + WEIGHTS.timing, 100);
   assert.ok(WEIGHTS.proximity > WEIGHTS.timing);
@@ -126,7 +183,7 @@ test("project type comes from the filing's own title", () => {
 });
 
 test("staging-yard scenario: cited unit costs, half to one avoided yard, nothing without overlap ahead", () => {
-  const pair = { qualifies: true, remainingDays: 365 };
+  const pair = { qualifies: true, remainingDays: 365, a: { state: "SC" }, b: { state: "GA" } };
   const sc = yardScenario(pair, { acres: 4, months: 12, leaseRate: 0.1, surfacePerAcre: 10000, roadMiles: 0.5 });
   const land = (YARD_BASIS.landPerAcre.GA + YARD_BASIS.landPerAcre.SC) / 2;
   assert.equal(sc.oneYard, 4 * 10000 + 4 * land * 0.1 + 0.5 * YARD_BASIS.roadPerMile.value);
@@ -134,6 +191,37 @@ test("staging-yard scenario: cited unit costs, half to one avoided yard, nothing
   assert.equal(sc.high, sc.oneYard);
   assert.equal(yardScenario({ qualifies: true, remainingDays: 0 }).high, 0);
   assert.equal(yardScenario(pair).months, 12);
+});
+
+test("yard land value comes from the pair's own states, and says which state has no figure", () => {
+  const { GA, SC } = YARD_BASIS.landPerAcre;
+  const pair = (a, b) => ({ qualifies: true, remainingDays: 365, a: { state: a }, b: { state: b } });
+  assert.deepEqual(landValue(pair("SC", "GA")), { perAcre: (GA + SC) / 2, states: ["GA", "SC"], missing: [], standIn: false });
+  assert.deepEqual(landValue(pair("SC", "SC")), { perAcre: SC, states: ["SC"], missing: [], standIn: false });
+  assert.deepEqual(landValue(pair("NC", "GA")), { perAcre: GA, states: ["GA"], missing: ["NC"], standIn: false });
+  assert.deepEqual(landValue(pair("NC", "TN")), { perAcre: (GA + SC) / 2, states: ["GA", "SC"], missing: ["NC", "TN"], standIn: true });
+  const sc = yardScenario(pair("SC", "SC"), { acres: 4, months: 12, leaseRate: 0.1 });
+  assert.equal(sc.parts.lease, 4 * SC * 0.1);
+  assert.equal(sc.land.states[0], "SC");
+});
+
+test("plan colors: generated ones for plans past the fixed five are readable, distinct and stable", () => {
+  const fixed = ["#0a8494", "#cb6e30", "#7b4fb0", "#8b5a2b", "#2a3f7a"];   // styles.css and src/app.js
+  assert.deepEqual(extraPlanColors(fixed, 0), []);
+  const seven = [...fixed, ...extraPlanColors(fixed, 2)];
+  assert.equal(new Set(seven).size, 7);
+  assert.deepEqual(extraPlanColors(fixed, 4).slice(0, 2), seven.slice(5));   // adding a plan keeps the others' colors
+  // With seven plans, each generated color reads as text on white and sits at least as far from every other plan's
+  // color as the fixed palette's closest pair does, both to normal vision and to the dichromat who sees them closest.
+  const pairs = fixed.flatMap((x, i) => fixed.slice(i + 1).map(y => colorDistance(x, y)));
+  const floor = { normal: Math.min(...pairs.map(d => d.normal)), worst: Math.min(...pairs.map(d => d.worst)) };
+  for (const c of seven.slice(5)) {
+    assert.ok(contrastOnWhite(c) >= 4.5, `${c} contrast ${contrastOnWhite(c)}`);
+    for (const other of seven) if (other !== c) {
+      const d = colorDistance(c, other);
+      assert.ok(d.normal >= floor.normal && d.worst >= floor.worst, `${c} vs ${other}: ${JSON.stringify(d)}, floor ${JSON.stringify(floor)}`);
+    }
+  }
 });
 
 test("nonqualifying pairs cannot receive modeled savings through either public cost helper", () => {

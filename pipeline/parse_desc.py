@@ -2,9 +2,9 @@
 import datetime as dt
 import re
 
-from common import RAW, BUILD, dump, filings, parse_date, pdf_pages, iso
+import registry
+from common import RAW, BUILD, dump, parse_date, pdf_pages, iso
 
-EDITIONS = {f["edition"]: f["url"] for f in filings("desc")}
 HEADER = re.compile(r"Dominion Energy South Carolina\s*\n\s*Planned Transmission Projects \$2M and above Total\s*\n\s*5 Year Budget")
 MONEY = re.compile(r"(?<![\w$,])\$?\d[\d,]*")
 MILES = re.compile(r"(?:approx\.?\s*|~)?(\d+(?:\.\d+)?)\s*(?:-\s*)?mi(?:les?)?\b", re.I)
@@ -15,8 +15,8 @@ def field(body, label, nxt):
     return re.sub(r"\s+", " ", m.group(1)).strip() if m else ""
 
 
-def parse(edition):
-    pages = pdf_pages(RAW / next(f["file"] for f in filings("desc") if f["edition"] == edition))
+def parse(filing):
+    pages = pdf_pages(RAW / filing["file"])
     out = []
     for pno, page in enumerate(pages, 1):
         for m in re.finditer(r"Project (\d+) of (\d+)", page):
@@ -27,11 +27,11 @@ def parse(edition):
             # a project can run onto the next page
             if "Estimated Project Cost" not in body and pno < len(pages):
                 body += "\n" + HEADER.sub("", pages[pno])
-            out.append(record(int(m.group(1)), int(m.group(2)), body, edition, pno))
+            out.append(record(int(m.group(1)), int(m.group(2)), body, filing, pno))
     return out
 
 
-def record(n, total, body, edition, page):
+def record(n, total, body, filing, page):
     name = re.sub(r"\s+", " ", body.split("Project ID")[0]).strip()
     pid = field(body, "Project ID", "Project Description")
     desc = field(body, "Project Description", "Project Need")
@@ -92,26 +92,29 @@ def record(n, total, body, edition, page):
     miles = [float(x) for x in MILES.findall(f"{name} {desc}")]
     return {
         "uid": f"DESC:{re.sub(r'\s', '', pid).upper()}:{n}",
-        "key": re.sub(r"\s", "", pid).upper(),
+        "key": re.sub(r"\s", "", pid).upper(), "plan": filing["plan"],
         "utility": "DESC", "owner": "Dominion Energy South Carolina", "state": "SC",
         "name": name, "project_id": pid, "status": status, "description": desc, "need": need,
         "isd": iso(isd), "isd_raw": date_raw,
         "window": {"start": iso(start), "end": iso(isd), "basis": "first budget year with spend → in-service date"},
         "cost": {"total": total_cost, "by_year": spend, "basis": "DESC published estimate"},
         "miles": max(miles) if miles else None,
-        "source": {"doc": f"DESC $2M+ list {edition}", "url": EDITIONS[edition], "page": page, "item": f"Project {n} of {total}"},
+        "source": {"doc": f"DESC $2M+ list {filing['edition']}", "url": filing["url"], "page": page, "item": f"Project {n} of {total}"},
         "issues": [{"level": lv, "msg": m} for lv, m in issues],
     }
 
 
+def parse_filing(filing):
+    """(records, removed) for one filing. The list prints no table of dropped projects, so removed is {}."""
+    recs = parse(filing)
+    dump(recs, BUILD / f"{filing['parser']}_{filing['edition']}.json")
+    print(f"DESC {filing['edition']}: {len(recs)} projects, {sum(len(r['issues']) for r in recs)} issues")
+    return recs, {}
+
+
 def main():
-    res = {}
-    for ed in sorted(EDITIONS, reverse=True):
-        recs = parse(ed)
-        dump(recs, BUILD / f"desc_{ed}.json")
-        res[ed] = recs
-        print(f"DESC {ed}: {len(recs)} projects, {sum(len(r['issues']) for r in recs)} issues")
-    return res
+    """Every edition in the registry, newest first: {edition: records}."""
+    return {f["edition"]: parse_filing(f)[0] for f in reversed(registry.filings(parser="desc"))}
 
 
 if __name__ == "__main__":

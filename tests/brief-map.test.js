@@ -34,6 +34,13 @@ test('brief map handles missing, invalid and coincident centers without nonfinit
   assert.equal((svg.match(/class="project-center"/g)??[]).length,2);
 });
 
+test('brief map draws each project in the color it is given, defaulting to DESC teal and Georgia orange', () => {
+  assert.match(briefMapSvg(pair()),/fill="#087f8c"[\s\S]*fill="#b96124"/);
+  const svg=briefMapSvg(pair(),{colors:['#7b4fb0','#2a3f7a']});
+  assert.match(svg,/fill="#7b4fb0"[\s\S]*fill="#2a3f7a"/);
+  assert.doesNotMatch(svg,/#087f8c|#b96124/);
+});
+
 test('all current pair markers and uncertainty rings fit inside the printed map', () => {
   const projects=JSON.parse(readFileSync(new URL('../data/projects.json',import.meta.url))).projects;
   const pairs=matchProjects(projects,25,{includePossible:true,asOf:'2026-09-26'});

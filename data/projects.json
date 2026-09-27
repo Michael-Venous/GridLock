@@ -1,5 +1,33 @@
 {
  "generated": "2026-09-26",
+ "plans": [
+  {
+   "id": "desc",
+   "name": "DESC",
+   "owner": "Dominion Energy South Carolina",
+   "state": "SC",
+   "kind": "builtin",
+   "projects": 54,
+   "edition": "2026-2030",
+   "source": {
+    "title": "DESC Planned Transmission Projects $2M and above, 2026-2030",
+    "url": "https://www.scrtp.com/assets/pdfs/home/2026-2030-2million-and-above-project-descriptions.pdf"
+   }
+  },
+  {
+   "id": "ga",
+   "name": "Georgia ITS",
+   "owner": "Georgia Integrated Transmission System",
+   "state": "GA",
+   "kind": "builtin",
+   "projects": 255,
+   "edition": "2026-2035",
+   "source": {
+    "title": "2025 GA ITS Ten-Year Plan (2026-2035), GA PSC docket 56002 #225600",
+    "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/225600/106866"
+   }
+  }
+ ],
  "sources": [
   {
    "id": "desc",
@@ -68,49 +96,51 @@
  ],
  "environmentRadiusMi": 0.25,
  "zoneAnchors": {
-  "208": {
-   "lat": 33.481901,
-   "lon": -84.36739
-  },
-  "212": {
-   "lat": 33.918475,
-   "lon": -83.725958
-  },
-  "213": {
-   "lat": 33.0224305,
-   "lon": -84.5862165
-  },
-  "219": {
-   "lat": 32.155282,
-   "lon": -81.192292
-  },
-  "214": {
-   "lat": 32.942146,
-   "lon": -83.1181215
-  },
-  "211": {
-   "lat": 34.121585,
-   "lon": -84.888594
-  },
-  "201": {
-   "lat": 33.994484,
-   "lon": -84.56892
-  },
-  "216": {
-   "lat": 30.912552,
-   "lon": -84.005031
-  },
-  "218": {
-   "lat": 31.399887,
-   "lon": -81.912222
-  },
-  "202": {
-   "lat": 33.982736,
-   "lon": -83.86837299999999
-  },
-  "215": {
-   "lat": 33.453955,
-   "lon": -82.753534
+  "ga": {
+   "208": {
+    "lat": 33.481901,
+    "lon": -84.36739
+   },
+   "212": {
+    "lat": 33.960153500000004,
+    "lon": -83.76781550000001
+   },
+   "213": {
+    "lat": 33.0224305,
+    "lon": -84.5862165
+   },
+   "219": {
+    "lat": 32.155282,
+    "lon": -81.192292
+   },
+   "214": {
+    "lat": 32.942146,
+    "lon": -83.1181215
+   },
+   "211": {
+    "lat": 34.121585,
+    "lon": -84.888594
+   },
+   "201": {
+    "lat": 33.994484,
+    "lon": -84.56892
+   },
+   "216": {
+    "lat": 30.912552,
+    "lon": -84.005031
+   },
+   "218": {
+    "lat": 31.399887,
+    "lon": -81.912222
+   },
+   "202": {
+    "lat": 33.982736,
+    "lon": -83.86837299999999
+   },
+   "215": {
+    "lat": 33.453955,
+    "lon": -82.753534
+   }
   }
  },
  "costBenchmark": {
@@ -601,6 +631,7 @@
   {
    "id": "DESC-06810H",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Summerville 115kV Loop: Rebuild",
@@ -694,12 +725,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-02726K",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Columbia Canal 115 kV: Rebuild",
@@ -787,12 +819,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-6853B-F",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Scout 230 kV Sub and Fold-in: Construct",
@@ -897,12 +930,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-6846A",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Eastover \u2013 Sumter 115kV DEP Tie: Rebuild with 1272 ACSR",
@@ -1019,12 +1053,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-6809N",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Batesburg - Saluda County 115kV: Rebuild",
@@ -1129,12 +1164,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-06874B",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Summerville-Boone Hill 115kV: Move Line for US78 SCDOT Road Widening",
@@ -1225,12 +1261,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-6852",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Urquhart \u2013 Toolebeck 115kV line: Rebuild",
@@ -1476,6 +1513,7 @@
   {
    "id": "DESC-6859",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Dawson 230kV Sub and Fold-in: Construct and Rebuild",
@@ -1587,12 +1625,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-6341A-F",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Cainhoy - Hamlin 115kV: Rebuild Line and Cainhoy \u2013 Hamlin 115 kV #2: Construct New 115 kV Line",
@@ -1701,12 +1740,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-5392A-C",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Coit \u2013 Gills Creek 115kV: Construct",
@@ -1804,12 +1844,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-0139M,N",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Okatie 230-115kV Substation, Jasper \u2013 Yemassee 230kV #1 Fold-in",
@@ -1945,6 +1986,7 @@
   {
    "id": "DESC-06367D-G",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Jasper \u2013 Okatie 230 kV #2: Construct",
@@ -2181,6 +2223,7 @@
   {
    "id": "DESC-6367D",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Riverport 115kV Tap: Construct Tap",
@@ -2323,6 +2366,7 @@
   {
    "id": "DESC-6381",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Flat Rock 115kV Sub and Tap: Construct",
@@ -2412,6 +2456,7 @@
   {
    "id": "DESC-6870A",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Saluda Hydro \u2013 Bush River 115kV #1 and #2 Tie Lines Rebuild",
@@ -2516,12 +2561,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-6847",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Church Creek \u2013 Faber Place \u2013 Charleston Transmission: Add 230kV Line",
@@ -2630,12 +2676,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-6359",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Yemassee\u2013 Ritter 230kV #1 & #2: Construct SPDC with B-1272",
@@ -2741,12 +2788,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-6238H",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Fairfax-Yemassee 115kV: Upgrade for DESCSQ #1151 Interconnection",
@@ -2840,13 +2888,14 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-6809M-19",
    "legacyId": "DESC-6809M",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "St George - Sumter 230kV Tie: Rebuild Line from Santee Substation - Duke/Progress Energy Tie",
@@ -2952,12 +3001,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-6809G",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Hooks - Modoc 115/46 kV Rebuild",
@@ -3085,6 +3135,7 @@
   {
    "id": "DESC-6808L",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Burton-St Helena 115kV: Rebuild Frogmore Distribution \u2013 St. Helena Section",
@@ -3209,6 +3260,7 @@
   {
    "id": "DESC-06371D",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Wagener 115kV Tap: Construct Tap",
@@ -3306,12 +3358,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-6810U",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Cameron Jct \u2013 Elloree 46 kV Rebuild",
@@ -3425,12 +3478,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-7956B",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Atomic Road 115/12kV Sub: Construct",
@@ -3511,6 +3565,7 @@
   {
    "id": "DESC-6810J",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Elloree \u2013 Santee City 46 kV: Rebuild",
@@ -3617,12 +3672,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-6810O",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Urquhart \u2013 Aiken PSA 46 kV: Rebuild",
@@ -3761,6 +3817,7 @@
   {
    "id": "DESC-6808P",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Wateree-Hopkins 230kV Line #1: Rebuild",
@@ -3861,12 +3918,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-6809I2",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Adams Run \u2013 Red House Road 46 kV: Replace Dawhoo River Crossing and other Structures",
@@ -3952,12 +4010,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-6809S",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Lyles \u2013 Kilbourne Park 115kV: Replace Structure 67 \u2013 Kilbourne Park",
@@ -4038,12 +4097,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not placed on the map, so its distance to other utilities' projects can't be measured"
    }
   },
   {
    "id": "DESC-6873",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Winnsboro West 230-115 kV Sub and Fold-in: Construct",
@@ -4127,12 +4187,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-6388A",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Williams-Summerville 230kV: Upgrade to SPDC B1272 ACSR",
@@ -4246,12 +4307,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-06372A",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Church Creek - Ritter 230kV - Replace 38 Large Angles and Dead Ends",
@@ -4348,12 +4410,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-6854C",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Jackson 115kV: Construct 115 \u2013 12kV Distribution Substation",
@@ -4434,6 +4497,7 @@
   {
    "id": "DESC-06005B",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Harleyville 115KV Transmission Tap \u2013 Construct (1.4 miles)",
@@ -4523,12 +4587,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-6809F",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Orangeburg #1 - Cameron Jct 46kV Line Rebuild",
@@ -4676,12 +4741,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-6808N,O",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "VCS1-Denny Terrace 230kV & VCS1-Pineland 230kV: Rebuild Single Circuit Sections",
@@ -4786,12 +4852,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-6842C,D",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Coast Guard 115kV Substation and Tap: Construct",
@@ -4860,12 +4927,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not placed on the map, so its distance to other utilities' projects can't be measured"
    }
   },
   {
    "id": "DESC-6864D,E",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Millrace 115 kV Tap: Construct",
@@ -4952,12 +5020,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-1060A,I,L",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Williams St Sub: Replace Sw House & Relays, AM Williams Sub: Replace Sw House, and McMeekin Sub: Add Sw House",
@@ -5063,12 +5132,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-6810T",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Cameron Jct \u2013 Cameron \u2013 St Matthews 46 kV Rebuild",
@@ -5174,12 +5244,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-6888",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Okatie \u2013 McIntosh 115kV Tie: Add Series Reactor",
@@ -5435,6 +5506,7 @@
   {
    "id": "DESC-6809R",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "CAE Industrial Park - Springdale Sub 115kV: Replace Laminated Wood Polls.",
@@ -5529,12 +5601,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-6809O",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "St. George- Holly Hill 115kV: Rebuild Structures 83-108",
@@ -5637,12 +5710,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-06076A",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Canadys-Ritter 115KV: Rebuild SPDC 230/115KV 1272 (Approx 18 Miles)",
@@ -5756,12 +5830,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-6808R",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Wateree-Killian 230kV: Rebuild",
@@ -5867,12 +5942,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-6877A",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Church Creek \u2013 Dawson 230 kV: Rebuild from Long Savannah to Dawson",
@@ -5970,12 +6046,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-6869D",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Long Savannah 115 kV Tap: Construct",
@@ -6062,13 +6139,14 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-6809M-48",
    "legacyId": "DESC-6809M",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Modoc \u2013 McCormick 115/46 kV Rebuild",
@@ -6317,6 +6395,7 @@
   {
    "id": "DESC-6809T",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Stevens Creek - Graniteville 115 kV: Rebuild",
@@ -6557,6 +6636,7 @@
   {
    "id": "DESC-6810N",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Calhoun County - North 46 kV Rebuild",
@@ -6646,12 +6726,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-0167C-D",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Union Pier 115-13.8 kV Sub: Tap",
@@ -6731,12 +6812,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not placed on the map, so its distance to other utilities' projects can't be measured"
    }
   },
   {
    "id": "DESC-6808V",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Faber Place-Bayfront 115kV: Rebuild North Bridge Terrace to Bayfront Section",
@@ -6842,12 +6924,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-0147A-I",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "Clements Ferry Rd Sub: 115kV Tap from Cainhoy",
@@ -6939,12 +7022,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "DESC-06810F",
    "utility": "DESC",
+   "plan": "desc",
    "owner": "Dominion Energy South Carolina",
    "state": "SC",
    "name": "VCS2-Ward 230kV: Rebuild Line",
@@ -7041,12 +7125,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20491",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "EAST POINT RELAY MODERNIZATION",
@@ -7120,12 +7205,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20474",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "GRADY 230/115kV RELAY MODERNIZATION",
@@ -7197,12 +7283,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not placed on the map, so its distance to other utilities' projects can't be measured"
    }
   },
   {
    "id": "GA-20490",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "KLONDIKE RELAY MODERNIZATION",
@@ -7285,12 +7372,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20300",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "MORROW 115kV RELAY UPGRADE",
@@ -7373,12 +7461,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20489",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "SCOTTDALE RELAY MODERNIZATION",
@@ -7456,12 +7545,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20668",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "OHARA LINE PROTECTIVE RELAYING REPLACEMENT",
@@ -7555,12 +7645,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20326",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "ANTHONY SHOALS STATCOM SYSTEM",
@@ -7668,6 +7759,7 @@
   {
    "id": "GA-18832",
    "utility": "MEAG",
+   "plan": "ga",
    "owner": "MEAG Power",
    "state": "GA",
    "name": "MEAG: FORTSON SUBSTATION MODERNIZATION",
@@ -7745,12 +7837,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21573",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "JONESBORO - MORROW RELAY PROTECTION UPGRADE",
@@ -7833,12 +7926,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21575",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "OLIVER DAM & BULL CREEK 115kV PROTECTION RELAY UPGRADE",
@@ -7912,12 +8006,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not placed on the map, so its distance to other utilities' projects can't be measured"
    }
   },
   {
    "id": "GA-21275",
    "utility": "SAV",
+   "plan": "ga",
    "owner": "Georgia Power (Savannah)",
    "state": "GA",
    "name": "SAV: MCINTOSH 230 kV BREAKER CONTROL RELAY UPGRADES",
@@ -8021,6 +8116,7 @@
   {
    "id": "GA-21022",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "OHARA 115kV BREAKER REPLACEMENT",
@@ -8106,12 +8202,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21528",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "LINE CREEK 115kV BREAKER REPLACEMENTS",
@@ -8179,12 +8276,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21526",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "GRADY 115kV BREAKER REPLACEMENTS",
@@ -8246,12 +8344,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not placed on the map, so its distance to other utilities' projects can't be measured"
    }
   },
   {
    "id": "GA-21421",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "GORDON OVERSTRESSED 115kV BREAKERS REPLACEMENT",
@@ -8314,12 +8413,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21257",
    "utility": "SAV",
+   "plan": "ga",
    "owner": "Georgia Power (Savannah)",
    "state": "GA",
    "name": "SAV: WEST MCINTOSH REPLACE 230kV LS BREAKERS",
@@ -8422,6 +8522,7 @@
   {
    "id": "GA-19788",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "OHARA 115kV: TARGETED EQUIPMENT REPLACEMENT",
@@ -8484,12 +8585,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21533",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: UNION CITY PRIMARY 230kV BREAKER REPLACEMENTS",
@@ -8551,12 +8653,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not placed on the map, so its distance to other utilities' projects can't be measured"
    }
   },
   {
    "id": "GA-21523",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: DRESDEN 230kV BREAKER REPLACEMENTS",
@@ -8628,12 +8731,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21529",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "MORROW 115kV BREAKER REPLACEMENTS",
@@ -8705,12 +8809,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21525",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "EAST POINT 230kV BREAKER REPLACEMENTS",
@@ -8773,12 +8878,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21527",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: HEARD COUNTY 500kV BREAKER REPLACEMENTS",
@@ -8841,12 +8947,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21379",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "LINE CREEK 230kV IPO BREAKER UPGRADES",
@@ -8914,12 +9021,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21530",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "SWITCH WAY 230kV BREAKER REPLACEMENTS",
@@ -8987,12 +9095,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21515",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "WANSLEY OVERSTRESSED 500kV BREAKER REPLACEMENTS",
@@ -9055,12 +9164,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21516",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "SPC: WANSLEY 500kV BREAKER REPLACEMENTS",
@@ -9123,12 +9233,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21517",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "TENASKA 500kV BREAKER REPLACEMENTS",
@@ -9191,12 +9302,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21113",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: CASH CREEK - HARTWELL ENERGY 230kV LINE",
@@ -9321,6 +9433,7 @@
   {
    "id": "GA-21111",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "HARTWELL DAM - HARTWELL ENERGY 230kV SERIES REACTORS",
@@ -9487,6 +9600,7 @@
   {
    "id": "GA-20509",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "CC - EMBLEM RIVERSIDE CUSTOMER SUB",
@@ -9558,12 +9672,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not placed on the map, so its distance to other utilities' projects can't be measured"
    }
   },
   {
    "id": "GA-18691",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: LIZARD LOPE - WESTOVER 115kV NEW LINE",
@@ -9653,12 +9768,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20018",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "CC - FAYETTEVILLE AREA TRANSMISSION NEEDS",
@@ -9745,12 +9861,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-19597",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "ADAMSVILLE - BUZZARD ROOST 230kV REBUILD AND JUMPER UPGRADE",
@@ -9840,12 +9957,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20767",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "ARKWRIGHT BUS AND JUMPER REPLACEMENT",
@@ -9919,12 +10037,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21654",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "BIG SHANTY JUMPER AND BUS REPLACEMENT 230kV",
@@ -10001,12 +10120,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-18960",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "BLANKETS CREEK - WOODSTOCK 115kV LINE REBUILD",
@@ -10108,12 +10228,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20512",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "BONAIRE PRIMARY - KATHLEEN 230kV LINE REBUILD",
@@ -10211,12 +10332,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21249",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "BRUNSWICK \u2013 MCMANUS 115kV LINES RE-TERMINATION",
@@ -10304,12 +10426,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20216",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "CC - STONEWALL TELL ROAD",
@@ -10387,18 +10510,19 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-18679",
    "utility": "DU",
+   "plan": "ga",
    "owner": "Dalton Utilities",
    "state": "GA",
    "name": "DU: EAST DALTON - OOSTANAULA 115kV REBUILD",
    "projectId": "TEAMS 18679",
    "status": "Planned",
-   "zone": null,
+   "zone": "211",
    "zoneName": null,
    "description": "Rebuild 7.4 miles of East Dalton - Oostanaula and Dalton - East Dalton 115kV double circuit lines between East Dalton substation and the Dalton substation frame with 200C 795 ACSS This project also rebuilds the Dalton - East Dalton 115kV line.",
    "endpoints": [
@@ -10417,9 +10541,9 @@
       "lon": -85.01439
      },
      "method": "town",
-     "confidence": "ambiguous",
+     "confidence": "low",
      "radiusMi": 6.0,
-     "evidence": "Nominatim: place/hamlet: Oostanaula, Gordon County, Georgia, 30703, United States; 2 places share this name (next one 0 mi away)"
+     "evidence": "Nominatim: place/hamlet: Oostanaula, Gordon County, Georgia, 30703, United States; 2 places share this name (next one 0 mi away); picked the one nearest the other endpoint(s) and the planning zone"
     }
    ],
    "describedStations": [],
@@ -10466,10 +10590,6 @@
    },
    "issues": [
     {
-     "level": "warn",
-     "msg": "detail page has no matching Table 2 row (zone/sponsor unknown)"
-    },
-    {
      "level": "info",
      "msg": "in-service date 2026-06-01 has passed; status in source is 'Planned'"
     },
@@ -10479,25 +10599,26 @@
     },
     {
      "level": "info",
-     "msg": "endpoint 'OOSTANAULA' located with ambiguous confidence (town)"
+     "msg": "endpoint 'OOSTANAULA' located with low confidence (town)"
     }
    ],
    "locationNote": null,
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-13188",
    "utility": "DU",
+   "plan": "ga",
    "owner": "Dalton Utilities",
    "state": "GA",
    "name": "DU: LOOPERS FARM - SOUTH DALTON 230kV NETWORK UPGRADES",
    "projectId": "TEAMS 13188",
    "status": "Planned",
-   "zone": null,
+   "zone": "211",
    "zoneName": null,
    "description": "Build new 230kV networked switching station on the Loopers Farm - South Dalton 230kV line, radialize South Dalton 230kV station, and build a new 230kV line from Loopers Farm - Jobs Creek with 200C 1351 ACSS Martin conductor",
    "endpoints": [
@@ -10553,10 +10674,6 @@
    },
    "issues": [
     {
-     "level": "warn",
-     "msg": "detail page has no matching Table 2 row (zone/sponsor unknown)"
-    },
-    {
      "level": "info",
      "msg": "in-service date 2026-06-01 has passed; status in source is 'Planned'"
     },
@@ -10573,12 +10690,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not placed on the map, so its distance to other utilities' projects can't be measured"
    }
   },
   {
    "id": "GA-16007",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "FENWICK STREET - SAND BAR FERRY 115kV RECONDUCTOR",
@@ -10674,6 +10792,7 @@
   {
    "id": "GA-19618",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "GORDON-N DUBLIN 115kV (GORDON-ENGL MCI J) REBUILD",
@@ -10768,12 +10887,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-19706",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "GRID-GAINESVILLE #2 230/115kV AUTO TRANSFORMERS REPLACEMENT",
@@ -10856,12 +10976,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21701",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: CC \u2013 CORNISH MOUNTAIN - LAKE VARNER 230kV (NETWORK IMPROVEMENTS)",
@@ -10939,12 +11060,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not placed on the map, so its distance to other utilities' projects can't be measured"
    }
   },
   {
    "id": "GA-19598",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: DRESDEN JUMPER REPLACEMENT",
@@ -11035,12 +11157,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-19999",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: ROBINS SPRING 115kV BUS REPLACEMENT",
@@ -11114,12 +11237,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20001",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: ROBINS SPRING 115kV CAPACITOR BANK INSTALLATION",
@@ -11193,12 +11317,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-19636",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "HAMMOND - WEISS DAM 115kV LINE REBUILD",
@@ -11284,12 +11409,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-13787",
    "utility": "MEAG",
+   "plan": "ga",
    "owner": "MEAG Power",
    "state": "GA",
    "name": "MEAG: AULTMAN ROAD - BONAIRE PRIMARY 115 kV REBUILD",
@@ -11395,12 +11521,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-18690",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "PALMYRA REACTOR REMOVAL",
@@ -11478,12 +11605,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20066",
    "utility": "SAV",
+   "plan": "ga",
    "owner": "Georgia Power (Savannah)",
    "state": "GA",
    "name": "SAV: BOULEVARD - DEPTFORD 115kV RECONDUCTOR",
@@ -11745,6 +11873,7 @@
   {
    "id": "GA-19966",
    "utility": "SAV",
+   "plan": "ga",
    "owner": "Georgia Power (Savannah)",
    "state": "GA",
    "name": "SAV: CC - BIG OGEECHEE 500/230kV (NETWORK IMPROVEMENTS)",
@@ -11845,12 +11974,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not placed on the map, so its distance to other utilities' projects can't be measured"
    }
   },
   {
    "id": "GA-21309",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "SAW MILL ROAD - VIDALIA 115kV SWITCH REPLACEMENT",
@@ -11942,12 +12072,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-17900",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "UNION CITY - YATES 230kV (WHITE) LINE REBUILD",
@@ -12045,12 +12176,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20691",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "UNION CITY - YATES 230kV (WHITE) SWITCH AND TRAP REPLACEMENT",
@@ -12148,12 +12280,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20273",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: DRESDEN 500kV BUS EXPANSION",
@@ -12247,12 +12380,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20002",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: GORDON - SANDERSVILLE #1 115kV LINE REBUILD",
@@ -12350,12 +12484,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-19334",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: LAGRANGE - NORTH OPELIKA 230 kV NEW LINE",
@@ -12446,12 +12581,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21174",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "WANSLEY RELAY WORK AND NEW FIBER",
@@ -12539,12 +12675,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-18979",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "BARTLETTS FERRY 1-4 REPLACEMENT SUB",
@@ -12616,12 +12753,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20151",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "CC - CASS PINE 230/25kV NEW SUB IMPROVEMENTS",
@@ -12689,12 +12827,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not placed on the map, so its distance to other utilities' projects can't be measured"
    }
   },
   {
    "id": "GA-20243",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "CC - GARRETT ROAD 230kV SS (NETWORK IMPROVEMENTS)",
@@ -12777,12 +12916,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-19363",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "MORROW - MOUNTAIN VIEW 115 kV REBUILD",
@@ -12880,12 +13020,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-19635",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: HICKORY LEVEL - VILLA RICA 230kV LINE RECONDUCTOR",
@@ -12976,12 +13117,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-19601",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "MORROW - YATES COMMON 115kV LINE REBUILD",
@@ -13083,12 +13225,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21047",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "BROADWAY - ECHECONNEE 115kV LINE RECONDUCTOR",
@@ -13181,12 +13324,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20771",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "CC - GULLATT ROAD TRANSMISSION IMPROVEMENTS",
@@ -13277,12 +13421,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20150",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "CC - HILL VIEW & GRASSY HOLLOW SUB - IMPROVEMENTS",
@@ -13374,12 +13519,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21332",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "CC - PROJECT SPEEDWAY (NETWORK IMPROVEMENTS)",
@@ -13461,12 +13607,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-18736",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "CC - SHUGART (NETWORK IMPROVEMENTS)",
@@ -13554,12 +13701,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20781",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "CC - SUMMER LAKE - VILLA RICA 230kV REBUILD (IMPROVEMENTS)",
@@ -13650,12 +13798,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20736",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "CC - TA REALTY ELLENWOOD NETWORK IMPROVEMENTS",
@@ -13743,12 +13892,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20858",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: ADAMSVILLE - BUZZARD ROOST 230kV REBUILD",
@@ -13834,12 +13984,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20776",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: DOUGLASVILLE - VILLA RICA 230kV REBUILD (CC NET IMPRVT)",
@@ -13937,12 +14088,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20778",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: DOYLE - WINDER PRIMARY 230kV LINE JUMPER REPLACEMENT",
@@ -14039,12 +14191,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-19358",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: EAST MOULTRIE - HIGHWAY 37 230kV LINE",
@@ -14138,12 +14291,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-09662",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: EAST WALTON 500/230kV PROJECT",
@@ -14264,12 +14418,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not placed on the map, so its distance to other utilities' projects can't be measured"
    }
   },
   {
    "id": "GA-20505",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: GARRETT RD - V. RICA 230kV LINE RECONDUCTOR NETWORK IMPROV",
@@ -14364,12 +14519,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21284",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: JACKSON 115kV BUS AND JUMPER UPGRADES",
@@ -14441,12 +14597,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20015",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: MORNING HORNET - STANTON SPRINGS 115kV",
@@ -14526,12 +14683,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not placed on the map, so its distance to other utilities' projects can't be measured"
    }
   },
   {
    "id": "GA-19622",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: RIDDLEVILLE 115kV BUS REPLACEMENT",
@@ -14605,12 +14763,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-19606",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: SKC 115kV BUS AND JUMPER REPLACEMENT",
@@ -14678,12 +14837,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not placed on the map, so its distance to other utilities' projects can't be measured"
    }
   },
   {
    "id": "GA-20506",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: SWITCH WAY - THORNTON ROAD 230kV LINE REBUILD",
@@ -14772,12 +14932,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-18668",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "JESUP - OFFERMAN 115kV REBUILD",
@@ -14874,12 +15035,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-10481",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "LAWRENCEVILLE - WINDER PRIMARY 230kV LINE REBUILD",
@@ -14968,12 +15130,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21283",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "LLOYD SHOALS: REMOVE LIMITING ELEMENTS ON 115kV",
@@ -15036,12 +15199,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21688",
    "utility": "MEAG",
+   "plan": "ga",
    "owner": "MEAG Power",
    "state": "GA",
    "name": "MEAG: LAWRENCEVILLE #3 BUS AND JUMPER REPLACEMENT",
@@ -15104,12 +15268,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20270",
    "utility": "MEAG",
+   "plan": "ga",
    "owner": "MEAG Power",
    "state": "GA",
    "name": "MEAG: RAY PLACE RD - WASHINGTON 115kV LINE REBUILD",
@@ -15198,12 +15363,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20271",
    "utility": "MEAG",
+   "plan": "ga",
    "owner": "MEAG Power",
    "state": "GA",
    "name": "MEAG: RAY PLACE RD - WASHINGTON (WASHNGTN - WASHNGTN 3) 115kV",
@@ -15350,6 +15516,7 @@
   {
    "id": "GA-20264",
    "utility": "MEAG",
+   "plan": "ga",
    "owner": "MEAG Power",
    "state": "GA",
    "name": "MEAG: RAY PLACE RD - WARRENTON PRIMARY 115kV RECONDUCTOR",
@@ -15438,12 +15605,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21093",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "CC: NORTH SPA 230kV (NETWORK IMPROVEMENTS)",
@@ -15523,12 +15691,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-19248",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "SANDERSVILLE #1 - WADLEY PRI. 115kV REBUILD",
@@ -15608,12 +15777,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20785",
    "utility": "SAV",
+   "plan": "ga",
    "owner": "Georgia Power (Savannah)",
    "state": "GA",
    "name": "SAV: GOSHEN (SAV) - KRAFT 115kV LINE RECONDUCTOR",
@@ -15787,6 +15957,7 @@
   {
    "id": "GA-20768",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "SOUTH MACON 115kV BUSES 1 & 2 REPLACEMENT",
@@ -15864,12 +16035,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-18573",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "GRID: ARKWRIGHT - LLOYD SHOALS 115kV LINE REBUILD",
@@ -15949,12 +16121,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20717",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "CC - TOMOCHICHI 500/230kV SOLUTION (NETWORK IMPROVEMENTS)",
@@ -16042,12 +16215,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20591",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: GLENWOOD SPRINGS - LICK CREEK 115kV REBUILD",
@@ -16133,12 +16307,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-17977",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "ATHENA - EAST WATKINSVILLE 115 kV REBUILD",
@@ -16235,12 +16410,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-18624",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "JESUP - WEST BRUNSWICK 115 kV REBUILD",
@@ -16331,12 +16507,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21287",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "BARTLETTS FERRY - BACKWATER TAP 115kV REBUILD",
@@ -16421,12 +16598,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21580",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "BIG SOUTH GRIFFIN - TOMOCHICHI 230kV NEW LINE",
@@ -16500,12 +16678,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not placed on the map, so its distance to other utilities' projects can't be measured"
    }
   },
   {
    "id": "GA-21292",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "CARTERSVILLE - EMERSON 230kV LINE REBUILD",
@@ -16584,12 +16763,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21419",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "CC - DEER CREEK 500/230kV SOLUTION (NETWORK IMPROVEMENTS)",
@@ -16674,12 +16854,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20797",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "CC - EAST VILLA RICA SWITCHING STATION (IMPROVEMENTS)",
@@ -16747,12 +16928,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not placed on the map, so its distance to other utilities' projects can't be measured"
    }
   },
   {
    "id": "GA-20774",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "CC - VILLA RICA UPGRADES (NETWORK IMPROVEMENTS)",
@@ -16838,12 +17020,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21324",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "CORN CRIB - LAGRANGE 115kV RECONDUCTOR",
@@ -16935,12 +17118,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20024",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "DYER ROAD - EAST ROANOKE 115kV REBUILD",
@@ -17035,12 +17219,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21048",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "FITZGERALD - PITTS 115kV LINE PARTIAL REBUILD",
@@ -17138,12 +17323,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20503",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: BARNEYVILLE - EAST MOULTRIE 115kV NEW LINE",
@@ -17234,12 +17420,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-19992",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: BOSTWICK - EAST SOCIAL CIRCLE 230kV RECONDUCTOR",
@@ -17341,12 +17528,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21695",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: CC - BOBCAT PROJECT (NETWORK IMPROVEMENTS)",
@@ -17408,12 +17596,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not placed on the map, so its distance to other utilities' projects can't be measured"
    }
   },
   {
    "id": "GA-21282",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: MCDONOUGH - SOUTH GRIFFIN 115kV REBUILD",
@@ -17489,12 +17678,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21567",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: NEW HAMPTON 230/115kV SUB",
@@ -17556,12 +17746,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not placed on the map, so its distance to other utilities' projects can't be measured"
    }
   },
   {
    "id": "GA-21345",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: SMARR 500kV TRANSMISSION SERVICE",
@@ -17641,12 +17832,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21274",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "HAMMOND 230 & 115kV REACTORS",
@@ -17709,12 +17901,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21566",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "HAMPTON AREA 115 TO 230kV LINE CONVERSIONS",
@@ -17791,12 +17984,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21582",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "HAMPTON - HILLS BRIDGE 230kV NEW LINE",
@@ -17876,12 +18070,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21674",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "HILLS BRIDGE - SOUTH COWETA 230kV NEW LINE",
@@ -17966,12 +18161,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21605",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "LINE CREEK TERMINAL EQUIPMENT REPLACEMENT",
@@ -18056,12 +18252,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21141",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "LLOYD SHOALS - PORTERDALE PRIMARY 115kV REBUILD",
@@ -18143,12 +18340,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21581",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "MCDONOUGH - TOMOCHICHI 230kV NEW LINE",
@@ -18224,12 +18422,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21568",
    "utility": "MEAG",
+   "plan": "ga",
    "owner": "MEAG Power",
    "state": "GA",
    "name": "MEAG: BIG SOUTH GRIFFIN 230/115kV SUBSTATION",
@@ -18311,12 +18510,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-19629",
    "utility": "MEAG",
+   "plan": "ga",
    "owner": "MEAG Power",
    "state": "GA",
    "name": "MEAG: BRUMBLEY CREEK - SOUTH BAINBRIDGE 115kV REBUILD",
@@ -18422,12 +18622,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-19630",
    "utility": "MEAG",
+   "plan": "ga",
    "owner": "MEAG Power",
    "state": "GA",
    "name": "MEAG: THOMASVILLE 230/115kV AUTO TRANSFORMER REPLACEMENT",
@@ -18505,12 +18706,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21279",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "MORROW: REMOVE LIMITING ELEMENTS ON AUTO TRANSFORMER A",
@@ -18582,12 +18784,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20482",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "PITTMAN ROAD - WEST POINT DAM (USA) 115kV RECONDUCTOR",
@@ -18672,12 +18875,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20656",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "PLANT YATES SUBSTATION REBUILD",
@@ -18755,12 +18959,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21319",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "RAINBOW DRIVE AREA CAPACITOR",
@@ -18832,12 +19037,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20783",
    "utility": "SAV",
+   "plan": "ga",
    "owner": "Georgia Power (Savannah)",
    "state": "GA",
    "name": "SAV: COLEMAN - DEAN FOREST 115kV LINE RECONDUCTOR",
@@ -19049,6 +19255,7 @@
   {
    "id": "GA-20065",
    "utility": "SAV",
+   "plan": "ga",
    "owner": "Georgia Power (Savannah)",
    "state": "GA",
    "name": "SAV: GOSHEN (SAV) - MCINTOSH 115kV LINE REBUILD",
@@ -19257,6 +19464,7 @@
   {
    "id": "GA-21069",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "SMART VALVES AT EAST VILLA RICA SWITCHING STATION",
@@ -19336,12 +19544,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20274",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "UNION CITY - YATES 230kV (BLACK) LINE REBUILD",
@@ -19435,12 +19644,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21179",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "BOWEN NETWORK UPGRADES",
@@ -19503,12 +19713,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20989",
    "utility": "SAV",
+   "plan": "ga",
    "owner": "Georgia Power (Savannah)",
    "state": "GA",
    "name": "SAV: RICE HOPE NEW AUTO TRANSFORMER 230/115kV",
@@ -19594,6 +19805,7 @@
   {
    "id": "GA-13166",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "FIRST AVENUE - NORTH COLUMBUS 115kV LINE REBUILD",
@@ -19679,12 +19891,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-19958",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "AMERICUS - THRILL HILL 115kV REBUILD",
@@ -19760,12 +19973,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21062",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "ASHLEY PARK-WANSLEY 500kV LINE",
@@ -19859,12 +20073,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21063",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "BIG TAZEWELL \u2013 PLANT FARLEY (APC) 500kV LINE",
@@ -19944,12 +20159,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not placed on the map, so its distance to other utilities' projects can't be measured"
    }
   },
   {
    "id": "GA-21293",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "BOULEVARD - VIRGINIA AVENUE 230kV LINE RECONDUCTOR",
@@ -20040,12 +20256,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not placed on the map, so its distance to other utilities' projects can't be measured"
    }
   },
   {
    "id": "GA-21036",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "BUZZARD ROOST - FACTORY SHOALS 230kV NEW LINE",
@@ -20125,12 +20342,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not placed on the map, so its distance to other utilities' projects can't be measured"
    }
   },
   {
    "id": "GA-21142",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "CONYERS - KLONDIKE 230kV SECOND LINE",
@@ -20224,12 +20442,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21628",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "EAST POINT - MORROW 115kV LIMITING ELEMENTS REMOVAL",
@@ -20312,12 +20531,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21128",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "GOAT ROCK REACTORS INSTALLATION",
@@ -20395,12 +20615,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21139",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "GRADY - MORROW (WHITE) 115kV REBUILD",
@@ -20482,12 +20703,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21428",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "GRID - OFFERMAN-THALMANN (BLACK) 230kV",
@@ -20578,12 +20800,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21429",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "GRID: OFFERMAN-THALMANN (WHITE) 230kV",
@@ -20674,12 +20897,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-08458",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: BARNESVILLE - BIG SOUTH GRIFFIN 230kV PROJECT",
@@ -20770,12 +20994,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21112",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: BARNESVILLE PRIMARY - THOMASTON 230kV",
@@ -20872,12 +21097,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-10814",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: BAY CREEK 230/115kV SECOND AUTO TRANSFORMER",
@@ -20955,12 +21181,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21076",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: BIG TAZEWELL - TALBOT COUNTY - 500kV LINE",
@@ -21040,12 +21267,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not placed on the map, so its distance to other utilities' projects can't be measured"
    }
   },
   {
    "id": "GA-21610",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: BUZZARD ROOST - THORNTON ROAD 230kV REBUILD",
@@ -21125,12 +21353,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20773",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: CLARKSBORO - WINDER PRIMARY 230kV REBUILD",
@@ -21228,12 +21457,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20849",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: CLIFTONDALE - LINE CREEK 230kV LINE",
@@ -21322,12 +21552,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21034",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: DAWSON CROSSING - NELSON (BLACK) 115kV REBUILD",
@@ -21423,12 +21654,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-19950",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: DRESDEN - TALBOT 500kV LINE",
@@ -21517,12 +21749,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21594",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: OHARA - SOUTH GRIFFIN 230kV LINE RECONDUCTOR",
@@ -21607,12 +21840,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21700",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: TALBOT COUNTY 500/230 kV CONVERSION",
@@ -21675,12 +21909,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21123",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: TENASKA - WANSLEY 500kV NEW LINE",
@@ -21769,12 +22004,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21051",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "HICKORY LEVEL - POST RD 115kV RECONDUCTOR",
@@ -21854,12 +22090,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20284",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "KETTLE CREEK PRIMARY - PINE GROVE PRIMARY 115kV REBUILD",
@@ -21950,12 +22187,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-19621",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "MCEVER ROAD - SHOAL CREEK 115kV REBUILD",
@@ -22053,12 +22291,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-17706",
    "utility": "MEAG",
+   "plan": "ga",
    "owner": "MEAG Power",
    "state": "GA",
    "name": "MEAG: AULTMAN ROAD - FORT VALLEY #1 115kV REBUILD",
@@ -22147,12 +22386,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-11051",
    "utility": "MEAG",
+   "plan": "ga",
    "owner": "MEAG Power",
    "state": "GA",
    "name": "MEAG: SLAPPEY DRIVE - WESTOVER 115kV LINE REBUILD",
@@ -22238,12 +22478,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20757",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "NORCROSS - NORTH DRUID HILLS 115kV REBUILD",
@@ -22341,12 +22582,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-15879",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "POSSUM BRANCH - YATES COMMON 115kV REBUILD (YATES TO CLEM)",
@@ -22444,12 +22686,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20407",
    "utility": "SAV",
+   "plan": "ga",
    "owner": "Georgia Power (Savannah)",
    "state": "GA",
    "name": "SAV: BOULEVARD - MAGNOLIA - TRUMAN PARKWAY 115kV REBUILDS",
@@ -22622,6 +22865,7 @@
   {
    "id": "GA-20784",
    "utility": "SAV",
+   "plan": "ga",
    "owner": "Georgia Power (Savannah)",
    "state": "GA",
    "name": "SAV: COLEMAN - MELDRIM 115kV LINE RECONDUCTOR",
@@ -22833,6 +23077,7 @@
   {
    "id": "GA-21023",
    "utility": "SAV",
+   "plan": "ga",
    "owner": "Georgia Power (Savannah)",
    "state": "GA",
    "name": "SAV: DEAN FOREST - LITTLE OGEECHEE 230kV RECONDUCTOR",
@@ -23047,6 +23292,7 @@
   {
    "id": "GA-20787",
    "utility": "SAV",
+   "plan": "ga",
    "owner": "Georgia Power (Savannah)",
    "state": "GA",
    "name": "SAV: LITTLE OGEECHEE 230/115kV AUTO TRANSFORMER REPLACEMENT",
@@ -23146,6 +23392,7 @@
   {
    "id": "GA-16887",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "THOMASTON 230kV NETWORK AREA IMPROVEMENT",
@@ -23223,12 +23470,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21296",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "VIRGINIA AVENUE - WABASH AVENUE 230kV LINE RECONDUCTOR",
@@ -23308,12 +23556,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21160",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "ASHLEY PARK 500kV BREAKERS INSTALLATION",
@@ -23398,12 +23647,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21699",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: EASTMAN PRIMARY 230/115 kV AUTO TRANSFORMER REPLACEMENT",
@@ -23475,12 +23725,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21073",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: RUM CREEK - TOMOCHICHI (BLACK) 500kV LINE",
@@ -23566,12 +23817,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21679",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "ALBANY PRIMAY - PALMYRA 115kV NEW LINE",
@@ -23659,12 +23911,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21655",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "BIG SHANTY 500/230kV SINGLE PHASE AUTO (SPARE)",
@@ -23736,12 +23989,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21497",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "BOWEN - JUDY MOUNTAIN 230kV REBUILD",
@@ -23826,12 +24080,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-16903",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "BOWEN-BRANDON FARM RD 230kV REBUILD",
@@ -23924,12 +24179,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21625",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "BROADWAY - ECHECONNEE 115kV REBUILD",
@@ -24012,12 +24268,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21096",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "BROADWAY-SOUTH MACON 115kV REBUILD",
@@ -24105,12 +24362,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21098",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "BUZZARD ROOST - TRIBUTARY 230kV REBUILD",
@@ -24196,12 +24454,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21496",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "CAVENDER DRIVE - WANSLEY 500kV LINE",
@@ -24286,12 +24545,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21130",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "CC - NORTH GEORGIA NETWORK UPGRADES",
@@ -24379,12 +24639,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-10478",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "CORNELIA - TALLULAH LODGE 115kV REBUILD",
@@ -24470,18 +24731,19 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-18669",
    "utility": "DU",
+   "plan": "ga",
    "owner": "Dalton Utilities",
    "state": "GA",
    "name": "DU: DAWSON CROSSING - NELSON (WHITE) 115 kV REBUILD",
    "projectId": "TEAMS 18669",
    "status": "Planned",
-   "zone": null,
+   "zone": "212",
    "zoneName": null,
    "description": "Rebuild approximately 15.7 miles of the Dawson Crossing - Nelson (White) 115kV line with 200C 1351 ACSS Martin.",
    "endpoints": [
@@ -24567,22 +24829,18 @@
     "page": 238,
     "item": "Teams # 18669"
    },
-   "issues": [
-    {
-     "level": "warn",
-     "msg": "detail page has no matching Table 2 row (zone/sponsor unknown)"
-    }
-   ],
+   "issues": [],
    "locationNote": null,
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21097",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "EAST POINT - TRIBUTARY 230kV REBUILD",
@@ -24671,12 +24929,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21304",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "EAST POINT SWITCH REPLACEMENT",
@@ -24739,12 +24998,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-19627",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "ECHECONNEE-WELLSTON 115kV",
@@ -24839,12 +25099,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20298",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "GLENWOOD SPRINGS - LAKE OCONEE 115kV LINE REBUILD",
@@ -24926,12 +25187,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-19996",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "GOLDENS CREEK - WARRENTON PRIMARY 230kV REBUILD",
@@ -25022,12 +25284,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21140",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: BONAIRE PRIMARY - EASTMAN PRIMARY 115kV LINE REBUILD",
@@ -25124,12 +25387,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21620",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: BUZZARD ROOST \u2013 ROCKHOUSE RD 230kV REBUILD",
@@ -25209,12 +25473,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21013",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: CAVENDER DRIVE 500/230kV AUTO TRANSFORMER",
@@ -25297,12 +25562,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21271",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: DOUGLASVILLE - EAST VILLA RICA SS 230kV REBUILD",
@@ -25382,12 +25648,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21261",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: DYER ROAD - SOUTH COWETA 115kV REBUILD PHASE 1",
@@ -25487,12 +25754,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20375",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: EAST WATKINSVILLE 230kV REACTOR REPLACEMENT",
@@ -25578,12 +25846,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20428",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: GORDON-SANDERSVILLE #1 115kV LINE REBUILD (DEEPSTEP-SAND #6)",
@@ -25701,12 +25970,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21131",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: POND FORK - MIDWAY 115kV LINE",
@@ -25808,12 +26078,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21077",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: ROCKVILLE -MINK CREEK -WARTHEN 500KV LINES",
@@ -25926,12 +26197,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21014",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: THORNTON RD- CAVENDER DRIVE 230kV NEW LINE",
@@ -26024,12 +26296,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21322",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: UNION CITY LINE TRAP UPGRADE",
@@ -26097,12 +26370,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21298",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: YATES - LINE CREEK 230kV (GREEN) REBUILD",
@@ -26194,12 +26468,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21321",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: YATES - LINE CREEK 230kV (RED) REBUILD",
@@ -26291,12 +26566,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-12680",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "KATHLEEN - PERRY 115kV LINE REBUILD",
@@ -26375,12 +26651,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21326",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "KIA MOTORS - PITTMAN RD 115kV LINE RECONDUCTOR",
@@ -26460,12 +26737,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-10143",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "LAWRENCEVILLE - WINDER PRIMARY 115kV LINE REBUILD",
@@ -26579,12 +26857,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21118",
    "utility": "MEAG",
+   "plan": "ga",
    "owner": "MEAG Power",
    "state": "GA",
    "name": "MEAG: ATHENA - WARRENTON 230kV CONVERSION",
@@ -26697,12 +26976,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21289",
    "utility": "MEAG",
+   "plan": "ga",
    "owner": "MEAG Power",
    "state": "GA",
    "name": "MEAG: FORTSON - TALBOT CO #2 230kV REBUILD",
@@ -26790,12 +27070,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21116",
    "utility": "MEAG",
+   "plan": "ga",
    "owner": "MEAG Power",
    "state": "GA",
    "name": "MEAG: GOSHEN AREA STRATEGIC SOLUTION",
@@ -26910,6 +27191,7 @@
   {
    "id": "GA-19995",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "TALLULAH LODGE - TOCCOA 115kV REBUILD",
@@ -26991,12 +27273,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21656",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "THOMSON PRIMARY 500/230kV SECOND TRANSFORMER",
@@ -27099,6 +27382,7 @@
   {
    "id": "GA-21624",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "WARTHEN 500kV SUBSTATION RECONFIGURATION",
@@ -27170,12 +27454,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20761",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "ATKINSON - TILFORD YARDS 115kV REBUILD",
@@ -27257,12 +27542,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-18848",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "BAINBRIDGE TRANSMISSION: EAST RIVER ROAD, EAST BAINBRIDGE",
@@ -27340,12 +27626,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-19626",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "GLENWOOD SPRINGS 115kV CAP BANK",
@@ -27413,12 +27700,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not placed on the map, so its distance to other utilities' projects can't be measured"
    }
   },
   {
    "id": "GA-21328",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "BARNESVILLE AREA 115kV NETWORK SOLUTION",
@@ -27522,12 +27810,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21270",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "BIG SHANTY 500kV BREAKER",
@@ -27599,12 +27888,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-10811",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "BOWEN #10 500/230kV AUTO TRANSFORMER REPLACEMENT",
@@ -27682,12 +27972,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21641",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "DUM JON - SOUTH AUGUSTA 230kV LINE",
@@ -27901,6 +28192,7 @@
   {
    "id": "GA-12120",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "GAINESVILLE #2 - MCEVER ROAD 115kV REBUILD",
@@ -27997,12 +28289,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21618",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: ACHORD ROAD - NORTH DUBLIN 115kV LINE",
@@ -28087,12 +28380,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-19632",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: AVERY - HOPEWELL 115kV RECONDUCTOR",
@@ -28194,12 +28488,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-19610",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: BONAIRE PRIMARY - ECHECONNEE 115kV LINE",
@@ -28287,12 +28582,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21626",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: DRESDEN JUMPER REPLACEMENT",
@@ -28372,12 +28668,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21616",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: OLA - PORTERDALE 115kV REBUILD",
@@ -28460,12 +28757,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20756",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "HATCH - WADLEY 500 kV LINE STRATEGIC PROJECT",
@@ -28545,12 +28843,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21099",
    "utility": "MEAG",
+   "plan": "ga",
    "owner": "MEAG Power",
    "state": "GA",
    "name": "MEAG: PIO NONO 230/115kV AREA SOLUTION",
@@ -28618,12 +28917,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not placed on the map, so its distance to other utilities' projects can't be measured"
    }
   },
   {
    "id": "GA-21675",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "NORTH TIFTON - PITTS 230kV LINE REBUILD",
@@ -28706,12 +29006,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-13040",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "PITTMAN RD - WEST POINT (APC) 115kV REBUILD",
@@ -28807,12 +29108,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21297",
    "utility": "SAV",
+   "plan": "ga",
    "owner": "Georgia Power (Savannah)",
    "state": "GA",
    "name": "SAV: GOSHEN (SAV) - KRAFT 115kV LINE REBUILD",
@@ -28980,6 +29282,7 @@
   {
    "id": "GA-20248",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "BAY CREEK - CONYERS 230kV REBUILD",
@@ -29077,12 +29380,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21598",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "ADAMSVILLE \u2013 EAST POINT 230kV UPGRADE AND LIMITING ELEMENTS REPLACEMENT",
@@ -29161,12 +29465,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20764",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "ATKINSON - NORTHSIDE DRIVE 115kV REBUILD",
@@ -29248,12 +29553,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21262",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: DYER ROAD - SOUTH COWETA 115kV REBUILD PHASE 2",
@@ -29353,12 +29659,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-14681",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "JUDY MOUNTAIN - ROME 115kV LINE REBUILD",
@@ -29438,12 +29745,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20758",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "BAY CREEK - CONYERS 230kV LIMITING ELEMENT REPLACEMENT",
@@ -29537,12 +29845,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-09661",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "CASH CREEK - MCGRAU FORD 500kV NEW LINE",
@@ -29636,12 +29945,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21335",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "EAST POINT - MOUNTAIN VIEW 115kV REBUILD",
@@ -29724,12 +30034,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21075",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: CASH CREEK - EAST WALTON 500kV NEW LINE",
@@ -29821,6 +30132,7 @@
   {
    "id": "GA-12217",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: CENTER PRIMARY - CLARKSBORO 230kV REBUILD",
@@ -29914,12 +30226,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-12147",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: EAST SOCIAL CIRCLE - SNELLVILLE 230kV EQUIPMENT UPGRADE",
@@ -30016,12 +30329,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20791",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: SHOAL CREEK - SOUTH HALL 230kV REBUILD",
@@ -30119,12 +30433,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21053",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "MCEVER ROAD - SHOAL CREEK 115kV REBUILD",
@@ -30226,12 +30541,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-20796",
    "utility": "SAV",
+   "plan": "ga",
    "owner": "Georgia Power (Savannah)",
    "state": "GA",
    "name": "SAV: MELDRIM 230/115kV AUTO TRANSFORMER D REPLACEMENT",
@@ -30341,6 +30657,7 @@
   {
    "id": "GA-20759",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "WINDER PRIMARY 230kV BREAKER INSTALLATION",
@@ -30418,12 +30735,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-10487",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "PINE GROVE PRIMARY - WEST VALDOSTA 115 kV REBUILD",
@@ -30521,12 +30839,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21301",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "BULL SLUICE- POWERS FERRY 230kV LINE REBUILD",
@@ -30609,12 +30928,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21291",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: CUMMING - DAWSON CROSSING 115kV LINE REBUILD",
@@ -30705,12 +31025,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21268",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "HOLLY SPRINGS - NELSON 115kV REBUILD",
@@ -30798,12 +31119,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21300",
    "utility": "SAV",
+   "plan": "ga",
    "owner": "Georgia Power (Savannah)",
    "state": "GA",
    "name": "SAV: MELDRIM NEW 230/115kV AUTOTRANSFORMER",
@@ -30907,6 +31229,7 @@
   {
    "id": "GA-20690",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "EAST POINT - UNION CITY (WHITE) 230kV REBUILD",
@@ -30995,12 +31318,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21295",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "DECATUR - SCOTTDALE 115kV LINE JUMPER REPLACEMENT",
@@ -31083,12 +31407,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21303",
    "utility": "GPC",
+   "plan": "ga",
    "owner": "Georgia Power",
    "state": "GA",
    "name": "EAST POINT - MORROW 115kV REBUILD",
@@ -31176,12 +31501,13 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   },
   {
    "id": "GA-21269",
    "utility": "GTC",
+   "plan": "ga",
    "owner": "Georgia Transmission Corp",
    "state": "GA",
    "name": "GTC: AVERY - HOLLY SPRINGS 115kV REBUILD",
@@ -31277,7 +31603,7 @@
    "hostLine": false,
    "environment": {
     "checked": false,
-    "reason": "not near any project in the other state"
+    "reason": "not near any project in another utility's plan"
    }
   }
  ]
