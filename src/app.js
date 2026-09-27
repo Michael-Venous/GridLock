@@ -629,7 +629,6 @@ const statusShort = p => `${p.status ? `“${p.status}” in filing` : "No statu
 const sitePlaced = e => e.point && ["high", "medium"].includes(e.confidence) && e.method !== "town";
 // Street View links (map_action=pano) open a black "no imagery" screen at most stations, which sit back from the road; a pin keeps Street View one drag of the pegman away.
 const mapPinUrl = pt => `https://www.google.com/maps/search/?api=1&query=${pt.lat.toFixed(5)},${pt.lon.toFixed(5)}`;
-const satelliteUrl = pt => `https://www.google.com/maps/@?api=1&map_action=map&center=${pt.lat.toFixed(5)},${pt.lon.toFixed(5)}&zoom=18&basemap=satellite`;
 
 function projectBlock(p, full = false, heading = true, foldEvidence = false) {
   const block = h("section", "project-block");
@@ -657,7 +656,7 @@ function projectBlock(p, full = false, heading = true, foldEvidence = false) {
         go.addEventListener("click", () => focusEndpoint(e));
         row.append(go, `: ${e.point.lat.toFixed(4)}, ${e.point.lon.toFixed(4)} · ${e.method} · ${e.confidence} (±${e.radiusMi} mi)`);
       } else row.append(`${e.name}: not located`);
-      if (sitePlaced(e)) { const views = h("span", "site-views"); views.append(link(satelliteUrl(e.point), "Satellite"), link(mapPinUrl(e.point), "Google Maps")); row.append(views); }
+      if (sitePlaced(e)) { const views = h("span", "site-views"); views.append(link(mapPinUrl(e.point), "Google Maps")); row.append(views); }
       if (e.evidence) row.append(h("span", "evidence", e.evidence));
       endpoints.append(row);
     }
@@ -958,10 +957,10 @@ function detailTabs(pair) {
   else if (state.detailTab === "records") { panel.append(h("p", "section-note", "Published fields, location evidence and validation for each project.")); for (const p of [pair.a, pair.b]) panel.append(recordFold(p)); }
   else {
     panel.append(compareTable(pair), h("p", "pair-rationale", summaryRationale(pair)));
+    const tl = h("section", "list-box"); tl.append(h("h3", "", "Planning windows"), timeline(pair.a, pair.b), h("p", "muted-note", windowBasis(pair))); panel.append(foldSection(tl, "timeline"));
     const confirm = toConfirm(pair, true);
     if (confirm.length) panel.append(foldSection(listBox("Still to confirm", confirm, "confirm"), "confirm", true));
     panel.append(foldSection(groundBox(pair), "ground"));
-    const tl = h("section", "list-box"); tl.append(h("h3", "", "Planning windows"), timeline(pair.a, pair.b), h("p", "muted-note", windowBasis(pair))); panel.append(foldSection(tl, "timeline"));
     panel.append(foldSection(scoreBlock(pair), "score"), foldSection(planningForumBlock(pair), "forums"));
   }
   return [nav, panel];
@@ -1050,7 +1049,7 @@ function briefHtml(pair) {
   const a = pair.a, b = pair.b;
   const row = (k, f) => `<tr><th>${k}</th><td>${f(a)}</td><td>${f(b)}</td></tr>`;
   const src = p => `<a href="${esc(pdfLink(p.source))}">${esc(sourceLabel(p.source))}</a>`;
-  const eps = p => p.endpoints.map(e => `${esc(e.name)}: ${e.point ? `${e.point.lat.toFixed(4)}, ${e.point.lon.toFixed(4)} · ${esc(e.method)}, ${esc(e.confidence)} ±${e.radiusMi} mi` : "not located"}${sitePlaced(e) ? ` · <a href="${esc(satelliteUrl(e.point))}">Satellite</a> · <a href="${esc(mapPinUrl(e.point))}">Google Maps</a>` : ""}`).join("<br>");
+  const eps = p => p.endpoints.map(e => `${esc(e.name)}: ${e.point ? `${e.point.lat.toFixed(4)}, ${e.point.lon.toFixed(4)} · ${esc(e.method)}, ${esc(e.confidence)} ±${e.radiusMi} mi` : "not located"}${sitePlaced(e) ? ` · <a href="${esc(mapPinUrl(e.point))}">Google Maps</a>` : ""}`).join("<br>");
   return `<section class="page">
   <header><div><p class="eyebrow">Gridlock coordination brief · ${esc(state.asOf)}</p><h1>${esc(a.name)} <span>×</span> ${esc(b.name)}</h1></div>
   <div class="figs"><div><b>${pair.miles.toFixed(2)} mi</b>center to center</div><div><b>${pair.gapDays ?? "?"} days</b>in-service gap</div><div><b>${esc(pair.certainty)}</b>location</div></div></header>
